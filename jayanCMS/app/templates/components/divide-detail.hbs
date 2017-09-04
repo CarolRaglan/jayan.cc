@@ -1,0 +1,63 @@
+<div class="xsd-drawer" id="divide_detail">
+    <div class="xsd-drawer-header">
+        <a class="xsd-modal-close iconfont">&#xe633;</a>
+    </div>
+    <div class="xsd-drawer-body">
+        <h2 class="xsd-font-size16 xsd-margin-b16">{{detail.house_info}}</h2>
+        <p class="xsd-margin-b6">{{detail.address}}</p>
+        <p class="xsd-margin-b24">{{detail.rent_status}}</p>
+        <div class="xsd-tabs">
+            <ul class="xsd-clearfix xsd-nav-tabs xsd-margin-b24">
+                <li class="{{data-equal 1 index}} active"><a class="xsd-font-size16" data-toggle="tab"
+                                                             data-href="#tab-1">分期账单</a></li>
+            </ul>
+            <div class="xsd-tab-content">
+                <div id="tab-1" class="{{data-equal 1 index}} xsd-tab-pane active">
+                    <div class="divide-table">
+                        <ul class="divide-title">
+                            <li>账单周期</li>
+                            <li>账单状态</li>
+                            <li>账单金额</li>
+                            <li>应付款时间</li>
+                            <li>实际付款时间</li>
+                        </ul>
+                        <ul class="divide-tbody">
+                          {{#each detail.installment_order as |order|}}
+                            {{#if (or (eq order.payment_flag 3) (eq order.payment_flag 1))}}
+                                <li class="divide-list xsd-color-gray">
+                                    <ul>
+                                        <li>{{order.start_time}}至{{order.end_time}}</li>
+                                        <li>已支付</li>
+                                        <li>{{order.repayment}}元</li>
+                                        <li>{{order.due_date}}</li>
+                                        <li>{{order.real_date}}</li>
+                                    </ul>
+                                </li>
+                            {{/if}}
+                            {{#if (or (eq order.payment_flag 2) (eq order.payment_flag 0))}}
+                                <li class="divide-list">
+                                    <ul>
+                                        <li>{{order.start_time}}至{{order.end_time}}</li>
+                                      {{#if (eq order.payment_flag 2)}}
+                                          <li class="xsd-color-red">已逾期</li>
+                                      {{/if}}
+                                      {{#if (eq order.payment_flag 0)}}
+                                          <li>待支付</li>
+                                      {{/if}}
+                                        <li><span class="xsd-color-primary">{{order.repayment}}</span>元</li>
+                                        <li>{{order.due_date}}</li>
+                                        <li>-</li>
+                                    </ul>
+                                </li>
+                            {{/if}}
+
+                          {{/each}}
+                        </ul>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>

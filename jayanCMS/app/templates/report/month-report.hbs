@@ -1,0 +1,376 @@
+{{#page-waper}}
+    <div class="xsd-clearfix">
+        <div id="screen" class="xsd-pull-left">
+          {{#report-search types=types}}{{/report-search}}
+        </div>
+        <div id="report" class="xsd-pull-left">
+            <!--月经营状况报表-->
+            <div id="month-report" class="xsd-tabs xsd-tabs-card">
+                <div class="xsd-tab-content xsd-margin-b24">
+                    <div class="height-container">&nbsp;</div>
+                    <div class="nav">
+                        <div class="xsd-pull-left">
+                            <img src="images/user/blueLogo.png"/>
+                        </div>
+                        <!--<div class="xsd-pull-right">
+                            <a class="xsd-btn xsd-btn-primary"
+                               href="{config.apiUrl1}}monthreports/download?token={auth.authToken.access_token}}&date={date}}">导出报表</a>
+                        </div>-->
+                    </div>
+                  {{#if (eq monthReports)}}
+                    <h2 class="font-size24">{{auth.user.company_brand}}{{monthReports.cur_year}}年{{monthReports.cur_month}}月经营报告</h2>
+                    <p>尊敬的{{monthReports.user_name}}，您好！</p>
+                    <p class="xsd-margin-b24">感谢您使用水滴管家，以下是您{{monthReports.cur_year}}年{{monthReports.cur_month}}月份的月度经营报告。</p>
+                    <div class="month-status">
+                        <h3 class="xsd-font-size16">{{monthReports.cur_month}}月经营概况</h3>
+                        <table border="1">
+                            <thead>
+                            <tr>
+                                <th colspan="6">账单数据统计</th>
+                            </tr>
+                            </thead>
+                            <tr class="xsd-color-gray">
+                                <td>应收账单</td>
+                                <td>实收账单</td>
+                                <td>未收账单</td>
+                                <td>应付账单</td>
+                                <td>实付账单</td>
+                                <td>未付账单</td>
+                            </tr>
+                            <tr>
+                                <td>{{monthReports.receivable_num}}笔</td>
+                                <td>{{monthReports.received_num}}笔</td>
+                                <td>{{monthReports.unreceived_num}}笔</td>
+                                <td>{{monthReports.payable_num}}笔</td>
+                                <td>{{monthReports.paid_num}}笔</td>
+                                <td>{{monthReports.unpaid_num}}笔</td>
+                            </tr>
+                            <tr>
+                                <td>{{monthReports.receivable_money}}元</td>
+                                <td>{{monthReports.received_money}}元</td>
+                                <td>{{monthReports.unreceived_money}}元</td>
+                                <td>{{monthReports.payable_money}}元</td>
+                                <td>{{monthReports.paid_money}}元</td>
+                                <td>{{monthReports.unpaid_money}}元</td>
+                            </tr>
+                            <tr class="xsd-color-gray">
+                                <td>租金净收入</td>
+                              {{#if (gt monthReports.income 0)}}
+                                  <td colspan="2" class="xsd-color-green">{{monthReports.income}}元</td>
+                              {{else}}
+                                  <td colspan="2" class="xsd-color-red">{{monthReports.income}}元</td>
+                              {{/if}}
+                                <td>环比</td>
+                              {{#if (gte monthReports.bill_huanbi 0)}}
+                                {{#if (eq monthReports.bill_huanbi 0)}}
+                                    <td colspan="2">-</td>
+                                {{else}}
+                                    <td class="xsd-color-green" colspan="2"><i class="iconfont">
+                                        &#xe6a1;</i>{{absolute-value monthReports.bill_huanbi}}%
+                                    </td>
+                                {{/if}}
+                              {{else}}
+                                  <td class="xsd-color-red" colspan="2"><i class="iconfont">
+                                      &#xe6a2;</i>{{absolute-value monthReports.bill_huanbi}}%
+                                  </td>
+                              {{/if}}
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="contract-count xsd-margin-b24">
+                        <div class="count-box  xsd-pull-left">
+                            <div class="box">
+                                <table border="1">
+                                    <thead>
+                                    <tr>
+                                        <th colspan="2">到期业主合同统计</th>
+                                    </tr>
+                                    </thead>
+                                    <tr>
+                                        <td class="xsd-color-gray">续租</td>
+                                        <td>{{monthReports.house_renew}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="xsd-color-gray">退租</td>
+                                        <td>{{monthReports.house_eviction}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="xsd-color-gray">未处理</td>
+                                        <td>{{monthReports.house_unnormal}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="xsd-color-gray">总数</td>
+                                        <td>{{monthReports.house_total}}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="count-box  xsd-pull-left">
+                            <div class="box">
+                                <table class="contract-count" border="1">
+                                    <thead>
+                                    <tr>
+                                        <th colspan="2">到期租客合同统计</th>
+                                    </tr>
+                                    </thead>
+                                    <tr>
+                                        <td class="xsd-color-gray">续租</td>
+                                        <td>{{monthReports.room_renew}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="xsd-color-gray">退租</td>
+                                        <td>{{monthReports.room_eviction}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="xsd-color-gray">未处理</td>
+                                        <td>{{monthReports.room_unnormal}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="xsd-color-gray">总数</td>
+                                        <td>{{monthReports.room_total}}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="count-box xsd-pull-left">
+                            <div>
+                                <table class="contract-count" border="1">
+                                    <thead>
+                                    <tr>
+                                        <th colspan="2">退租统计</th>
+                                    </tr>
+                                    </thead>
+                                    <tr>
+                                        <td class="xsd-color-gray">到期退租</td>
+                                        <td>{{monthReports.disabled_normal}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="xsd-color-gray">中途退租</td>
+                                        <td>{{monthReports.disabled_unnormal}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="xsd-color-gray">退租总数</td>
+                                        <td>{{monthReports.disabled_total}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="xsd-color-gray">退租率</td>
+                                        <td>{{monthReports.eviction_rate}}%</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="new-data">
+                        <h3 class="xsd-font-size16">{{monthReports.cur_month}}月新增数据统计</h3>
+                        <table border="1">
+                            <thead>
+                            <tr>
+                                <th colspan="8">新增数据统计</th>
+                            </tr>
+                            </thead>
+                            <tr>
+                                <td class="xsd-color-gray">房源</td>
+                                <td>{{monthReports.new_house_num}}</td>
+                                <td class="xsd-color-gray">房间</td>
+                                <td>{{monthReports.new_room_num}}</td>
+                                <td class="xsd-color-gray">业主</td>
+                                <td>{{monthReports.new_owner_num}}</td>
+                                <td class="xsd-color-gray">租客</td>
+                                <td>{{monthReports.new_customer_num}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="base-data">
+                        <h3 class="xsd-font-size16">基础业务数据统计</h3>
+                        <table border="1">
+                            <thead>
+                            <tr>
+                                <th colspan="8">基础经营数据统计</th>
+                            </tr>
+                            </thead>
+                            <tr class="xsd-color-gray">
+                                <td>房源</td>
+                                <td>房间</td>
+                                <td>业主</td>
+                                <td>租客</td>
+                                <td>入住率</td>
+                                <td>退租率</td>
+                                <td>续住率</td>
+                                <td>毛利率</td>
+                            </tr>
+                            <tr>
+                                <td>{{monthReports.house_num}}</td>
+                                <td>{{monthReports.room_num}}</td>
+                                <td>{{monthReports.owner_num}}</td>
+                                <td>{{monthReports.customer_num}}</td>
+                                <td>{{monthReports.room_rate}}%</td>
+                                <td>{{monthReports.eviction_rate}}%</td>
+                                <td>{{monthReports.renew_rate}}%</td>
+                                <td>{{monthReports.gross_profit_rate}}%</td>
+                            </tr>
+                            <tr>
+                                <td colspan="8">环比上月</td>
+                            </tr>
+                            <tr>
+                              {{#if (gte monthReports.house_huanbi 0)}}
+                                {{#if (eq monthReports.house_huanbi 0)}}
+                                    <td>-</td>
+                                {{else}}
+                                    <td class="xsd-color-green"><i class="iconfont">
+                                        &#xe6a1;</i>{{absolute-value monthReports.house_huanbi}}%
+                                    </td>
+                                {{/if}}
+                              {{else}}
+                                  <td class="xsd-color-red"><i class="iconfont">
+                                      &#xe6a2;</i>{{absolute-value monthReports.house_huanbi}}%
+                                  </td>
+                              {{/if}}
+                              {{#if (gte monthReports.room_huanbi 0)}}
+                                {{#if (eq monthReports.room_huanbi 0)}}
+                                    <td>-</td>
+                                {{else}}
+                                    <td class="xsd-color-green"><i class="iconfont">
+                                        &#xe6a1;</i>{{absolute-value monthReports.room_huanbi}}%
+                                    </td>
+                                {{/if}}
+                              {{else}}
+                                  <td class="xsd-color-red"><i class="iconfont">
+                                      &#xe6a2;</i>{{absolute-value monthReports.room_huanbi}}%
+                                  </td>
+                              {{/if}}
+                              {{#if (gte monthReports.owner_huanbi 0)}}
+                                {{#if (eq monthReports.owner_huanbi 0)}}
+                                    <td>-</td>
+                                {{else}}
+                                    <td class="xsd-color-green"><i class="iconfont">
+                                        &#xe6a1;</i>{{absolute-value monthReports.owner_huanbi}}%
+                                    </td>
+                                {{/if}}
+                              {{else}}
+                                  <td class="xsd-color-red"><i class="iconfont">
+                                      &#xe6a2;</i>{{absolute-value monthReports.owner_huanbi}}%
+                                  </td>
+                              {{/if}}
+                              {{#if (gte monthReports.customer_huanbi 0)}}
+                                {{#if (eq monthReports.customer_huanbi 0)}}
+                                    <td>-</td>
+                                {{else}}
+                                    <td class="xsd-color-green"><i class="iconfont">
+                                        &#xe6a1;</i>{{absolute-value monthReports.customer_huanbi}}%
+                                    </td>
+                                {{/if}}
+                              {{else}}
+                                  <td class="xsd-color-red"><i class="iconfont">
+                                      &#xe6a2;</i>{{absolute-value monthReports.customer_huanbi}}%
+                                  </td>
+                              {{/if}}
+                              {{#if (gte monthReports.room_rate_huanbi 0)}}
+                                {{#if (eq monthReports.room_rate_huanbi 0)}}
+                                    <td>-</td>
+                                {{else}}
+                                    <td class="xsd-color-green"><i class="iconfont">
+                                        &#xe6a1;</i>{{absolute-value monthReports.room_rate_huanbi}}%
+                                    </td>
+                                {{/if}}
+                              {{else}}
+                                  <td class="xsd-color-red"><i class="iconfont">
+                                      &#xe6a2;</i>{{absolute-value monthReports.room_rate_huanbi}}%
+                                  </td>
+                              {{/if}}
+                              {{#if (gte monthReports.eviction_rate_huanbi 0)}}
+                                {{#if (eq monthReports.eviction_rate_huanbi 0)}}
+                                    <td>-</td>
+                                {{else}}
+                                    <td class="xsd-color-green"><i class="iconfont">
+                                        &#xe6a1;</i>{{absolute-value monthReports.eviction_rate_huanbi}}%
+                                    </td>
+                                {{/if}}
+                              {{else}}
+                                  <td class="xsd-color-red"><i class="iconfont">
+                                      &#xe6a2;</i>{{absolute-value monthReports.eviction_rate_huanbi}}%
+                                  </td>
+                              {{/if}}
+                              {{#if (gte monthReports.renew_rate_huanbi 0)}}
+                                {{#if (eq monthReports.renew_rate_huanbi 0)}}
+                                    <td>-</td>
+                                {{else}}
+                                    <td class="xsd-color-green"><i class="iconfont">
+                                        &#xe6a1;</i>{{absolute-value monthReports.renew_rate_huanbi}}%
+                                    </td>
+                                {{/if}}
+                              {{else}}
+                                  <td class="xsd-color-red"><i class="iconfont">
+                                      &#xe6a2;</i>{{absolute-value monthReports.renew_rate_huanbi}}%
+                                  </td>
+                              {{/if}}
+                              {{#if (gte monthReports.gross_profit_rate_huanbi 0)}}
+                                {{#if (eq monthReports.gross_profit_rate_huanbi 0)}}
+                                    <td>-</td>
+                                {{else}}
+                                    <td class="xsd-color-green"><i class="iconfont">
+                                        &#xe6a1;</i>{{absolute-value monthReports.gross_profit_rate_huanbi}}%
+                                    </td>
+                                {{/if}}
+                              {{else}}
+                                  <td class="xsd-color-red"><i class="iconfont">
+                                      &#xe6a2;</i>{{absolute-value monthReports.gross_profit_rate_huanbi}}%
+                                  </td>
+                              {{/if}}
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="budget-data">
+                        <h3 class="xsd-font-size16">{{monthReports.next_month}}月经营数据预算</h3>
+                        <table border="1">
+                            <thead>
+                            <tr>
+                                <th colspan="6">账单数据统计</th>
+                            </tr>
+                            </thead>
+                            <tr>
+                                <td class="xsd-color-gray">应收账单</td>
+                                <td>{{monthReports.forecast_receivable_num}}笔</td>
+                                <td>{{monthReports.forecast_receivable_money}}元</td>
+                                <td class="xsd-color-gray">应付账单</td>
+                                <td>{{monthReports.forecast_payable_num}}笔</td>
+                                <td>{{monthReports.forecast_payable_money}}元</td>
+                            </tr>
+                            <tr>
+                                <td class="xsd-color-gray">租金净收入</td>
+                              {{#if (gt monthReports.forecast_income 0)}}
+                                  <td class="xsd-color-green" colspan="2">{{monthReports.forecast_income}}元</td>
+                              {{else}}
+                                  <td class="xsd-color-red" colspan="2">{{monthReports.forecast_income}}元</td>
+                              {{/if}}
+                                <td class="xsd-color-gray">环比</td>
+                              {{#if (gte monthReports.forecast_income_huanbi 0)}}
+                                {{#if (eq monthReports.forecast_income_huanbi 0)}}
+                                    <td colspan="2">-</td>
+                                {{else}}
+                                    <td class="xsd-color-green" colspan="2"><i class="iconfont">
+                                        &#xe6a1;</i>{{absolute-value monthReports.forecast_income_huanbi}}%
+                                    </td>
+                                {{/if}}
+                              {{else}}
+                                  <td class="xsd-color-red" colspan="2"><i class="iconfont">
+                                      &#xe6a2;</i>{{absolute-value monthReports.forecast_income_huanbi}}%
+                                  </td>
+                              {{/if}}
+                            </tr>
+                        </table>
+                    </div>
+                    <p class="paddingBottom24">恭喜您，{{monthReports.cur_month}}月份的工作完成率超过{{monthReports.worked_rate}}%，继续努力哦~</p>
+                  {{else}}
+                      <div id="xsd-noResult">
+                        <p><i class="iconfont"><img class="xsd-imgWidth" src="images/report.png"></i></p>
+                            <p>抱歉，没有经营状况报表！</p>
+                      </div>
+                  {{/if}}
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+{{/page-waper}}

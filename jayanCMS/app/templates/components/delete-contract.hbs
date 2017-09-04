@@ -1,0 +1,20 @@
+<div class="xsd-modal xsd-md-modal" id="deleteContract">
+    <div class="xsd-modal-header">
+        <span class="xsd-font-size16">删除合同</span><a class="xsd-modal-close iconfont">&#xe633;</a>
+    </div>
+    <div class="xsd-modal-body">
+        <div class="xsd-clearfix xsd-margin-b12">
+           <p>您是否确认要删除该合同?</p>
+        </div>
+    </div>
+    <div class="xsd-modal-bottom xsd-clearfix">
+        <div class="xsd-clearfix">
+            <a class="xsd-btn xsd-btn-primary xsd-pull-right" onclick={{action "deleteContract" optionData.id optionData.type}}>确定</a>
+            <a class="xsd-btn xsd-btn-gray xsd-modal-close xsd-pull-right">取消</a>
+            <label id="same_delete" class="xsd-pull-left">
+                <input  type="checkbox" name="same_delete">
+                同时删除已确认账单和流水
+            </label>
+        </div>
+    </div>
+</div>

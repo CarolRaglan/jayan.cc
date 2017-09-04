@@ -1,0 +1,146 @@
+<div id="login-reg">
+{{#particles-js}}
+<div id="particles-js">
+    <div id="sign-header">
+        <a href="http://www.shuidiguanjia.com/"><img class="xsd-pull-left" src="../images/login/logo.png" class="logo"/></a>
+        <div class="xsd-pull-right" onclick={{action 'download'}}>APP下载</div>
+    </div>
+<div id="sign">
+    <div id="xsd-img-block" class="container xsd-img">
+        <div class="xsd-bar-code">
+            <h1>您的注册信息已提交成功</h1>
+            <div><img src="../images/spread/barcode.png"></div>
+            <div>
+                <p>如果加速审核或了解更多会员功能</p>
+                <p>请扫描上方微信二维码或搜索</p>
+                <p>微信号:<span>tianhao225</span>添加为好友</p>
+            </div>
+        </div>
+    </div>
+    <div id="xsd-dl-block" class="container xsd-clearfix">
+        <div class="form">
+            <div id="user-func">
+            {{#if (eq target "login")}}
+                <div class="hid"></div>
+                <h2><span class="active xsd-cursor-pointer">登录</span><span>|</span><span class="xsd-cursor-pointer" target="reg" onclick={{action "tabClick"}}>注册</span></h2>
+                <div class="form-container">
+                  <div id="login">
+                       <label class="xsd-input-group xsd-margin-b6">
+                           <input id="username" class="xsd-input" type="text" name="username" placeholder="请输入手机号或者员工帐号" autocomplete="off"  title="您的帐号" validate="required"/>
+                       </label>
+                       <label class="xsd-input-group xsd-margin-b24">
+                           {{input id="psd" class="xsd-input" type="password" name="password" placeholder="请输入密码" title="您的密码" autocomplete="off"  validate="required" enter="login"}}
+                       </label>
+
+                   </div>
+                </div>
+	            <label class="xsd-input-group xsd-margin-b12">
+		            <a class="xsd-btn xsd-btn-primary" onclick={{action "login"}}>
+			            立即登录
+		            </a>
+	            </label>
+	            <div class="xsd-input-group xsd-clearfix xsd-padding-12">
+		            <span class="xsd-pull-left xsd-color-primary xsd-cursor-pointer" target="forgetPsd" onclick={{action "tabClick"}}>忘记密码?</span>
+                <label class="xsd-pull-right">
+                  {{input type="checkbox" checked=agree class="xsd-pull-left"}}
+                  <span class="checkbox-text xsd-pull-left xsd-font-size12">已阅读并同意{{#link-to 'terms' (query-params target="reg") class="btn-terms xsd-font-size12"}}服务条款{{/link-to}}</span>
+                </label>
+	            </div>
+            {{/if}}
+            {{#if (eq target "reg")}}
+              <h2><span class="xsd-cursor-pointer" target="login" onclick={{action "tabClick"}}>登录</span><span>|</span><span class="xsd-cursor-pointer active " >注册</span></h2>
+              <div class="form-container">
+                <div id="reg">
+                  <label class="xsd-input-group xsd-margin-b24">
+                      <input id="phone" class="xsd-input" type="text" name="reg_username" placeholder="请输入手机号" autocomplete="off"  title="您的手机号" validate="required|phone"/>
+                  </label>
+                  <div class="xsd-input-group xsd-margin-b24 xsd-clearfix">
+                      <input id="reg_code" class="code xsd-input xsd-pull-left" type="text" name="reg_code" placeholder="请输入验证码" autocomplete="off"  title="验证码" validate="required"/>
+                      <a id="reg_code_a" class="xsd-btn xsd-btn-primary xsd-pull-right" onclick={{action "verification"}}>发送验证码</a>
+                  </div>
+                  <label class="xsd-input-group xsd-margin-b24">
+                      {{input id="reg_psd" class="xsd-input" type="password" name="reg_psd" placeholder="请输入密码" autocomplete="off"  title="密码" validate="required" enter='register'}}
+                      <span  class="xsd-color-primary showPsd xsd-cursor-pointer" onclick={{action "showPsd"}}>
+                          显示密码
+                      </span>
+                  </label>
+	                <label class="xsd-input-group xsd-margin-b24">
+		                <input id="reg_recommend" class="xsd-input" type="text" name="reg_recommend" placeholder="请推荐人手机号码（没有可不填）" autocomplete="off"  title="推荐人" />
+	                </label>
+
+                </div>
+              </div>
+	            <label class="xsd-input-group xsd-margin-b12">
+		            <a id="register" class="xsd-btn xsd-btn-primary" onclick={{action "register"}}>
+			            注册并登录
+		            </a>
+	            </label>
+	            <div class="xsd-input-group xsd-clearfix xsd-padding-12">
+		            <div class="xsd-pull-right">
+                  {{input type="checkbox" checked=agree class="xsd-pull-left"}}
+                  <span class="checkbox-text xsd-pull-left xsd-font-size12">已阅读并同意{{#link-to 'terms' (query-params target="reg") class="btn-terms xsd-font-size12"}}服务条款{{/link-to}}</span>
+                </div>
+	            </div>
+             {{/if}}
+            {{#if (eq target "forgetPsd")}}
+              <h2><span  class="active">重设密码</span></h2>
+            <div class="form-container" id="forgetPsdContainer">
+              <div id="forgetPsd">
+                  <label class="xsd-input-group xsd-margin-b24">
+                      <input id="f_name" class="xsd-input" type="text" name="r_name" placeholder="请输入账号" title="您的账号" validate="required"/>
+                  </label>
+                  <div class="xsd-input-group xsd-margin-b24 xsd-clearfix">
+                      <input id="f_code" class="code xsd-input xsd-pull-left" type="text" name="r_code" autocomplete="off"  placeholder="请输入验证码" title="验证码" validate="required"/>
+                      <a class="xsd-btn xsd-btn-primary xsd-pull-right"  onclick={{action "verificationPsd"}}>发送验证码</a>
+                  </div>
+                  <label class="xsd-input-group xsd-margin-b12">
+                      <a class="xsd-btn xsd-btn-primary" onclick={{action "psdStep"}}>
+                          下一步
+                      </a>
+                  </label>
+                  <div class="xsd-input-group xsd-clearfix">
+                      <span class="xsd-pull-left xsd-color-primary xsd-cursor-pointer" target="login" onclick={{action "tabClick"}}>返回登录</span>
+                  </div>
+              </div>
+            </div>
+            <div class="form-container" id="nextContainer">
+              <div id="next">
+                  <label class="xsd-input-group xsd-margin-b24">
+                      <input class="xsd-input" id="new_pwd" type="password" name="newpsd" placeholder="请输入密码" autocomplete="off"  title="密码" validate="required"/>
+                      <span  class="xsd-color-primary showPsd xsd-cursor-pointer" onclick={{action "showPsd"}}>
+                          显示密码
+                      </span>
+                  </label>
+	              <label class="xsd-input-group xsd-margin-b12">
+		              <a class="xsd-btn xsd-btn-primary" onclick={{action "resetPsd"}}>
+			              完成并登陆
+		              </a>
+	              </label>
+                  <div class="xsd-input-group xsd-clearfix">
+                      <span class="xsd-pull-left xsd-color-primary xsd-cursor-pointer" onclick={{action "tabPrev"}}>返回上一步</span>
+                  </div>
+              </div>
+              </div>
+          {{/if}}
+            </div>
+            <div id="appCode">
+                <div class="ios"></div>
+                <div class="anzhuo"></div>
+                <div class="code-container">
+                <p class="xsd-color-primary xsd-font-size16">扫码下载水滴管家手机端APP!</p>
+                </div>
+            </div>
+            <!--<div id="download" class="xsd-color-success xsd-cursor-pointer" onclick={{action 'download'}} >-->
+                <!--点击下载APP-->
+            <!--</div>-->
+        </div>
+    </div>
+</div>
+<!--<div id="copyright">-->
+    <!--Copyright © 2014-2016 上海库铭数据技术有限公司 沪ICP备14053439号-->
+<!--</div>-->
+</div>
+{{/particles-js}}
+</div>
+<a id="public-modal-trigger" data-toggle="xsd-modal" data-target="#publicModal"></a>
+{{public-modal phone=phone}}

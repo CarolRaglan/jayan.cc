@@ -1,0 +1,151 @@
+<div class="xsd-modal xsd-md-modal" id="housesImport">
+
+  <div class="xsd-modal-header xsd-margin-b24">
+       <!--{#if (eq flag "step1")}}-->
+        <span class="xsd-font-size16">
+            批量导入房源
+        </span>
+       <!--{/if}}-->
+       <!--{#if (eq flag "step3")}}-->
+           <!--<span class="xsd-font-size16">-->
+            <!--导入房源结果-->
+        <!--</span>-->
+       <!--{/if}}-->
+      <!--<a class="xsd-modal-close iconfont">{#if (not-eq flag "step2")}}&#xe633;{/if}}</a>-->
+      <a class="xsd-modal-close iconfont" onclick={{action "reHouses"}}>&#xe633;</a>
+  </div>
+
+        <div class="xsd-modal-body xsd-margin-b24">
+            <div id="public-form">
+                <div class="container">
+                    <div class="xsd-margin-b6 xsd-color-red"></div>
+                    <div class="xsd-margin-b24">第一步：请按EXCEL格式填写数据<a class="xsd-margin-l12 xsd-color-primary" href="http://h2ome.oss-cn-shanghai.aliyuncs.com/%E5%88%86%E6%95%A3%E5%BC%8F%E6%88%BF%E6%BA%90%E5%AF%BC%E5%85%A5%E6%A8%A1%E6%9D%BF.xlsx">下载EXCEL数据模板</a></div>
+                    <div class="upLoad xsd-clearfix">
+                        <div class="xsd-margin-b16">
+                            第二步：请上传附件以验证数据格式是否正确
+                            <span class="xsd-margin-l12 xsd-color-red">{{Tooltip}}</span>
+                            <div id="btnFlag" class="hint">
+                                <div class="xsd-verify-circle xsd-pull-left">
+                                    <div class="xsd-in-circle"></div>
+                                </div>
+                                <span>格式正确</span>
+                            </div>
+
+                        </div>
+
+                        <div id="housesImport_step1" class="adjunct xsd-margin-b16">
+                            <a class="xsd-color-primary">
+                                <i class="icon iconfont icon-xsdtianjiafujian adjunct"></i>
+                                <input type="file" name="contract_file" id="house_excel">
+                            </a>
+                            <span id="fileName"></span>
+                        </div>
+
+                        <div id="housesImport_step2" class="adjunct xsd-margin-b16">
+                            <div class="xsd-color-primary">
+                                <div class="xsd-color-primary"><i class="icon iconfont xsd-margin-l36">&#xe6b9;</i><b class="xsd-margin-p12">验证中</b></div>
+
+                            </div>
+                        </div>
+
+                        <div id="housesImport_step3" class="adjunct xsd-margin-b16">
+                            <a class="xsd-color-primary">
+                                <i class="icon iconfont icon-xsdtianjiafujian adjunct"></i>
+                                <a class="xsd-color-primary" onclick={{action "reHouses"}}>重新上传验证</a>
+
+                            </a>
+
+                            <!--{#if (eq importData.download_url "")}}-->
+                                <!--无模板数据-->
+                            <!--{else}}-->
+                                <!--<a class="xsd-color-primary xsd-margin-l36" href="{importData.download_url}}"><i class="icon iconfont icon-jiantoushang1"></i>下载错误模板</a>-->
+
+                            <!--{/if}}-->
+
+                        </div>
+                    </div>
+                    <div class="xsd-margin-b16">
+                        第三步：确认以上导入房源信息
+                    {{#if importData.error_count}}
+                      <span class="xsd-margin-l12 xsd-color-red">* {{importData.error_count}}套上传失败</span>
+                    {{/if}}
+
+                    {{#if ImportSuccess}}
+                        <div class="hint">
+                            <div class="xsd-out-circle xsd-pull-left">
+                                <div class="xsd-in-circle"></div>
+                            </div>
+                            <span>上传成功{{importData.success_count}}套</span>
+                        </div>
+                    {{/if}}
+                      <div id="housesImport_step4" class="adjunct xsd-margin-b16">
+                          <a class="xsd-color-primary">
+                              <i class="icon iconfont icon-xsdtianjiafujian adjunct"></i>
+                              <a class="xsd-color-primary" onclick={{action "reHouses"}}>重新上传验证</a>
+
+                          </a>
+
+                        {{#if (eq importData.download_url "")}}
+                            无模板数据
+                        {{else}}
+                            <a class="xsd-color-primary xsd-margin-l36" href="{{importData.download_url}}"><i class="icon iconfont icon-jiantoushang1"></i>下载错误模板</a>
+
+                        {{/if}}
+                      </div>
+                      <div id="housesImport_step5" class="xsd-margin-b16 xsd-margin-t12">
+                          <div class="xsd-color-primary">
+                              <div class="xsd-color-primary  xsd-margin-l36">
+                                  <i class="icon iconfont xsd-margin-l16">&#xe6b9;</i><b class="xsd-margin-p12">导入房间</b>
+                              </div>
+
+                          </div>
+
+                      </div>
+                      <!--{/if}}-->
+                      <!--{/if}}-->
+                    </div>
+
+                    <!--<p class="xsd-color-gray xsd-font-size12 xsd-margin-b6"><span class="xsd-color-red">*</span>1、批不支持分段合同、杂费设置，如需设置，请在导入完成后设置</p>-->
+                    <!--<p class="xsd-color-gray xsd-font-size12">&nbsp;2、房源信息表格字段必须全部正确,请认真核对后导入。</p>-->
+
+                </div>
+            </div>
+        </div>
+    <!--<div class="xsd-modal-bottom xsd-clearfix">-->
+        <!--<div class="xsd-clearfix">-->
+            <!--<a class="xsd-btn xsd-btn-primary xsd-pull-right" onclick={action "importHouses"}}>验证通过，确认导入</a>-->
+            <!--<a class="xsd-btn xsd-btn-gray xsd-pull-right xsd-modal-close">取消</a>-->
+        <!--</div>-->
+    <!--</div>-->
+
+   <!--<div id="housesImport_step2" class="xsd-text-center xsd-none" style="margin-top: -66px">-->
+   <!--<img src="../images/create_loading.gif" alt="loading"/>-->
+   <!--<p>房源创建中...</p>-->
+   <!--</div>-->
+  <!--<div  id="housesImport_step3" class="xsd-none">-->
+   <!--<div class="xsd-modal-body xsd-margin-b24">-->
+          <!--<div id="public-form">-->
+              <!--<div class="container">-->
+                  <!--<div class="xsd-margin-b24">本次导入房源{importData.total_count}}条,导入成功<i class="xsd-color-green">{importData.success_count}}</i>条,导入失败<i class="xsd-color-red">{importData.error_count}}</i>条</div>-->
+                  <!--<div class="xsd-margin-b16">-->
+                      <!--下载导入失败的数据:-->
+                    <!--{#if (eq importData.download_url "")}}-->
+                        <!--无失败的房源数据-->
+                     <!--{else}}-->
+                      <!--<a class="xsd-color-primary" href="{importData.download_url}}">导入失败的房源数据.xlsx</a>-->
+                     <!--{/if}}-->
+                  <!--</div>-->
+                  <!--<p class="xsd-color-gray xsd-font-size12 xsd-margin-b6"><span class="xsd-color-red">*</span>1、您可以下载导入失败的房源数据附件，完善房源数据后重新导入。</p>-->
+              <!--</div>-->
+          <!--</div>-->
+      <!--</div>-->
+   <!--<div class="xsd-modal-bottom xsd-clearfix">-->
+    <!--<div class="xsd-clearfix">-->
+        <!--<a class="xsd-btn xsd-btn-primary xsd-pull-right" onclick={action "reHouses"}}>重新上传</a>-->
+        <!--<a class="xsd-btn xsd-btn-gray xsd-pull-right xsd-modal-close">取消</a>-->
+    <!--</div>-->
+<!--</div>-->
+  <!--</div>-->
+</div>
+
+

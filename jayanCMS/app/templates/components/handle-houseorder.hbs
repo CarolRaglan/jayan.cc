@@ -1,0 +1,31 @@
+<div class="xsd-drawer house-room" id="handleHouseOrder">
+  <div class="xsd-drawer-header">
+    <a class="xsd-modal-close iconfont" onclick={{action "refreshList" "order"}}>&#xe633;</a>
+    <a id="confirmRent-trigger" data-toggle="xsd-modal" data-target="#confirmRent"></a>
+  </div>
+  <div class="xsd-drawer-body">
+    <h2 class="xsd-margin-b16">{{order.location}}</h2>
+    <p class="xsd-margin-b24">{{order.address}}</p>
+    <div class="xsd-tabs">
+      <ul class="xsd-clearfix xsd-nav-tabs">
+        <li class="active"><a class="xsd-color-black" data-toggle="tab" data-href="#tab-1">业主账单</a></li>
+      </ul>
+      <div class="xsd-tab-content">
+        <div id="tab-1" class="xsd-tab-pane active">
+          <div class="tools">
+            {{#if (eq order.pay_status 0)}}
+              {{#if auth.e_power.landlord_order_edit}}
+                <a class="xsd-pull-right xsd-color-primary  xsd-margin-l12" onclick={{action "orderEdit"}}>编辑</a>
+              {{/if}}
+              {{#if auth.e_power.landlord_order_paid}}
+                <a data-toggle="xsd-modal" data-target="#confirmRent">确认交租</a>
+              {{/if}}
+            {{/if}}
+          </div>
+          {{panel-bill bill=order}}
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

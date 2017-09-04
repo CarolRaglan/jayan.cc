@@ -1,0 +1,534 @@
+{{!【模板】租务：业主合同：编辑}}
+<div class="xsd-modal modal-tiny" id="rental-contract-owner-edit">
+  <div class="xsd-modal-header">
+    <a class="xsd-modal-close iconfont" {{action 'onCloseModal'}}>&#xe633;</a>
+  </div>
+  <div class="xsd-modal-body">
+    {{#if refresh}}
+
+      <h3 class="title-danger">房源信息</h3>
+      <div class="row">
+        <div class="table-cell">
+          <label>房源信息</label>
+          <input id="house" type="hidden" value={{house.house.id}}>
+          <input id="contract" type="hidden" value={{house.contract.id}}>
+          <input class="xsd-input" type="text" disabled value={{house.area}}>
+        </div>
+        <div class="table-cell">
+          <label>房源地址</label>
+          <input class="xsd-input" type="text" disabled value={{house.address}}>
+        </div>
+      </div>
+
+      <h3 class="title-warning">基本信息</h3>
+
+      <h4>业主信息</h4>
+      <div class="row">
+        <div class="table-cell {{if v.ownerName.on 'error'}}">
+          <label>业主姓名<i>*</i>
+            <span class="tips-error">{{v.ownerName.tips}}</span>
+          </label>
+          <input name="owner_name" class="xsd-input" type="text" placeholder="输入业主姓名"  maxlength="10"
+                 onfocus={{action 'clearTips' v.ownerName}}  value={{house.contract.owner_name}}>
+        </div>
+        <div class="table-cell {{if v.ownerMobile.on 'error'}}">
+          <label>手机号码<span class="tips-error">{{v.ownerMobile.tips}}</span></label>
+          <input class="xsd-input" name="owner_phone" type="text"
+                 onfocus={{action 'clearTips' v.ownerMobile}} value={{house.contract.owner_phone}}
+                 placeholder="手机号，11位数字，选填">
+        </div>
+      </div>
+
+      {{#if expandBasic}}
+        <div class="row">
+          <div class="table-cell">
+            <label>证件类型</label>
+            <div class="xsd-input-group xsd-select">
+              <i class="iconfont">&#xe63c;</i>
+              <input class="xsd-input" type="text" name="owner_id_type"
+                     data-value={{activeIdType.code}} value={{activeIdType.name}} readonly>
+              <ul>
+                {{#each idType as |type|}}
+                  <li onclick={{action 'setCardID' type}}>{{type.name}}</li>
+                {{/each}}
+              </ul>
+            </div>
+          </div>
+          <div class="table-cell">
+            <label>证件号码</label>
+            <div class="xsd-input-group">
+              <input class="xsd-input" name="owner_id_number" type="text"
+                     placeholder="证件号码,选填"  value={{house.contract.owner_id_number}}>
+            </div>
+          </div>
+        </div>
+        <h4>附件信息</h4>
+        <div class="xsd-margin-b12">
+          <p class="xsd-margin-b12">
+            证件附件<small>（JPEG，PNG，单张5M以内；<em>{{idAttachmentNum}}</em> / 3）</small>
+          </p>
+          {{upload-images ids="rental_contract_owner_id_edit" dataType="owner_id_pictures"
+                          pic=house.contract.owner_id_pictures maxSize=3
+                          onSetNum=(action 'setImgLength' 'idAttachmentNum')}}
+        </div>
+        <div class="xsd-margin-b12">
+          <p class="xsd-margin-b12">
+            合同附件<small>（JPEG，PNG，单张5M以内；<em>{{contractAttachmentNum}}</em> / 10）</small>
+          </p>
+          {{upload-images ids="rental_contract_owner_contract_edit" dataType="pictures"
+                          pic=house.contract.pictures maxSize=10
+                          onSetNum=(action 'setImgLength' 'contractAttachmentNum')}}
+        </div>
+        <h4>合同备注</h4>
+        <div class="xsd-margin-b12">
+          <textarea class="xsd-input" col="3" placeholder="合同备注（50字以内）" maxlength="50" id="comments">{{house.contract.comments}}</textarea>
+        </div>
+      {{/if}}
+
+      <div class="xsd-margin-b24">
+        <span class="xsd-color-gray xsd-pull-left">更多基本信息</span>
+        <a class="xsd-btn xsd-btn-primary btn-sm btn-toggle" {{action 'toggle' 'expandBasic'}}>
+          {{#if expandBasic}}收起{{else}}展开{{/if}}
+        </a>
+      </div>
+
+    <div class="{{if lockContract 'hidden'}}">
+
+      <h3 class="title-success">租赁信息</h3>
+      {{ui-tabs list=contractTab change=(action 'toggleTab')}}
+
+      {{!-- 普通合同内容 start--}}
+      {{#unless staged}}
+        <div class="group-range {{if v.rentRange.on 'error'}}">
+          <p class="xsd-margin-b6">
+            <label>租赁时间<i>*</i>
+              {{#if rentRange.complete}}
+                <span class="text-range-date">
+                  （<b class="xsd-color-primary">共{{rentRange.text}}</b>）
+                </span>
+              {{/if}}
+              <span class="tips-error">{{v.rentRange.tips}}</span>
+            </label>
+          </p>
+          <div class="xsd-clearfix xsd-margin-b12">
+            {{#each rentRange.list as |it|}}
+              <span class="label-date" onclick={{action 'setRentRange' it}}>{{it.name}}</span>
+            {{/each}}
+            <div class="group-picker">
+              {{#if lockContract}}
+                <input class="xsd-input" type="text" disabled value={{rentRange.start}}>
+                <span class="split">-</span>
+                <input class="xsd-input" type="text" disabled value={{rentRange.end}}>
+              {{else}}
+                <div class="xsd-input-group">
+                  <i class="iconfont">&#xe63e;</i>
+                  {{pikaday-input value=rentRange.start  class="xsd-input"
+                                  format=dateFormat placeholder="结束时间" readonly="readonly"
+                                  change=(action "setRentPoint" 'start')}}
+                </div>
+                <span class="split">-</span>
+                <div class="xsd-input-group">
+                  <i class="iconfont">&#xe63e;</i>
+                  {{pikaday-input value=rentRange.end  class="xsd-input"
+                                  format=dateFormat placeholder="结束时间" readonly="readonly"
+                                  change=(action "setRentPoint" 'end')}}
+                </div>
+              {{/if}}
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="table-cell {{if v.rental.on 'error'}}">
+            <label>租金<i>*</i>
+              {{#if rentRange.complete}}
+                {{#if rental.amount}}
+                  <span class="tips-range">
+                    （<b class="xsd-color-primary">共{{rental.amount}}元</b>）
+                    </span>
+                {{/if}}
+              {{/if}}
+              <span class="tips-error">{{v.rental.tips}}</span>
+            </label>
+            <div class="xsd-input-group">
+              <input class="xsd-input" type="text" onfocus={{action 'clearTips' v.rental}}
+                onchange={{action 'setRental'}}  name="month_rental" value={{rental.unit}}
+                       disabled={{lockContract}}>
+              <i class="unit">元/月</i>
+            </div>
+          </div>
+          <div class="table-cell {{if v.deposit.on 'error'}}">
+            <label>押金<i>*</i><span class="tips-error">{{v.deposit.tips}}</span></label>
+            <div class="xsd-input-group">
+              <input class="xsd-input" type="text" name="deposit" value={{house.contract.deposit}}
+                onfocus={{action 'clearTips' v.deposit}} disabled={{lockContract}}>
+              <i class="unit">元</i>
+            </div>
+          </div>
+        </div>
+
+        <div class="group-range {{if v.frequency.on 'error'}}">
+          <p class="xsd-margin-b6"><label>支付方式<i>*</i></label>
+            <span class="tips-error">{{v.frequency.tips}}</span>
+          </p>
+          <div class="xsd-clearfix xsd-margin-b12">
+            {{#each frequency as |it|}}
+              <span class="label-date {{if it.active 'active'}}"
+                {{action 'switchFrequency' it}}>
+                {{it.name}}
+              </span>
+            {{/each}}
+            <div class="single-picker">
+              <div class="xsd-input-group">
+                <input class="xsd-input" value="{{specifyFrequency}}" type="text" name="pay_method_y"
+                       onfocus={{action 'clearTips' v.frequency}} disabled={{lockContract}}
+                       onchange={{action 'setFrequency'}}>
+                <i class="unit">个月</i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="table-cell {{if v.collect.on 'error'}}">
+            <label>收租方式<i>*</i><span class="tips-error">{{v.collect.tips}}</span></label>
+            <div>
+              <div class="xsd-input-group group-sm xsd-select">
+                {{#unless lockContract}}
+                  <i class="iconfont">&#xe63c;</i>
+                {{/unless}}
+                <input class="xsd-input" type="text" name="rent_pay_way" readonly
+                       value={{activeCollect.name}} disabled={{lockContract}}>
+                {{#unless lockContract}}
+                  <ul>
+                    {{#each collect as |it|}}
+                      <li onclick={{action "toggleCollect" it}}>{{it.name}}</li>
+                    {{/each}}
+                  </ul>
+                {{/unless}}
+              </div>
+              <div class="group-sm">
+                <div class="xsd-input-group">
+                  <input class="xsd-input" type="text" onfocus={{action 'clearTips' v.collect}} name="collect_days"
+                         disabled={{lockContract}}
+                           value={{eq-out activeCollect.code 'fixed' house.contract.fixed_pay_date
+                                          house.contract.advanced_days}}>
+                  <i class="unit">{{activeCollect.unit}}</i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {{/unless}}
+      {{!-- 普通合同内容 end--}}
+
+      {{!-- 分段合同 start--}}
+      {{#if staged}}
+        {{#each segment as |s|}}
+          <h4>分段 {{s.sequence}}
+            {{#if s.removable}}
+              <a class="xsd-color-primary link" {{action 'removeSegment' s.id}}>删除</a>
+            {{/if}}
+          </h4>
+          <div class="group-range {{if s.rangeError 'error'}}">
+            <p class="xsd-margin-b6">
+              <label>租赁时间<i>*</i>
+                {{#if s.complete}}
+                  <span class="tips-range">
+                    （<b class="xsd-color-primary">共{{s.text}}</b>）
+                    </span>
+                {{/if}}
+                <span class="tips-error">{{s.rangeTips}}</span>
+              </label>
+            </p>
+            <div class="xsd-clearfix xsd-margin-b12">
+              {{#each s.rentRange as |it|}}
+                <span class="label-date"
+                      onclick={{action 'setSegmentRange' s.id it}}>{{it.name}}</span>
+              {{/each}}
+              <div class="group-picker">
+                {{#if lockContract}}
+                  <input class="xsd-input" value={{s.start}} disabled>
+                  <span class="split">-</span>
+                  <input class="xsd-input" value={{s.end}} disabled>
+                {{else}}
+                  <div class="xsd-input-group">
+                    <i class="iconfont">&#xe63e;</i>
+                    {{pikaday-input class="xsd-input" format=dateFormat value=s.start
+                                    placeholder="开始时间" readonly="readonly" title='开始时间'
+                                    change=(action "setSegmentPoint" s.id 'start')}}
+                  </div>
+                  <span class="split">-</span>
+                  <div class="xsd-input-group">
+                    <i class="iconfont">&#xe63e;</i>
+                    {{pikaday-input class="xsd-input" format=dateFormat value=s.end
+                                    placeholder="结束时间" readonly="readonly" title='结束时间'
+                                    change=(action "setSegmentPoint" s.id 'end')}}
+                  </div>
+                {{/if}}
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="table-cell {{if s.rentalError 'error'}}">
+              <label>租金<i>*</i>
+                {{#if s.complete}}
+                  {{#if s.amount}}
+                    <span class="tips-range">
+                      （<b class="xsd-color-primary">共{{s.amount}}元</b>）
+                      </span>
+                  {{/if}}
+                {{/if}}
+                <span class="tips-error">{{s.rentalTips}}</span>
+              </label>
+              <div class="xsd-input-group">
+                <input class="xsd-input" type="text" name="month_rental" disabled={{lockContract}}
+                  value={{s.rental}} onchange={{action 'setSegmentRental' s.id}}>
+                <i class="unit">元/月</i>
+              </div>
+            </div>
+          </div>
+        {{/each}}
+        <a class="xsd-color-primary link" {{action "addSegment"}}>+添加分段</a>
+
+        <h4>租赁信息</h4>
+
+        <div class="row">
+          <div class="table-cell {{if v.rental.on 'error'}}">
+            <label>押金<i>*</i><span class="tips-error">{{v.rental.tips}}</span></label>
+            <div class="xsd-input-group">
+              <input class="xsd-input" type="text" name="deposit"
+                     value={{house.contract.deposit}} disabled={{lockContract}}>
+              <i class="unit">元</i>
+            </div>
+          </div>
+          <div class="table-cell {{if v.collect.on 'error'}}">
+            <label>收租方式<i>*</i><span class="tips-error">{{v.collect.tips}}</span></label>
+            <div>
+              <div class="xsd-input-group group-sm xsd-select">
+                {{#unless lockContract}}
+                  <i class="iconfont">&#xe63c;</i>
+                {{/unless}}
+                <input class="xsd-input" type="text" name="rent_pay_way" readonly
+                       value={{activeCollect.name}} disabled={{lockContract}}>
+                {{#unless lockContract}}
+                  <ul>
+                    {{#each collect as |it|}}
+                      <li onclick={{action "toggleCollect" it}}>{{it.name}}</li>
+                    {{/each}}
+                  </ul>
+                {{/unless}}
+              </div>
+              <div class="group-sm">
+                <div class="xsd-input-group">
+                  <input class="xsd-input" type="text" name="collect_days"
+                         onfocus={{action 'clearTips' v.collect}} disabled={{lockContract}}
+                         value={{eq-out activeCollect.code 'fixed' house.contract.fixed_pay_date
+                                        house.contract.advanced_days}}>
+                  <i class="unit">{{activeCollect.unit}}</i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="group-range {{if v.frequency.on 'error'}}">
+          <p class="xsd-margin-b6"><label>支付方式<i>*</i><span class="tips-error">{{v.frequency.tips}}</span></label></p>
+          <div class="xsd-clearfix xsd-margin-b12">
+            {{#each frequency as |it|}}
+              <span class="label-date {{if it.active 'active'}}"
+                {{action 'switchFrequency' it}}>
+                {{it.name}}
+              </span>
+            {{/each}}
+            <div class="single-picker">
+              <div class="xsd-input-group">
+                <input class="xsd-input" value="{{specifyFrequency}}" type="text" disabled={{lockContract}}
+                  name="pay_method_y" onchange={{action 'setFrequency'}}>
+                <i class="unit">个月</i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      {{/if}}
+      {{!-- 分段合同 end--}}
+
+
+      <h3 class="title-primary">杂费信息</h3>
+
+      <div class="{{unless expandExtras 'hidden'}}">
+
+        {{#unless lockContract}}
+          <div class="xsd-margin-b12">
+            {{#each extra as |fee|}}
+              <label class="checkbox-inline">
+                <input type="checkbox" name="extra" value={{fee.code}} checked={{fee.checked}} onchange={{action "toggleFee" fee}}>{{fee.name}}
+              </label>
+            {{/each}}
+          </div>
+        {{/unless}}
+
+
+        {{#if water_fees}}
+          <h4>水费</h4>
+          <div class="row">
+            {{ui-select title="收费类型" name="water_charge" select=(action 'toggleWaterChargeType') readonly=lockContract
+                        list=waterChargeType value=house.contract.meter_info.water_charge}}
+            <div class="table-cell">
+              <label>{{activeWaterChargeType.unitTitle}}</label>
+              <div class="xsd-input-group">
+                <input type="text" class="xsd-input" name="water_fees"
+                       value={{merge house.contract.meter_info.water_fees house.contract.meter_info.water_unit_price}}
+                  disabled={{lockContract}}>
+                <i class="unit">{{activeWaterChargeType.unit}}</i>
+              </div>
+            </div>
+          </div>
+        {{/if}}
+
+        {{#if power_fees}}
+          <h4>电费</h4>
+          <div class="row">
+            {{ui-select title="计费方式" name="power_charge" select=(action 'togglePowerChargeType') readonly=lockContract
+                        list=powerChargeType value=house.contract.meter_info.power_charge}}
+            <div class="table-cell">
+              <label>{{activePowerChargeType.unitTitle}}</label>
+              <div class="xsd-input-group">
+                <input class="xsd-input" name="power_fees" type="text"
+                       value={{merge house.contract.meter_info.power_fees house.contract.meter_info.power_unit_price}}
+                  disabled={{lockContract}}>
+                <i class="unit">{{activePowerChargeType.unit}}</i>
+              </div>
+            </div>
+          </div>
+        {{/if}}
+
+        {{#if gas_fees}}
+          <h4>燃气费</h4>
+          <div class="row">
+            {{ui-select title="收费类型" name="gas_charge" list=gasChargeType select=(action 'toggleGasChargeType') readonly=lockContract
+                        value=house.contract.meter_info.gas_charge}}
+            {{ui-input title=activeGasChargeType.unitTitle name="gas_fees" unit=activeGasChargeType.unit readonly=lockContract
+                       value=house.contract.meter_info.gas_fees}}
+          </div>
+        {{/if}}
+
+        {{#if property_fees}}
+          <h4>物业费</h4>
+          <div class="row">
+            {{ui-select title="收费类型" name="property_fees_charge" list=chargeType value=house.contract.meter_info.property_fees_charge readonly=lockContract}}
+            {{ui-input title="费用金额" name="property_fees" unit="元/月" value=house.contract.meter_info.property_fees readonly=lockContract}}
+          </div>
+        {{/if}}
+
+        {{#if service_fees}}
+          <h4>服务费</h4>
+          <div class="row">
+            {{ui-select title="收费类型" name="service_fees_charge" list=chargeType value=house.contract.meter_info.service_fees_charge readonly=lockContract}}
+            {{ui-input title="费用金额" name="service_fees" unit="元/月" value=house.contract.meter_info.service_fees readonly=lockContract}}
+          </div>
+        {{/if}}
+
+        {{#if cleaning_fees}}
+          <h4>保洁费</h4>
+          <div class="row">
+            {{ui-select title="收费类型" name="cleaning_fees_charge" list=chargeType value=house.contract.meter_info.cleaning_fees_charge readonly=lockContract}}
+            {{ui-input title="费用金额" name="cleaning_fees" unit="元/月" value=house.contract.meter_info.cleaning_fees readonly=lockContract}}
+          </div>
+        {{/if}}
+
+        {{#if upkeep_fees}}
+          <h4>维修费</h4>
+          <div class="row">
+            {{ui-select title="收费类型" name="upkeep_fees_charge" list=chargeType value=house.contract.meter_info.upkeep_fees_charge readonly=lockContract}}
+            {{ui-input title="费用金额" name="upkeep_fees" unit="元/月" value=house.contract.meter_info.upkeep_fees readonly=lockContract}}
+          </div>
+        {{/if}}
+
+        {{#if material_fees}}
+          <h4>材料费</h4>
+          <div class="row">
+            {{ui-select title="收费类型" name="material_fees_charge" list=chargeType value=house.contract.meter_info.material_fees_charge readonly=lockContract}}
+            {{ui-input title="费用金额" name="material_fees" unit="元/月" value=house.contract.meter_info.material_fees readonly=lockContract}}
+          </div>
+        {{/if}}
+
+        {{#if catv_fees}}
+          <h4>有线电视</h4>
+          <div class="row">
+            {{ui-select title="收费类型" name="catv_fees_charge" list=chargeType value=house.contract.meter_info.catv_fees_charge readonly=lockContract}}
+            {{ui-input title="费用金额" name="catv_fees" unit="元/月" value=house.contract.meter_info.catv_fees readonly=lockContract}}
+          </div>
+        {{/if}}
+
+        {{#if internet_fees}}
+          <h4>宽带</h4>
+          <div class="row">
+            {{ui-select title="收费类型" name="internet_fees_charge" list=chargeType value=house.contract.meter_info.internet_fees_charge readonly=lockContract}}
+            {{ui-input title="费用金额" name="internet_fees" unit="元/月"  value=house.contract.meter_info.internet_fees readonly=lockContract}}
+          </div>
+        {{/if}}
+
+        {{#if sanitation_fees}}
+          <h4>卫生</h4>
+          <div class="row">
+            {{ui-select title="收费类型" name="sanitation_fees_charge" list=chargeType value=house.contract.meter_info.sanitation_fees_charge readonly=lockContract}}
+            {{ui-input title="费用金额" name="sanitation_fees" unit="元/月" value=house.contract.meter_info.sanitation_fees readonly=lockContract}}
+          </div>
+        {{/if}}
+
+        {{#if free_fees}}
+          <h4>优惠</h4>
+          <div class="row">
+            {{ui-select title="收费类型" name="free_fees_charge" list=chargeType value=house.contract.meter_info.free_fees_charge readonly=lockContract}}
+            {{ui-input title="费用金额" name="free_fees" unit="元/月" value=house.contract.meter_info.free_fees readonly=lockContract}}
+          </div>
+        {{/if}}
+
+        {{#if other_fees}}
+          <h4>其他</h4>
+          <div class="row">
+            {{ui-select title="收费类型" name="other_fees_charge" list=chargeType value=house.contract.meter_info.other_fees_charge readonly=lockContract}}
+            {{ui-input title="费用金额" name="other_fees" unit="元/月" value=house.contract.meter_info.other_fees readonly=lockContract}}
+          </div>
+        {{/if}}
+
+      </div>
+
+      {{#unless lockContract}}
+        <div class="xsd-margin-b24">
+          <span class="xsd-color-gray xsd-pull-left">杂费详情</span>
+          <a class="xsd-btn xsd-btn-primary btn-sm btn-toggle" {{action 'toggle' 'expandExtras'}}>
+            {{#if expandExtras}}收起{{else}}展开{{/if}}
+          </a>
+        </div>
+      {{/unless}}
+
+      <div class="row">
+        <div class="table-cell">
+          <label class="checkbox-inline">
+            <input onclick={{action "toggleIgnore" isIgnore}} type="checkbox" checked={{isIgnore}}> 是否需要忽略历史账单
+          </label>
+          {{#if isIgnore}}
+            <div class="xsd-input-group xsd-margin-b6">
+              <i class="iconfont">&#xe63e;</i>
+              {{pikaday-input  class="xsd-input" id="ignoreTime" name="ignoreTime" format=dateFormat
+                               placeholder="请选择日期" readonly="readonly" title="忽略时间"}}
+            </div>
+            <p class="xsd-font-size12 xsd-color-gray">
+              <span class="xsd-color-red">* </span>
+              注：忽略后系统将不展示该合同中，账单周期在您所选日期前的账单。
+            </p>
+          {{/if}}
+        </div>
+      </div>
+
+    </div>
+
+    {{/if}}
+    <div class="xsd-modal-bottom">
+      <a class="xsd-btn xsd-btn-primary btn-lg" {{action 'updateContract' house.contract.id}}>保存</a>
+    </div>
+  </div>
+</div>

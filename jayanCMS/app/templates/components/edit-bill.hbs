@@ -1,0 +1,82 @@
+<div class="xsd-modal modal-tiny" id="editBill">
+  <div class="xsd-modal-header">
+    <a class="xsd-modal-close iconfont">&#xe633;</a>
+  </div>
+  <div class="xsd-modal-body panel-scrollable">
+    {{#if refresh}}
+
+      <h3 class="title-danger">基本信息</h3>
+      <div class="row">
+        {{#if order.customer_name}}
+          {{ui-input title="租客姓名" value=bill.customer_name readonly=1}}
+        {{else}}
+          {{ui-input title="业主姓名" value=bill.owner_name readonly=1}}
+        {{/if}}
+        <div class="table-cell {{if bill.v.period.on 'error'}}">
+          <label>账单周期<span class="tips-error">请完善账单周期</span></label>
+          <div class="group-picker">
+            <div class="xsd-input-group">
+              <i class="iconfont">&#xe63e;</i>
+              {{pikaday-input class="xsd-input" format=dateFormat value=bill.start_time
+                              placeholder="开始时间" readonly="readonly" onSelection=(action 'updateTime' 'start_time')}}
+            </div>
+            <span class="split">-</span>
+            <div class="xsd-input-group">
+              <i class="iconfont">&#xe63e;</i>
+              {{pikaday-input class="xsd-input" format=dateFormat value=bill.end_time
+                              placeholder="结束时间" readonly="readonly" onSelection=(action 'updateTime' 'end_time')}}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        {{ui-input title="应收租日期" type="date" format=dateFormat tips=bill.v.payTime.tips error=bill.v.payTime.on
+                   value=bill.ought_pay_time onSelection=(action 'updateTime' 'ought_pay_time')}}
+      </div>
+
+      <h3 class="title-warning {{if bill.v.extras.on 'error'}}">
+        费用信息<small class="tips-error">{{bill.v.extras.tips}}</small>
+      </h3>
+      {{#each bill.extras as |fee|}}
+        <label class="checkbox-inline">
+          {{input type="checkbox" disabled=fee.disabled checked=fee.checked change=(action 'clearFeeTips')}}{{fee.name}}
+        </label>
+      {{/each}}
+
+      <ul class="list-addon">
+        {{#each bill.extras as |fee|}}
+          {{#if fee.checked}}
+            <li>
+              <p>{{fee.name}}</p>
+              <label class="xsd-input-group xsd-select xsd-pull-left">
+                <i class="iconfont">&#xe63c;</i>
+                {{input class="xsd-input" type="text" readonly=1
+                        value=(if fee.negative "支出" "收入") change=(action 'reverseFee' fee) disabled=fee.disabled}}
+                {{#unless fee.disabled}}
+                  <ul>
+                    <li>收入</li>
+                    <li>支出</li>
+                  </ul>
+                {{/unless}}
+              </label>
+              <label class="xsd-input-group xsd-pull-left">
+                <i class="iconfont">元</i>
+                {{input name=fee.code class="xsd-input" type="number"
+                        value=fee.value change=(action 'changeFee' fee) disabled=fee.disabled}}
+              </label>
+            </li>
+          {{/if}}
+        {{/each}}
+      </ul>
+
+      <h3 class="title-success">账单备注</h3>
+      {{textarea class="xsd-input" col=3 placeholder="账单备注（50字以内）" maxlength=50
+                name="comments" value=bill.comments}}
+
+    {{/if}}
+    <div class="footer">
+      <a class="xsd-btn xsd-btn-gray btn-md xsd-modal-close">取消</a>
+      <a class="xsd-btn xsd-btn-primary btn-md" {{action 'update' bill}}>确定</a>
+    </div>
+  </div>
+</div>

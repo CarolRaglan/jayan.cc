@@ -1,0 +1,15 @@
+<div class="modal modal-sm">
+  <header>
+    {{#link-to 'uc.config.extras' class="iconfont"}}&#xe633;{{/link-to}}
+  </header>
+  <article>
+    <div class="text-center">
+      <h2>是否确定删除该费用？</h2>
+      <p class="tips-warning"><i class="iconfont">&#xe620;</i>提示：删除自定义费用后不会影响已生成的费用信息</p>
+    </div>
+    <footer class="text-right">
+      {{#link-to 'uc.config.extras' class="btn btn-default"}}取消{{/link-to}}
+      <a class="btn btn-primary" {{action 'confirm'}}>删除</a>
+    </footer>
+  </article>
+</div>

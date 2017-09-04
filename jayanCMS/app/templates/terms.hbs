@@ -1,0 +1,12 @@
+<div class="panel-terms">
+  <h1>
+    {{#link-to 'index'}}
+      <img src="../images/login/logo.png" class="logo" alt="水滴管家">
+    {{/link-to}}
+    <span class="title">服务条款</span>
+  </h1>
+
+  {{terms-sign}}{{! 页面terms.hbs和组件user-agreement复用组件terms-sign }}
+
+  <p class="bar">{{#link-to 'user.sign'}}返回{{/link-to}}</p>
+</div>

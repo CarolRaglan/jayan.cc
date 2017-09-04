@@ -1,0 +1,43 @@
+<div id="update">
+    <div class="updateContent">
+        <ul class="contentText">
+            <li>
+                <div class="xsd-clearfix">
+                    <div class=" xsd-pull-left timeWidth xsd-margin-r24 font-size24">更新时间</div>
+                    <i class="iconfont logoBig xsd-pull-left xsd-color-primary">&#xe670;</i>
+                    <div class=" xsd-pull-left bigUpdateRight xsd-margin-r24 font-size24">水滴管家版本更新日志</div>
+                </div>
+                <div class="pointLine xsd-margin-r24 font-size24">
+                </div>
+            </li>
+           {{#each version as |version|}}
+            <li>
+                <div class="xsd-clearfix">
+                    <div class=" xsd-pull-left timeWidth xsd-margin-r24 xsd-font-size18">{{version.updateDate}}</div>
+                    <i class="iconfont logoSmall xsd-pull-left xsd-color-primary">&#xe671;</i>
+                    <div class="pointLine1 xsd-pull-left smallUpdateRight">
+                        <div class=" xsd-font-size18 rightPosition xsd-color-primary xsd-margin-b16">
+                           水滴管家 v{{version.version}} {{version.name}}
+                        </div>
+                        <div class="textFunction">
+                            {{#if version.new}}
+                            <h2>新增</h2>
+                            {{#each version.new as |new|}}
+                            <p>{{new.content}}</p>
+                            {{/each}}
+                            {{/if}}
+                          {{#if version.update}}
+                              <h2>优化</h2>
+                            {{#each version.update as |update|}}
+                                <p>{{update.content}}</p>
+                            {{/each}}
+                          {{/if}}
+                        </div>
+                    </div>
+                </div>
+            </li>
+           {{/each}}
+        </ul>
+    </div>
+
+</div>

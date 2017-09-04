@@ -1,0 +1,74 @@
+<style>
+.blue-title { border-left: 4px solid #59acff; padding-left: 15px; font-size: 20px }
+.blue-title a { font-size: 14px }
+</style>
+<div class="xsd-drawer house-room" id="employerDetail">
+    <div class="xsd-drawer-header">
+        <a class="xsd-modal-close iconfont">&#xe633;</a>
+    </div>
+    <div class="xsd-drawer-body">
+        <h2 class="xsd-margin-b16 blue-title">子账号信息
+            <a class="xsd-pull-right xsd-color-primary" onclick={{action "doEdit"}}>修改资料</a>&nbsp;
+            <a class="xsd-pull-right xsd-color-primary xsd-margin-r12" data-toggle="xsd-modal"
+               data-target="#editEmployerPassword">修改密码</a>&nbsp;
+            <a class="xsd-pull-right xsd-color-primary xsd-margin-r12" data-toggle="xsd-modal" data-target="#delEmployer">删除子账号</a>
+        </h2>
+        <div class="xsd-tabs">
+            <div class="xsd-tab-content">
+                <div id="tab-1" class="active xsd-tab-pane">
+                    {{#if (eq canEdit 1)}}
+                      <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+                        <span class="xsd-pull-left">账号昵称</span>
+                        <b class="xsd-pull-left"><input name="name" class="xsd-input" id="name" value="{{model.attributes.name}}" /></b>
+                      </div>
+                    {{else}}
+                      <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+                        <span class="xsd-pull-left">员工姓名</span>
+                        <b class="xsd-pull-left">{{model.attributes.name}}</b>
+                      </div>
+                    {{/if}}
+                    <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+                        <span class="xsd-pull-left">账号角色</span>
+                        <b class="xsd-pull-left">{{model.attributes.role}}</b>
+                    </div>
+                    <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+                      <span class="xsd-pull-left">账号类型</span>
+                      <b class="xsd-pull-left">{{model.attributes.account_type}}</b>
+                    </div>
+                    <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+                        <span class="xsd-pull-left">房源数量</span>
+                        <b class="xsd-pull-left">{{model.attributes.houses}}</b>
+                    </div>
+                    <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+                        <span class="xsd-pull-left">登录账号</span>
+                        <b class="xsd-pull-left">{{model.attributes.phone}}@{{auth.user.company_postfix}}</b>
+                    </div>
+                    {{#if (eq canEdit 1)}}
+                        <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+                            <span class="xsd-pull-left">备注</span>
+                            <b class="xsd-pull-left"><input name="remark" class="xsd-input" id="remark" value="{{model.attributes.remark}}" /></b>
+                        </div>
+                    {{else}}
+                        <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+                            <span class="xsd-pull-left">备注</span>
+                            <b class="xsd-pull-left">{{model.attributes.remark}}</b>
+                        </div>
+                    {{/if}}
+                </div>
+              {{#if (eq canEdit 1)}}
+                  <div class="xsd-modal-bottom xsd-clearfix" id="employerBtn">
+                      <div class="xsd-clearfix">
+                          <a class="xsd-btn xsd-btn-primary xsd-pull-right" onclick={{action "edit" model.id}}>确定</a>
+                          <a class="xsd-btn xsd-btn-gray xsd-modal-close xsd-pull-right" onclick={{action "cancel"}}>取消</a>
+                      </div>
+                  </div>
+              {{else}}
+
+              {{/if}}
+            </div>
+        </div>
+
+    </div>
+    <div class="xsd-drawer-bottom">
+    </div>
+</div>

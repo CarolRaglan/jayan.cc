@@ -1,0 +1,18 @@
+{{#page-waper}}
+  <nav class="nav-tiny">
+    <h1 class="title-success">账户设置</h1>
+    {{#link-to 'uc.settings'}}账户管理<i class="iconfont">&#xe63c;</i>{{/link-to}}
+    <div class="group-nav">
+      {{#link-to 'uc.settings.account'}}账户信息{{/link-to}}
+    </div>
+    {{#link-to 'uc.config' class="hidden"}}运营配置<i class="iconfont">&#xe63c;</i>{{/link-to}}
+    <div class="group-nav hidden">
+      {{#link-to 'uc.config.extras'}}费用项目配置{{/link-to}}
+      {{#link-to 'uc.config.payment'}}付款方式配置{{/link-to}}
+      {{#link-to 'uc.config.notice'}}提醒规则配置{{/link-to}}
+    </div>
+  </nav>
+  <div class="main">
+    {{outlet 'uc'}}
+  </div>
+{{/page-waper}}

@@ -1,0 +1,17 @@
+<h4>{{fee.name}}</h4>
+<div class="row">
+  {{ui-select title="收费类型" name=(concat type '_charge') list=chargeType select=(action 'select') value=fee.charge}}
+    {{#if smartDevice}}
+      {{#ui-tips class="table-cell"}}
+        租客通过微信线上充值电费，将会产生第三方手续费；电费单价请在电表配置中修改。
+      {{/ui-tips}}
+    {{else}}
+      {{ui-input title=unitTitle name=(concat type '_fees') unit=unit value=fee.value}}
+    {{/if}}
+</div>
+{{#if chargeByMeter}}
+  <div class="row">
+    {{ui-input title="当前读数" name=(concat type '_meter_current') value=fee.tick}}
+    {{ui-input title="当前读数抄表日期" type='date' name=(concat type '_meter_time') format=dateFormat value=fee.logTime}}
+  </div>
+{{/if}}

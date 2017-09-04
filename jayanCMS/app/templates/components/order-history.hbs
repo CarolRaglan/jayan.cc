@@ -1,0 +1,676 @@
+<div class="xsd-drawer house-room" id="orderHistory">
+    <div class="xsd-drawer-header">
+        <a class="xsd-modal-close iconfont">&#xe633;</a>
+    </div>
+    <div class="xsd-drawer-body">
+        <h2 class="xsd-margin-b16">业务进度-到期账单</h2>
+        <p class="xsd-margin-b12">时间:{{orders.start_time}}-{{orders.end_time}}</p>
+        <p class="xsd-margin-b24">应付账款:&nbsp;<i class="xsd-color-primary">{{orders.ho_undone_total}}/{{orders.ho_total}}</i>&nbsp;|&nbsp;应收账款:&nbsp;<i class="xsd-color-primary">{{orders.ro_undone_total}}/{{orders.ro_total}}</i></p>
+        <div class="xsd-tabs">
+            <ul class="xsd-clearfix xsd-nav-tabs">
+                <li class="active"><a class="xsd-color-black"  data-toggle="tab" data-href="#tab-1" onclick={{action "lookBack"}}>业主账单(<i class="xsd-color-primary">{{orders.ho_undone_count}}/{{orders.ho_count}}</i>)</a></li>
+                <li><a class="xsd-color-black"  data-toggle="tab" data-href="#tab-2" onclick={{action "lookBack"}}>租客账单(<i class="xsd-color-primary">{{orders.ro_undone_count}}/{{orders.ro_count}}</i>)</a></li>
+            </ul>
+            <div class="xsd-tab-content">
+                <div id="tab-1" class="xsd-tab-pane active">
+                    <div id="house_order_list">
+                      {{#if order_detail}}
+                          <div class="xsd-clearfix xsd-margin-b12">
+                              <a id="roomBack" class="xsd-pull-left xsd-color-primary" onclick={{action "lookBack"}}>返回上一级</a>
+                            {{#if (not-eq orderDetail.attributes.show_status 3)}}
+                              {{#if (or auth.e_power.landlord_order_edit auth.e_power.landlord_order_mod)}}
+                                {{#if order_edit}}
+                                {{else}}
+                                    <a class="xsd-pull-right xsd-color-primary  xsd-margin-l12" onclick={{action "orderEdit"}}>编辑</a>
+                                {{/if}}
+                              {{/if}}
+                              {{#if auth.e_power.landlord_order_paid}}
+                                  <a class="xsd-pull-right xsd-color-primary  xsd-margin-l12" data-toggle="xsd-modal" data-target="#confirmRent">确认交租</a>
+                              {{/if}}
+                            {{/if}}
+                          </div>
+                          <div class="xsd-margin-b12 xsd-clearfix">
+                              <span class="xsd-pull-left">业主姓名</span><b
+                                  class="xsd-pull-left">{{orderDetail.attributes.owner_name}}</b>
+                          </div>
+                          <div class="xsd-margin-b12 xsd-clearfix">
+                              <span class="xsd-pull-left">账单周期</span><b class="xsd-pull-left">{{orderDetail.attributes.start_time}}
+                              至{{orderDetail.attributes.end_time}}</b>
+                          </div>
+                          <div class="xsd-margin-b12 xsd-clearfix">
+                              <span class="xsd-pull-left">费用总计</span><b class="xsd-pull-left"><b
+                                  class="xsd-color-primary">{{orderDetail.attributes.rent_utilities}}</b>元</b>
+                          </div>
+                          <h3 class="xsd-margin-b24">房租详情</h3>
+                        {{#if order_edit}}
+                            <div id="history_house_orderDetail_form">
+                                <div class="xsd-margin-b12 xsd-clearfix">
+                                    <div class="xsd-input-group xsd-pull-left">
+                                        <i>元</i>
+                                        <span class="xsd-pull-left">房屋租金</span><b class="xsd-pull-left"><input
+                                            id="history_ho_month_rental" class="xsd-input xsd-noborder" type="text" disabled
+                                            value={{orderDetail.attributes.month_rental}}></b>
+                                    </div>
+                                </div>
+                                <div class="xsd-margin-b12 xsd-clearfix">
+                                    <div class="xsd-input-group xsd-pull-left">
+                                        <i>元</i>
+                                        <span class="xsd-pull-left">房屋押金</span><b class="xsd-pull-left"><input
+                                            id="history_ho_deposit"
+                                            class="xsd-input xsd-noborder"
+                                            type="text"
+                                            disabled
+                                            value={{orderDetail.attributes.deposit}}></b>
+                                    </div>
+                                </div>
+                                <h3 class="xsd-margin-b24">杂费详情</h3>
+                                <div class="xsd-clearfix xsd-margin-b12">
+                                      <div class="xsd-input-group xsd-pull-left">
+                                          <i>元</i>
+                                          <span class="xsd-pull-left">水费</span>
+                                          <b class="xsd-pull-left"><input class="xsd-input" id="history_ho_water_fees"
+                                                                          name="history_ho_water_fees" type="text"
+                                                                          validate="required|numeric" title="金额"
+                                                                          value={{orderDetail.attributes.water_fees}}></b>
+                                      </div>
+                                      <div class="xsd-input-group xsd-pull-left">
+                                          <i>元</i>
+                                          <span class="xsd-pull-left">电费</span>
+                                          <b class="xsd-pull-left"><input class="xsd-input" id="history_ho_power_fees"
+                                                                          name="history_ho_power_fees" type="text"
+                                                                          validate="required|numeric" title="金额"
+                                                                          value={{orderDetail.attributes.power_fees}}></b>
+                                      </div>
+                                </div>
+                                <div class="xsd-clearfix xsd-margin-b12">
+                                    <div class="xsd-input-group xsd-pull-left">
+                                        <i>元</i>
+                                        <span class="xsd-pull-left">燃气费</span>
+                                        <b class="xsd-pull-left"><input class="xsd-input" id="history_ho_gas_fees"
+                                                                        name="history_ho_gas_fees" type="text"
+                                                                        validate="required|numeric" title="金额"
+                                                                        value={{orderDetail.attributes.gas_fees}}></b>
+                                    </div>
+                                    <div class="xsd-input-group xsd-pull-left">
+                                        <i>元</i>
+                                        <span class="xsd-pull-left">物业费</span>
+                                        <b class="xsd-pull-left"><input class="xsd-input" id="history_ho_property_fees"
+                                                                        name="history_ho_property_fees" type="text"
+                                                                        validate="required|numeric" title="金额"
+                                                                        value={{orderDetail.attributes.property_fees}}></b>
+                                    </div>
+                                </div>
+                                <div class="xsd-clearfix xsd-margin-b12">
+                                    <div class="xsd-input-group xsd-pull-left">
+                                        <i>元</i>
+                                        <span class="xsd-pull-left">服务费</span>
+                                        <b class="xsd-pull-left"><input class="xsd-input" id="history_ho_service_fees"
+                                                                        name="history_ho_service_fees" type="text"
+                                                                        validate="required|numeric" title="金额"
+                                                                        value={{orderDetail.attributes.service_fees}}></b>
+                                    </div>
+                                    <div class="xsd-input-group xsd-pull-left">
+                                        <i>元</i>
+                                        <span class="xsd-pull-left">保洁费</span>
+                                        <b class="xsd-pull-left"><input class="xsd-input" id="history_ho_cleaning_fees"
+                                                                        name="history_ho_cleaning_fees" type="text"
+                                                                        validate="required|numeric" title="金额"
+                                                                        value={{orderDetail.attributes.cleaning_fees}}></b>
+                                    </div>
+                                </div>
+                                <div class=" xsd-clearfix xsd-margin-b12">
+                                    <div class="xsd-input-group xsd-pull-left">
+                                        <i>元</i>
+                                        <span class="xsd-pull-left">维修费</span>
+                                        <b class="xsd-pull-left"><input class="xsd-input" id="history_ho_upkeep_fees"
+                                                                        name="history_ho_upkeep_fees" type="text"
+                                                                        validate="required|numeric" title="金额"
+                                                                        value={{orderDetail.attributes.upkeep_fees}}></b>
+                                    </div>
+                                    <div class="xsd-input-group xsd-pull-left">
+                                        <i>元</i>
+                                        <span class="xsd-pull-left">材料费</span>
+                                        <b class="xsd-pull-left"><input class="xsd-input" id="history_ho_material_fees"
+                                                                        name="history_ho_material_fees" type="text"
+                                                                        validate="required|numeric" title="金额"
+                                                                        value={{orderDetail.attributes.material_fees}}></b>
+                                    </div>
+                                </div>
+                                <div class="xsd-clearfix xsd-margin-b12">
+                                    <div class="xsd-input-group xsd-pull-left">
+                                        <i>元</i>
+                                        <span class="xsd-pull-left">电视费</span>
+                                        <b class="xsd-pull-left"><input class="xsd-input" id="history_ho_catv_fees"
+                                                                        name="history_ho_catv_fees" type="text"
+                                                                        validate="required|numeric" title="金额"
+                                                                        value={{orderDetail.attributes.catv_fees}}></b>
+                                    </div>
+                                    <div class="xsd-input-group xsd-pull-left">
+                                        <i>元</i>
+                                        <span class="xsd-pull-left">宽带费</span>
+                                        <b class="xsd-pull-left"><input class="xsd-input" id="history_ho_internet_fees"
+                                                                        name="history_ho_internet_fees" type="text"
+                                                                        validate="required|numeric" title="金额"
+                                                                        value={{orderDetail.attributes.internet_fees}}></b>
+                                    </div>
+                                </div>
+                                <div class="xsd-clearfix xsd-margin-b12">
+                                    <div class="xsd-input-group xsd-pull-left">
+                                        <i>元</i>
+                                        <span class="xsd-pull-left">卫生费</span>
+                                        <b class="xsd-pull-left"><input class="xsd-input" id="history_ho_sanitation_fees"
+                                                                        name="history_ho_sanitation_fees" type="text"
+                                                                        validate="required|numeric" title="金额"
+                                                                        value={{orderDetail.attributes.sanitation_fees}}></b>
+                                    </div>
+                                    <div class="xsd-input-group xsd-pull-left">
+                                        <i>元</i>
+                                        <span class="xsd-pull-left">优惠费</span>
+                                        <b class="xsd-pull-left"><input class="xsd-input" id="history_ho_free_fees"
+                                                                        name="history_ho_free_fees" type="text"
+                                                                        validate="required|numeric" title="金额"
+                                                                        value={{orderDetail.attributes.free_fees}}></b>
+                                    </div>
+                                </div>
+                                <div class="xsd-clearfix xsd-margin-b12">
+                                    <div class="xsd-input-group xsd-pull-left">
+                                        <i>元</i>
+                                        <span class="xsd-pull-left">其他费</span>
+                                        <b class="xsd-pull-left"><input class="xsd-input" id="history_ho_other_fees"
+                                                                        name="history_ho_other_fees" type="text"
+                                                                        validate="required|numeric" title="金额"
+                                                                        value={{orderDetail.attributes.other_fees}}></b>
+                                    </div>
+                                </div>
+                            </div>
+                            <a id="order_detail_btn"   class="xsd-btn xsd-btn-primary" onclick={{action 'editHouseBill' orderDetail.attributes.id}}>确认修改</a>
+                        {{else}}
+                            <div class="xsd-margin-b12 xsd-clearfix">
+                                <span class="xsd-pull-left">房屋租金</span><b class="xsd-pull-left"><b
+                                    class="xsd-color-primary">{{orderDetail.attributes.month_rental}}</b>元</b>
+                            </div>
+                            <div class="xsd-margin-b12 xsd-clearfix">
+                                <span class="xsd-pull-left">房屋押金</span><b class="xsd-pull-left"><b
+                                    class="xsd-color-primary">{{orderDetail.attributes.deposit}}</b>元</b>
+                            </div>
+                            <h3 class="xsd-margin-b24">杂费详情</h3>
+                              <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+                                  <span class="xsd-pull-left">水费</span>
+                                  <b class="xsd-pull-left"><b class="xsd-color-primary">{{orderDetail.attributes.water_fees}}</b>元</b>
+                                  <span class="xsd-pull-left">电费</span>
+                                  <b class="xsd-pull-left"><b class="xsd-color-primary">{{orderDetail.attributes.power_fees}}</b>元</b>
+                              </div>
+                            <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+                                <span class="xsd-pull-left">燃气费</span>
+                                <b class="xsd-pull-left"><b
+                                        class="xsd-color-primary">{{orderDetail.attributes.gas_fees}}</b>元</b>
+                                <span class="xsd-pull-left">物业费</span>
+                                <b class="xsd-pull-left"><b
+                                        class="xsd-color-primary">{{orderDetail.attributes.property_fees}}</b>元</b>
+                            </div>
+                            <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+                                <span class="xsd-pull-left">服务费</span>
+                                <b class="xsd-pull-left"><b
+                                        class="xsd-color-primary">{{orderDetail.attributes.service_fees}}</b>元</b>
+                                <span class="xsd-pull-left">保洁费</span>
+                                <b class="xsd-pull-left"><b
+                                        class="xsd-color-primary">{{orderDetail.attributes.cleaning_fees}}</b>元</b>
+                            </div>
+                            <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+                                <span class="xsd-pull-left">维修费</span>
+                                <b class="xsd-pull-left"><b
+                                        class="xsd-color-primary">{{orderDetail.attributes.upkeep_fees}}</b>元</b>
+                                <span class="xsd-pull-left">材料费</span>
+                                <b class="xsd-pull-left"><b
+                                        class="xsd-color-primary">{{orderDetail.attributes.material_fees}}</b>元</b>
+                            </div>
+                            <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+                                <span class="xsd-pull-left">电视费</span>
+                                <b class="xsd-pull-left"><b
+                                        class="xsd-color-primary">{{orderDetail.attributes.catv_fees}}</b>元</b>
+                                <span class="xsd-pull-left">宽带费</span>
+                                <b class="xsd-pull-left"><b
+                                        class="xsd-color-primary">{{orderDetail.attributes.internet_fees}}</b>元</b>
+                            </div>
+                            <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+                                <span class="xsd-pull-left">卫生费</span>
+                                <b class="xsd-pull-left"><b
+                                        class="xsd-color-primary">{{orderDetail.attributes.sanitation_fees}}</b>元</b>
+                                <span class="xsd-pull-left">优惠费</span>
+                                <b class="xsd-pull-left"><b
+                                        class="xsd-color-primary">{{orderDetail.attributes.free_fees}}</b>元</b>
+                            </div>
+                            <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+                                <span class="xsd-pull-left">其他费</span>
+                                <b class="xsd-pull-left"><b
+                                        class="xsd-color-primary">{{orderDetail.attributes.other_fees}}</b>元</b>
+                            </div>
+                        {{/if}}
+                      {{else}}
+                          <h3 class="xsd-margin-b24">待处理账单<div class="xsd-pull-right"><div class="circle xsd-bg-yellow"></div>待处理</div><div class="xsd-pull-right xsd-margin-r12"><div class="circle xsd-bg-success"></div>已逾期</div></h3>
+                          <div class="order-list xsd-margin-b24">
+                            <table>
+                                <thead>
+                                <th><span class="xsd-margin-l16">房间名称</span></th>
+                                <th>业主姓名</th>
+                                <th>所属管家</th>
+                                <th>账单金额</th>
+                                <th>到期时间</th>
+                                <th>操作</th>
+                                </thead>
+                            {{#each orders.houseorder.undone as |undone|}}
+                                <tr>
+                                    <td title="{{undone.location}}">
+                                    <p class="xsd-text-ellipsis">
+                                        {{#if (eq undone.show_status 2)}}
+                                        <div class="xsd-bg-success circle"></div>
+                                        {{/if}}
+                                        {{#if (eq undone.show_status 1)}}
+                                          <div class="xsd-bg-yellow circle"></div>
+                                         {{/if}}
+                                      {{undone.location}}
+                                        </p>
+                                    </td>
+                                    <td>{{undone.owner_name}}</td>
+                                    <td>{{undone.employer}}</td>
+                                    <td><i class="xsd-color-primary">{{undone.rent_utilities}}</i>元</td>
+                                    <td>{{undone.ought_pay_time}}</td>
+                                    <td><a class="xsd-color-primary" onclick={{action "getOrder" undone.id "house"}}>查看</a></td>
+                                </tr>
+                            {{/each}}
+                            </table>
+                          </div>
+                          <h3 class="xsd-margin-b24 xsd-margin-t16">
+                              已处理账单
+                          </h3>
+                          <div class="order-list">
+                              <table>
+                                  <thead>
+                                  <th><span class="xsd-margin-l16">房间名称</span></th>
+                                  <th>业主姓名</th>
+                                  <th>所属管家</th>
+                                  <th>账单金额</th>
+                                  <th>到期时间</th>
+                                  <th>操作</th>
+                                  </thead>
+                                {{#each orders.houseorder.done as |done|}}
+                                    <tr>
+                                        <td class="xsd-color-gray" title="{{done.location}}">
+                                        <p class="xsd-text-ellipsis">
+                                          {{done.location}}
+                                            </p>
+                                        </td>
+                                        <td class="xsd-color-gray">{{done.owner_name}}</td>
+                                        <td class="xsd-color-gray">{{done.employer}}</td>
+                                        <td><i class="xsd-color-primary">{{done.rent_utilities}}</i>元</td>
+                                        <td class="xsd-color-gray">{{done.ought_pay_time}}</td>
+                                        <td><a class="xsd-color-primary" onclick={{action "getOrder" done.id "house"}}>查看</a></td>
+                                    </tr>
+                                {{/each}}
+                              </table>
+                          </div>
+                      {{/if}}
+                    </div>
+                </div>
+                <div id="tab-2" class="xsd-tab-pane">
+                    <div id="room_order_list">
+                      {{#if order_detail}}
+                          <div class="xsd-clearfix xsd-margin-b12">
+                              <a id="roomBack" class="xsd-pull-left xsd-color-primary" onclick={{action "lookBack"}}>返回上一级</a>
+                            {{#if (not-eq orderDetail.attributes.show_status 3)}}
+                              {{#if auth.e_power.customer_order_edit}}
+                                {{#if order_edit}}
+                                {{else}}
+                                    <a class="xsd-pull-right xsd-color-primary  xsd-margin-l12" onclick={{action "orderEdit"}}>编辑</a>
+                                {{/if}}
+                              {{/if}}
+                                {{#if auth.e_power.customer_order_paid}}
+                                    <a class="xsd-pull-right xsd-color-primary xsd-color-primary"
+                                       data-toggle="xsd-modal" data-target="#confirmRent">确认收租</a>
+                                {{/if}}
+                            {{/if}}
+                          </div>
+                          <div class="xsd-margin-b12 xsd-clearfix">
+                              <span class="xsd-pull-left">租客姓名</span><b
+                                  class="xsd-pull-left">{{orderDetail.attributes.customer_name}}</b>
+                          </div>
+                          <div class="xsd-margin-b12 xsd-clearfix">
+                              <span class="xsd-pull-left">账单周期</span><b class="xsd-pull-left">{{orderDetail.attributes.start_time}}
+                              至{{orderDetail.attributes.end_time}}</b>
+                          </div>
+                          <div class="xsd-margin-b12 xsd-clearfix">
+                              <span class="xsd-pull-left">费用总计</span><b class="xsd-pull-left"><b
+                                  class="xsd-color-primary">{{orderDetail.attributes.rent_utilities}}</b>元</b>
+                          </div>
+                          <h3 class="xsd-margin-b24">房租详情</h3>
+                        {{#if order_edit}}
+                            <div id="history_room_orderDetail_form">
+                                <div class="xsd-margin-b12 xsd-clearfix">
+                                    <div class="xsd-input-group xsd-pull-left">
+                                        <i>元</i>
+                                        <span class="xsd-pull-left">房屋租金</span><b class="xsd-pull-left"><input
+                                            id="o_month_rental" class="xsd-input xsd-noborder" type="text" disabled
+                                            value={{orderDetail.attributes.month_rental}}></b>
+                                    </div>
+                                </div>
+                                <div class="xsd-margin-b12 xsd-clearfix">
+                                    <div class="xsd-input-group xsd-pull-left">
+                                        <i>元</i>
+                                        <span class="xsd-pull-left">房屋押金</span><b class="xsd-pull-left"><input
+                                            id="o_deposit"
+                                            class="xsd-input xsd-noborder"
+                                            type="text"
+                                            disabled
+                                            value={{orderDetail.attributes.deposit}}></b>
+                                    </div>
+                                </div>
+                                <h3 class="xsd-margin-b24">杂费详情</h3>
+                                <div class="xsd-clearfix xsd-margin-b12">
+                                  {{#if (eq orderDetail.attributes.water_charge 'by_meter')}}
+                                      <div class="xsd-input-group xsd-pull-left">
+                                          <i>元</i>
+                                          <span class="xsd-pull-left">水费</span>
+                                          <b class="xsd-pull-left"><input class="xsd-input xsd-noborder"
+                                                                          id="history_ro_water_fees" name="history_ro_water_fees" disabled
+                                                                          type="text" validate="required|numeric"
+                                                                          title="金额"
+                                                                          value={{orderDetail.attributes.water_fees}}></b>
+                                      </div>
+                                  {{else}}
+                                      <div class="xsd-input-group xsd-pull-left">
+                                          <i>元</i>
+                                          <span class="xsd-pull-left">水费</span>
+                                          <b class="xsd-pull-left"><input class="xsd-input" id="history_ro_water_fees"
+                                                                          name="history_ro_water_fees" type="text"
+                                                                          validate="required|numeric" title="金额"
+                                                                          value={{orderDetail.attributes.water_fees}}></b>
+                                      </div>
+                                  {{/if}}
+                                  {{#if (eq orderDetail.attributes.power_charge 'by_meter')}}
+                                      <div class="xsd-input-group xsd-pull-left">
+                                          <i>元</i>
+                                          <span class="xsd-pull-left">电费</span>
+                                          <b class="xsd-pull-left"><input class="xsd-input xsd-noborder"
+                                                                          id="history_ro_power_fees" name="history_ro_power_fees" disabled
+                                                                          type="text" validate="required|numeric"
+                                                                          title="金额"
+                                                                          value={{orderDetail.attributes.power_fees}}></b>
+                                      </div>
+                                  {{else}}
+
+                                      <div class="xsd-input-group xsd-pull-left">
+                                          <i>元</i>
+                                          <span class="xsd-pull-left">电费</span>
+                                          <b class="xsd-pull-left"><input class="xsd-input" id="history_ro_power_fees"
+                                                                          name="history_ro_power_fees" type="text"
+                                                                          validate="required|numeric" title="金额"
+                                                                          value={{orderDetail.attributes.power_fees}}></b>
+                                      </div>
+                                  {{/if}}
+                                </div>
+                                <div class="xsd-clearfix xsd-margin-b12">
+                                    <div class="xsd-input-group xsd-pull-left">
+                                        <i>元</i>
+                                        <span class="xsd-pull-left">燃气费</span>
+                                        <b class="xsd-pull-left"><input class="xsd-input" id="history_ro_gas_fees"
+                                                                        name="history_ro_gas_fees" type="text"
+                                                                        validate="required|numeric" title="金额"
+                                                                        value={{orderDetail.attributes.gas_fees}}></b>
+                                    </div>
+                                    <div class="xsd-input-group xsd-pull-left">
+                                        <i>元</i>
+                                        <span class="xsd-pull-left">物业费</span>
+                                        <b class="xsd-pull-left"><input class="xsd-input" id="history_ro_property_fees"
+                                                                        name="history_ro_property_fees" type="text"
+                                                                        validate="required|numeric" title="金额"
+                                                                        value={{orderDetail.attributes.property_fees}}></b>
+                                    </div>
+                                </div>
+                                <div class="xsd-clearfix xsd-margin-b12">
+                                    <div class="xsd-input-group xsd-pull-left">
+                                        <i>元</i>
+                                        <span class="xsd-pull-left">服务费</span>
+                                        <b class="xsd-pull-left"><input class="xsd-input" id="history_ro_service_fees"
+                                                                        name="history_ro_service_fees" type="text"
+                                                                        validate="required|numeric" title="金额"
+                                                                        value={{orderDetail.attributes.service_fees}}></b>
+                                    </div>
+                                    <div class="xsd-input-group xsd-pull-left">
+                                        <i>元</i>
+                                        <span class="xsd-pull-left">保洁费</span>
+                                        <b class="xsd-pull-left"><input class="xsd-input" id="history_ro_cleaning_fees"
+                                                                        name="history_ro_cleaning_fees" type="text"
+                                                                        validate="required|numeric" title="金额"
+                                                                        value={{orderDetail.attributes.cleaning_fees}}></b>
+                                    </div>
+                                </div>
+                                <div class=" xsd-clearfix xsd-margin-b12">
+                                    <div class="xsd-input-group xsd-pull-left">
+                                        <i>元</i>
+                                        <span class="xsd-pull-left">维修费</span>
+                                        <b class="xsd-pull-left"><input class="xsd-input" id="history_ro_upkeep_fees"
+                                                                        name="history_ro_upkeep_fees" type="text"
+                                                                        validate="required|numeric" title="金额"
+                                                                        value={{orderDetail.attributes.upkeep_fees}}></b>
+                                    </div>
+                                    <div class="xsd-input-group xsd-pull-left">
+                                        <i>元</i>
+                                        <span class="xsd-pull-left">材料费</span>
+                                        <b class="xsd-pull-left"><input class="xsd-input" id="history_ro_material_fees"
+                                                                        name="history_ro_material_fees" type="text"
+                                                                        validate="required|numeric" title="金额"
+                                                                        value={{orderDetail.attributes.material_fees}}></b>
+                                    </div>
+                                </div>
+                                <div class="xsd-clearfix xsd-margin-b12">
+                                    <div class="xsd-input-group xsd-pull-left">
+                                        <i>元</i>
+                                        <span class="xsd-pull-left">电视费</span>
+                                        <b class="xsd-pull-left"><input class="xsd-input" id="history_ro_catv_fees"
+                                                                        name="history_ro_catv_fees" type="text"
+                                                                        validate="required|numeric" title="金额"
+                                                                        value={{orderDetail.attributes.catv_fees}}></b>
+                                    </div>
+                                    <div class="xsd-input-group xsd-pull-left">
+                                        <i>元</i>
+                                        <span class="xsd-pull-left">宽带费</span>
+                                        <b class="xsd-pull-left"><input class="xsd-input" id="history_ro_internet_fees"
+                                                                        name="history_ro_internet_fees" type="text"
+                                                                        validate="required|numeric" title="金额"
+                                                                        value={{orderDetail.attributes.internet_fees}}></b>
+                                    </div>
+                                </div>
+                                <div class="xsd-clearfix xsd-margin-b12">
+                                    <div class="xsd-input-group xsd-pull-left">
+                                        <i>元</i>
+                                        <span class="xsd-pull-left">卫生费</span>
+                                        <b class="xsd-pull-left"><input class="xsd-input" id="history_ro_sanitation_fees"
+                                                                        name="history_ro_sanitation_fees" type="text"
+                                                                        validate="required|numeric" title="金额"
+                                                                        value={{orderDetail.attributes.sanitation_fees}}></b>
+                                    </div>
+                                    <div class="xsd-input-group xsd-pull-left">
+                                        <i>元</i>
+                                        <span class="xsd-pull-left">优惠费</span>
+                                        <b class="xsd-pull-left"><input class="xsd-input" id="history_ro_free_fees"
+                                                                        name="history_ro_free_fees" type="text"
+                                                                        validate="required|numeric" title="金额"
+                                                                        value={{orderDetail.attributes.free_fees}}></b>
+                                    </div>
+                                </div>
+                                <div class="xsd-clearfix xsd-margin-b12">
+                                    <div class="xsd-input-group xsd-pull-left">
+                                        <i>元</i>
+                                        <span class="xsd-pull-left">其他费</span>
+                                        <b class="xsd-pull-left"><input class="xsd-input" id="history_ro_other_fees"
+                                                                        name="history_ro_other_fees" type="text"
+                                                                        validate="required|numeric" title="金额"
+                                                                        value={{orderDetail.attributes.other_fees}}></b>
+                                    </div>
+                                </div>
+                            </div>
+                            <a id="order_detail_btn"  class="xsd-btn xsd-btn-primary" onclick={{action 'editRoomBill' orderDetail.attributes.id}}>确认修改</a>
+                        {{else}}
+                            <div class="xsd-margin-b12 xsd-clearfix">
+                                <span class="xsd-pull-left">房屋租金</span><b class="xsd-pull-left"><b
+                                    class="xsd-color-primary">{{orderDetail.attributes.month_rental}}</b>元</b>
+                            </div>
+                            <div class="xsd-margin-b12 xsd-clearfix">
+                                <span class="xsd-pull-left">房屋押金</span><b class="xsd-pull-left"><b
+                                    class="xsd-color-primary">{{orderDetail.attributes.deposit}}</b>元</b>
+                            </div>
+                            <h3 class="xsd-margin-b24">杂费详情</h3>
+                          {{#if (eq orderDetail.attributes.water_charge 'by_meter')}}
+
+                              <div class="xsd-input-group xsd-clearfix">
+                                  <span class="xsd-pull-left">水费</span>
+                                  <b class="xsd-pull-left"><b class="xsd-color-primary">{{orderDetail.attributes.water_fees}}</b>元</b>
+                                  <span class="xsd-pull-left">按抄表计算</span>
+                                  <b class="xsd-pull-left">上次抄表:{{orderDetail.attributes.water_meter_time_pre}}
+                                      ({{orderDetail.attributes.water_meter_time}})</b>
+                              </div>
+                              <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+                                  <span class="xsd-pull-left">&nbsp;</span>
+                                  <b class="xsd-pull-left">单价:{{orderDetail.attributes.water_unit_price}}元/立方</b>
+                              </div>
+                          {{else}}
+                              <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+                                  <span class="xsd-pull-left">水费</span>
+                                  <b class="xsd-pull-left"><b class="xsd-color-primary">{{orderDetail.attributes.water_fees}}</b>元</b>
+                              </div>
+                          {{/if}}
+                          {{#if (eq orderDetail.attributes.power_charge 'by_meter')}}
+                              <div class="xsd-input-group xsd-clearfix">
+                                  <span class="xsd-pull-left">电费</span>
+                                  <b class="xsd-pull-left"><b class="xsd-color-primary">{{orderDetail.attributes.power_fees}}</b>元</b>
+                                  <span class="xsd-pull-left">按抄表计算</span>
+                                  <b class="xsd-pull-left">上次抄表:{{orderDetail.attributes.power_meter_time_pre}}
+                                      ({{orderDetail.attributes.power_meter_time}})</b>
+                              </div>
+                              <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+                                  <span class="xsd-pull-left">&nbsp;</span>
+                                  <b class="xsd-pull-left">单价:{{orderDetail.attributes.power_unit_price}}元/度</b>
+                              </div>
+                          {{else}}
+                              <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+                                  <span class="xsd-pull-left">电费</span>
+                                  <b class="xsd-pull-left"><b class="xsd-color-primary">{{orderDetail.attributes.power_fees}}</b>元</b>
+                              </div>
+                          {{/if}}
+                            <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+                                <span class="xsd-pull-left">燃气费</span>
+                                <b class="xsd-pull-left"><b
+                                        class="xsd-color-primary">{{orderDetail.attributes.gas_fees}}</b>元</b>
+                                <span class="xsd-pull-left">物业费</span>
+                                <b class="xsd-pull-left"><b
+                                        class="xsd-color-primary">{{orderDetail.attributes.property_fees}}</b>元</b>
+                            </div>
+                            <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+                                <span class="xsd-pull-left">服务费</span>
+                                <b class="xsd-pull-left"><b
+                                        class="xsd-color-primary">{{orderDetail.attributes.service_fees}}</b>元</b>
+                                <span class="xsd-pull-left">保洁费</span>
+                                <b class="xsd-pull-left"><b
+                                        class="xsd-color-primary">{{orderDetail.attributes.cleaning_fees}}</b>元</b>
+                            </div>
+                            <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+                                <span class="xsd-pull-left">维修费</span>
+                                <b class="xsd-pull-left"><b
+                                        class="xsd-color-primary">{{orderDetail.attributes.upkeep_fees}}</b>元</b>
+                                <span class="xsd-pull-left">材料费</span>
+                                <b class="xsd-pull-left"><b
+                                        class="xsd-color-primary">{{orderDetail.attributes.material_fees}}</b>元</b>
+                            </div>
+                            <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+                                <span class="xsd-pull-left">电视费</span>
+                                <b class="xsd-pull-left"><b
+                                        class="xsd-color-primary">{{orderDetail.attributes.catv_fees}}</b>元</b>
+                                <span class="xsd-pull-left">宽带费</span>
+                                <b class="xsd-pull-left"><b
+                                        class="xsd-color-primary">{{orderDetail.attributes.internet_fees}}</b>元</b>
+                            </div>
+                            <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+                                <span class="xsd-pull-left">卫生费</span>
+                                <b class="xsd-pull-left"><b
+                                        class="xsd-color-primary">{{orderDetail.attributes.sanitation_fees}}</b>元</b>
+                                <span class="xsd-pull-left">优惠费</span>
+                                <b class="xsd-pull-left"><b
+                                        class="xsd-color-primary">{{orderDetail.attributes.free_fees}}</b>元</b>
+                            </div>
+                            <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+                                <span class="xsd-pull-left">其他费</span>
+                                <b class="xsd-pull-left"><b
+                                        class="xsd-color-primary">{{orderDetail.attributes.other_fees}}</b>元</b>
+                            </div>
+                        {{/if}}
+                      {{else}}
+                          <h3 class="xsd-margin-b24">待处理账单<div class="xsd-pull-right"><div class="circle xsd-bg-yellow"></div>待处理</div><div class="xsd-pull-right xsd-margin-r12"><div class="circle xsd-bg-success"></div>已逾期</div></h3>
+                          <div class="order-list">
+                            <table>
+                                  <thead>
+                                  <th><span class="xsd-margin-l16">房间名称</span></th>
+                                  <th>租客姓名</th>
+                                  <th>所属管家</th>
+                                  <th>账单金额</th>
+                                  <th>到期时间</th>
+                                  <th>操作</th>
+                                  </thead>
+                                {{#each orders.roomorder.undone as |undone|}}
+                                    <tr>
+                                        <td title="{{undone.location}}">
+                                        <p class="xsd-text-ellipsis">
+                                          {{#if (eq undone.show_status 2)}}
+                                              <div class="xsd-bg-success circle"></div>
+                                          {{/if}}
+                                          {{#if (eq undone.show_status 1)}}
+                                              <div class="xsd-bg-yellow circle"></div>
+                                          {{/if}}
+                                          {{undone.location}}
+                                            </p>
+                                        </td>
+                                        <td>{{undone.customer_name}}</td>
+                                        <td>{{undone.employer}}</td>
+                                        <td><i class="xsd-color-primary">{{undone.rent_utilities}}</i>元</td>
+                                        <td>{{undone.ought_pay_time}}</td>
+                                        <td><a class="xsd-color-primary" onclick={{action "getOrder" undone.id "room"}}>查看</a></td>
+                                    </tr>
+                                {{/each}}
+                              </table>
+                          </div>
+                          <h3 class="xsd-margin-b24 xsd-margin-t16">已处理账单</h3>
+                          <div class="order-list">
+                              <table>
+                                  <thead>
+                                  <th><span class="xsd-margin-l16">房间名称</span></th>
+                                  <th>租客姓名</th>
+                                  <th>所属管家</th>
+                                  <th>账单金额</th>
+                                  <th>到期时间</th>
+                                  <th>操作</th>
+                                  </thead>
+                                {{#each orders.roomorder.done as |done|}}
+                                    <tr>
+                                        <td class="xsd-color-gray" title="{{done.location}}">
+                                        <p class="xsd-text-ellipsis">
+                                          {{done.location}}
+                                            </p>
+                                        </td>
+                                        <td class="xsd-color-gray">{{done.customer_name}}</td>
+                                        <td class="xsd-color-gray">{{done.employer}}</td>
+                                        <td><i class="xsd-color-primary">{{done.rent_utilities}}</i>元</td>
+                                        <td class="xsd-color-gray">{{done.ought_pay_time}}</td>
+                                        <td><a class="xsd-color-primary" onclick={{action "getOrder" done.id "room"}}>查看</a></td>
+                                    </tr>
+                                {{/each}}
+                              </table>
+                          </div>
+                      {{/if}}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="xsd-drawer-bottom">
+    </div>
+</div>

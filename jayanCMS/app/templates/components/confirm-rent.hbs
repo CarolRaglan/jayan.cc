@@ -1,0 +1,650 @@
+<div class="xsd-modal room-confirm" id="confirmRent">
+  <div class="xsd-modal-header">
+        <span class="xsd-font-size16">
+          {{#if bill.attributes.owner_name}}
+          {{/if}}
+        </span><a class="xsd-modal-close iconfont">&#xe633;</a>
+  </div>
+{{#if bill.attributes.owner_name}}
+  <style>
+    .room-confirm {
+      width: 760px!important;
+      margin-left: -380px!important;
+    }
+    .room-confirm h3 {
+      color: #4e5b66;
+      font-size: 20px;
+      padding-left: 15px;
+      margin-bottom: 25px;
+    }
+    .room-confirm .red {
+      border-left: 4px solid #fdae52;
+    }
+    .room-confirm .orange {
+      border-left: 4px solid #fd7f64;
+    }
+    .room-confirm .green {
+      border-left: 4px solid #56cc8d;
+    }
+    .room-confirm input {
+      width: 310px!important;
+    }
+    .room-confirm .short-input {
+      width: 135px!important;
+    }
+    .room-confirm .short-line {
+      margin: 0 4px;
+    }
+    .room-confirm .table {
+      width: 100%;
+      margin-bottom: 25px;
+    }
+    .room-confirm .table tr {
+      height: 42px;
+      line-height: 42px;
+    }
+    .room-confirm .table th {
+      background: #f7f9fa;
+    }
+    .room-confirm .table th.row {
+      width: 135px!important;
+    }
+    .room-confirm .table th,
+    .room-confirm .table td {
+      padding: 0 5px;
+      text-align: right;
+      border: 1px #e7e7e7 solid;
+    }
+    .room-confirm .row {
+      text-align: center!important;
+    }
+    .room-confirm .font-gray {
+      color: #c0c4c9;
+    }
+    .room-confirm .font-edit {
+      font-weight: bold;
+    }
+    .room-confirm .font-edit input {
+      width: 100%;
+      text-align: right;
+      font-size: 14px;
+      font-weight: bold;
+      border: none;
+    }
+    .xsd-modal-bottom {
+      margin-bottom: 10px;
+    }
+    input[type='number'] {
+      -moz-appearance:textfield;
+    }
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  </style>
+  <div class="xsd-modal-body">
+    <h3 class="red">基本信息</h3>
+    <div class="xsd-margin-b12 xsd-clearfix">
+      <div class="xsd-pull-left xsd-margin-r12">
+        <p class="xsd-margin-b12">账单房源</p>
+        <div class="xsd-clearfix district-block">
+          <label class="xsd-pull-left">
+            <input class="xsd-input gray" type="text" readonly disabled value="{{bill.attributes.location}}">
+          </label>
+        </div>
+      </div>
+      <div class="xsd-pull-left xsd-margin-b12">
+        <p class="xsd-margin-b12">业主姓名</p>
+        <div class="xsd-clearfix district-block">
+          <label class="xsd-pull-left">
+            <input class="xsd-input gray" type="text" readonly disabled value="{{bill.attributes.owner_name}}">
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="xsd-margin-b12 xsd-clearfix">
+      <div class="xsd-pull-left xsd-margin-r12">
+        <p class="xsd-margin-b12">账单周期</p>
+        <div class="xsd-clearfix district-block">
+          <label class="xsd-pull-left">
+            <input class="xsd-input gray short-input" type="text" readonly disabled value="{{bill.attributes.start_time}}">
+            <span class="short-line">-</span>
+            <input class="xsd-input gray short-input" type="text" readonly disabled value="{{bill.attributes.end_time}}">
+          </label>
+        </div>
+      </div>
+      <div class="xsd-pull-left xsd-margin-b12">
+        <p class="xsd-margin-b12">应付款时间</p>
+        <div class="xsd-clearfix district-block">
+          <label class="xsd-pull-left">
+            <input class="xsd-input gray" type="text" readonly disabled value="{{bill.attributes.ought_pay_time}}">
+          </label>
+        </div>
+      </div>
+    </div>
+    <h3 class="orange">费用信息</h3>
+    <table class="table">
+      <thead>
+      <tr>
+        <th class="row">费用名称</th>
+        <th>应付金额（元）</th>
+      </tr>
+      </thead>
+      <tbody>
+      {{#if bill.attributes.amount}}
+        <tr>
+          <th class="row">房屋租金</th>
+          <td class="font-gray">{{bill.attributes.amount}}</td>
+        </tr>
+      {{/if}}
+      {{#if bill.attributes.deposit}}
+        <tr>
+          <th class="row">房屋押金</th>
+          <td class="font-gray">{{bill.attributes.deposit}}</td>
+        </tr>
+      {{/if}}
+      {{#if bill.attributes.water_fees}}
+        <tr>
+          <th class="row">水费</th>
+          <td class="font-gray">{{bill.attributes.water_fees}}</td>
+        </tr>
+      {{/if}}
+      {{#if bill.attributes.power_fees}}
+        <tr>
+          <th class="row">电费</th>
+          <td class="font-gray">{{bill.attributes.power_fees}}</td>
+        </tr>
+      {{/if}}
+      {{#if bill.attributes.gas_fees}}
+        <tr>
+          <th class="row">燃气费</th>
+          <td class="font-gray">{{bill.attributes.gas_fees}}</td>
+        </tr>
+      {{/if}}
+      {{#if bill.attributes.property_fees}}
+        <tr>
+          <th class="row">物业费</th>
+          <td class="font-gray">{{bill.attributes.property_fees}}</td>
+        </tr>
+      {{/if}}
+      {{#if bill.attributes.service_fees}}
+        <tr>
+          <th class="row">服务费</th>
+          <td class="font-gray">{{bill.attributes.service_fees}}</td>
+        </tr>
+      {{/if}}
+      {{#if bill.attributes.cleaning_fees}}
+        <tr>
+          <th class="row">保洁费</th>
+          <td class="font-gray">{{bill.attributes.cleaning_fees}}</td>
+        </tr>
+      {{/if}}
+      {{#if bill.attributes.upkeep_fees}}
+        <tr>
+          <th class="row">维修费</th>
+          <td class="font-gray">{{bill.attributes.upkeep_fees}}</td>
+        </tr>
+      {{/if}}
+      {{#if bill.attributes.material_fees}}
+        <tr>
+          <th class="row">材料费</th>
+          <td class="font-gray">{{bill.attributes.material_fees}}</td>
+        </tr>
+      {{/if}}
+      {{#if bill.attributes.catv_fees}}
+        <tr>
+          <th class="row">电视费</th>
+          <td class="font-gray">{{bill.attributes.catv_fees}}</td>
+        </tr>
+      {{/if}}
+      {{#if bill.attributes.internet_fees}}
+        <tr>
+          <th class="row">宽带费</th>
+          <td class="font-gray">{{bill.attributes.internet_fees}}</td>
+        </tr>
+      {{/if}}
+      {{#if bill.attributes.sanitation_fees}}
+        <tr>
+          <th class="row">卫生费</th>
+          <td class="font-gray">{{bill.attributes.sanitation_fees}}</td>
+        </tr>
+      {{/if}}
+      {{#if bill.attributes.free_fees}}
+        <tr>
+          <th class="row">优惠费</th>
+          <td class="font-gray">{{bill.attributes.free_fees}}</td>
+        </tr>
+      {{/if}}
+      {{#if bill.attributes.other_fees}}
+        <tr>
+          <th class="row">其他费</th>
+          <td class="font-gray">{{bill.attributes.other_fees}}</td>
+        </tr>
+      {{/if}}
+      <tr>
+        <th class="row">费用总计</th>
+        <td class="font-gray" id="total">{{bill.attributes.rent_utilities}}</td>
+      </tr>
+      </tbody>
+    </table>
+    <h3 class="green">支付信息</h3>
+    <div class="xsd-margin-b12 xsd-clearfix">
+      <div class="xsd-pull-left xsd-margin-b12">
+        <p class="xsd-margin-b12">付款方式</p>
+        <div class="xsd-clearfix district-block">
+          <label class="xsd-input-group xsd-select xsd-pull-left xsd-margin-r12">
+            <i class="iconfont">&#xe63c;</i>
+            <input id="c_payMethod" class="xsd-input" data-value="alipay" type="text" readonly value="支付宝">
+            <ul>
+              <li data-value="alipay">支付宝</li>
+              <li data-value="dida">嘀嗒付</li>
+              <li data-value="weixin">微信</li>
+              <li data-value="cash">现金</li>
+              <li data-value="bank">银行转账</li>
+              <li data-value="pos">线下pos支付</li>
+            </ul>
+          </label>
+        </div>
+      </div>
+      <div class="xsd-pull-left xsd-margin-b12">
+        <p class="xsd-margin-b12">支付流水号</p>
+        <div class="xsd-clearfix district-block">
+          <label class="xsd-pull-left">
+            <input id="c_trade_serial_no" class="xsd-input" type="text" placeholder="支付流水号" value="">
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="xsd-margin-b12 xsd-clearfix">
+      <div class="xsd-pull-left">
+        <p class="xsd-margin-b12">实际支付日期</p>
+        <div class="xsd-input-group district-block">
+          <i class="iconfont">&#xe63e;</i>
+          {{pikaday-input class="xsd-input" value=config.today id="actual_pay_time" name="actual_pay_time" format="YYYY-MM-DD" placeholder="输入日期" readonly="readonly" validate='required' title='实际收租日期'}}
+        </div>
+      </div>
+    </div>
+  </div>
+{{else}}
+  <style>
+    .room-confirm {
+      width: 760px!important;
+      margin-left: -380px!important;
+    }
+    .room-confirm h3 {
+      color: #4e5b66;
+      font-size: 20px;
+      padding-left: 15px;
+      margin-bottom: 25px;
+    }
+    .room-confirm .red {
+      border-left: 4px solid #fdae52;
+    }
+    .room-confirm .orange {
+      border-left: 4px solid #fd7f64;
+    }
+    .room-confirm .green {
+      border-left: 4px solid #56cc8d;
+    }
+    .room-confirm input {
+      width: 310px!important;
+    }
+    .room-confirm .short-input {
+      width: 135px!important;
+    }
+    .room-confirm .short-line {
+      margin: 0 4px;
+    }
+    .room-confirm .table {
+      width: 100%;
+      margin-bottom: 25px;
+    }
+    .room-confirm .table tr {
+      height: 42px;
+      line-height: 42px;
+    }
+    .room-confirm .table th {
+      background: #f7f9fa;
+    }
+    .room-confirm .table th,
+    .room-confirm .table td {
+      padding: 0 5px;
+      text-align: right;
+      border: 1px #e7e7e7 solid;
+    }
+    .room-confirm .table th.row {
+      width: 135px!important;
+    }
+    .room-confirm .row {
+      text-align: center!important;
+    }
+    .room-confirm .font-gray {
+      color: #c0c4c9;
+    }
+    .room-confirm .font-edit {
+      font-weight: bold;
+    }
+    .room-confirm .font-edit input {
+      width: 100%!important;
+      text-align: right;
+      font-size: 14px;
+      font-weight: bold;
+      border: none;
+    }
+    .xsd-modal-bottom {
+      margin-bottom: 10px;
+    }
+    input[type='number'] {
+      -moz-appearance:textfield;
+    }
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    .xsd-display-none {
+      display: none;
+    }
+  </style>
+  <script>
+    $(function(){
+      setInterval(function(){
+        var paid = 0;
+        $('.font-edit input').each(function(){
+          if ($(this).hasClass('minus')) {
+            paid -= parseInt($(this).val());
+          } else {
+            paid += parseInt($(this).val());
+          }
+        });
+        var unpaid = $('#total').text() - paid;
+        $('#paid').text(paid);
+        $('#unpaid').text(unpaid);
+      }, 500);
+
+      $(document).on('keyup', '.font-edit input', function() {
+        var value = $(this).parent().next().data('value');
+        if ($(this).val() > value) {
+          $.toastr.error("实收金额不得大于应收金额!");
+          $(this).val(value);
+        }
+        var remain = value - $(this).val();
+        $(this).parent().next().text(remain);
+
+        var paid = 0;
+        $('.font-edit input').each(function(){
+          if ($(this).hasClass('minus')) {
+            paid -= parseInt($(this).val());
+          } else {
+            paid += parseInt($(this).val());
+          }
+        });
+        var unpaid = $('#total').text() - paid;
+        $('#paid').text(paid);
+        $('#unpaid').text(unpaid);
+      });
+    });
+  </script>
+    <div class="xsd-modal-body">
+      <h3 class="red">基本信息</h3>
+      <div class="xsd-margin-b12 xsd-clearfix">
+        <div class="xsd-pull-left xsd-margin-r12">
+          <p class="xsd-margin-b12">账单房源</p>
+          <div class="xsd-clearfix district-block">
+            <label class="xsd-pull-left">
+              <input class="xsd-input gray" type="text" readonly disabled value="{{bill.attributes.display_address}}">
+            </label>
+          </div>
+        </div>
+        <div class="xsd-pull-left xsd-margin-b12">
+          <p class="xsd-margin-b12">租客姓名</p>
+          <div class="xsd-clearfix district-block">
+            <label class="xsd-pull-left">
+              <input class="xsd-input gray" type="text" readonly disabled value="{{bill.attributes.customer_name}}">
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="xsd-margin-b12 xsd-clearfix">
+        <div class="xsd-pull-left xsd-margin-r12">
+          <p class="xsd-margin-b12">账单周期</p>
+          <div class="xsd-clearfix district-block">
+            <label class="xsd-pull-left">
+              <input class="xsd-input gray short-input" type="text" readonly disabled value="{{bill.attributes.start_time}}">
+              <span class="short-line">-</span>
+              <input class="xsd-input gray short-input" type="text" readonly disabled value="{{bill.attributes.end_time}}">
+            </label>
+          </div>
+        </div>
+        <div class="xsd-pull-left xsd-margin-b12">
+          <p class="xsd-margin-b12">应付款时间</p>
+          <div class="xsd-clearfix district-block">
+            <label class="xsd-pull-left">
+              <input class="xsd-input gray" type="text" readonly disabled value="{{bill.attributes.ought_pay_time}}">
+            </label>
+          </div>
+        </div>
+      </div>
+      <h3 class="orange">费用信息</h3>
+      <table class="table">
+        <thead>
+        <tr>
+          <th class="row">费用名称</th>
+          <th>应收金额（元）</th>
+          <th class="xsd-display-none">实收金额（元）</th>
+          <th class="xsd-display-none">未收金额（元）</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#if bill.attributes.unpaid_fees.rent_amount}}
+          <tr>
+            <th class="row">房屋租金</th>
+            <td class="font-gray">{{bill.attributes.unpaid_fees.rent_amount}}</td>
+            <td class="font-edit xsd-display-none">
+              <input id="c_rent_amount" type="number" value="{{bill.attributes.unpaid_fees.rent_amount}}">
+            </td>
+            <td class="font-gray xsd-display-none" data-value="{{bill.attributes.unpaid_fees.rent_amount}}">0</td>
+          </tr>
+        {{/if}}
+        {{#if bill.attributes.unpaid_fees.rent_deposit}}
+          <tr>
+            <th class="row">房屋押金</th>
+            <td class="font-gray">{{bill.attributes.unpaid_fees.rent_deposit}}</td>
+            <td class="font-edit xsd-display-none">
+              <input id="c_rent_deposit" type="number" value="{{bill.attributes.unpaid_fees.rent_deposit}}">
+            </td>
+            <td class="font-gray xsd-display-none" data-value="{{bill.attributes.unpaid_fees.rent_deposit}}">0</td>
+          </tr>
+        {{/if}}
+        {{#if bill.attributes.unpaid_fees.water_fees}}
+        <tr>
+          <th class="row">水费</th>
+          <td class="font-gray">{{bill.attributes.unpaid_fees.water_fees}}</td>
+          <td class="font-edit xsd-display-none">
+            <input id="c_water_fees" type="number" value="{{bill.attributes.unpaid_fees.water_fees}}">
+          </td>
+          <td class="font-gray xsd-display-none" data-value="{{bill.attributes.unpaid_fees.water_fees}}">0</td>
+        </tr>
+        {{/if}}
+        {{#if bill.attributes.unpaid_fees.power_fees}}
+          <tr>
+            <th class="row">电费</th>
+            <td class="font-gray">{{bill.attributes.unpaid_fees.power_fees}}</td>
+            <td class="font-edit xsd-display-none">
+              <input id="c_power_fees" type="number" value="{{bill.attributes.unpaid_fees.power_fees}}">
+            </td>
+            <td class="font-gray xsd-display-none" data-value="{{bill.attributes.unpaid_fees.power_fees}}">0</td>
+          </tr>
+        {{/if}}
+        {{#if bill.attributes.unpaid_fees.gas_fees}}
+          <tr>
+            <th class="row">燃气费</th>
+            <td class="font-gray">{{bill.attributes.unpaid_fees.gas_fees}}</td>
+            <td class="font-edit xsd-display-none">
+              <input id="c_gas_fees" type="number" value="{{bill.attributes.unpaid_fees.gas_fees}}">
+            </td>
+            <td class="font-gray xsd-display-none" data-value="{{bill.attributes.unpaid_fees.gas_fees}}">0</td>
+          </tr>
+        {{/if}}
+        {{#if bill.attributes.unpaid_fees.property_fees}}
+          <tr>
+            <th class="row">物业费</th>
+            <td class="font-gray">{{bill.attributes.unpaid_fees.property_fees}}</td>
+            <td class="font-edit xsd-display-none">
+              <input id="c_property_fees" type="number" value="{{bill.attributes.unpaid_fees.property_fees}}">
+            </td>
+            <td class="font-gray xsd-display-none" data-value="{{bill.attributes.unpaid_fees.property_fees}}">0</td>
+          </tr>
+        {{/if}}
+        {{#if bill.attributes.unpaid_fees.service_fees}}
+          <tr>
+            <th class="row">服务费</th>
+            <td class="font-gray">{{bill.attributes.unpaid_fees.service_fees}}</td>
+            <td class="font-edit xsd-display-none">
+              <input id="c_service_fees" type="number" value="{{bill.attributes.unpaid_fees.service_fees}}">
+            </td>
+            <td class="font-gray xsd-display-none" data-value="{{bill.attributes.unpaid_fees.service_fees}}">0</td>
+          </tr>
+        {{/if}}
+        {{#if bill.attributes.unpaid_fees.cleaning_fees}}
+          <tr>
+            <th class="row">保洁费</th>
+            <td class="font-gray">{{bill.attributes.unpaid_fees.cleaning_fees}}</td>
+            <td class="font-edit xsd-display-none">
+              <input id="c_cleaning_fees" type="number" value="{{bill.attributes.unpaid_fees.cleaning_fees}}">
+            </td>
+            <td class="font-gray xsd-display-none" data-value="{{bill.attributes.unpaid_fees.cleaning_fees}}">0</td>
+          </tr>
+        {{/if}}
+        {{#if bill.attributes.unpaid_fees.upkeep_fees}}
+          <tr>
+            <th class="row">维修费</th>
+            <td class="font-gray">{{bill.attributes.unpaid_fees.upkeep_fees}}</td>
+            <td class="font-edit xsd-display-none">
+              <input id="c_upkeep_fees" type="number" value="{{bill.attributes.unpaid_fees.upkeep_fees}}">
+            </td>
+            <td class="font-gray xsd-display-none" data-value="{{bill.attributes.unpaid_fees.upkeep_fees}}">0</td>
+          </tr>
+        {{/if}}
+        {{#if bill.attributes.unpaid_fees.material_fees}}
+          <tr>
+            <th class="row">材料费</th>
+            <td class="font-gray">{{bill.attributes.unpaid_fees.material_fees}}</td>
+            <td class="font-edit xsd-display-none">
+              <input id="c_material_fees" type="number" value="{{bill.attributes.unpaid_fees.material_fees}}">
+            </td>
+            <td class="font-gray xsd-display-none" data-value="{{bill.attributes.unpaid_fees.material_fees}}">0</td>
+          </tr>
+        {{/if}}
+        {{#if bill.attributes.unpaid_fees.catv_fees}}
+          <tr>
+            <th class="row">电视费</th>
+            <td class="font-gray">{{bill.attributes.unpaid_fees.catv_fees}}</td>
+            <td class="font-edit xsd-display-none">
+              <input id="c_catv_fees" type="number" value="{{bill.attributes.unpaid_fees.catv_fees}}">
+            </td>
+            <td class="font-gray xsd-display-none" data-value="{{bill.attributes.unpaid_fees.catv_fees}}">0</td>
+          </tr>
+        {{/if}}
+        {{#if bill.attributes.unpaid_fees.internet_fees}}
+          <tr>
+            <th class="row">宽带费</th>
+            <td class="font-gray">{{bill.attributes.unpaid_fees.internet_fees}}</td>
+            <td class="font-edit xsd-display-none">
+              <input id="c_internet_fees" type="number" value="{{bill.attributes.unpaid_fees.internet_fees}}">
+            </td>
+            <td class="font-gray xsd-display-none" data-value="{{bill.attributes.unpaid_fees.internet_fees}}">0</td>
+          </tr>
+        {{/if}}
+        {{#if bill.attributes.unpaid_fees.sanitation_fees}}
+          <tr>
+            <th class="row">卫生费</th>
+            <td class="font-gray">{{bill.attributes.unpaid_fees.sanitation_fees}}</td>
+            <td class="font-edit xsd-display-none">
+              <input id="c_sanitation_fees" type="number" value="{{bill.attributes.unpaid_fees.sanitation_fees}}">
+            </td>
+            <td class="font-gray xsd-display-none" data-value="{{bill.attributes.unpaid_fees.sanitation_fees}}">0</td>
+          </tr>
+        {{/if}}
+        {{#if bill.attributes.unpaid_fees.free_fees}}
+          <tr>
+            <th class="row">优惠费</th>
+            <td class="font-gray">{{bill.attributes.unpaid_fees.free_fees}}</td>
+            <td class="font-edit xsd-display-none">
+              <input id="c_free_fees" class="minus" type="number" value="{{bill.attributes.unpaid_fees.free_fees}}">
+            </td>
+            <td class="font-gray xsd-display-none" data-value="{{bill.attributes.unpaid_fees.free_fees}}">0</td>
+          </tr>
+        {{/if}}
+        {{#if bill.attributes.unpaid_fees.other_fees}}
+          <tr>
+            <th class="row">其他费</th>
+            <td class="font-gray">{{bill.attributes.unpaid_fees.other_fees}}</td>
+            <td class="font-edit xsd-display-none">
+              <input id="c_other_fees" type="number" value="{{bill.attributes.unpaid_fees.other_fees}}">
+            </td>
+            <td class="font-gray xsd-display-none" data-value="{{bill.attributes.unpaid_fees.other_fees}}">0</td>
+          </tr>
+        {{/if}}
+        <tr>
+          <th class="row">费用总计</th>
+          <td class="font-gray" id="total">{{bill.attributes.unpaid_fees.unpaid_total_amount}}</td>
+          <td class="font-gray xsd-display-none" id="paid">{{bill.attributes.unpaid_fees.unpaid_total_amount}}</td>
+          <td class="font-gray xsd-display-none" id="unpaid">0</td>
+        </tr>
+        </tbody>
+      </table>
+      <h3 class="green">支付信息</h3>
+      <div class="xsd-margin-b12 xsd-clearfix">
+        <div class="xsd-pull-left xsd-margin-b12">
+          <p class="xsd-margin-b12">付款方式</p>
+          <div class="xsd-clearfix district-block">
+            <label class="xsd-input-group xsd-select xsd-pull-left xsd-margin-r12">
+              <i class="iconfont">&#xe63c;</i>
+              <input id="c_payMethod" class="xsd-input" data-value="alipay" type="text" readonly value="支付宝">
+              <ul>
+                <li data-value="alipay">支付宝</li>
+                <li data-value="dida">嘀嗒付</li>
+                <li data-value="weixin">微信</li>
+                <li data-value="cash">现金</li>
+                <li data-value="bank">银行转账</li>
+                <li data-value="pos">线下pos支付</li>
+              </ul>
+            </label>
+          </div>
+        </div>
+        <div class="xsd-pull-left xsd-margin-b12">
+          <p class="xsd-margin-b12">支付流水号</p>
+          <div class="xsd-clearfix district-block">
+            <label class="xsd-pull-left">
+              <input id="c_trade_serial_no" class="xsd-input" type="text" placeholder="支付流水号" value="">
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="xsd-margin-b12 xsd-clearfix">
+        <div class="xsd-pull-left">
+          <p class="xsd-margin-b12">实际支付日期</p>
+          <div class="xsd-input-group district-block">
+            <i class="iconfont">&#xe63e;</i>
+            {{pikaday-input class="xsd-input" value=config.today id="actual_pay_time" name="actual_pay_time" format="YYYY-MM-DD" placeholder="输入日期" readonly="readonly" validate='required' title='实际收租日期'}}
+          </div>
+        </div>
+      </div>
+    </div>
+
+{{/if}}
+  <div class="xsd-modal-bottom xsd-clearfix">
+    <div class="xsd-clearfix">
+      <input type="hidden" id="pay_uuid" value="{{bill.attributes.paid_fees.pay_uuid}}">
+{{#if bill.attributes.owner_name}}
+      <a class="xsd-btn xsd-btn-primary xsd-pull-right" onclick={{action "confirmOrder" bill.id "house"}}>确定</a>
+{{else}}
+      <a class="xsd-btn xsd-btn-primary xsd-pull-right" onclick={{action "roomConfirm" bill.id}}>确定</a>
+  {{/if}}
+      <a class="xsd-btn xsd-btn-gray xsd-pull-right xsd-modal-close">取消</a>
+    </div>
+  </div>
+</div>
+

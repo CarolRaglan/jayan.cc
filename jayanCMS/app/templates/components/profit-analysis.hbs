@@ -1,0 +1,151 @@
+<div class="xsd-drawer house-room" id="profitAnalysis">
+    <div class="xsd-drawer-header">
+        <a class="xsd-modal-close iconfont">&#xe633;</a>
+    </div>
+    <div class="xsd-drawer-body">
+        <h2 class="xsd-margin-b16">{{location}}-房源盈利情况</h2>
+        <p class="xsd-margin-b6">
+            已收租金:&nbsp;<span class="xsd-color-primary">{{profit.ro_total}}</span>&nbsp;元&nbsp;|&nbsp;
+            已付租金:&nbsp;<span class="xsd-color-primary">{{profit.ho_total}}</span>&nbsp;元&nbsp;|&nbsp;
+            净收入:&nbsp;<span class="xsd-color-primary">{{profit.amount}}</span>&nbsp;元</p>
+        <p class="xsd-margin-b24">
+            {{#if (lt profit.amount 0)}}
+              亏损中,
+            {{else}}
+              盈利中,
+            {{/if}}
+            成本已回收<span class="xsd-color-primary">{{profit.decorating_back}}</span>
+        </p>
+        <div class="xsd-tabs">
+            <ul class="xsd-clearfix xsd-nav-tabs">
+                <li class="active"><a class="xsd-color-black" data-toggle="tab" data-href="#tab-1">盈利情况</a></li>
+                <li><a class="xsd-color-black" data-toggle="tab" data-href="#tab-2" onclick={{action "getIncome"}}>已收租金</a></li>
+                <li><a class="xsd-color-black" data-toggle="tab" data-href="#tab-3" onclick={{action "getPayout"}}>已付租金</a></li>
+            </ul>
+            <div class="xsd-tab-content">
+                <div id="tab-1" class="active xsd-tab-pane">
+                    <div class="tools">
+                       <a  data-toggle="xsd-modal" data-target="#setting-cost">设置成本金额</a>
+                    </div>
+                    <h3 class="xsd-margin-b24">租金收支汇总</h3>
+                    <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+                        <span class="xsd-pull-left">已收租金总额:</span>
+                        <b class="xsd-pull-left xsd-color-primary">{{profit.ro_total}}元</b>
+                    </div>
+                    <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+                        <span class="xsd-pull-left">已付租金总额:</span>
+                        <b class="xsd-pull-left xsd-color-primary">{{profit.ho_total}}元</b>
+                    </div>
+                    <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+                        <span class="xsd-pull-left">已托管时长:</span>
+                        <b class="xsd-pull-left">{{profit.house_contract_year_used}}&nbsp;年&nbsp;{{profit.house_contract_month_used}}&nbsp;个月</b>
+                    </div>
+                    <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+                        <span class="xsd-pull-left">月租金差额:</span>
+                        <b class="xsd-pull-left xsd-color-primary">{{profit.month_rent_delta}}元</b>
+                    </div>
+                    <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+                        <span class="xsd-pull-left">租金净收入:</span>
+                        <b class="xsd-pull-left xsd-color-primary">{{profit.amount}}元</b>
+                    </div>
+                    <h3 class="xsd-margin-b24">成本回收情况</h3>
+                    <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+                        <span class="xsd-pull-left">成本总额:</span>
+                        <b class="xsd-pull-left xsd-color-primary">{{profit.decorating_fee}}元</b>
+                    </div>
+                    <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+                        <span class="xsd-pull-left">已回收成本:</span>
+                        <b class="xsd-pull-left xsd-color-primary">{{profit.decorating_back}}</b>
+                    </div>
+                    <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+                        <span class="xsd-pull-left">收回预计还需:</span>
+                        <b class="xsd-pull-left">{{profit.decorating_need}}个月</b>
+                    </div>
+                    <div class="xsd-clearfix xsd-margin-b12">
+                        <span class="xsd-pull-left">房源净利润:</span>
+                        <b class="xsd-pull-left xsd-color-primary">{{profit.inout_total}}</b>元
+                        <span class="xsd-margin-l12 xsd-color-gray xsd-font-size12"><i class="xsd-color-red">*</i>房源净利润为房源总收入减去房源总成本，其中成本包括托管成本和装修成本。</span>
+                    </div>
+                </div>
+                <div id="tab-2" class="xsd-tab-pane">
+                    <p class="xsd-margin-b16">当前房源已收租金:&nbsp;<i class="xsd-color-primary">{{income.ro_total}}</i>&nbsp;元</p>
+                   {{#each income.contracts as |contract index|}}
+                    <div class="profit_contract_list xsd-margin-b16">
+                        <div class="contract">
+                            <p><b class="xsd-margin-r12">房间:{{contract.room_name}}</b>合同{{contract.number}}:&nbsp;已收&nbsp;
+                                <i class="xsd-color-primary">{{contract.total}}</i>&nbsp;元(
+                                {{#if (eq contract.status 'active')}}
+                                    <i class="xsd-color-green">合同进行中</i>
+                                  {{else}}
+                                    <i class="xsd-color-success">合同已结束</i>
+                                {{/if}}
+                                )</p>
+                            <p>
+                                <b class="xsd-margin-r12">租客姓名:<i class="xsd-color-gray">{{contract.customer_name}}</i></b>
+                                <b class="xsd-margin-r12">合同周期:<i class="xsd-color-gray">{{contract.start_time}}至{{contract.end_time}}</i></b>
+                                <b class="xsd-margin-r12">月租金额:<i class="xsd-color-primary">&nbsp;{{contract.month_rental}}</i>&nbsp;元</b>
+                                <b>支付方式:押{{contract.pay_method_y}}付{{contract.pay_method_f}}</b>
+                            </p>
+                        </div>
+                        <div class="orders">
+                            {{#each contract.orders as |order|}}
+                              <p><b class="xsd-margin-r12">账单周期:<i class="xsd-color-gray">{{order.start_time}}到{{order.end_time}}</i></b><b class="xsd-margin-l12">账单金额:<i class="xsd-color-primary">&nbsp;{{order.rent_utilities}}&nbsp;</i>元</b></p>
+                            {{/each}}
+                        </div>
+                    </div>
+                   {{/each}}
+                </div>
+                <div id="tab-3" class="xsd-tab-pane">
+                    <p class="xsd-margin-b16">当前房源已收租金:{{payout.ho_total}}元</p>
+                  {{#each payout.contracts as |contract index|}}
+                      <div class="profit_contract_list xsd-margin-b16">
+                          <div class="contract">
+                              <p><b class="xsd-margin-r12">房间:{{contract.room_name}}</b>合同{{contract.number}}:&nbsp;已付&nbsp;
+                                  <i class="xsd-color-primary">{{contract.total}}</i>&nbsp;元(
+                                {{#if (eq contract.status 'active')}}
+                                    合同进行中
+                                {{else}}
+                                    合同已结束
+                                {{/if}}
+                                  )</p>
+                              <p>
+                                  <b class="xsd-margin-r12">业主姓名:{{contract.owner_name}}</b>
+                                  <b class="xsd-margin-r12">合同周期:{{contract.start_time}}至{{contract.end_time}}</b>
+                                  <b class="xsd-margin-r12">月租金额:<i class="xsd-color-primary">&nbsp;{{contract.month_rental}}</i>&nbsp;元</b>
+                                  <b>支付方式:押{{contract.pay_method_y}}付{{contract.pay_method_f}}</b>
+                              </p>
+                          </div>
+                          <div class="orders">
+                            {{#each contract.orders as |order|}}
+                                <p><b class="xsd-margin-r12">账单周期:{{order.start_time}}到{{order.end_time}}</b><b class="xsd-margin-l12">账单金额:<i class="xsd-color-primary">&nbsp;{{order.rent_utilities}}&nbsp;</i>元</b></p>
+                            {{/each}}
+                          </div>
+                      </div>
+                  {{/each}}
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="xsd-drawer-bottom">
+    </div>
+</div>
+<div id="setting-cost" class="xsd-modal xsd-md-modal">
+    <div class="xsd-modal-header xsd-margin-b24">
+        <span class="xsd-font-size16">设置成本金额</span><a class="xsd-modal-close iconfont">&#xe633;</a>
+    </div>
+    <div class="xsd-modal-body xsd-margin-b24">
+        <p class="xsd-margin-b6">成本金额</p>
+        <div class="xsd-input-group xsd-margin-b6">
+            <i>元</i>
+            <input id="decorating_fee" name="decorating_fee" class="xsd-input" validate="required|numeric" title="成本金额" value="{{profit.decorating_fee}}" type="text" placeholder="输入成本金额">
+        </div>
+        <p class="xsd-color-gray xsd-font-size12"><i class="xsd-color-red">*</i>成本包含房源所产生的所有费用(如装修费,家电费,材料费等费用)</p>
+    </div>
+    <div class="xsd-modal-bottom">
+        <div class="xsd-modal-bottom">
+            <a class="xsd-btn xsd-btn-primary xsd-pull-right xsd-modal-close" onclick={{action "setCost"}}>确定</a>
+            <a class="xsd-btn xsd-btn-gray xsd-pull-right xsd-modal-close">取消</a>
+        </div>
+    </div>
+</div>

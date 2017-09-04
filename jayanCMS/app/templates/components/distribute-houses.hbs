@@ -1,0 +1,69 @@
+<div class="xsd-drawer house-room" id="distributeHouse">
+    <div class="xsd-drawer-header">
+        <a class="xsd-modal-close iconfont">&#xe633;</a>
+        <a id="confirmRent-trigger" data-toggle="xsd-modal" data-target="#confirmRent"></a>
+    </div>
+    <div class="xsd-drawer-body">
+      {{#if refresh}}
+      <div>
+         <h2 class="xsd-margin-b24 xsd-font-normal"><span class=" xsd-font-size16">分配房间给:{{employer.name}}</span>
+             <label class="xsd-pull-right line34">
+                 <input type="radio" data-value={{employer.id}} data-type="employer" id="hideEmployerHouses" name="hideHouses">隐藏此员工已分配房源
+             </label>
+             <label class="xsd-pull-right  xsd-margin-r12 line34">
+                 <input type="radio" data-value="1"  name="hideHouses">隐藏已分配房源
+             </label>
+             <label class="xsd-pull-right  xsd-margin-r12 line34">
+                 <input type="radio" data-value="0" data-type="all" name="hideHouses" checked="checked"/>全部
+             </label>
+         </h2>
+         <div class="xsd-clearfix toolbar xsd-margin-b12">
+          <div class="search xsd-pull-left xsd-margin-r12">
+              <label class="xsd-input-group">
+                  <i id="searchHouses" class="iconfont xsd-icon-search">&#xe618;</i>
+                  <input id="searchHouses_input"  class="xsd-input" type="text" placeholder="请输入小区名" >
+              </label>
+          </div>
+          <label class="xsd-pull-right">
+              <label class="xsd-input-group xsd-select xsd-pull-left">
+                  <i class="iconfont">&#xe63c;</i>
+                  <input id="house_pages" class="xsd-input" data-value="1" type="text" value="第1页" readonly >
+                  <ul id="xsd_list">
+                   {{#each pages as |page|}}
+                   <li data-value={{page}} onclick={{action "screenHouse"}}>第{{page}}页</li>
+                   {{/each}}
+                  </ul>
+              </label>
+          </label>
+          <label class="xsd-pull-right line34">
+               当前页面
+          </label>
+         </div>
+        <div id="addAll">
+            <input class="xsd-margin-r6" type="checkbox" checked={{employer.isAll}} onclick={{action "addAll"}} >分配当前所有房源给{{employer.name}}
+        </div>
+         <ul id="houseList">
+            {{#each list as |area|}}
+             <li class="xsd-clearfix">
+                 <label class="xsd-pull-left area">{{area.name}}</label>
+                 <ul class="xsd-pull-left">
+                 {{#each area.houses as |house|}}
+                     <li class="house">
+                         <label>
+                             <input type="checkbox" data-value={{house.id}}  checked="{{staff-house employer.id house.employerIds}}">{{house.name}}
+                           {{#if house.employers}}
+                               (已分配给{{house.employers}})
+                           {{else}}
+                               (暂未分配)
+                           {{/if}}
+                         </label>
+                     </li>
+                 {{/each}}
+                 </ul>
+             </li>
+            {{/each}}
+         </ul>
+      </div>
+      {{/if}}
+    </div>
+</div>

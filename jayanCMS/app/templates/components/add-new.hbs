@@ -1,0 +1,183 @@
+<div class="xsd-modal" id="add-new">
+    <div class="xsd-modal-header">
+
+        <span class="xsd-font-size16">
+            {{#if model.id}}编辑{{else}}添加{{/if}}客户
+        </span><a class="xsd-modal-close iconfont">&#xe633;</a>
+
+    </div>
+    <div class="xsd-modal-body xsd-clearfix">
+        <div id="add-newPeople">
+            <div class="xsd-clearfix">
+            <label class="xsd-input-group">
+                <i class="iconfont"></i>
+                <input id="people_name" name="people-name" class="xsd-input padding-l16" type="text" data-value=""
+                       title="客户姓名" placeholder="客户姓名(必填)" validate="required" value={{model.attributes.name}}>
+            </label>
+            <label class="xsd-input-group xsd-select">
+                <i class="iconfont">&#xe63c;</i>
+                <input id="people_sex" name="people_sex" class="xsd-input  padding-l16" type="text" data-value={{model.attributes.sex}}
+                       readonly title="客户性别" placeholder="客户性别(必填)" validate="required"   value={{data-tips model.attributes.sex}}>
+                <ul class="special-ul">
+                    <li data-value="other">未知</li>
+                    <li data-value="male">男</li>
+                    <li data-value="female">女</li>
+                </ul>
+            </label>
+            <label class="xsd-input-group">
+                <i class="iconfont"></i>
+                <input id="people_phone" name="people_phone" class="xsd-input padding-l16" type="text" data-value="" title="联系方式" placeholder="联系方式(必填)" validate="required|phone" value={{model.attributes.phone}}>
+            </label>
+          </div>
+          <div class="xsd-clearfix">
+            <label class="xsd-input-group xsd-select">
+                <i class="iconfont">&#xe63c;</i>
+                <input id="people_source" name="people_source" class="xsd-input  padding-l16" type="text" data-value={{model.attributes.source}}
+                       readonly title="客户来源" placeholder="客户来源(必填)" validate="required" value={{data-tips model.attributes.source "source"}}>
+                <ul class="special-ul">
+                    <li data-value="1">来电</li>
+                    <li data-value="2">58同城</li>
+                    <li data-value="3">赶集网</li>
+                    <li data-value="4">安居客</li>
+                    <li data-value="5">官网预约</li>
+                    <li data-value="6">微信</li>
+                    <li data-value="7">自来客</li>
+                    <li data-value="8">转介绍</li>
+                    <li data-value="9">中介</li>
+                    <li data-value="10">其他</li>
+                    <li data-value="11">房天下</li>
+                    <li data-value="12">豆瓣</li>
+                    <li data-value="13">百姓网</li>
+                    <li data-value="14">闲鱼</li>
+                    <li data-value="15">微博</li>
+                    <li data-value="16">官网在线</li>
+                    <li data-value="17">运营管理</li>
+                </ul>
+            </label>
+            <label class="xsd-input-group xsd-select">
+                <i class="iconfont">&#xe63c;</i>
+                <input id="people_urgency" name="people_urgency" class="xsd-input  padding-l16" type="text"
+                       data-value={{model.attributes.urgency}} readonly title="紧急程度" placeholder="紧急程度(必填)" validate="required" value={{data-tips model.attributes.urgency "urgency"}}>
+                <ul class="special-ul">
+                    <li data-value="2">紧急</li>
+                    <li data-value="1">正常</li>
+                    <li data-value="0">延后</li>
+                </ul>
+            </label>
+            <label class="xsd-input-group xsd-select">
+                <i class="iconfont">&#xe63e;</i>
+              {{pikaday-input id="people_at__gte"  class="xsd-input  padding-l16" format="YYYY-MM-DD" placeholder="入住时间" value=model.attributes.wanted_day readonly="readonly"}}
+            </label>
+          </div>
+            <div class="xsd-clearfix">
+                <label class="special-label">
+                    <p class="xsd-margin-b12">地段需求</p>
+                    <div class="xsd-input-group xsd-pull-left">
+                        <i class="top0"></i>
+                        <input id="people_address" name="people_address" class="xsd-input padding-l16 margin-inherit" value={{model.attributes.address}} type="text" data-value="" title="地区/区域/商圈/小区名" placeholder="地区/区域/商圈/小区名">
+                    </div>
+                </label>
+                <label class="special-label">
+                    <p class="xsd-margin-b12">预约日期<b class="xsd-color-red">*</b></p>
+                    <div class="xsd-input-group xsd-pull-left">
+                        <i class="top0 iconfont">&#xe63e;</i>
+                      {{pikaday-input id="book_day" name="book_day" class="xsd-input padding-l16 margin-inherit" validate="required" title='看房日期' value=model.attributes.book_time format="YYYY-MM-DD" placeholder="请选择预约看房日期" readonly="readonly"}}
+                    </div>
+                </label>
+                <label class="special-label ">
+                    <p class="xsd-margin-b12">预约时间<b class="xsd-color-red">*</b></p>
+                    <div class="xsd-input-group xsd-pull-left  xsd-select">
+                        <i class="top0 iconfont">&#xe63c;</i>
+                        <input class="xsd-input margin-inherit" type="text" name="book_time" id="book_time" validate="required" title="预约时间" value={{format-date model.attributes.book_time 1}} placeholder="请选择预约时间" data-value="" value="">
+                        <ul>
+                            <li data-value="">09:00</li>
+                            <li data-value="">10:00</li>
+                            <li data-value="">11:00</li>
+                            <li data-value="">12:00</li>
+                            <li data-value="">13:00</li>
+                            <li data-value="">14:00</li>
+                            <li data-value="">15:00</li>
+                            <li data-value="">16:00</li>
+                            <li data-value="">17:00</li>
+                            <li data-value="">18:00</li>
+                            <li data-value="">19:00</li>
+                        </ul>
+                    </div>
+                </label>
+            </div>
+
+            <div class="xsd-clearfix">
+                <label class="timeSelect special-label">
+                    <p class="xsd-margin-b12">租金(元)</p>
+                     <span class="height-40">
+                         <input id="min_rent" name="min_rent" class="xsd-input time height-40" type="text" data-value=""
+                                title="最低金额" placeholder="最低金额" validate="numeric" value={{model.attributes.min_rent}}>
+                         <i class="iconfont henGang height-40">-</i>
+                         <input id="max_rent" name="max_rent" class="xsd-input time height-40" type="text" data-value=""
+                                title="最高金额" placeholder="最高金额" validate="numeric" value={{model.attributes.max_rent}}>
+                     </span>
+                </label>
+                <label class="special-label">
+                    <p class="xsd-margin-b12">租期</p>
+                    <div class="xsd-input-group xsd-pull-left">
+                        <i class="top0">月</i>
+                        <input class="xsd-input margin-inherit" type="text" name="rental_time" id="rental_time"
+                               placeholder="请输入租期" title="租期" validate="numeric" value={{model.attributes.length}}>
+                    </div>
+                </label>
+                <label class="special-label">
+                    <p class="xsd-margin-b12">人数</p>
+                    <div class="xsd-input-group xsd-pull-left">
+                        <i class="top0">人</i>
+                        <input class="xsd-input margin-inherit" type="text" name="people_num" id="people_num"
+                               placeholder="请输入人数" title="人数" validate="numeric" value={{model.attributes.headcount}}>
+                    </div>
+                </label>
+            </div>
+
+            <div class="xsd-clearfix">
+                <p class="padding-l16 xsd-pull-left xsd-margin-b24" id="checked">户型需求
+                    <span><input type="radio" name="room" class="live-method" id="zhuWo" checked={{is-checked "合住主卧" model.attributes.house_type}}>合住主卧</span>
+                    <span><input type="radio" name="room" class="live-method" id="duWei" checked={{is-checked "合住单间独卫" model.attributes.house_type}}>合住单间独卫</span>
+                    <span><input type="radio" name="room" class="live-method" id="danJian" checked={{is-checked "合住单间" model.attributes.house_type}}>合住单间</span>
+                    <span><input type="radio" name="room" class="live-method" id="zenZhu1" checked={{is-checked "整租1室户" model.attributes.house_type}}>整租1室户</span>
+                    <span><input type="radio" name="room" class="live-method" id="zenZhu2" checked={{is-checked "整租2室户" model.attributes.house_type}}>整租2室户</span>
+                </p>
+                <p class="padding-l16 xsd-pull-left xsd-margin-b16">新客分配
+                    <span data-value="public"><input type="radio" name="public" class="live-method" id="gongKe" checked={{is-checked "public" model.attributes.customer_type}}>待分配</span>
+                    <span data-value="private"><input type="radio" name="public" class="live-method" id="siKe" checked={{is-checked "private" model.attributes.customer_type}}>分配给</span>
+                  {{#if (or flag  (is-checked "private" model.attributes.customer_type))}}
+                      <label class="xsd-input-group xsd-select">
+                          <i class="iconfont">&#xe63c;</i>
+                            <input id="allocate" name="allocate" class="xsd-input  padding-l16" type="text"
+                                   data-value={{model.attributes.operator_id}}  value={{model.attributes.operator_name}} title="分配" readonly placeholder="分配">
+
+                          <ul class="special-ul">
+                            {{#each employers as |employer|}}
+                                <li data-value={{employer.id}}>{{employer.name}}</li>
+                            {{/each}}
+                          </ul>
+                      </label>
+                  {{/if}}
+                </p>
+            </div>
+
+
+            <div class="xsd-pull-left xsd-margin-b12 padding-l16">
+                <textarea id="comments" placeholder="添加跟进备注">{{model.attributes.comments}}</textarea>
+            </div>
+
+        </div>
+    </div>
+    <div class="xsd-modal-bottom">
+        <div class="xsd-clearfix">
+            {{#if model.id}}
+            <a class="xsd-btn xsd-btn-primary xsd-pull-right" onclick={{action "addNew" "edit" model.id}}>确定</a>
+              {{else}}
+            <a class="xsd-btn xsd-btn-primary xsd-pull-right" onclick={{action "addNew" "add" }}>确定</a>
+            {{/if}}
+            <a class="xsd-btn xsd-btn-gray xsd-modal-close xsd-pull-right">取消</a>
+
+        </div>
+    </div>
+</div>

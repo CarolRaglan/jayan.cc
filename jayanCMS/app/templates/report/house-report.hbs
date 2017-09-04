@@ -1,0 +1,92 @@
+{{#page-waper}}
+    <div class="xsd-clearfix">
+        <div id="screen" class="xsd-pull-left">
+          {{#report-search types=types hidden=hidden}}{{/report-search}}
+        </div>
+        <div id="report" class="xsd-pull-left">
+            <!--房源统计报表-->
+            <div id="house-report" class="xsd-tabs xsd-tabs-card">
+                <div class="height-container">
+                  {{condition-search types=types}}
+                </div>
+                <div class="xsd-tab-content">
+                    <div id="house-count" class="active xsd-tab-pane">
+                        <div class="nav">
+                            <div class="xsd-pull-left">
+                                <span>{{auth.user.company_brand}}房源统计报表</span>
+                                <i>房源数:<b class="xsd-color-primary">{{model.meta.countinfos.houses}}</b>套</i>
+                                <i>房间数:<b class="xsd-color-primary">{{model.meta.countinfos.rooms}}</b>间</i>
+                            </div>
+                            <div class="xsd-pull-right">
+                                {{#if auth.e_power.reports_lcf_exp}}
+                                <a class="xsd-btn xsd-btn-primary"
+                                   href="{{config.apiUrl1}}housereports/download?token={{auth.authToken.access_token}}&rent_status={{rent_status}}&start_date={{start_date}}&end_date={{end_date}}">导出报表</a>
+                                {{/if}}
+                            </div>
+                        </div>
+                      {{#if model}}
+                          <div class="table-scroll">
+                              <table border="1">
+                                  <thead>
+                                  <tr>
+                                      <th>录入时间</th>
+                                      <th>业主合同</th>
+                                      <th>城市</th>
+                                      <th>区域</th>
+                                      <th>板块</th>
+                                      <th>小区</th>
+                                      <th>门牌号</th>
+                                      <th>出租方式</th>
+                                      <th>房间数</th>
+                                  </tr>
+                                  </thead>
+                                  <tbody class="xsd-color-gray">
+                                  {{#each model as |housereport|}}
+                                      <tr>
+                                          <td>{{housereport.createdAt}}</td>
+                                          <td>{{housereport.rentStatus}}</td>
+                                          <td>{{housereport.city}}</td>
+                                          <td>
+                                            {{#if housereport.district}}
+                                              {{housereport.district}}
+                                            {{else}}
+                                                暂无
+                                            {{/if}}
+                                          </td>
+                                          <td>
+                                            {{#if housereport.block}}
+                                              {{housereport.block}}
+                                            {{else}}
+                                                暂无
+                                            {{/if}}
+                                          </td>
+                                          <td>{{housereport.area}}</td>
+                                          <td class="mergeColumns">{{housereport.location}}</td>
+                                          <td>
+                                            {{housereport.isWhole}}
+                                          </td>
+                                          <td>{{housereport.roomNum}}</td>
+                                      </tr>
+                                  {{/each}}
+                                  </tbody>
+                              </table>
+                          </div>
+                      {{else}}
+                          <div id="xsd-noResult">
+                            {{#if (data-exist rent_status start_date end_date)}}
+                                <p><i class="iconfont"><img class="xsd-imgWidth" src="images/report.png"></i></p>
+                                <p>没有找到相关报表</p>
+                            {{/if}}
+                          </div>
+                      {{/if}}
+                    </div>
+                    <div id="pagination">
+                      {{#if (gt model.meta.pagination.count  12)}}
+                        {{page-numbers content=model}}
+                      {{/if}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{{/page-waper}}

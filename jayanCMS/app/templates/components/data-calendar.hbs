@@ -1,0 +1,363 @@
+<a id="cancelContract_btn" data-toggle="xsd-modal" data-target="#cancelContract"></a>
+<a id="sendOrder_btn" data-toggle="xsd-modal" data-target="#sendOrder"></a>
+<a id="rentalRoom_btn" data-toggle="xsd-modal" data-target="#rentalRoom"></a>
+<a id="rentalhouse_btn" data-toggle="xsd-modal" data-target="#rentalHouse"></a>
+<a class="trigger-contract-customer-edit" data-toggle="xsd-modal" data-target="#rental-contract-customer-edit"></a>
+<a class="trigger-contract-owner-edit" data-toggle="xsd-modal" data-target="#rental-contract-owner-edit"></a>
+<a id="editBill_btn"  data-toggle="xsd-modal" data-target="#editBill"></a>
+<!--退租-->
+<a id="back_rent" data-toggle="xsd-modal" data-target="#backRent"></a>
+<div id="index-left">
+    <div id="data-stats">
+        <div id="stats" class="box xsd-pull-left">
+            <h3 class="top">我的经营情况</h3>
+          {{#if (eq auth.user.vip_level 1)}}
+              {{#link-to "statistic.operation"}}
+                  <h3 class="tips xsd-color-primary">查看详情</h3>
+              {{/link-to}}
+          {{else}}
+            {{#link-to "statistic.ad"}}
+              <h3 class="tips xsd-color-primary">查看详情</h3>
+            {{/link-to}}
+          {{/if}}
+
+        </div>
+        <div id="data-container" class="xsd-pull-right">
+            <div id="data" class="box">
+                <table>
+                    <tr>
+                        <td>
+                            <p>{{statistics.empty_room_num}}</p>
+                            <span>空置房间</span>
+                        </td>
+                        <td>
+	                        <p>{{statistics.rent_room_num}}</p>
+                            <span>已租房间</span>
+                        </td>
+                        <td>
+	                          <p>{{statistics.receivable_amount}}</p>
+                            <span>应收未收(元)</span>
+                        </td>
+                        <td>
+	                          <p>{{statistics.today_collection}}</p>
+                            <span>今日收款(元)</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+    </div>
+    <div id="calendar-container">
+	    <div id="calendar-left" class="xsd-pull-left">
+	      <div id="calendar" class=xsd-pull-left>
+		      <!--<h2>-->
+		      <!--日程管理-->
+		      <!--<a class="xsd-pull-right" data-toggle="xsd-modal" data-target="#reminder" onclick={action "clearReminder"}}><i class="iconfont xsd-color-primary  xsd-cursor-pointer">&#xe60d;</i>写备忘</a>-->
+		      <!--</h2>-->
+		      <h2 class="xsd-clearfix">
+
+			      <div class="calendar-top xsd-pull-left">
+				      <a class="iconfont xsd-color-black"
+				         data-year={{calendar.lastmonth.year}} data-month={{calendar.lastmonth.month}}
+				         data-day={{calendar.lastmonth.day}} onclick={{action "clickCalendar"}}>&#xe614;</a>
+				      <span>{{calendar.theday.year}}.{{calendar.theday.month}}.{{calendar.theday.day}}</span>
+				      <a class="iconfont xsd-color-black"
+				         data-year={{calendar.nextmonth.year}} data-month={{calendar.nextmonth.month}}
+				         data-day={{calendar.nextmonth.day}}  onclick={{action "clickCalendar"}}>&#xe613;</a>
+			      </div>
+
+		      </h2>
+
+		      <div class="container">
+			      <!--<div class="calendar-top">-->
+			      <!--<a class="iconfont"  data-year={calendar.lastmonth.year}} data-month={calendar.lastmonth.month}} data-day={calendar.lastmonth.day}} onclick={action "clickCalendar"}}>&#xe614;</a>-->
+			      <!--<span>{calendar.theday.year}}.{calendar.theday.month}}.{calendar.theday.day}}</span>-->
+			      <!--<a class="iconfont" data-year={calendar.nextmonth.year}} data-month={calendar.nextmonth.month}} data-day={calendar.nextmonth.day}}  onclick={action "clickCalendar"}}>&#xe613;</a>-->
+			      <!--</div>-->
+			      <div class="pickUp">
+				      <table class="week">
+					      <thead>
+                          {{#each calendar.calendar.weekdays as |weekday|}}
+						      <th>{{weekday}}</th>
+                          {{/each}}
+					      </thead>
+				      </table>
+				      <div class="day-container">
+					      <table class="day">
+                            {{#each calendar.calendar.days as |day|}}
+							    <tr>
+                                  {{#each day as |num|}}
+								      <td>
+                                        {{#if num}}
+                                          {{#if (eq num.day_number calendar.theday.day)}}
+                                            {{#if num.is_today}}
+											    <span class="current active"
+											          data-year={{calendar.theday.year}} data-month={{calendar.theday.month}}
+											          data-day={{num.day_number}} onclick={{action "clickCalendar"}}>{{num.day_number}}</span>
+                                            {{else}}
+											    <span class="active"
+											          data-year={{calendar.theday.year}} data-month={{calendar.theday.month}}
+											          data-day={{num.day_number}} onclick={{action "clickCalendar"}}>{{num.day_number}}</span>
+                                            {{/if}}
+                                          {{else}}
+                                            {{#if num.is_today}}
+											    <span class="current"
+											          data-year={{calendar.theday.year}} data-month={{calendar.theday.month}}
+											          data-day={{num.day_number}} onclick={{action "clickCalendar"}}>{{num.day_number}}</span>
+                                            {{else}}
+											    <span data-year={{calendar.theday.year}} data-month={{calendar.theday.month}}
+											          data-day={{num.day_number}} onclick={{action "clickCalendar"}}>{{num.day_number}}</span>
+                                            {{/if}}
+                                          {{/if}}
+                                          {{#if num.has_todos}}
+										      <i>.</i>
+                                          {{/if}}
+                                        {{else}}
+										    <span></span>
+                                        {{/if}}
+								      </td>
+                                  {{/each}}
+							    </tr>
+                            {{/each}}
+					      </table>
+				      </div>
+			      </div>
+
+		      </div>
+
+	      </div>
+	      <div id="calendar-stats" class="box xsd-pull-left">
+            <ul>
+                <li>
+                    <a class="" onclick={{action "clickStats" "over"}}><b class="xsd-pull-left">所有逾期未处理</b><i class="xsd-pull-right xsd-pull-font">{{statistics.all_over_due_num}}</i></a>
+                </li>
+                <li>
+                    <a class="" onclick={{action "clickStats" "today"}}><b class="xsd-pull-left">今日到期</b><i class="xsd-pull-right xsd-pull-font">{{statistics.today_due_num}}</i></a>
+                </li>
+                <li>
+                    <a class="" onclick={{action "clickStats" "next"}}><b class="xsd-pull-left">未来5天内到期</b><i class="xsd-pull-right xsd-pull-font">{{statistics.coming_due_num}}</i></a>
+                </li>
+            </ul>
+
+	      </div>
+	    </div>
+
+        <div id="calendar-right-container">
+            <div id="calendar-right" class="box ">
+                <div class="xsd-tabs">
+	                <ul class="xsd-clearfix xsd-nav-tabs">
+		                <li class={{data-equal 1 index}}>
+			                <a data-toggle="tab" data-href="#tab-1" onclick={{action "clickContentTab" "RoomRentOrder"}}>应收账单<i>{{contentStats.room_order_num}}</i></a>
+		                </li>
+		                <li class={{data-equal 2 index}}>
+                        <a data-toggle="tab" data-href="#tab-2" onclick={{action "clickContentTab" "HouseRentOrder"}}>应付账单<i>{{contentStats.house_order_num}}</i></a>
+                    </li>
+		                <li class={{data-equal 3 index}}>
+                        <a data-toggle="tab" data-href="#tab-3" onclick={{action "clickContentTab" "RoomContract"}}>租客合同<i>{{contentStats.room_contract_num}}</i></a>
+                    </li>
+		                <li class={{data-equal 4 index}}>
+                        <a data-toggle="tab" data-href="#tab-4" onclick={{action "clickContentTab" "HouseContract"}}>业主合同<i>{{contentStats.house_contract_num}}</i></a>
+                    </li>
+	                </ul>
+	                <div class="xsd-tab-content">
+	                  <div id="tab-1" class="{{data-equal 1 index}} xsd-tab-pane">
+                        <table>
+                            <thead>
+                            <th class="xsd-cols-xs-1">状态</th>
+                            <th class="xsd-cols-xs-1">到期时间</th>
+                            <th class="xsd-cols-xs-2">房间</th>
+                            <th class="xsd-cols-xs-1">租客姓名</th>
+                            <th class="xsd-cols-xs-1">金额</th>
+                            <th class="xsd-cols-xs-1">操作</th>
+                            </thead>
+                            <tbody>
+                            {{#each content_list as |c|}}
+                              <tr data-toggle="xsd-drawer" data-target="#handleRoomOrder"
+                                  onclick={{action "getRoomOrder" c.id}}>
+                                  <td>{{c.status}}</td>
+                                  <td>{{c.expiration_time}}</td>
+                                  <td>{{c.house_info}}</td>
+                                  <td>{{c.customer_name}}</td>
+                                  <td>{{c.rent_utilities}}</td>
+                                  <td>
+                                    {{#if auth.e_power.customer_order_send}}
+	                                    <a class="xsd-color-primary" data-toggle="xsd-modal"
+	                                       data-target="#sendOrder"
+	                                       onclick={{action "getRoomOrder" c.id}}>催租</a>
+                                    {{/if}}
+                                    {{#if auth.e_power.customer_order_paid}}
+                                      <a onclick={{action "confirmRent2" c 'room'}}>收租</a>
+                                    {{/if}}
+                                  </td>
+                              </tr>
+                            {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+	                  <div id="tab-2" class="{{data-equal 2 index}} xsd-tab-pane" title="业主账单">
+                        <table>
+                            <thead>
+                            <th class="xsd-cols-xs-1">状态</th>
+                            <th class="xsd-cols-xs-1">到期时间</th>
+                            <th class="xsd-cols-xs-2">房间</th>
+                            <th class="xsd-cols-xs-1">业主姓名</th>
+                            <th class="xsd-cols-xs-1">金额</th>
+                            <th class="xsd-cols-xs-1">操作</th>
+                            </thead>
+                            <tbody>
+                            {{#each content_list as |c|}}
+                              <tr data-toggle="xsd-drawer" data-target="#handleHouseOrder"
+                                  onclick={{action "getHouseOrder" c.id}}>
+                                  <td>{{c.status}}</td>
+                                  <td>{{c.expiration_time}}</td>
+                                  <td>{{c.house_info}}</td>
+                                  <td>{{c.owner_name}}</td>
+                                  <td>{{c.rent_utilities}}</td>
+                                  <td>
+                              {{#if auth.e_power.landlord_order_paid}}
+                                      <a onclick={{action "confirmRent" c.id 'house'}}>付款</a>
+                              {{/if}}
+                                  </td>
+                              </tr>
+                            {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+	                  <div id="tab-3" class="{{data-equal 3 index}} xsd-tab-pane" title="租客合同">
+                        <table>
+                            <thead>
+                            <th class="xsd-cols-xs-1">状态</th>
+                            <th class="xsd-cols-xs-2">到期时间</th>
+                            <th class="xsd-cols-xs-2">房间</th>
+                            <th class="xsd-cols-xs-1">租客姓名</th>
+                            <th class="xsd-cols-xs-1">操作</th>
+                            </thead>
+                            <tbody>
+                            {{#each content_list as |c|}}
+                              <tr data-toggle="xsd-drawer" data-target="#handleRoomContract"
+                                  onclick={{action "getRoomContract" c.id}}>
+                                  <td>{{c.status}}</td>
+                                  <td>{{c.expiration_time}}</td>
+                                  <td>{{c.house_info}}</td>
+                                  <td>{{c.customer_name}}</td>
+                                  <td>
+                                    {{#if auth.e_power.customer_contract_evict}}
+		                                  <a onclick={{action "cancelRoomContract" c.id}}>退租</a>
+                                    {{/if}}
+                                    {{#if auth.e_power.customer_contract_renew}}
+		                                  <a onclick={{action "renewRoom" c.room_id}}>续租</a>
+                                    {{/if}}
+                                  </td>
+                              </tr>
+                            {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+	                  <div id="tab-4" class="{{data-equal 4 index}} xsd-tab-pane" title="业主合同">
+                        <table>
+                            <thead>
+                            <th class="xsd-cols-xs-1">状态</th>
+                            <th class="xsd-cols-xs-2">到期时间</th>
+                            <th class="xsd-cols-xs-2">房间</th>
+                            <th class="xsd-cols-xs-1">业主姓名</th>
+                            <th class="xsd-cols-xs-1">操作</th>
+                            </thead>
+                            <tbody>
+                            {{#each content_list as |c|}}
+                              <tr data-toggle="xsd-drawer" data-target="#handleHouseContract"
+                                  onclick={{action "getHouseContract" c.id}}>
+                                  <td>{{c.status}}</td>
+                                  <td>{{c.expiration_time}}</td>
+                                  <td>{{c.house_info}}</td>
+                                  <td>{{c.owner_name}}</td>
+                                  <td>
+                                    {{#if auth.e_power.customer_contract_evict}}
+	                                    <a onclick={{action "cancelHouseContract" c.id}}>退租</a>
+                                    {{/if}}
+                                    {{#if auth.e_power.customer_contract_renew}}
+	                                    <a  onclick={{action "renewHouse" c.house_id}}>续租</a>
+                                    {{/if}}
+                                  </td>
+                              </tr>
+                            {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+
+
+                    {{#if (eq "" content_list)}}
+	                    <div id="tab-img">
+		                    <img src="../images/spread/wuxinxi.jpg" />
+	                    </div>
+                    {{/if}}
+
+                    {{#if (eq true loading)}}
+	                    <div id="loading">
+		                    <div id="loading-center">
+			                    <div id="loading-center-absolute">
+				                    <div class="object" id="object_one"></div>
+				                    <div class="object" id="object_two"></div>
+				                    <div class="object" id="object_three"></div>
+				                    <div class="object" id="object_four"></div>
+				                    <div class="object" id="object_five"></div>
+				                    <div class="object" id="object_six"></div>
+				                    <div class="object" id="object_seven"></div>
+				                    <div class="object" id="object_eight"></div>
+				                    <div class="object" id="object_nine"></div>
+			                    </div>
+		                    </div>
+	                    </div>
+                    {{/if}}
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{{send-order order=bill}}
+{{confirm-rent  bill=bill  updateStatus=(action "updateStatus")}}
+{{back-rent optionData=optionData}}
+{{cancel-contract  contract=contract refresh=refreshCancel updateStatus=(action "updateStatus")}}
+{{#if (or auth.e_power.landlord_contract_create auth.e_power.landlord_contract_renew)}}
+  {{rental-house updateStatus=(action "updateStatus") house=house refresh=refreshHouse step=housestep}}
+{{/if}}
+{{#if (or auth.e_power.customer_contract_create  auth.e_power.customer_contract_renew)}}
+  {{rental-room updateStatus=(action "updateStatus")   room=room refresh=refreshRoom step=roomstep}}
+{{/if}}
+{{handle-roomorder  order=bill.attributes getRoomOrder=(action "getRoomOrder") refreshList=(action "updateStatus") editBill=(action 'editCustomerBill')}}
+{{handle-houseorder order=bill.attributes getHouseOrder=(action "getHouseOrder") refreshList=(action "updateStatus") editBill=(action 'editOwnerBill') }}
+{{handle-housecontract
+  contract=contract
+  getHouseContract=(action "getHouseContract")
+  refreshList=(action "updateStatus")
+  renew=(action 'renewHouse')
+  cancelContract=(action 'cancelHouseContract')
+  edit=(action 'editHouse')}}
+{{handle-roomcontract
+  contract=contract
+  getRoomContract=(action "getRoomContract")
+  refreshList=(action "updateStatus")
+  renew=(action 'renewRoom')
+  cancelContract=(action 'cancelRoomContract')
+  edit=(action 'editRoom')}}
+
+{{#if auth.e_power.customer_contract_edit}}
+{{! 租房合同编辑}}
+  {{rental-contract-customer-edit
+    room=room
+    refresh=refreshRoom
+    updateStatus=(action "refreshRoom")}}
+{{/if}}
+
+{{#if auth.e_power.landlord_contract_edit}}
+{{! 业主合同合同编辑}}
+  {{rental-contract-owner-edit
+    house=house
+    contract=contract
+    refresh=refreshHouse
+    updateStatus=(action "refreshHouse")}}
+{{/if}}
+
+{{edit-bill updateStatus=(action "updateOrder") refresh=refreshBill order=bill.attributes}}

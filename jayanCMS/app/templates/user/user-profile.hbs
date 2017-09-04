@@ -1,0 +1,81 @@
+{{!-- @Deprecated v4.0.7 --}}
+{{#page-waper}}
+    <div class="xsd-clearfix">
+        <div id="separate">
+            <div id="user-profile">
+                <div id="tools">
+                    <h2>账户设置</h2>
+                    <a class="xsd-color-primary" data-toggle="xsd-modal" data-target="#modifyPassword" >修改密码</a>
+                </div>
+
+                <div>
+                    <div>
+                      <div class="xsd-margin-b12">
+                          <input id="name" name="name" class="xsd-input" type="text" placeholder="我该如何称呼您" validate="required" value="{{auth.user.name}}">
+                      </div>
+                      <p class="xsd-margin-b24">注册账号：{{auth.user.phone}}</p></div>
+                    <div>
+                        <h3 class="xsd-margin-b12">公寓品牌<span class="xsd-color-red">*</span></h3>
+                        <label class="xsd-input-group xsd-margin-b24">
+                            <input id="brand" class="xsd-input" name="brand" type="text" placeholder="您的公寓叫什么" validate="required" value="{{auth.user.company_brand}}">
+                        </label>
+	                    <h3 class="xsd-margin-b12">经营方式<span class="xsd-color-red">*</span></h3>
+	                    <label class="xsd-input-group xsd-margin-b24">
+		                    <input id="mode" class="xsd-input" name="mode" type="text" readonly  value="{{auth.user.operate_mode}}">
+	                    </label>
+                        <h3 class="xsd-margin-b12">公司所在省市<span class="xsd-color-red">*</span></h3>
+                      <div class="xsd-clearfix xsd-margin-b24">
+                        <label class="xsd-input-group xsd-select xsd-pull-left xsd-margin-r12">
+                            <i class="iconfont">&#xe63c;</i>
+                            <input id="province" class="xsd-input" name="province" type="text" readonly value={{auth.user.province}} placeholder="所在省份" validate="required">
+                            <ul class="xsd-none">
+                              {{#each auth.provinceArr as |pro index|}}
+                                  <li onclick={{action "provinceSelected"}} value="{{index}}">{{pro}}</li>
+                              {{/each}}
+
+                            </ul>
+                        </label>
+                        <label class="xsd-input-group xsd-select xsd-pull-left">
+                            <i class="iconfont">&#xe63c;</i>
+                            <input id="city" class="xsd-input" name="city" type="text" readonly value={{auth.user.city}} placeholder="所在城市" title="所在城市" validate="required">
+                            <ul class="xsd-none">
+                              {{#each city as |ci|}}
+                                  <li>{{ci}}</li>
+                              {{/each}}
+                            </ul>
+                        </label>
+                      </div>
+                        <h3 class="xsd-margin-b12">公司名称</h3>
+                        <label class="xsd-input-group xsd-margin-b24">
+                            <input id="company_name" class="xsd-input" type="text"  placeholder="您的公司名称是什么" value="{{auth.user.company}}">
+                        </label>
+                        <h3 class="xsd-margin-b12">公寓后缀名{{auth.user.detail}}</h3>
+
+                        <label class="xsd-input-group xsd-margin-b6">
+                          {{#if (eq auth.user.role 'boss')}}
+                             {{#if auth.user.can_modify_company_postfix}}
+                            <input id="auth_prefix" class="xsd-input" type="text" name="auth_prefix" title="公寓后缀名"
+                                   placeholder="权限管理需要填写公寓后缀名" onkeyup={{action "filter"}} validate="letter" value="{{auth.user.company_postfix}}">
+                             {{#if errMessage}}
+                                 <span class="hint">* {{errMessage}}</span>
+                             {{/if}}
+                             {{else}}
+                            <input id="auth_prefix" class="xsd-input" type="text"
+                                        placeholder="权限管理需要填写公寓后缀名" disabled value="{{auth.user.company_postfix}}">
+                             {{/if}}
+                            {{else}}
+                                <input id="auth_prefix" class="xsd-input" type="text" disabled
+                                       placeholder="权限管理需要填写公寓后缀名" value="{{auth.user.company_postfix}}">
+                            {{/if}}
+                        </label>
+                        <p class="tips xsd-margin-b24"><i class="iconfont xsd-color-red">&#xe620;</i><span class="xsd-font-size12 xsd-color-gray">(公寓后缀名只能为纯英文字母，不可使用其他字符或者汉字，例如：shuidi，建议控制在10个字母以内)</span></p>
+                        {{#if (eq auth.user.role 'boss')}}
+                          <a class="xsd-btn xsd-btn-primary" type="rent" onclick={{action "profileSet"}}>确认</a>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  {{modify-password}}
+{{/page-waper}}

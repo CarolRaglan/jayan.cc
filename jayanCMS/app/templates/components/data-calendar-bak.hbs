@@ -1,0 +1,335 @@
+<div id="index-left">
+    <div id="data-stats">
+        <div id="stats" class="box xsd-pull-left">
+            <h3 class="top">我的经营情况</h3>
+            <h3 class="tips xsd-color-primary">敬请期待</h3>
+        </div>
+        <div id="data-container" class="xsd-pull-right">
+            <div id="data" class="box">
+                <table>
+                    <tr>
+                        <td>
+                            <p>53</p>
+                            <span>空置房间</span>
+                        </td>
+                        <td>
+                            <p>53</p>
+                            <span>空置房间</span>
+                        </td>
+                        <td>
+                            <p>53</p>
+                            <span>空置房间</span>
+                        </td>
+                        <td>
+                            <p>53</p>
+                            <span>空置房间</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+    </div>
+    <div id="calendar-container">
+	    <div id="calendar" class=xsd-pull-left>
+		    <!--<h2>-->
+		    <!--日程管理-->
+		    <!--<a class="xsd-pull-right" data-toggle="xsd-modal" data-target="#reminder" onclick={action "clearReminder"}}><i class="iconfont xsd-color-primary  xsd-cursor-pointer">&#xe60d;</i>写备忘</a>-->
+		    <!--</h2>-->
+		    <h2 class="xsd-clearfix">
+
+			    <div class="calendar-top xsd-pull-left">
+				    <a class="iconfont xsd-color-black"
+				       data-year={{calendar.lastmonth.year}} data-month={{calendar.lastmonth.month}}
+				       data-day={{calendar.lastmonth.day}} onclick={{action "clickCalendar"}}>&#xe614;</a>
+				    <span>{{calendar.theday.year}}.{{calendar.theday.month}}.{{calendar.theday.day}}</span>
+				    <a class="iconfont xsd-color-black"
+				       data-year={{calendar.nextmonth.year}} data-month={{calendar.nextmonth.month}}
+				       data-day={{calendar.nextmonth.day}}  onclick={{action "clickCalendar"}}>&#xe613;</a>
+			    </div>
+
+		    </h2>
+
+		    <div class="container">
+			    <!--<div class="calendar-top">-->
+			    <!--<a class="iconfont"  data-year={calendar.lastmonth.year}} data-month={calendar.lastmonth.month}} data-day={calendar.lastmonth.day}} onclick={action "clickCalendar"}}>&#xe614;</a>-->
+			    <!--<span>{calendar.theday.year}}.{calendar.theday.month}}.{calendar.theday.day}}</span>-->
+			    <!--<a class="iconfont" data-year={calendar.nextmonth.year}} data-month={calendar.nextmonth.month}} data-day={calendar.nextmonth.day}}  onclick={action "clickCalendar"}}>&#xe613;</a>-->
+			    <!--</div>-->
+			    <div class="pickUp">
+				    <table class="week">
+					    <thead>
+                        {{#each calendar.calendar.weekdays as |weekday|}}
+						    <th>{{weekday}}</th>
+                        {{/each}}
+					    </thead>
+				    </table>
+				    <div class="day-container">
+					    <table class="day">
+                          {{#each calendar.calendar.days as |day|}}
+						      <tr>
+                                {{#each day as |num|}}
+								    <td>
+                                      {{#if num}}
+                                        {{#if (eq num.day_number calendar.theday.day)}}
+                                          {{#if num.is_today}}
+										      <span class="current active"
+										            data-year={{calendar.theday.year}} data-month={{calendar.theday.month}}
+										            data-day={{num.day_number}} onclick={{action "clickCalendar"}}>{{num.day_number}}</span>
+                                          {{else}}
+										      <span class="active"
+										            data-year={{calendar.theday.year}} data-month={{calendar.theday.month}}
+										            data-day={{num.day_number}} onclick={{action "clickCalendar"}}>{{num.day_number}}</span>
+                                          {{/if}}
+                                        {{else}}
+                                          {{#if num.is_today}}
+										      <span class="current"
+										            data-year={{calendar.theday.year}} data-month={{calendar.theday.month}}
+										            data-day={{num.day_number}} onclick={{action "clickCalendar"}}>{{num.day_number}}</span>
+                                          {{else}}
+										      <span data-year={{calendar.theday.year}} data-month={{calendar.theday.month}}
+										            data-day={{num.day_number}} onclick={{action "clickCalendar"}}>{{num.day_number}}</span>
+                                          {{/if}}
+                                        {{/if}}
+                                        {{#if num.has_todos}}
+										    <i>.</i>
+                                        {{/if}}
+                                      {{else}}
+									      <span></span>
+                                      {{/if}}
+								    </td>
+                                {{/each}}
+						      </tr>
+                          {{/each}}
+					    </table>
+				    </div>
+			    </div>
+			    <div class="todayIs">
+				    <b class="xsd-pull-left">{{calendar.theday.year}}.{{calendar.theday.month}}.{{calendar.theday.day}}</b>
+				    <div class="xsd-pull-left">
+                      {{#if isToday}}
+					      <a class="xsd-color-primary" data-year={{today.year}} data-month={{today.month}}
+					         data-day={{today.day}} onclick={{action "clickCalendar"}}>回到今天</a>
+                      {{/if}}
+				    </div>
+				    <a class="xsd-pull-right xsd-color-primary" data-toggle="xsd-modal" data-target="#reminder"
+				       onclick={{action "clearReminder"}}><i class="iconfont xsd-color-primary  xsd-cursor-pointer">
+					    &#xe60d;</i>写备忘</a>
+			    </div>
+			    <div class="xsd-tabs">
+				    <ul class="xsd-clearfix xsd-nav-tabs">
+					    <li class="active"><a data-toggle="tab"
+					                          data-href="#tab-1">待办事项<i>{{data-plus orders.meta.pagination.count contracts.meta.pagination.count}}</i></a>
+					    </li>
+					    <li><a data-toggle="tab" data-href="#tab-2">我的备忘<i>{{reminders.meta.pagination.count}}</i></a></li>
+				    </ul>
+				    <div class="xsd-tab-content">
+					    <div id="tab-1" class="active xsd-tab-pane">
+						    <div class="list">
+                              {{#if (or contracts.data orders.data)}}
+							      <h2 class="pull-title">待处理账单&nbsp;{{orders.meta.pagination.count}}<a
+									      class="xsd-pull-right iconfont icon-xsdxiajiantou"></a></h2>
+							      <div class="pull-container">
+                                    {{#each orders.data as |order|}}
+                                      {{#if (eq order.attributes.type "roomrentorder")}}
+									      <a data-toggle="xsd-drawer" data-target="#handleRoomOrder"
+									         onclick={{action "getRoomOrder" order.attributes.id}}>
+										      <p class="xsd-clearfix">
+                                                {{#if (eq order.attributes.status 0)}}
+												    <span class="iconfont xsd-pull-left xsd-color-red">&#xe620;</span>
+                                                {{/if}}
+											      <i class="xsd-pull-left xsd-text-ellipsis">{{order.attributes.content}}</i>
+                                                {{#if (eq order.attributes.type "houserentorder")}}
+												    <b class="xsd-pull-right xsd-bg-green">应付</b>
+                                                {{else}}
+												    <b class="xsd-pull-right xsd-bg-primary">应收</b>
+                                                {{/if}}
+										      </p>
+										      <p>{{calendar.theday.year}}.{{calendar.theday.month}}.{{calendar.theday.day}}
+                                                {{#if (eq order.attributes.status 0)}}
+												    <span class="xsd-color-red">已逾期</span>
+                                                {{/if}}
+                                                {{#if (eq order.attributes.status 1)}}
+												    <span class="xsd-color-red">待处理</span>
+                                                {{/if}}
+                                                {{#if (eq order.attributes.status 2)}}
+												    <span class="xsd-color-gray">已处理</span>
+                                                {{/if}}
+										      </p>
+									      </a>
+                                      {{else}}
+									      <a data-toggle="xsd-drawer" data-target="#handleHouseOrder"
+									         onclick={{ action "getHouseOrder" order.attributes.id}}>
+										      <p class="xsd-clearfix">
+                                                {{#if (eq order.attributes.status 0)}}
+												    <span class="iconfont xsd-pull-left xsd-color-red">&#xe620;</span>
+                                                {{/if}}
+											      <i class="xsd-pull-left xsd-text-ellipsis">{{order.attributes.content}}</i>
+                                                {{#if (eq order.attributes.type "houserentorder")}}
+												    <b class="xsd-pull-right xsd-bg-green">应付</b>
+                                                {{else}}
+												    <b class="xsd-pull-right xsd-bg-primary">应收</b>
+                                                {{/if}}
+										      </p>
+										      <p>{{calendar.theday.year}}.{{calendar.theday.month}}.{{calendar.theday.day}}
+                                                {{#if (eq order.attributes.status 0)}}
+												    <span class="xsd-color-red">已逾期</span>
+                                                {{/if}}
+                                                {{#if (eq order.attributes.status 1)}}
+												    <span class="xsd-color-red">待处理</span>
+                                                {{/if}}
+                                                {{#if (eq order.attributes.status 2)}}
+												    <span class="xsd-color-gray">已处理</span>
+                                                {{/if}}
+										      </p>
+									      </a>
+                                      {{/if}}
+                                    {{/each}}
+							      </div>
+							      <h2 class="pull-title">待处理合同&nbsp;{{contracts.meta.pagination.count}}<a
+									      class="xsd-pull-right iconfont icon-xsdxiajiantou"></a></h2>
+							      <div class="pull-container">
+                                    {{#each contracts.data as |contract|}}
+                                      {{#if (eq contract.attributes.type "roomcontract")}}
+									      <a data-toggle="xsd-drawer" data-target="#handleRoomContract"
+									         onclick={{action "getRoomContract" contract.attributes.id}}>
+										      <p class="xsd-clearfix">
+                                                {{#if (eq contract.attributes.contract_status 0)}}
+												    <span class="iconfont xsd-pull-left xsd-color-red">&#xe620;</span>
+                                                {{/if}}
+											      <i class="xsd-pull-left xsd-text-ellipsis">{{contract.attributes.content}}</i>
+											      <b class="xsd-pull-right xsd-bg-primary">租客</b>
+										      </p>
+										      <p>{{calendar.theday.year}}.{{calendar.theday.month}}.{{calendar.theday.day}}
+                                                {{#if (eq contract.attributes.contract_status 0)}}
+												    <span class="xsd-color-red">已逾期</span>
+                                                {{/if}}
+                                                {{#if (eq contract.attributes.contract_status 1)}}
+												    <span class="xsd-color-red">待处理</span>
+                                                {{/if}}
+                                                {{#if (eq contract.attributes.contract_status 2)}}
+												    <span class="xsd-color-gray">已处理</span>
+                                                {{/if}}
+										      </p>
+									      </a>
+                                      {{else}}
+									      <a data-toggle="xsd-drawer" data-target="#handleHouseContract"
+									         onclick={{action "getHouseContract" contract.attributes.id}}>
+										      <p class="xsd-clearfix">
+                                                {{#if (eq contract.attributes.status 0)}}
+												    <span class="iconfont xsd-pull-left xsd-color-red">&#xe620;</span>
+                                                {{/if}}
+											      <i class="xsd-pull-left xsd-text-ellipsis">{{contract.attributes.content}}</i>
+											      <b class="xsd-pull-right xsd-bg-green">业主</b>
+										      </p>
+										      <p>{{calendar.theday.year}}.{{calendar.theday.month}}.{{calendar.theday.day}}
+                                                {{#if (eq contract.attributes.contract_status 0)}}
+												    <span class="xsd-color-red">已逾期</span>
+                                                {{/if}}
+                                                {{#if (eq contract.attributes.contract_status 1)}}
+												    <span class="xsd-color-red">待处理</span>
+                                                {{/if}}
+                                                {{#if (eq contract.attributes.contract_status 2)}}
+												    <span class="xsd-color-gray">已处理</span>
+                                                {{/if}}
+										      </p>
+									      </a>
+                                      {{/if}}
+                                    {{/each}}
+							      </div>
+                              {{else}}
+							      <a id="noHandles" class="xsd-text-center">
+								      <p><i class="iconfont"><img class="xsd-imgWidth" src="images/waitFor.png"></i></p>
+								      <p>今天暂无待办事项
+									      休息一下吧！</p>
+							      </a>
+                              {{/if}}
+						    </div>
+					    </div>
+					    <div id="tab-2" class="xsd-tab-pane">
+						    <a id="reminder-trigger" data-toggle="xsd-modal" data-target="#reminder"></a>
+						    <div class="list">
+                              {{#if reminders.data}}
+							      <div class="pull-container">
+                                    {{#each reminders.data as |reminder|}}
+									    <div>
+										    <a onclick={{action "reminderDetail" reminder.id}}>
+											    <p class="xsd-clearfix">
+                                                  {{#if (eq reminder.attributes.status 0)}}
+												      <span class="iconfont xsd-pull-left xsd-color-red">&#xe620;</span>
+                                                  {{/if}}
+												    <i class="xsd-pull-left xsd-text-ellipsis">{{reminder.attributes.content}}</i>
+											    </p>
+											    <p>{{calendar.theday.year}}.{{calendar.theday.month}}
+												    .{{calendar.theday.day}}
+                                                  {{#if (eq reminder.attributes.status 0)}}
+												      <span class="xsd-color-red">已逾期</span>
+                                                  {{/if}}
+                                                  {{#if (eq reminder.attributes.status 1)}}
+												      <span class="xsd-color-red">待处理</span>
+                                                  {{/if}}
+                                                  {{#if (eq reminder.attributes.status 2)}}
+												      <span class="xsd-color-gray">已处理</span>
+                                                  {{/if}}
+											    </p>
+										    </a>
+									    </div>
+                                    {{/each}}
+							      </div>
+                              {{else}}
+							      <a id="noHandles" class="xsd-text-center">
+								      <p><i class="iconfont"><img class="xsd-imgWidth" src="images/memo.png"></i></p>
+								      <p>重要的事情先记录下来吧</p>
+							      </a>
+                              {{/if}}
+						    </div>
+					    </div>
+				    </div>
+			    </div>
+		    </div>
+	    </div>
+        <div id="calendar-right-container">
+            <div id="calendar-right" class="box ">
+                <div class="xsd-tabs">
+	                <ul class="xsd-clearfix xsd-nav-tabs">
+		                <li class={{data-equal 1 index}}>
+			                <a data-toggle="tab" data-href="#tab-1">应收账单<i>9</i></a>
+		                </li>
+		                <li class={{data-equal 2 index}}><a data-toggle="tab" data-href="#tab-2">应付账单</a></li>
+		                <li class={{data-equal 3 index}}><a data-toggle="tab" data-href="#tab-3">租客合同</a></li>
+		                <li class={{data-equal 3 index}}><a data-toggle="tab" data-href="#tab-3">业主合同</a></li>
+	                </ul>
+	                <div class="xsd-tab-content">
+	                  <div id="tab-1" class="{{
+                    data-equal 1 index}} xsd-tab-pane">
+                        <table>
+                            <thead>
+                            <th class="xsd-cols-xs-1">状态</th>
+                            <th class="xsd-cols-xs-1">到期时间</th>
+                            <th class="xsd-cols-xs-2">房间</th>
+                            <th class="xsd-cols-xs-1">租客姓名</th>
+                            <th class="xsd-cols-xs-1">金额</th>
+                            <th class="xsd-cols-xs-1">操作</th>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>到期</td>
+                                <td>2016.10.12</td>
+                                <td>三林世博家园7栋3单元6楼608室</td>
+                                <td>到期</td>
+                                <td>到期</td>
+                                <td><a>抄表</a><a>收租</a></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                  </div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,36 @@
+{{#page-waper}}
+	<div class="xsd-clearfix" id="notice">
+		<div id="screen" class="xsd-pull-left">
+          <div class="notice-list">
+              <div class="title">
+                  概况><b class="xsd-color-primary">公告列表</b>
+              </div>
+              <div class="list">
+                  <ul>
+                      {{#each model as |n|}}
+                      <li class="xsd-pull-left">
+	                      <i class="xsd-color-yellow xsd-pull-left"></i> <a  class="xsd-text-ellipsis" onclick={{action "clickNotice" n.title n.content this}}>{{n.title}}</a>
+                      </li>
+                      {{/each}}
+                  </ul>
+              </div>
+
+          </div>
+		</div>
+		<div id="separate" class="xsd-pull-left">
+			<div id="notice-detail">
+              {{#if model}}
+                <div class="title">
+                    {{detail.title}}
+                </div>
+                <div class="content">{{{detail.content}}}</div>
+              {{else}}
+				  <div id="xsd-noResult" class="xsd-margin-t16">
+					  <p><i class="iconfont"><img class="xsd-imgWidth" src="images/news.png"></i></p>
+					  <p>未找到此消息,请核对信息后再试!</p>
+				  </div>
+              {{/if}}
+			</div>
+		</div>
+	</div>
+{{/page-waper}}

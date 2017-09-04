@@ -1,0 +1,45 @@
+<div class="xsd-drawer house-room" id="roleManagement">
+    <div class="xsd-drawer-header xsd-margin-b24">
+        <a class="xsd-modal-close iconfont">&#xe633;</a>
+    </div>
+    <div class="xsd-drawer-body">
+        <div>
+            <h2 class="xsd-margin-b12 xsd-font-normal">
+                <span class=" xsd-font-size16">员工角色管理</span>
+                <a class="xsd-pull-right xsd-color-primary xsd-margin-r12" data-target="#addRole" data-toggle="xsd-modal" onclick={{action "getRole" role.id "add"}}>新增角色</a>
+            </h2>
+        </div>
+        <ul id="roleList">
+            <li class="xsd-clearfix list">
+                <ul class="xsd-font-size16">
+                    <li>角色名称</li>
+                    <li>类型</li>
+                    <li>添加时间</li>
+                    <li>操作</li>
+                </ul>
+            </li>
+          {{#each roleList as |role|}}
+            <li class="xsd-clearfix list">
+                <ul>
+                    <li>{{role.attributes.name}}</li>
+                    <li>
+                        {{#if (eq role.attributes.type 0)}}
+                        系统预设
+                        {{else}}
+                        自定义
+                        {{/if}}
+                    </li>
+                    <li>{{role.attributes.created_time}}</li>
+                    <li>
+                        {{#if (eq role.attributes.type 0)}}
+                         <a data-target="#addRole" data-toggle="xsd-modal" onclick={{action "getRole" role.id "update"}}>查看/编辑</a>
+                         {{else}}
+                         <a data-target="#addRole" data-toggle="xsd-modal" onclick={{action "getRole" role.id "update"}}>查看/编辑</a><b>|</b><a onclick={{action "deleteRole" role.id}}>删除</a>
+                        {{/if}}
+                    </li>
+                </ul>
+            </li>
+          {{/each}}
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,13 @@
+{{#page-waper}}
+    <div class="xsd-clearfix" id="index-box">
+        <div id="index-right" class="xsd-pull-right">
+          {{index-right}}
+        </div>
+        <div id="index-left-container" class="xsd-pull-left">
+          {{data-calendar rDetail=rDetail contracts=contracts orders=orders order=order getContracts=(action "getContracts") getOrders=(action "getOrders")  args=args order=order contract=contract}}
+
+        </div>
+    </div>
+
+{{/page-waper}}
+{{member-ad}}

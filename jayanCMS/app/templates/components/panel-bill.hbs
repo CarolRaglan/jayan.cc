@@ -1,0 +1,104 @@
+{{#if bill}}
+  <h3 class="title-danger">基本信息</h3>
+
+  <dl class="list-info">
+    <dd>
+      {{#if bill.customer_name}}
+        <label>租客姓名</label>
+        {{bill.customer_name}}
+      {{else}}
+        <label>业主姓名</label>
+        {{bill.owner_name}}
+      {{/if}}
+    </dd>
+
+    <dd>
+      <label>账单周期</label>
+      {{bill.start_time}}-{{bill.end_time}}
+    </dd>
+
+    {{#if bill.actual_pay_time}}
+      <dd>
+        <label>实际收租时间</label>
+        {{bill.actual_pay_time}}
+      </dd>
+    {{/if}}
+
+    <dd>
+      <label>应收租日期</label>
+      {{bill.ought_pay_time}}
+    </dd>
+
+  </dl>
+
+  <h3 class="title-warning">
+    <span>费用信息</span>
+    <small>
+      （费用总计：<strong>{{currency bill.rent_utilities}}</strong> 元
+      {{#if inPayment}}
+        ，剩余待收：<strong>{{currency bill.unpaid_fees.unpaid_total_amount}}</strong> 元
+      {{/if}}
+      ）
+    </small>
+  </h3>
+
+  <dl class="list-info">
+    <dd>
+      <label>房屋租金</label>
+      <span>
+      <strong>{{currency bill.amount}}</strong>元
+    </span>
+      {{#if inPayment}}
+        <span class="color-danger">* 剩余待收：{{currency bill.unpaid_fees.rent_amount}}元</span>
+      {{/if}}
+    </dd>
+
+    <dd>
+      <label>房屋押金</label>
+      <span>
+      <strong>{{currency bill.deposit}}</strong>元
+    </span>
+      {{#if inPayment}}
+        <span class="color-danger">* 剩余待收：{{currency bill.unpaid_fees.rent_deposit}} 元</span>
+      {{/if}}
+    </dd>
+
+    {{#if bill.old_deposit}}
+      <dd>
+        <label>原房屋押金</label>
+        <strong>-{{currency bill.old_deposit}}</strong>元
+      </dd>
+    {{/if}}
+
+    {{#each extras as |fee|}}
+      <dd>
+        <label>{{fee.name}}</label>
+        {{#if (eq fee.charge 'by_meter')}}
+          {{#if fee.unready}}
+            <strong>待抄表</strong>
+          {{else}}
+            <span><strong>{{currency fee.paid}}</strong>元</span>
+            <span>抄表时间：{{fee.log}}</span>
+          {{/if}}
+        {{else}}
+          <span><strong>{{currency fee.paid}}</strong>元</span>
+        {{/if}}
+        {{#if inPayment}}
+          <span class="color-danger">* 剩余待收：{{currency fee.unpaid}} 元</span>
+        {{/if}}
+      </dd>
+    {{/each}}
+
+  </dl>
+
+  {{#if bill.comments}}
+  <h3 class="title-primary">账单备注</h3>
+  <dl class="list-info">
+    <dd>
+      <label>账单备注</label>
+      {{bill.comments}}
+    </dd>
+  </dl>
+  {{/if}}
+
+{{/if}}

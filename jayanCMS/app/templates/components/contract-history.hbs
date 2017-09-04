@@ -1,0 +1,316 @@
+<div class="xsd-drawer house-room" id="contractHistory">
+    <div class="xsd-drawer-header">
+        <a class="xsd-modal-close iconfont">&#xe633;</a>
+    </div>
+    <div class="xsd-drawer-body">
+        <h2 class="xsd-margin-b16">业务进度-到期合同</h2>
+        <p class="xsd-margin-b12">时间:{{contracts.start_time}}-{{contracts.end_time}}</p>
+        <p class="xsd-margin-b24">托管合同:&nbsp;<i class="xsd-color-primary">{{contracts.hc_count}}</i>个&nbsp;|&nbsp;租客合同:&nbsp;<i
+                class="xsd-color-primary">{{contracts.rc_count}}</i>个</p>
+        <div class="xsd-tabs">
+            <ul class="xsd-clearfix xsd-nav-tabs">
+                <li class="active"><a class="xsd-color-black" data-toggle="tab" data-href="#tab-1">托管合同(<i
+                        class="xsd-color-primary">{{contracts.hc_undone_count}}/{{contracts.hc_count}}</i>)</a></li>
+                <li><a class="xsd-color-black" data-toggle="tab" data-href="#tab-2">租客合同(<i
+                        class="xsd-color-primary">{{contracts.rc_undone_count}}/{{contracts.rc_count}}</i>)</a></li>
+            </ul>
+            <div class="xsd-tab-content">
+                <div id="tab-1" class="xsd-tab-pane active">
+                    <div id="house_contract_list">
+                      {{#if contract_detail}}
+                          <div class="xsd-clearfix xsd-margin-b16">
+                              <a id="contractBack" class="xsd-pull-left xsd-color-primary"
+                                 onclick={{action "lookBack"}}>返回上一级</a>
+                            {{#if (not-eq contract.show_status 2)}}
+                              {{#if auth.e_power.landlord_contract_evict}}
+                                  <a class="xsd-pull-right xsd-color-primary xsd-margin-l12" data-toggle="xsd-modal"
+                                     data-target="#cancelContract">退租</a>
+                              {{/if}}
+                              {{#if auth.e_power.landlord_contract_renew}}
+                                {{#if contract.can_renew}}
+                                    <a class="xsd-pull-right xsd-color-primary" data-toggle="xsd-modal"
+                                       data-target="#rentalRoom">续租</a>
+                                {{else}}
+                                    <a class="xsd-pull-right xsd-color-primary" onclick={{action "renew"}}>续租</a>
+                                {{/if}}
+                              {{/if}}
+                            {{/if}}
+                          </div>
+                          <h3 class="xsd-margin-b24">业主信息</h3>
+                          <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+                              <span class="xsd-pull-left">业主姓名</span>
+                              <input class="xsd-input xsd-pull-left xsd-noborder" disabled type="text"
+                                     value={{contract.owner_name}}>
+                          </div>
+                          <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+                              <span class="xsd-pull-left">手机号码</span>
+                              <input class="xsd-input xsd-pull-left xsd-noborder" disabled type="text"
+                                     value={{contract.customer_phone}}>
+                          </div>
+                          <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+                              <span class="xsd-pull-left">身份证号</span>
+                              <input class="xsd-input xsd-pull-left xsd-noborder" disabled type="text"
+                                     value={{contract.owner_id_number}}>
+                          </div>
+                          <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+                              <span class="xsd-pull-left">身份证附件</span>
+                            {{upload-images ids="d_upload_room_peper" dataType="d_room_pictures" pic=contract.owner_id_pictures hide=true}}
+                          </div>
+                          <h3 class="xsd-margin-b24">合同信息</h3>
+                          <div class="xsd-margin-b12 xsd-clearfix">
+                              <span class="xsd-pull-left">租赁时间</span><b class="xsd-pull-left">{{contract.start_time}}
+                              至{{contract.end_time}}</b>
+                          </div>
+                          <div class="xsd-margin-b12 xsd-clearfix">
+                              <span class="xsd-pull-left">月租金</span><b
+                                  class="xsd-pull-left xsd-color-primary">{{contract.month_rental}}元</b>
+                          </div>
+                          <div class="xsd-margin-b12 xsd-clearfix">
+                              <span class="xsd-pull-left">支付方式</span><b class="xsd-pull-left">押{{contract.pay_method_y}}
+                              付{{contract.pay_method_f}}</b>
+                          </div>
+                          <div class="xsd-margin-b12 xsd-clearfix">
+                              <span class="xsd-pull-left">提前支付天数</span><b
+                                  class="xsd-pull-left">{{contract.advanced_days}}天</b>
+                          </div>
+                        {{#if contract.segments}}
+                            <div class="xsd-margin-b12 xsd-clearfix">
+                                <span class="xsd-pull-left">分段合同</span>
+                                <b class="xsd-pull-left">有</b>
+                            </div>
+                          {{#each contract.segments as |segment|}}
+                              <div class="xsd-margin-b12 xsd-clearfix">
+                                  <span class="xsd-pull-left">{{segment.seg_index}}</span>
+                                  <b class="xsd-pull-left">{{segment.start_time}}至{{segment.end_time}}
+                                      租金{{segment.month_rental}}元</b>
+                              </div>
+                          {{/each}}
+                        {{else}}
+                            <div class="xsd-margin-b12 xsd-clearfix">
+                                <span class="xsd-pull-left">分段合同</span>
+                                <b class="xsd-pull-left">无</b>
+                            </div>
+                        {{/if}}
+                          <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+                              <span class="xsd-pull-left">合同附件</span>
+                            {{upload-images ids="d_upload_room_contract_peper" dataType="d_room_pictures" pic=contract.pictures hide=true}}
+                          </div>
+                          <div id="comments" class="xsd-input-group xsd-clearfix xsd-margin-b12">
+                              <span class="xsd-pull-left">合同备注</span>
+                        <textarea id="room_comments" class="xsd-pull-left xsd-noborder"
+                                  disabled>{{#if contract.comments}}{{contract.comments}}{{else}}暂无备注{{/if}}
+                        </textarea>
+                          </div>
+                      {{else}}
+                          <h3 class="xsd-margin-b24">待处理合同<div class="xsd-pull-right"><div class="circle xsd-bg-yellow"></div>待处理</div><div class="xsd-pull-right xsd-margin-r12"><div class="circle xsd-bg-success"></div>已逾期</div></h3>
+                          <div class="order-list">
+                              <table>
+                                  <thead>
+                                  <th><span class="xsd-margin-l16">房间名称</span></th>
+                                  <th>业主姓名</th>
+                                  <th>所属管家</th>
+                                  <th>到期时间</th>
+                                  <th>操作</th>
+                                  </thead>
+                                {{#each contracts.housecontract.undone as |undone|}}
+                                    <tr>
+                                        <td title="{{undone.location}}">
+                                        <p class="xsd-text-ellipsis">
+                                          {{#if (eq undone.show_status 1)}}
+                                              <div class="xsd-bg-success circle"></div>
+                                          {{/if}}
+                                          {{#if (eq undone.show_status 0)}}
+                                              <div class="xsd-bg-yellow circle"></div>
+                                          {{/if}}
+                                          {{undone.location}}
+                                            </p>
+                                        </td>
+                                        <td>{{undone.owner_name}}</td>
+                                        <td>{{undone.employer}}</td>
+                                        <td>{{undone.end_time}}</td>
+                                        <td><a class="xsd-color-primary" onclick={{action "getContract" undone.id "house"}}>查看</a></td>
+                                    </tr>
+                                {{/each}}
+                              </table>
+                          </div>
+                          <h3 class="xsd-margin-b24 xsd-margin-t16">已处理合同</h3>
+                          <div class="order-list">
+                              <table>
+                                  <thead>
+                                  <th><span class="xsd-margin-l16">房间名称</span></th>
+                                  <th>业主姓名</th>
+                                  <th>所属管家</th>
+                                  <th>到期时间</th>
+                                  <th>操作</th>
+                                  </thead>
+                                {{#each contracts.housecontract.done as |done|}}
+                                    <tr>
+                                        <td title="{{done.location}}">
+                                        <p class="xsd-text-ellipsis xsd-color-gray">
+                                          {{done.location}}
+                                        </p>
+                                        </td>
+                                        <td class="xsd-color-gray">{{done.owner_name}}</td>
+                                        <td class="xsd-color-gray">{{done.employer}}</td>
+                                        <td class="xsd-color-gray">{{done.end_time}}</td>
+                                        <td><a class="xsd-color-primary" onclick={{action "getContract" undone.id "house"}}>查看</a></td>
+                                    </tr>
+                                {{/each}}
+                              </table>
+                          </div>
+                      {{/if}}
+                    </div>
+                </div>
+                <div id="tab-2" class="xsd-tab-pane">
+                    <div id="room_contract_list">
+                      {{#if contract_detail}}
+                          <div class="xsd-clearfix xsd-margin-b16">
+                              <a id="contractBack" class="xsd-pull-left xsd-color-primary"
+                                 onclick={{action "lookBack"}}>返回上一级</a>
+                            {{#if (not-eq contract.show_status 2)}}
+                              {{#if auth.e_power.customer_contract_evict}}
+                                  <a class="xsd-pull-right xsd-color-primary xsd-margin-l12" data-toggle="xsd-modal"
+                                     data-target="#cancelContract">退租</a>
+                              {{/if}}
+                              {{#if auth.e_power.customer_contract_renew}}
+                                {{#if contract.can_renew}}
+                                    <a class="xsd-pull-right xsd-color-primary" data-toggle="xsd-modal"
+                                       data-target="#rentalRoom">续租</a>
+                                {{else}}
+                                    <a class="xsd-pull-right xsd-color-primary" onclick={{action "renew"}}>续租</a>
+                                {{/if}}
+                              {{/if}}
+                            {{/if}}
+                          </div>
+                          <h3 class="xsd-margin-b24">租客信息</h3>
+                          <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+                              <span class="xsd-pull-left">租客姓名</span>
+                              <input class="xsd-input xsd-pull-left xsd-noborder" disabled type="text"
+                                     value={{contract.customer_name}}>
+                          </div>
+                          <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+                              <span class="xsd-pull-left">手机号码</span>
+                              <input class="xsd-input xsd-pull-left xsd-noborder" disabled type="text"
+                                     value={{contract.customer_phone}}>
+                          </div>
+                          <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+                              <span class="xsd-pull-left">身份证号</span>
+                              <input class="xsd-input xsd-pull-left xsd-noborder" disabled type="text"
+                                     value={{contract.customer_id_number}}>
+                          </div>
+                          <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+                              <span class="xsd-pull-left">身份证附件</span>
+                            {{upload-images ids="d_upload_room_peper" dataType="d_room_pictures" pic=contract.customer_id_pictures hide=true}}
+                          </div>
+                          <h3 class="xsd-margin-b24">合同信息</h3>
+                          <div class="xsd-margin-b12 xsd-clearfix">
+                              <span class="xsd-pull-left">租赁时间</span><b class="xsd-pull-left">{{contract.start_time}}
+                              至{{contract.end_time}}</b>
+                          </div>
+                          <div class="xsd-margin-b12 xsd-clearfix">
+                              <span class="xsd-pull-left">月租金</span><b
+                                  class="xsd-pull-left xsd-color-primary">{{contract.month_rental}}元</b>
+                          </div>
+                          <div class="xsd-margin-b12 xsd-clearfix">
+                              <span class="xsd-pull-left">支付方式</span><b class="xsd-pull-left">押{{contract.pay_method_y}}
+                              付{{contract.pay_method_f}}</b>
+                          </div>
+                          <div class="xsd-margin-b12 xsd-clearfix">
+                              <span class="xsd-pull-left">提前支付天数</span><b
+                                  class="xsd-pull-left">{{contract.advanced_days}}天</b>
+                          </div>
+                        {{#if contract.segments}}
+                            <div class="xsd-margin-b12 xsd-clearfix">
+                                <span class="xsd-pull-left">分段合同</span>
+                                <b class="xsd-pull-left">有</b>
+                            </div>
+                          {{#each contract.segments as |segment|}}
+                              <div class="xsd-margin-b12 xsd-clearfix">
+                                  <span class="xsd-pull-left">{{segment.seg_index}}</span>
+                                  <b class="xsd-pull-left">{{segment.start_time}}至{{segment.end_time}}
+                                      租金{{segment.month_rental}}元</b>
+                              </div>
+                          {{/each}}
+                        {{else}}
+                            <div class="xsd-margin-b12 xsd-clearfix">
+                                <span class="xsd-pull-left">分段合同</span>
+                                <b class="xsd-pull-left">无</b>
+                            </div>
+                        {{/if}}
+                          <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+                              <span class="xsd-pull-left">合同附件</span>
+                            {{upload-images ids="d_upload_room_contract_peper" dataType="d_room_pictures" pic=contract.pictures hide=true}}
+                          </div>
+                          <div id="comments" class="xsd-input-group xsd-clearfix xsd-margin-b12">
+                              <span class="xsd-pull-left">合同备注</span>
+                        <textarea id="room_comments" class="xsd-pull-left xsd-noborder"
+                                  disabled>{{#if contract.comments}}{{contract.comments}}{{else}}暂无备注{{/if}}
+                        </textarea>
+                          </div>
+                      {{else}}
+                          <h3 class="xsd-margin-b24">待处理合同<div class="xsd-pull-right"><div class="circle xsd-bg-yellow"></div>待处理</div><div class="xsd-pull-right xsd-margin-r12"><div class="circle xsd-bg-success"></div>已逾期</div></h3>
+                          <div class="order-list">
+                            <table>
+                                  <thead>
+                                  <th><span class="xsd-margin-l16">房间名称</span></th>
+                                  <th>租客姓名</th>
+                                  <th>所属管家</th>
+                                  <th>到期时间</th>
+                                  <th>操作</th>
+                                  </thead>
+                                {{#each contracts.roomcontract.undone as |undone|}}
+                                    <tr>
+                                        <td title="{{undone.location}}">
+                                        <p class="xsd-text-ellipsis">
+                                          {{#if (eq undone.show_status 1)}}
+                                              <div class="xsd-bg-success circle"></div>
+                                          {{/if}}
+                                          {{#if (eq undone.show_status 0)}}
+                                              <div class="xsd-bg-yellow circle"></div>
+                                          {{/if}}
+                                          {{undone.location}}
+                                            </p>
+                                        </td>
+                                        <td>{{undone.customer_name}}</td>
+                                        <td>{{undone.employer}}</td>
+                                        <td>{{undone.end_time}}</td>
+                                        <td><a class="xsd-color-primary" onclick={{action "getContract" undone.id "room"}}>查看</a></td>
+                                    </tr>
+                                {{/each}}
+                              </table>
+                          </div>
+                          <h3 class="xsd-margin-b24 xsd-margin-t16">已处理合同</h3>
+                          <div class="order-list">
+                              <table>
+                                  <thead>
+                                  <th><span class="xsd-margin-l16">房间名称</span></th>
+                                  <th>租客姓名</th>
+                                  <th>所属管家</th>
+                                  <th>到期时间</th>
+                                  <th>操作</th>
+                                  </thead>
+                                {{#each contracts.roomcontract.done as |done|}}
+                                    <tr>
+                                        <td title="{{done.location}}">
+                                            <p class="xsd-text-ellipsis xsd-color-gray">
+                                              {{done.location}}
+                                            </p>
+                                        </td>
+                                        <td class="xsd-color-gray">{{done.customer_name}}</td>
+                                        <td class="xsd-color-gray">{{done.employer}}</td>
+                                        <td class="xsd-color-gray">{{done.end_time}}</td>
+                                        <td><a class="xsd-color-primary" onclick={{action "getContract" done.id "room"}}>查看</a></td>
+                                    </tr>
+                                {{/each}}
+                              </table>
+                          </div>
+                      {{/if}}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="xsd-drawer-bottom">
+    </div>
+</div>

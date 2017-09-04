@@ -1,0 +1,188 @@
+{{#page-waper}}
+    <div class="xsd-clearfix">
+        <div id="screen" class="xsd-pull-left">
+          {{#account-bar type=type preFlag=false types=type}}
+          {{/account-bar}}
+        </div>
+    <div id="separate" class="xsd-pull-left">
+    <div>
+        <div id="separate-head">
+         {{#account-search type=type preFlag=false}}{{/account-search}}
+        </div>
+
+        <div id="tools" class="xsd-clearfix">
+
+            <div class="xsd-pull-left">
+                <span>收入金额（元）</span>
+                <p><span>{{model.meta.countinfos.incomes}}</span></p>
+            </div>
+            <div class="xsd-pull-left">
+                <span>支出金额（元）</span>
+                <p><span>{{model.meta.countinfos.payout}}</span></p>
+            </div>
+            <div class="xsd-pull-left">
+                <span>收入支出差（元）</span>
+                <p><span class="">{{model.meta.countinfos.profit}}</span></p>
+            </div>
+
+          {{#if auth.e_power.finance_flow_add}}
+              <a class="xsd-pull-right btn"  id="tools-add-rent" data-toggle="xsd-modal" data-target="#addFinance" onclick={{action "refresh" "refresh"}}>添加明细</a>
+          {{/if}}
+          {{#if auth.e_power.finance_flow_exp}}
+              <a class="xsd-pull-right btn" id="tools-export" href="{{config.apiUrl1}}moneyflows/download?token={{auth.authToken.access_token}}&keyword={{keyword}}&trade_at__gte={{trade_at__gte}}&trade_at__lte={{trade_at__lte}}&fee_type={{fee_type}}&fee_type_rough={{fee_type_rough}}&flow_type={{flow_type}}">导出报表</a>
+          {{/if}}
+            <!--<a class="xsd-input-group xsd-select xsd-pull-right sort">-->
+            <!--<i class="iconfont">&#xe62f;</i>-->
+            <!--<input id="sort" class="xsd-input" type="text" value={data-tips orderby "按租客账单到期时间"}} readonly>-->
+            <!--<ul>-->
+            <!--<li data-value="trade_at" onclick={action "bySort"}}>按租客账单到期时间</li>-->
+            <!--<li data-value="amount" onclick={action "bySort"}}>按业主账单到期时间</li>-->
+            <!--<li data-value="-trade_at" onclick={action "bySort"}}>按租客合同到期时间</li>-->
+            <!--<li data-value="-amount" onclick={action "bySort"}}>按业主合同到期时间</li>-->
+            <!--</ul>-->
+            <!--</a>-->
+        </div>
+       {{#if model}}
+         {{#if auth.e_power.finance_manage_view}}
+           {{#if auth.e_power.finance_flow_view}}
+                <table id="finance">
+                    <thead>
+                    <th class="xsd-cols-xs-2">交易时间</th>
+                    <th class="xsd-cols-xs-2">房间信息</th>
+                    <th class="xsd-cols-xs-1">交易对象姓名</th>
+                    <th class="xsd-cols-xs-1">费用名称</th>
+                    <th class="xsd-cols-xs-1">费用周期</th>
+                    <th class="xsd-cols-xs-1">资金流向</th>
+                    <th class="xsd-cols-xs-1">费用金额</th>
+                    </thead>
+                  {{#if auth.e_power.finance_flow_view}}
+                    {{#each model as |moneyflow|}}
+                        <tr title="点击查看详情" data-toggle="xsd-drawer" data-target="#financeDetail" onclick={{action "detail" moneyflow.id}}>
+                            <td class="xsd-cols-xs-2">
+                                <p>{{moneyflow.tradeAt}}</p>
+                            </td>
+                            <td class="xsd-cols-xs-2">
+                                <p>{{moneyflow.tradeInfo}}</p>
+                            </td>
+                            <td class="xsd-cols-xs-1">
+                                <p>{{moneyflow.traderName}}</p>
+                            </td>
+                            <td class="xsd-cols-xs-1">
+                                <p>{{moneyflow.feeType}}</p>
+                            </td>
+                            <td class="xsd-cols-xs-2">
+                                <p>{{moneyflow.startTime}}
+                                  {{#if (not-eq moneyflow.startTime "-")}}
+                                      至
+                                  {{/if}}
+                                  {{moneyflow.endTime}}</p>
+                            </td>
+                            <td class="xsd-cols-xs-1">
+                              <p>{{moneyflow.flowType}}</p>
+                            </td>
+                            <td class="xsd-cols-xs-1">
+                              {{#if (lt moneyflow.realAmount 0)}}
+                                  <p class="xsd-color-success">
+                                      {{moneyflow.realAmount}}
+                                  </p>
+                              {{else}}
+                                  <p class="xsd-color-green">
+                                      {{moneyflow.realAmount}}
+                                  </p>
+                              {{/if}}
+                            </td>
+                        </tr>
+                    {{/each}}
+                  {{else}}
+                    {{#each model as |moneyflow|}}
+                        <tr title="点击查看详情">
+                            <td class="xsd-cols-xs-2">
+                                <p>{{moneyflow.tradeAt}}</p>
+                            </td>
+                            <td class="xsd-cols-xs-2">
+                                <p>{{moneyflow.tradeInfo}}</p>
+                            </td>
+                            <td class="xsd-cols-xs-2">
+                                <p>{{moneyflow.traderName}}</p>
+                            </td>
+                            <td class="xsd-cols-xs-1">
+                                <p>{{moneyflow.feeType}}</p>
+                            </td>
+                            <td class="xsd-cols-xs-2">
+                                <p>
+                                  {{moneyflow.startTime}}
+                                  {{#if (not-eq moneyflow.startTime "-")}}
+                                    至
+                                  {{/if}}
+                                  {{moneyflow.endTime}}
+                                </p>
+                            </td>
+                            <td class="xsd-cols-xs-1">
+                              <p>{{moneyflow.flowType}}</p>
+                            </td>
+                            <td class="xsd-cols-xs-1">
+                              {{#if (lt moneyflow.realAmount 0)}}
+                                  <p class="xsd-color-red">
+                                      {{moneyflow.realAmount}}
+                                  </p>
+                              {{else}}
+                                  <p class="xsd-color-green">
+                                      {{moneyflow.realAmount}}
+                                  </p>
+                              {{/if}}
+                            </td>
+                        </tr>
+                    {{/each}}
+                  {{/if}}
+                </table>
+                <div id="pagination">
+                     {{#if (gt model.meta.pagination.count  12)}}
+                        {{page-numbers content=model action="pageChanged"}}
+                     {{/if}}
+                </div>
+          {{else}}
+                       <div class="xsd-tab-content xsd-margin-b24">
+
+                           <div id="xsd-noResult">
+                               <p><i class="iconfont"><img class="xsd-imgWidth" src="images/report.png"></i></p>
+                               <p>抱歉，没有权限！</p>
+                           </div>
+
+                       </div>
+
+
+           {{/if}}
+           {{else}}
+
+             <div class="xsd-tab-content xsd-margin-b24">
+
+                 <div id="xsd-noResult">
+                     <p><i class="iconfont"><img class="xsd-imgWidth" src="images/report.png"></i></p>
+                     <p>抱歉，没有权限！</p>
+                 </div>
+
+             </div>
+
+           {{/if}}
+      {{else}}
+        <div id="xsd-noResult">
+            {{#if (data-exist keyword area block district fee_type fee_type_rough flow_type houseText house_id)}}
+                <p><i class="iconfont"><img class="xsd-imgWidth" src="images/account.png"></i></p>
+                <p>未找到此账单,请核对信息后再试!</p>
+              {{else}}
+            <p><i class="iconfont">&#xe652;</i></p>
+            <p>暂无财务数据，先录入房源吧</p>
+            {{#link-to "rental.separate-management" class="xsd-btn xsd-btn-primary iconfont"}}去租务管理{{/link-to}}
+              {{/if}}
+        </div>
+      {{/if}}
+</div>
+</div>
+</div>
+{{#if auth.e_power.finance_flow_view}}
+  {{finance-detail model=detail financeReload=(action "financeReload")}}
+{{/if}}
+{{#if auth.e_power.finance_flow_add}}
+  {{add-finance financeReload=(action "financeReload") refresh=refresh}}
+{{/if}}
+{{/page-waper}}

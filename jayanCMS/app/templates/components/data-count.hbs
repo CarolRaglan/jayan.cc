@@ -1,0 +1,372 @@
+<table id="table-data">
+    <tr>
+        <td>
+            <h2>收支情况<a class="xsd-pull-right xsd-color-gray"><span class="xsd-font-size12">{{profit.start_date}}-{{profit.end_date}}</span>&nbsp;<i class="iconfont" title="点击选择日期" onclick={{action "popPicker"  true profit.start_date profit.end_date}}>&#xe63e;</i></a></h2>
+            <ul class="profit">
+                <li class="xsd-clearfix">
+                    <span class="xsd-pull-left"><i class="xsd-color-success xsd-pull-left">.</i>收入</span>
+                  {{#if (lt profit.incomes 0)}}
+                      <i class="xsd-pull-right xsd-color-success">￥{{profit.incomes}}</i>
+                  {{else}}
+                      <i class="xsd-pull-right xsd-color-green">￥{{profit.incomes}}</i>
+                  {{/if}}
+                </li>
+                <li class="xsd-clearfix">
+                    <span class="xsd-pull-left"><i class="xsd-color-yellow xsd-pull-left">.</i>支出</span>
+                  {{#if (lt profit.payout 0)}}
+                      <i class="xsd-pull-right xsd-color-success">￥{{profit.payout}}</i>
+                  {{else}}
+                      <i class="xsd-pull-right xsd-color-green">￥{{profit.payout}}</i>
+                  {{/if}}
+                </li>
+                <li class="xsd-clearfix">
+                    <span class="xsd-pull-left"><i class="xsd-color-green xsd-pull-left">.</i>净收入</span>
+                  {{#if (lt profit.amount 0)}}
+                      <i class="xsd-pull-right xsd-color-success">￥{{profit.amount}}</i>
+                  {{else}}
+                      <i class="xsd-pull-right xsd-color-green">￥{{profit.amount}}</i>
+                  {{/if}}
+                </li>
+            </ul>
+        </td>
+        <td colspan="2">
+            <h2>快捷操作</h2>
+            <ul class="shortcut xsd-clearfix">
+                <li class="xsd-cursor-pointer">
+                  {{#if auth.e_power.landlord_house_add}}
+                      <a data-toggle="xsd-modal" data-target="#addHouse">
+                          <p class="iconfont xsd-margin-b12">
+                              &#xe679;
+                          </p>
+                          <p>添加房源</p>
+                      </a>
+                  {{else}}
+                      <a onclick={{action "nopower"}}>
+                          <p class="iconfont xsd-margin-b12">
+                              &#xe679;
+                          </p>
+                          <p>添加房源</p>
+                      </a>
+                  {{/if}}
+                </li>
+                <li class="xsd-cursor-pointer">
+                  {{#if auth.e_power.customer_contract_create}}
+                     {{#if exist}}
+                      <a data-toggle="xsd-modal" data-target="#rentalRoom">
+                          <p class="iconfont xsd-margin-b12">
+                              &#xe656;
+                          </p>
+                          <p>添加租客</p>
+                      </a>
+                      {{else}}
+                         <a onclick={{action "nopower" exist}}>
+                             <p class="iconfont xsd-margin-b12">
+                                 &#xe656;
+                             </p>
+                             <p>添加租客</p>
+                         </a>
+                      {{/if}}
+                  {{else}}
+                      <a onclick={{action "nopower" true}}>
+                          <p class="iconfont xsd-margin-b12">
+                              &#xe656;
+                          </p>
+                          <p>添加租客</p>
+                      </a>
+                  {{/if}}
+                </li>
+                <li class="xsd-cursor-pointer">
+                  {{#if auth.e_power.landlord_contract_create}}
+                    {{#if exist}}
+                      <a data-toggle="xsd-modal" data-target="#rentalHouse">
+                          <p class="iconfont xsd-margin-b12">
+                              &#xe655;
+                          </p>
+                          <p>添加业主</p>
+                      </a>
+                    {{else}}
+                        <a onclick={{action "nopower" exist}}>
+                            <p class="iconfont xsd-margin-b12">
+                                &#xe655;
+                            </p>
+                            <p>添加业主</p>
+                        </a>
+                    {{/if}}
+                  {{else}}
+                      <a onclick={{action "nopower" true}}>
+                          <p class="iconfont xsd-margin-b12">
+                              &#xe655;
+                          </p>
+                          <p>添加业主</p>
+                      </a>
+                  {{/if}}
+                </li>
+                <li class="xsd-cursor-pointer">
+                  {{#if  auth.e_power.finance_flow_add}}
+                    {{#if exist}}
+                      <a data-toggle="xsd-modal" data-target="#addFinance">
+                          <p class="iconfont xsd-margin-b12">
+                              &#xe60a;
+                          </p>
+                          <p>添加收支</p>
+                      </a>
+                    {{else}}
+                        <a onclick={{action "nopower" exist}}>
+                            <p class="iconfont xsd-margin-b12">
+                                &#xe60a;
+                            </p>
+                            <p>添加收支</p>
+                        </a>
+                    {{/if}}
+                  {{else}}
+                      <a onclick={{action "nopower" true}}>
+                          <p class="iconfont xsd-margin-b12">
+                              &#xe60a;
+                          </p>
+                          <p>添加收支</p>
+                      </a>
+                  {{/if}}
+                </li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3">
+            <h2 class="xsd-clearfix">
+                经营状况
+                <a class="xsd-pull-right xsd-color-gray"><span class="xsd-font-size12">{{monthCount_data.start_date}}-{{monthCount_data.end_date}}</span>&nbsp;<i class="iconfont" title="点击选择日期"  onclick={{action "popPicker" false monthCount_data.start_date monthCount_data.end_date}}>&#xe63e;</i></a>
+            </h2>
+            <div id="monthCount">
+                <div>
+                    <ul class="xsd-clearfix">
+                        <li>
+                            <div id="dara-contract-count">
+                                <h4>已处理业主合同 <span class="xsd-pull-right"><b class="xsd-color-primary">{{monthCount_data.done_house_contract_nums}}</b>&nbsp;/&nbsp;<i>{{monthCount_data.all_house_contract_nums}}</i></span></h4>
+                                <div>
+                                    <p class="xsd-bg-green"></p>
+                                </div>
+                                <h4>已处理租客合同<span class="xsd-pull-right"><b class="xsd-color-primary">{{monthCount_data.done_room_contract_nums}}</b>&nbsp;/&nbsp;<i>{{monthCount_data.all_room_contract_nums}}</i></span></h4>
+                                <div>
+                                    <p class="xsd-bg-primary"></p>
+                                </div>
+                                <a class="xsd-margin-t16" data-toggle="xsd-drawer" data-target="#contractHistory" onclick={{action "getHistroy" monthCount_data.start_date monthCount_data.end_date "contract"}}>查看合同清单>></a>
+                            </div>
+                        </li>
+                        <li>
+                            <div id="data-order-count">
+                                <h4>已处理业主账单 <span class="xsd-pull-right"><b class="xsd-color-primary">{{monthCount_data.done_house_order_nums}}</b>&nbsp;/&nbsp;<i>{{monthCount_data.all_house_order_nums}}</i></span></h4>
+                                <div>
+                                    <p class="xsd-bg-green"></p>
+                                </div>
+                                <h4>已处理租客账单 <span class="xsd-pull-right"><b class="xsd-color-primary">{{monthCount_data.done_room_order_nums}}</b>&nbsp;/&nbsp;<i>{{monthCount_data.all_room_order_nums}}</i></span></h4>
+                                <div>
+                                    <p class="xsd-bg-primary"></p>
+                                </div>
+                                <a class="xsd-margin-t16" data-toggle="xsd-drawer" data-target="#orderHistory" onclick={{action "getHistroy" monthCount_data.start_date monthCount_data.end_date "order"}}>查看账单清单>></a>
+                            </div>
+                        </li>
+                        <li>
+                            <div id="data-bill-count">
+                                <h4>已付账款 <span class="xsd-pull-right"><b class="xsd-color-primary">{{monthCount_data.done_house_order_amount}}</b>&nbsp;/&nbsp;<i>{{monthCount_data.all_house_order_amount}}</i></span></h4>
+                                <div>
+                                    <p class="xsd-bg-green"></p>
+                                </div>
+                                <h4>已收账款 <span class="xsd-pull-right"><b class="xsd-color-primary">{{monthCount_data.done_room_order_amount}}</b>&nbsp;/&nbsp;<i>{{monthCount_data.all_room_order_amount}}</i></span></h4>
+                                <div>
+                                    <p class="xsd-bg-primary"></p>
+                                </div>
+                                <a class="xsd-margin-t16" data-toggle="xsd-drawer" data-target="#orderHistory" onclick={{action "getHistroy" monthCount_data.start_date monthCount_data.end_date "order"}}>查看账款清单>></a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td id="data" colspan={{colspan}}>
+            <h2 class="xsd-clearfix">
+                经营数据统计
+                <div class="xsd-pull-right">
+                    <span class="xsd-pull-left"><i class="xsd-color-green xsd-pull-left xsd-spot-big">.</i>优秀</span>
+                    <span class="xsd-pull-left"><i class="xsd-color-success xsd-pull-left xsd-spot-big">.</i>良好</span>
+                    <span class="xsd-pull-left"><i class="xsd-color-red xsd-pull-left xsd-spot-big">.</i>一般</span>
+                </div>
+            </h2>
+            <ul>
+                <li>
+                    <div id="check"></div>
+                    <p>入住率</p>
+                    <p class="count">房源总数:&nbsp;<span class="xsd-color-primary">{{mapCount.all_room_nums}}</span>&nbsp;间</p>
+                    <p>空置间数:&nbsp;<span class="xsd-color-primary">{{mapCount.vacancy_room_nums}}</span>&nbsp;间</p>
+                </li>
+                <li>
+                    <div id="lease"></div>
+                    <p>退租率</p>
+                    <p class="count">退租合同数:&nbsp;<span class="xsd-color-primary">{{mapCount.evictioned_nums_all}}</span>&nbsp;个</p>
+                    <p>中途退租数:&nbsp;<span class="xsd-color-primary">{{mapCount.evictioned_nums_at_halfway}}</span>&nbsp;个</p>
+                </li>
+                <li>
+                    <div id="renew"></div>
+                    <p>续租率</p>
+                    <p class="count">到期合同数:&nbsp;<span class="xsd-color-primary">{{mapCount.expired_room_contract_nums}}</span>&nbsp;个</p>
+                    <p>续租合同数:&nbsp;<span class="xsd-color-primary">{{mapCount.room_contract_renew_nums}}</span>&nbsp;个</p>
+                </li>
+                <li>
+                    <div id="gross"></div>
+                    <p>毛利率</p>
+                    <p class="count">总收入:&nbsp;<span class="xsd-color-primary">{{mapCount.incomes}}</span>&nbsp;元</p>
+                    <p>总支出:&nbsp;<span class="xsd-color-primary">{{mapCount.payout}}</span>&nbsp;元</p>
+                </li>
+            </ul>
+        </td>
+        {{#if (eq colspan 2)}}
+        <td id="tickLoan">
+            <h2>嘀嗒贷</h2>
+          {{#if (eq loan.status 0)}}
+              <div>
+                  <div class="xsd-margin-l16 xsd-margin-t16 xsd-color-gray">
+                      <span>可用额度</span>
+                  </div>
+
+                  <ul class="xsd-clearfix  xsd-text-center">
+                      <li class="house">
+                          <p class="xsd-margin-b6">
+                              <span class="xsd-color-success font-size30">0<i class=" xsd-color-red xsd-font-size12">元</i></span>
+                          </p>
+                          <p class="xsd-font-size12 xsd-color-gray">可用额度基于系统信息完整性,<br/>请完善业主合同和租客合同</p>
+
+                      </li>
+                  </ul>
+
+                  <div class="xsd-text-center toTop">
+                    <p class="xsd-font-size12 xsd-color-gray xsd-margin-b12">您的总房间数:<span class="xsd-color-red">&nbsp;{{mapCount.all_room_nums}}&nbsp;</span>间&nbsp;&nbsp;已出租数:<span class="xsd-color-red">&nbsp;{{rentRoomNum}}&nbsp;</span>间</p>
+                    <a data-target="#loan_tips" data-toggle="xsd-modal" class="xsd-color-primary">想获得可用额度,去完善合同数据吧>></a>
+                  </div>
+              </div>
+          {{/if}}
+
+          {{#if (eq loan.status 1)}}
+              <div>
+
+                  <div class="xsd-margin-l16 xsd-margin-t16 xsd-color-gray">
+                      <span>可用额度</span>
+                  </div>
+
+                  <ul class="xsd-clearfix  xsd-text-center xsd-margin-t36">
+                      <li class="house">
+                          <p class="xsd-margin-b6">
+                              <span class="xsd-color-success font-size30">{{format-money loan.credit}}<i class="xsd-font-size18">万</i></span>
+                          </p>
+                          <p class="xsd-font-size12 xsd-color-gray">哇!您有可用额度了,持续完善<br/>信息以提升可用额度</p>
+                      </li>
+                  </ul>
+
+                  <div class="xsd-text-center toTop60">
+                      <a class="xsd-color-primary" data-toggle="xsd-modal" data-target="#applyLoan">申请放款>></a>
+                  </div>
+              </div>
+          {{/if}}
+
+          {{#if (eq loan.status 2)}}
+              <div>
+                  <div class="xsd-margin-l16 xsd-margin-t16 xsd-color-gray">
+                      <span>可用额度</span>
+                  </div>
+
+                  <ul class="xsd-clearfix  xsd-text-center xsd-margin-t36">
+                      <li class="house">
+                          <p class="xsd-margin-b6">
+                              <span class="xsd-color-success font-size30">{{format-money loan.credit}}<i class="xsd-font-size18">万</i></span>
+                          </p>
+                          <p class="xsd-font-size12 xsd-color-gray">持续完善信息<br>可以提升可用额度</p>
+                      </li>
+                  </ul>
+
+                  <div class="xsd-text-center toTop">
+                      <span class="xsd-color-green ">您申请的<span class="xsd-color-red">&nbsp;{{loan.credit_application}}&nbsp;</span>元已受理,<br>保持电话通畅,工作人员会及时与您联系</span>
+                  </div>
+              </div>
+          {{/if}}
+
+          {{#if (eq loan.status 3)}}
+              <div>
+                  <div class="xsd-margin-l16 xsd-margin-t16 xsd-color-gray">
+                      <span>批准额度</span>
+                  </div>
+
+                  <ul class="xsd-clearfix  xsd-text-center xsd-margin-t36">
+                      <li class="house">
+                          <p class="xsd-margin-b6">
+                              <span class="xsd-color-success font-size30">¥{{loan.used_credit}}</span>
+                          </p>
+                          <p class="xsd-font-size12 xsd-color-gray  xsd-margin-b12">剩余可用额度:{{loan.remain_credit}}元</p>
+                          <p class="xsd-font-size12 xsd-color-gray">持续完善信息<br>可以提升可用额度</p>
+                      </li>
+                  </ul>
+
+                  <div class="xsd-text-center xsd-margin-t36">
+                      <span class="xsd-color-green ">恭喜您,&nbsp;获得放款批准</span>
+                  </div>
+              </div>
+          {{/if}}
+
+          {{#if (eq loan.status 4)}}
+              <div>
+                  <div class="xsd-margin-l16 xsd-margin-t16 xsd-color-gray">
+                      <span>可用额度</span>
+                  </div>
+
+                  <ul class="xsd-clearfix count">
+                      <li class="house">
+                          <p class="xsd-margin-b6">
+                              <span class="xsd-color-success font-size30">{{format-money loan.can_get_more_credit}}<i class="xsd-font-size18">万</i></span>
+                          </p>
+                          <p class="xsd-font-size12 xsd-color-gray">已放款:<i> &nbsp; ¥{{loan.used_credit}}</i></p>
+                      </li>
+                  </ul>
+
+                  <div class="xsd-margin-b16 xsd-color-gray">
+                      <ul class="profit xsd-font-size12">
+                          <li class="xsd-clearfix">
+                              <span class="xsd-pull-left">还款期数:</span>
+                              <span class="xsd-pull-right">
+                                  <b class=" xsd-color-primary xsd-font-size12">{{loan.payed_nums}}&nbsp;</b>期</span>
+                          </li>
+                          <li class="xsd-clearfix">
+                              <span class="xsd-pull-left">最后还款日:</span>
+                              <span class="xsd-pull-right">每月<b class=" xsd-color-primary xsd-font-size12">&nbsp;{{loan.pay_day}}&nbsp;</b>日</span>
+                          </li>
+                          <li class="xsd-clearfix">
+                              <span class="xsd-pull-left">月还款金额:</span>
+                              <span class="xsd-pull-right xsd-color-primary  xsd-font-size12">¥{{loan.amount_per_month}}</span>
+                          </li>
+                          <li class="xsd-clearfix">
+                              <span class="xsd-pull-left">剩余总还款金额:</span>
+                              <span class="xsd-pull-right xsd-color-primary  xsd-font-size12">¥{{loan.not_payed_amount}}</span>
+                          </li>
+                      </ul>
+                  </div>
+
+              </div>
+          {{/if}}
+        </td>
+        {{/if}}
+    </tr>
+</table>
+<div id="screenTime">
+  <ul class="xsd-clearfix">
+      <li class="xsd-margin-r12">
+          <p class="xsd-margin-b12">开始时间:{{input class="xsd-color-primary" disabled="disabled" value=start_time type="text" id="search_start_time"}}</p>
+          <div id="screen-container1"></div>
+      </li>
+      <li>
+          <p class="xsd-margin-b12">结束时间:{{input class="xsd-color-primary" disabled="disabled" value=end_time type="text" id="search_end_time"}}</p>
+          <div id="screen-container2"></div>
+      </li>
+  </ul>
+  <div class="xsd-clearfix screen-btns">
+     <a class="xsd-btn xsd-btn-primary xsd-pull-right xsd-margin-l12" onclick={{action "confirmPicker"}}>确定</a>
+     <a class="xsd-btn xsd-btn-gray xsd-modal-close xsd-pull-right"   onclick={{action "closePicker"}}>取消</a>
+  </div>
+</div>

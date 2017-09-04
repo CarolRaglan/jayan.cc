@@ -1,0 +1,76 @@
+<div id="header">
+    <h1 class="xsd-pull-left">
+      {{#if auth.user.company_brand}}
+        {{auth.user.company_brand}}
+      {{else}}
+          水滴管家
+      {{/if}}
+        <p class="xsd-btn-primary clearfix xsd-pull-right smallBox ">分散式</p>
+    </h1>
+    <ul class="xsd-pull-right">
+      {{#if auth.e_power.financeloan_flow_view}}
+        <li class='xsd-pull-left iconfont big-iconfont checkStyle {{data-menus "divide"}}'>
+
+          {{#link-to "divide"}}
+            <img class="stage" src="../images/stages.png" alt="">
+              <b>分期</b>
+          {{/link-to}}
+
+        </li>
+      {{/if}}
+          <li class='xsd-pull-left iconfont big-iconfont checkStyle xsd-margin-r12 {{data-menus "spread"}}'>
+            {{#if auth.user.is_vip}}
+              {{#if auth.e_power.openchannel_view}}
+                {{#link-to "spread" class="spreadTitle"}}
+                  <img class="spread" src="../images/sendhouse.png" alt="">
+                  <b>出房</b>
+                {{/link-to}}
+              {{/if}}
+            {{else}}
+              <a class="spreadTitle" onclick={{action "noBuy"}}  >
+                <img class="spread" src="../images/sendhouse.png" alt="">
+                <b>出房</b>
+              </a>
+            {{/if}}
+
+          </li>
+        <li class="xsd-pull-left xsd-margin-l36" id="userOptions">
+
+            <span class="xsd-pull-left">
+              <img class="xsd-pull-user" src="../images/user.png" alt="头像">
+              {{auth.user.name}}
+              {{#if (eq 1 auth.user.vip_level)}}
+	              <img class="xsd-pull-right xsd-add-margin" src="../images/user/golden.png" alt="头像">
+              {{else}}
+	              <img class="xsd-pull-right xsd-add-margin" src="../images/user/silver.png" alt="头像">
+              {{/if}}
+            </span>
+            <div id="optionMenu">
+                <div id="menu-top">
+                    {{#if (eq 1 auth.user.vip_level)}}
+                    <p class="xsd-pull-left"><h3 class="xsd-pull-left xsd-font-size16">金水滴 </h3><img class="menu-logo xsd-add-margin" src="../images/user/golden.png" alt="头像">
+                        <p class="xsd-color-gray">到期时间：{{auth.user.vip_expire_time}}</p>
+                    </p>
+                    {{else}}
+	                    <h3 class="xsd-pull-left xsd-font-size16">银水滴 <img class="menu-logo" src="../images/user/silver.png" alt="头像">
+	                    </h3>
+                    {{/if}}
+                    <a id="buyBtn" class="xsd-btn xsd-btn-primary xsd-pull-right" onclick={{action "clickBuy"}}>续费会员</a>
+                </div>
+                <ul>
+                  {{#if auth.e_power.h2ometrades}}
+                    <li>{{#link-to "pay"}}<i class="iconfont icon-yue">&#xe6bf;</i><p>账户余额</p>{{/link-to}}</li>
+                  {{/if}}
+                    <li>{{#link-to "message"}}<i class="iconfont icon-tixing">&#xe6be;</i><p>消息提醒</p>{{/link-to}}</li>
+                    <li><a data-target="#auto-backup" data-toggle="xsd-modal" onclick={{action "getMailbox"}}><i class="iconfont icon-xsd-backup"></i><p>自动备份</p></a></li>
+                    <li>{{#link-to "uc.settings.account"}}<i class="iconfont icon-xsd-account"></i><p>账户设置</p>{{/link-to}}</li>
+                  <li><a {{action 'logout'}}><i class="iconfont icon-xsd-exit"></i><p>安全退出</p></a></li>
+                </ul>
+            </div>
+
+        </li>
+    </ul>
+</div>
+<a id="public-modal-trigger" data-toggle="xsd-modal" data-target="#publicModal"></a>
+{{auto-backup backup=backup fresh=fresh}}
+{{public-modal type=type}}

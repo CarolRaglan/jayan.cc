@@ -1,0 +1,136 @@
+<div class="xsd-modal rental-modal finance-modal" id="addFinance">
+    <div class="xsd-modal-header xsd-margin-b24">
+        <span class="xsd-font-size16">添加收支</span><a class="xsd-modal-close iconfont">&#xe633;</a>
+    </div>
+    <div class="xsd-modal-body">
+        {{#if refresh}}
+        <div id="step1" class="finance-form">
+            <div class="container">
+                <div class="xsd-clearfix xsd-margin-b12">
+                    <label class="xsd-pull-left xsd-margin-r12">
+                        <p class="xsd-margin-b6">流水类型<i>*</i></p>
+                        <div class="xsd-input-group xsd-select">
+                        <i class="iconfont">&#xe63c;</i>
+
+                        <input class="xsd-input area" data-value="0" id="a_flow_type" type="text" value="收入">
+
+                        <ul>
+                             <li data-value="0">收入</li>
+                             <li data-value="1">支出</li>
+                        </ul>
+                        </div>
+                    </label>
+                    <label class="xsd-pull-left">
+                        <p class="xsd-margin-b6">收款人/付款人<i>*</i></p>
+                        <label class="xsd-input-group">
+                        <input class="xsd-input area" type="text" id="trader_name" name="trader_name"  placeholder="请输入收款人/付款人姓名" title="收款人/付款人姓名" validate="required">
+                        </label>
+                    </label>
+                </div>
+                <div class="xsd-clearfix xsd-margin-b12">
+                    <label class="xsd-pull-left xsd-margin-r12">
+                        <p class="xsd-margin-b6">房源名称<i>*</i></p>
+                        <div class="xsd-input-group">
+                        <input class="xsd-input area" type="text" id="a_house_id" name="a_house_id"   placeholder="请输入房源名称" onkeyup={{action "search"}} validate="required" title="房源名称">
+                         {{#if houses}}
+                         <ul id="addAreaList">
+                            {{#each houses as |house|}}
+                            <li data-value={{house.id}}  onclick={{action "clickLi" house.rooms}}>{{house.location}}</li>
+                            {{/each}}
+                         </ul>
+                         {{/if}}
+                        </div>
+                    </label>
+                    <label class="xsd-pull-left">
+                        <p class="xsd-margin-b6">房间名称<i>*</i></p>
+                        <div class="xsd-input-group xsd-select">
+                            <i class="iconfont">&#xe63c;</i>
+                            <input class="xsd-input area" id="a_room_id" name="a_room_id" readonly  type="text" placeholder="请选择房间名称"  validate="required" title="房间名称">
+                            <ul>
+                                {{#each rooms as |room|}}
+                                    <li data-value={{room.id}}>{{room.name}}</li>
+                                {{/each}}
+                            </ul>
+                        </div>
+                    </label>
+                </div>
+                <div class="xsd-clearfix xsd-margin-b12">
+                    <label class="xsd-pull-left xsd-margin-r12">
+                        <p class="xsd-margin-b6">费用名称<i>*</i></p>
+                        <div class="xsd-input-group xsd-select">
+                            <i class="iconfont">&#xe63c;</i>
+                            <input class="xsd-input area" id="a_fee_type" name="a_fee_type"  data-value="water_fees" type="text" value="水费">
+                            <ul>
+                                <li data-value="rent_amount">租金</li>
+                                <li data-value="rent_deposit">押金</li>
+                                <li data-value="water_fees">水费</li>
+                                <li data-value="power_fees">电费</li>
+                                <li data-value="gas_fees">燃气费</li>
+                                <li data-value="property_fees">物业费</li>
+                                <li data-value="service_fees">服务费</li>
+                                <li data-value="upkeep_fees">维修费</li>
+                                <li data-value="cleaning_fees">保洁费</li>
+                                <li data-value="material_fees">材料费</li>
+                                <li data-value="catv_fees">有线电视</li>
+                                <li data-value="internet_fees">宽带</li>
+                                <li data-value="sanitation_fees">卫生费</li>
+                                <li data-value="other_fees">其他费用</li>
+                            </ul>
+                        </div>
+                    </label>
+                    <label class="xsd-pull-left">
+                        <p class="xsd-margin-b6">费用金额<i>*</i></p>
+                        <div class="xsd-input-group">
+                            <i class="xsd-color-gray">元</i>
+                            <input class="xsd-input area" id="a_fee" name="a_fee"  type="text" placeholder="请输入金额" validate="required|numeric" title="金额">
+                        </div>
+                    </label>
+                </div>
+                <div class="xsd-clearfix xsd-margin-b12">
+                    <label class="xsd-pull-left xsd-margin-r12 xsd-margin-b6">
+                       <p class="xsd-margin-b6">交易时间<i>*</i></p>
+                       <div class="xsd-input-group">
+                       <i class="iconfont">&#xe63e;</i>
+                       {{pikaday-input class="xsd-input" id="gen_at" value=config.today name="gen_at" placeholder="交易时间" format="YYYY-MM-DD HH:mm"  title="交易时间" readonly="readonly" validate='required'}}
+                      </div>
+                    </label>
+                    <label class="xsd-pull-left xsd-margin-r12 xsd-margin-b6">
+                        <p class="xsd-margin-b6">支付方式</p>
+                        <div class="xsd-input-group xsd-select">
+                            <i class="iconfont">&#xe63c;</i>
+                            <input class="xsd-input area" data-value="0" id="a_pay_method" name="a_pay_method"
+                                   type="text" value="支付宝">
+                            <ul>
+                                <li data-value="0">支付宝</li>
+                                <li data-value="1">嘀嗒付</li>
+                                <li data-value="2">微信</li>
+                                <li data-value="3">现金</li>
+                                <li data-value="4">银行转账</li>
+                                <li data-value="6">线下pos支付</li>
+                            </ul>
+                        </div>
+                    </label>
+                    <label class="xsd-pull-left">
+                        <p class="xsd-margin-b6">支付流水号</p>
+                        <div class="xsd-input-group">
+                            <input class="xsd-input area" id="a_trade_serial_no" name="a_trade_serial_no"
+                                   type="text" value="" placeholder="支付流水号">
+                        </div>
+                    </label>
+                </div>
+                <div>
+                  <p class="xsd-margin-b6">流水备注</p>
+                  <textarea id="f_comment"></textarea>
+                </div>
+            </div>
+        </div>
+        {{/if}}
+    </div>
+    <div class="xsd-modal-bottom xsd-clearfix">
+        <div class="xsd-clearfix">
+            <a class="xsd-btn xsd-btn-primary xsd-pull-right" onclick={{action "addFinance"}}>确定</a>
+            <a class="xsd-btn xsd-btn-gray xsd-modal-close xsd-pull-right">取消</a>
+        </div>
+    </div>
+</div>
+

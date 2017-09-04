@@ -1,0 +1,66 @@
+<div class="xsd-modal xsd-md-modal" id="withdraw-cash">
+    <div class="xsd-modal-header">
+        <span class="xsd-font-size16">提现</span><a class="xsd-modal-close iconfont">&#xe633;</a>
+    </div>
+    <div class="xsd-modal-body">
+        <div class="container">
+            <!--开户银行-->
+            <div class="xsd-clearfix xsd-margin-b16">
+                <p class="xsd-margin-b6">开户银行</p>
+                <label class="xsd-pull-left xsd-input-group">
+                    <input class="xsd-input area dis-color" id="depositBank" name="depositBank" type="text" title="开户银行" validate="required" disabled value={{data.bank_name}}>
+                </label>
+            </div>
+            <!--银行卡号-->
+            <div class="xsd-clearfix xsd-margin-b16">
+                <p class="xsd-margin-b6">银行卡号</p>
+                <label class="xsd-pull-left xsd-input-group">
+                    <input class="xsd-input area dis-color" id="bankCardNum" name="bankCardNum" type="text" title="银行卡号" validate="required" disabled value={{data.card_no}}>
+                </label>
+            </div>
+            <!--提现金额-->
+            <div class="xsd-clearfix xsd-margin-b16">
+                <p class="xsd-margin-b6">提现金额<span class="xsd-color-gray xsd-font-size12">(每笔提现成功收取<i class="xsd-color-red">5</i>元手续费)</span></p>
+                <label class="xsd-pull-left xsd-input-group">
+                    <i class="iconfont xsd-color-gray">元</i>
+                    <input class="xsd-input area" id="withdrawMoney" name="withdrawMoney" type="text" title="提现金额"
+                           placeholder="请输入提现金额" validate="required|numeric" value="">
+                </label>
+            </div>
+            <!--注册手机号-->
+            <div class="xsd-clearfix xsd-margin-b16">
+                <p class="xsd-margin-b6">注册手机号</p>
+                <label class="xsd-pull-left xsd-input-group">
+                    <input class="xsd-input area dis-color" id="registeredPhoneNum" name="registeredPhoneNum" type="text" title="注册手机号" validate="required" disabled value={{auth.user.phone}}>
+                </label>
+            </div>
+            <!--手机验证码-->
+            <div class="xsd-clearfix xsd-margin-b16">
+                <p class="xsd-margin-b6">手机验证码</p>
+                <label class="xsd-pull-left xsd-input-group">
+                    <i class="iconfont xsd-color-primary getValidate">
+                        <input class="btnSendCode" type="button" value="获取验证码" onclick={{action "sendCode"}}>
+                    </i>
+                    <input class="xsd-input" id="w-phoneValidate" name="w-phoneValidate" type="text" title="验证码"
+                           placeholder="输入手机验证码" validate="required" value=''>
+                </label>
+            </div>
+            <!--登录密码-->
+            <!--<div class="xsd-clearfix xsd-margin-b16">-->
+                <!--<p class="xsd-margin-b6">登录密码</p>-->
+                <!--<label class="xsd-pull-left xsd-input-group">-->
+                    <!--<input class="xsd-input area" id="password" name="password" type="password" title="登录密码"-->
+                           <!--placeholder="请输入登录密码" validate="required" value="">-->
+                <!--</label>-->
+            <!--</div>-->
+        </div>
+    </div>
+
+
+    <div class="xsd-modal-bottom xsd-clearfix">
+        <div class="xsd-clearfix">
+            <a class="xsd-btn xsd-btn-primary xsd-pull-right " onclick={{action "getCash"}}>确定</a>
+            <a class="xsd-btn xsd-btn-gray xsd-pull-right xsd-modal-close">取消</a>
+        </div>
+    </div>
+</div>

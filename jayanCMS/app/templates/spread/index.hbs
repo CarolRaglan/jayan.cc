@@ -1,0 +1,339 @@
+{{#page-waper}}
+  {{#if flag}}
+      <div class="xsd-clearfix">
+          <div id="releaseStatus-bur" class="xsd-pull-left">
+              <div class="title-con">
+                  <h3><span></span>水滴出房</h3>
+                {{#if (eq app_status 0)}}
+                    <p class="authentication" onclick={{action "goAuth"}}><i class="icon iconfont">&#xe6bd;</i> 身份认证</p>
+
+                {{/if}}
+                {{#if (eq app_status 1)}}
+                    <p class="in-authentication"><i class="icon iconfont">&#xe6bd;</i> 身份认证中</p>
+
+                {{/if}}
+                {{#if (eq app_status 2)}}
+                    <p class="authentication-ok"><i class="icon iconfont">&#xe6bd;</i> 身份认证：成功</p>
+
+                {{/if}}
+              </div>
+              <ul>
+                  <li class={{data-equal status 0}} onclick={{action "switch" "waitPublish" 0}}>待发布房间（{{model.meta.count.release_count}}）</li>
+                  <li class={{data-equal status 1}} onclick={{action "switch" "publish" 1}}>发布中房间（{{model.meta.count.releasing_count}}）</li>
+                  <li class={{data-equal status 3}} onclick={{action "switch" "putAway" 3}}>已上架房间（{{model.meta.count.online_count}}）</li>
+                  <li class={{data-equal status 4}} onclick={{action "switch" "soldOut" 4}}>已下架房间（{{model.meta.count.offline_count}}）</li>
+              </ul>
+          </div>
+          <div id="releaseStatus" class="xsd-pull-left">
+              <!--<div id="releaseStatusSearch">-->
+                <!--{#search-bar type=type tips=tips}}-->
+                <!--{/search-bar}}-->
+              <!--</div>-->
+              <!--<h2>-->
+                  <!--{#if (eq channel "0")}}-->
+                  <!--发布房源到58品牌公寓馆-->
+                  <!--{/if}}-->
+                  <!--{#if (eq channel "1")}}-->
+                    <!--发布房源到嗨住(支持上海、北京、杭州、南京房源)-->
+                  <!--{/if}}-->
+                  <!--{#if (eq channel "2")}}-->
+                    <!--发布房源到水滴租房-->
+                  <!--{/if}}-->
+                  <!--<a class="xsd-pull-right xsd-color-primary" onclick={action "backIndex"}}>返回出房首页</a>-->
+              <!--</h2>-->
+
+              <div class="xsd-tabs xsd-tabs-card">
+                  <div class="xsd-search-nav">
+                    {{#spread-bar type=type tips=tips navFlag=navFlag}}{{/spread-bar}}
+                  </div>
+
+                  <ul class="xsd-clearfix xsd-nav-tabs">
+                      <li class="active z-index4" onclick={{action "tabs" 0}}><a id="waitPublish" data-toggle="tab" data-href="#tab-1">待发布</a></li>
+                      <li class="z-index3" onclick={{action "tabs" 1}}><a id="publish" data-toggle="tab" data-href="#tab-2">发布中</a></li>
+                      <li class="z-index2" onclick={{action "tabs" 3}}><a id="putAway" data-toggle="tab" data-href="#tab-3">已上架</a></li>
+                      <li class="z-index1" onclick={{action "tabs" 4}}><a id="soldOut" data-toggle="tab" data-href="#tab-4">已下架</a></li>
+                  </ul>
+                  <div class="xsd-tab-content">
+                      <div id="tab-1" class="active xsd-tab-pane">
+                          <!--<p class="xsd-font-size16">待发布房间<i class="xsd-color-primary">（ {model.meta.pagination.count}}间 )</i></p>-->
+                          <div class="releaseContainer xsd-clearfix">
+                            {{#each model as | showroom |}}
+                                <div class="singleRoom xsd-pull-left">
+                                    <div class="upRoom">
+                                        <h3>{{showroom.area}}</h3>
+                                        <p class="xsd-color-gray xsd-text-ellipsis"
+                                           title={{showroom.roomName}}>{{showroom.houseName}}{{showroom.roomName}}</p>
+                                        <p class="xsd-color-gray">
+                                            出租方式：
+                                          {{#if showroom.isWhole}}
+                                              整租
+                                          {{else}}
+                                              合租
+                                          {{/if}}
+                                        </p>
+                                    </div>
+                                    <div class="xsd-text-center xsd-color-gray downRoom">
+                                        {{#if auth.e_power.openchannel}}
+                                        <a class="xsd-color-gray" data-toggle="xsd-modal"
+                                           data-target="#release-room" onclick={{action "detail" showroom.id 'submit' channel}}>发布</a>
+                                        {{/if}}
+                                    </div>
+                                </div>
+                            {{/each}}
+                          </div>
+                          <div id="pagination">
+                            {{#if (gt model.meta.pagination.count  20)}}
+                              {{page-numbers content=model}}
+                            {{/if}}
+                          </div>
+                      </div>
+                      <div id="tab-2" class="xsd-tab-pane">
+                          <!--<p class="xsd-font-size16">发布中房间<i class="xsd-color-primary">（ {model.meta.pagination.count}}-->
+                              <!--间 )</i></p>-->
+                          <div class="releaseContainer xsd-clearfix">
+                            {{#each  model as | showroom |}}
+                              {{#if (eq showroom.status 2)}}
+                              <div class="singleRoom xsd-pull-left">
+                                  <div class="upRoom">
+                                      <h3>
+                                        {{showroom.area}}
+                                        {{#if (eq showroom.channel_status.ping_an 3)}}
+                                          <img src="../images/spread/pingan-1.png" alt="">
+                                        {{else}}
+                                            <img src="../images/spread/pingan-2.png" alt="">
+                                        {{/if}}
+                                        {{#if (eq showroom.channel_status.wu_ba 3)}}
+                                            <img src="../images/spread/58-1.png" alt="">
+                                        {{else}}
+                                            <img src="../images/spread/58-2.png" alt="">
+
+                                        {{/if}}
+                                      </h3>
+                                      <p class="xsd-color-gray xsd-text-ellipsis">{{showroom.houseName}}{{showroom.roomName}}</p>
+                                      <p class="xsd-color-gray">出租方式：
+                                        {{#if showroom.isWhole}}
+                                            整租
+                                        {{else}}
+                                            合租
+                                        {{/if}}
+                                      </p>
+                                      <p class="xsd-color-red xsd-text-ellipsis">{{showroom.errMsg}}</p>
+                                  </div>
+                                  <div class="xsd-text-center xsd-color-gray downRoom">
+                                      <a class="xsd-color-gray" data-toggle="xsd-modal"
+                                         data-target="#release-room" onclick={{action "detail" showroom.id  'resetSubmit' channel}}>重新发布</a>
+                                  </div>
+                              </div>
+                              {{else}}
+                               <div class="singleRoom xsd-pull-left toExamine">
+                                      <div class="upRoom">
+                                          <h3>{{showroom.area}}
+                                            {{#if (eq showroom.channel_status.ping_an 3)}}
+                                              <img src="../images/spread/pingan-1.png" alt="">
+                                            {{else}}
+                                              <img src="../images/spread/pingan-2.png" alt="">
+                                            {{/if}}
+                                            {{#if (eq showroom.channel_status.wu_ba 3)}}
+                                              <img src="../images/spread/58-1.png" alt="">
+                                            {{else}}
+                                              <img src="../images/spread/58-2.png" alt="">
+
+                                            {{/if}}
+
+                                          </h3>
+                                          <p class="xsd-color-gray xsd-text-ellipsis">{{showroom.houseName}}{{showroom.roomName}}</p>
+                                          <p class="xsd-color-gray">出租方式：
+                                            {{#if showroom.isWhole}}
+                                                整租
+                                            {{else}}
+                                                合租
+                                            {{/if}}
+                                          </p>
+                                        <p class="xsd-color-red xsd-text-ellipsis">{{showroom.errMsg}}</p>
+                                      </div>
+                                      <div class="xsd-text-center xsd-color-gray downRoom">
+                                        <a class="xsd-color-gray" data-toggle="xsd-modal"
+                                           data-target="#release-room" onclick={{action "detail" showroom.id  'resetSubmit' channel}}>重新发布</a>
+
+
+                                        <!--<a data-toggle="xsd-modal"-->
+                                             <!--data-target="#release-room" onclick={action "detail" showroom.id 'check' channel}}>查看</a>-->
+
+                                          <!--<a data-toggle="xsd-modal"-->
+                                             <!--data-target="#release-room" onclick={action "detail" showroom.id 'edit' channel}}><i>编辑</i></a>-->
+                                      </div>
+                                  </div>
+                              {{/if}}
+                            {{/each}}
+                          </div>
+                          <div id="pagination">
+                            {{#if (gt model.meta.pagination.count  20)}}
+                              {{page-numbers content=model}}
+                            {{/if}}
+                          </div>
+                      </div>
+                      <div id="tab-3" class="xsd-tab-pane">
+                          <!--<p class="xsd-font-size16">已上架房间<i class="xsd-color-primary">（ {model.meta.pagination.count}}-->
+                              <!--间 )</i></p>-->
+                          <div class="releaseContainer xsd-clearfix">
+                            {{#each  model as | showroom |}}
+                              <div class="singleRoom xsd-pull-left toExamine">
+                                    <div class="upRoom">
+                                        <h3>{{showroom.area}}</h3>
+                                        <p class="xsd-color-gray xsd-text-ellipsis">{{showroom.houseName}}{{showroom.roomName}}</p>
+                                        <p class="xsd-color-gray">出租方式：
+                                          {{#if showroom.isWhole}}
+                                              整租
+                                          {{else}}
+                                              合租
+                                          {{/if}}
+                                        </p>
+                                        <p>上架时间:{{showroom.updateTime}}</p>
+                                    </div>
+                                    <div class="xsd-text-center xsd-color-gray downRoom">
+                                        <a data-toggle="xsd-modal"
+                                           data-target="#release-room" onclick={{action "detail" showroom.id 'check' channel}}><i class="borderRight">查看</i></a>
+                                        <a data-toggle="xsd-modal"
+                                           data-target="#release-room" onclick={{action "detail" showroom.id 'edit' channel}}><i>编辑</i></a>
+                                    </div>
+                                </div>
+                            {{/each}}
+                          </div>
+                          <div id="pagination">
+                            {{#if (gt model.meta.pagination.count  20)}}
+                              {{page-numbers content=model}}
+                            {{/if}}
+                          </div>
+                      </div>
+                      <div id="tab-4" class="xsd-tab-pane">
+                          <!--<p class="xsd-font-size16">已下架房间<i class="xsd-color-primary">（ {model.meta.pagination.count}}间 )</i></p>-->
+                          <div class="releaseContainer xsd-clearfix">
+                              {{#each  model as | showroom |}}
+                              <div class="singleRoom xsd-pull-left">
+                                  <div class="upRoom">
+                                      <h3>{{showroom.area}}</h3>
+                                      <p class="xsd-color-gray xsd-text-ellipsis">{{showroom.houseName}}{{showroom.roomName}}</p>
+                                      <p class="xsd-color-gray">出租方式：
+                                        {{#if showroom.isWhole}}
+                                            整租
+                                        {{else}}
+                                            合租
+                                        {{/if}}
+                                      </p>
+                                      <p>下架时间:{{showroom.updateTime}}</p>
+                                      <p>租客姓名:{{showroom.customerName}}</p>
+                                  </div>
+                                  <div class="xsd-text-center xsd-color-gray downRoom">
+                                      <a class="xsd-color-gray" data-toggle="xsd-modal"
+                                         data-target="#release-room" onclick={{action "detail" showroom.id 'check' channel}}>查看</a>
+                                  </div>
+                              </div>
+                              {{/each}}
+                          </div>
+                          <div id="pagination">
+                            {{#if (gt model.meta.pagination.count  20)}}
+                              {{page-numbers content=model}}
+                            {{/if}}
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      {{release-room room=detail refresh=refresh channel=channel openType=openType editUnAble=editUnAble app_status=app_status roomReload=(action "roomReload")}}
+  {{else}}
+      <div id="announce">
+          <div class="announceTop"></div>
+          <div class="announceBottom">
+              {{#if isChecked}}
+                    <a class="sendHouse" onclick={{action "goPublish" 2}}>发布房源</a>
+              {{else}}
+                    <p class="sendHouse unSendHouse xsd-color-gray">发布房源</p>
+              {{/if}}
+              <div onclick={{action "isChecked"}}><input id="sendHouseAgr" class="xsd-pull-left" type="checkbox" checked name="sendHouseAgr" />我以阅读<a class="agrHref" data-toggle="xsd-modal" data-target="#spreadAgreeMent">“房行授权协议”</a>并遵守相关规定。</div>
+          <!--<h2>出房渠道</h2>-->
+              <!--<ul>-->
+                  <!--<li class="xsd-clearfix xsd-margin-b24">-->
+                      <!--<img class="xsd-pull-left" src="../../images/spread/58.png">-->
+                      <!--<div class="xsd-pull-left">-->
+                          <!--<h3>58品牌公寓馆（业内首家，无缝对接最大租房流量平台）</h3>-->
+                          <!--<p>58同城、赶集网、安居客三网大租房流量平台，品牌公寓馆，优选最匹配的租客</p>-->
+                          <!--<p>开通城市：北京、上海、广州、深圳、成都、杭州、南京、武汉、天津、沈阳、西安</p>-->
+                          <!--<p>资质要求：统一装修，具有企业资质，需提交证明资料进行审核</p>-->
+                          <!--<p>发房须知：<a class="xsd-color-primary" href="http://h2ome.oss-cn-shanghai.aliyuncs.com/%E5%8F%91%E5%B8%96%E8%A7%84%E8%8C%83%E5%8F%8A%E5%A4%84%E7%BD%9A%E6%8E%AA%E6%96%BD%EF%BC%88%E5%85%AC%E5%AF%93%E6%96%B9%EF%BC%89%E3%80%90%E4%BF%AE%E8%AE%A2%E7%89%88%E3%80%91.pdf">公寓发房须知文档下载</a></p>-->
+                      <!--</div>-->
+                    <!--{#if (eq auth.user.role "boss")}}-->
+                      <!--{#if (eq app_status 1)}}-->
+                          <!--<a class="xsd-btn xsd-btn-pale xsd-pull-right">审核中，请耐心等待</a>-->
+
+                      <!--{/if}}-->
+                      <!--{#if (eq app_status 0)}}-->
+                          <!--<a class="xsd-btn xsd-btn-primary xsd-pull-right" data-toggle="xsd-modal" data-target="#application-house">申请开通发布权限</a>-->
+                      <!--{/if}}-->
+                      <!--{#if (eq app_status 2)}}-->
+                          <!--<a class="xsd-btn xsd-btn-primary xsd-pull-right" onclick={action "goPublish" 0}}>去发布房源</a>-->
+                      <!--{/if}}-->
+                    <!--{else}}-->
+                      <!--{#if (not-eq app_status 2)}}-->
+                        <!--<a class="xsd-btn xsd-btn-pale xsd-pull-right">请耐心等待老板大人审核通过哟!</a>-->
+                        <!--{else}}-->
+                        <!--<a class="xsd-btn xsd-btn-primary xsd-pull-right" onclick={action "goPublish" 0}}>去发布房源</a>-->
+                      <!--{/if}}-->
+                    <!--{/if}}-->
+                  <!--</li>-->
+                  <!--<li class="xsd-clearfix xsd-margin-b24">-->
+                      <!--<img class="xsd-pull-left" src="../../images/spread/haizhu.png">-->
+                      <!--<div class="xsd-pull-left">-->
+                          <!--<h3>嗨住租房平台，超过40万的注册用户，随时随地搜索房源。</h3>-->
+                          <!--<p>面对职业房东，嗨住按效果收取一定费用，先成交再收费。</p>-->
+                          <!--<p>商务咨询热线：400-8786-999。</p>-->
+                          <!--<p>开通城市：上海、北京、杭州、南京</p>-->
+                      <!--</div>-->
+                      <!--<a class="xsd-btn xsd-btn-gray xsd-pull-right">升级中</a>-->
+                  <!--</li>-->
+                <!--{#if (eq auth.user.is_channel 1)}}-->
+                  <!--<li class="xsd-clearfix xsd-margin-b24">-->
+                      <!--<img class="xsd-pull-left" src="../../images/spread/shuidi.png">-->
+                      <!--<div class="xsd-pull-left">-->
+                          <!--<h3>水滴租房平台，为初入社会年轻人，提供有温度的居住体验</h3>-->
+                          <!--<p>精准覆盖0-3年职场新人，分租/整租全房型</p>-->
+                          <!--<p>开通城市：上海，苏州，无锡，昆山</p>-->
+                      <!--</div>-->
+                      <!--<a class="xsd-btn xsd-btn-primary xsd-pull-right" onclick={action "goPublish" 2}}>去发布房源</a>-->
+                  <!--</li>-->
+                <!--{/if}}-->
+              <!--</ul>-->
+          </div>
+      </div>
+    {{spread-agreement}}
+  {{/if}}
+  <a id="go_auth" data-toggle="xsd-modal" data-target="#application-house"></a>
+
+  <div class="xsd-modal xsd-md-modal" id="sendHouse">
+      <div class="xsd-modal-header xsd-margin-b16">
+          <span class="xsd-font-size16"></span><a class="xsd-modal-close iconfont">&#xe633;</a>
+      </div>
+      <div class="xsd-modal-body xsd-margin-b24">
+          <p>
+              身份认证后可以在更多平台发布您的房源信息。
+          </p>
+      </div>
+      <div class="xsd-modal-bottom xsd-margin-r20">
+          <div class="xsd-clearfix">
+              {{#if (eq app_status 0)}}
+
+                <a class="xsd-btn xsd-btn-primary xsd-pull-right xsd-modal-close xsd-margin-r12" data-toggle="xsd-modal" data-target="#application-house">前往认证</a>
+
+              {{else}}
+                <p class="xsd-btn xsd-btn-primary xsd-pull-right xsd-margin-r12 in-auth xsd-color-gray">前往认证</p>
+
+              {{/if}}
+              <a class="xsd-btn xsd-btn-gray xsd-modal-close xsd-pull-right" onclick={{action "goPublish"}}>跳过</a>
+
+          </div>
+      </div>
+  </div>
+  {{application-house app_status=app_status roomReload=(action "roomReload")}}
+
+{{/page-waper}}
+

@@ -1,0 +1,24 @@
+<!-- 老广告
+<a id="ad-trigger" data-toggle="xsd-modal" data-target="#member-ad"></a>
+<div class="xsd-modal xsd-md-modal" id="member-ad" >
+    <div class="xsd-modal-header">
+        <span class="xsd-font-size16"></span><a class="xsd-modal-close iconfont" >&#xe633;</a>
+    </div>
+    <div class="xsd-modal-body">
+        {#link-to "service.huiyuan" class="xsd-btn-primary xsd-modal-close"}}{/link-to}}
+        <a class="xsd-btn-buy xsd-modal-close" onclick={action "clickBuy"}} ></a>
+    </div>
+</div>
+-->
+
+<a id="ad-trigger" data-toggle="xsd-modal" data-target="#member-ad"></a>
+<div class="xsd-modal xsd-md-modal" id="member-ad" >
+	<div class="xsd-modal-header">
+		<span class="xsd-font-size16"></span><a class="xsd-modal-close iconfont" >&#xe633;</a>
+	</div>
+	<div class="xsd-modal-body">
+      <div class="ad_end_day">{{day}}</div>
+      {{#link-to "service.huiyuan" class="xsd-btn-primary xsd-modal-close"}}{{/link-to}}
+		<a class="xsd-btn-buy xsd-modal-close" onclick={{action "clickBuy"}} ></a>
+	</div>
+</div>

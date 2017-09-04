@@ -1,0 +1,81 @@
+<div class="xsd-modal xsd-md-modal" id="applyLoan">
+    <div class="xsd-modal-header xsd-margin-b24">
+        <span class="xsd-font-size16">申请放款</span><a class="xsd-modal-close iconfont">&#xe633;</a>
+    </div>
+    <div class="xsd-modal-body">
+       <div id="public-form">
+           <div class="container">
+               <div class="xsd-clearfix xsd-margin-b24">
+
+                   <p class="xsd-margin-l32 font-size14">金额
+                       <b class="xsd-color-red">*</b>
+                   </p>
+                   <label class="xsd-pull-left xsd-input-group xsd-margin-l32">
+                       <input type="text" name="apply" class="xsd-input font-size14" id="loan" title="授信额度" validate="required|numeric" placeholder="申请额度不能大于预授信额度"/>
+                       <i class="xsd-input-r16 xsd-font-size16">元</i>
+                   </label>
+                   <div class="line-credit">
+                       <p class="font-size14">授信额度:<b class="xsd-color-red">{{loan.credit}}</b>元</p>
+                   </div>
+               </div>
+               <!--<div class="xsd-deadline">-->
+                   <!--<a class="font-size14">借款期:<i class="xsd-color-primary">12</i>月</a>-->
+                   <!--<a class="font-size14">每月手续费:<i class="xsd-color-primary">688</i>元</a>-->
+                   <!--<a class="font-size14">每月还款额:<i class="xsd-color-primary">6000</i>元</a>-->
+               <!--</div>-->
+               <div class="xsd-improve-personal xsd-margin-l32">
+                   <p>完善申请人信息</p>
+               </div>
+               <div class="xsd-write-name xsd-margin-l32 xsd-clearfix">
+                   <p class="font-size14">真实姓名
+                       <b class="xsd-color-red">*</b>
+                   </p>
+                   <label class="xsd-pull-left xsd-input-group">
+                       <input type="text" name="RealName" class="xsd-input" id="realName" title="真实姓名" validate="required" placeholder="请务必填写正式信息"/>
+                   </label>
+               </div>
+
+               <div class="xsd-write-name xsd-margin-l32 xsd-clearfix">
+                   <p class="font-size14">身份证号
+                       <b class="xsd-color-red">*</b>
+                   </p>
+                   <label class="xsd-pull-left xsd-input-group">
+                       <input type="text" name="IdNumber" class="xsd-input" id="cardId" title="身份证号" validate="required|cardId" placeholder="请填写与姓名匹配的身份证号"/>
+                   </label>
+               </div>
+
+               <div class="xsd-write-name xsd-margin-l32 xsd-clearfix">
+                   <p class="font-size14">联系地址
+                       <b class="xsd-color-red">*</b>
+                   </p>
+                   <label class="xsd-pull-left xsd-input-group">
+                       <input type="text" name="contactAddress" class="xsd-input" id="contactAddress" title="联系地址" validate="required" placeholder="请填写能联系到您的地址"/>
+                   </label>
+               </div>
+
+               <div class="xsd-write-name xsd-margin-l32 xsd-clearfix">
+                   <p class="font-size14">手机号码
+                       <b class="xsd-color-red">*</b>
+                   </p>
+                   <label class="xsd-pull-left xsd-input-group">
+                       <input type="text" name="phoneNumber" class="xsd-input" id="phoneNumber" title="手机号码" validate="required|phone" placeholder="工作人员需要通过电话与您联系"/>
+                   </label>
+               </div>
+               <div class="xsd-write-name xsd-margin-l32 xsd-clearfix">
+                   <p class="font-size14">公司全称</p>
+                   <label class="xsd-pull-left xsd-input-group">
+                       <input type="text" name="company" class="xsd-input" id="companyName"   placeholder="请输入公司全称"/>
+                   </label>
+               </div>
+               <a class=" xsd-btn-primary xsd-btn" onclick={{action "applySubmit"}}>提交申请</a>
+
+           </div>
+       </div>
+    </div>
+    <div class="xsd-modal-bottom xsd-clearfix">
+        <div class="xsd-clearfix">
+            <!--<a class="xsd-btn xsd-btn-primary xsd-pull-right">确定</a>-->
+            <!--<a class="xsd-btn xsd-btn-gray xsd-pull-right xsd-modal-close">取消</a>-->
+        </div>
+    </div>
+</div>

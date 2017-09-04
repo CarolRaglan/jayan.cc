@@ -1,0 +1,91 @@
+<div class="statistic">
+  <div class="container-tab">
+    <div class="col-md-12">
+      <div class="btn-group">
+        {{#link-to 'statistic.operation' class="btn btn-default btn-active"}}运营统计{{/link-to}}
+        {{#link-to 'statistic.income' class="btn btn-default"}}财务统计{{/link-to}}
+      </div>
+    </div>
+  </div>
+  {{#if auth.e_power.statistics_busi_view}}
+  <div class="container-chart clearfix">
+    <div class="col-md-6">
+      <div class="chart-box clearfix">
+        <div class="chart-tab">
+          <span class="daily">今日</span>
+          <span class="month">本月</span>
+        </div>
+        <h2 class="orange-title-border">运营情况</h2>
+        <div class="chart-box-content chart-block panel">
+            <div class="col-md-4">
+              <h3>新签合同</h3>
+              <span class="val-1">-</span>
+            </div>
+            <div class="col-md-4">
+              <h3>续租合同</h3>
+              <span class="val-2">-</span>
+            </div>
+            <div class="col-md-4">
+              <h3>退租合同</h3>
+              <span class="val-3">-</span>
+            </div>
+            <div class="col-md-4">
+              <h3>已收租金</h3>
+              <span class="val-4">-</span>
+            </div>
+            <div class="col-md-4">
+              <h3>待收租金</h3>
+              <span class="val-5">-</span>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="chart-box clearfix">
+        <h2 class="blue-title-border">过去7日入住趋势</h2>
+        <div class="chart-box-content">
+            <div id="chart-1" class="chart-block"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="chart-box clearfix">
+        <h2 class="orange-title-border">上月退租情况
+        </h2>
+        <div class="chart-box-content">
+            <div class="chart-2 description"></div>
+            <div id="chart-2" class="chart-block"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="chart-box clearfix">
+        <h2 class="green-title-border">过去6月拿房删房情况
+        </h2>
+        <div class="chart-box-content">
+            <div id="chart-3" class="chart-block"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="chart-box clearfix">
+        <h2 class="red-title-border">业务转化率</h2>
+        <div class="chart-box-content">
+          <div id="chart-4" class="chart-block"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {{else}}
+    <div class="statistic-power">
+      <div class="statistic-power-box">
+        <img src="/images/power.png">
+        <p>抱歉，您没有权限!</p>
+      </div>
+    </div>
+  {{/if}}
+</div>

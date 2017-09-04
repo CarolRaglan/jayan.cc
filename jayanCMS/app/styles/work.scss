@@ -1,0 +1,333 @@
+#works {
+  padding: 20px;
+  .xsd-tabs-card {
+    padding: 0px;
+    margin: inherit;
+    .xsd-marginT-33 {
+      font-size: 40px;
+      margin: -29px 8px 0px 16px;
+    }
+    .newPeople {
+      width: 90px;
+      height: 30px;
+      line-height: 30px;
+      margin-top: -7px;
+      margin-left: 24px;
+    }
+  }
+  .xsd-tab-content {
+    min-height: 667px;
+    background: #FFFFFF;
+
+    .pay-top {
+      height: inherit;
+      margin-bottom: inherit;
+      padding: 16px 20px 0px 20px;
+      .pay-details {
+        height: 50px;
+        padding: 12px 0px;
+        ul {
+          position: relative;
+          .width_17 {
+            width: 17%;
+          }
+          .width_31 {
+            width: 31%;
+          }
+          li:last-child {
+            border-right: inherit;
+          }
+          li {
+            width: 23%;
+            height: 50px;
+            p {
+              margin-top: 6px;
+              font-size: 22px;
+            }
+          }
+        }
+      }
+    }
+    #xsd-noResult {
+      padding-top: 90px !important;
+    }
+
+    .search-details {
+      .table-top {
+        width: 13%;
+        text-align: left;
+        padding-left: 25px;
+        i {
+          font-size: 40px;
+          line-height: 0px;
+          margin-top: -5px;
+          margin-left: -14px;
+        }
+      }
+
+    }
+  }
+}
+
+#allocated-people {
+  height: 292px;
+  .xsd-modal-body {
+    padding: 38px 33px;
+    p {
+      text-indent: 28px;
+    }
+    label {
+      i {
+        top: 6px;
+      }
+      input {
+        width: 424px;
+        padding-left: 16px;
+      }
+      ul {
+        height: 80px;
+        top: 28px;
+      }
+    }
+  }
+  .xsd-modal-bottom {
+    padding: 0px 33px;
+  }
+}
+
+#follow-record {
+  .xsd-drawer-body {
+    .people-details {
+      background: #f2f4f6;
+      margin-bottom: 36px;
+      .d-top {
+        border-bottom: 1px #e7e7e7 solid;
+        padding: 16px;
+        p {
+          .marginRight24 {
+            margin-right: 24px;
+          }
+          i {
+            color: #4d4d4d;
+            padding-left: 5px;
+          }
+          b {
+            padding: 0px 4px;
+          }
+        }
+      }
+      .d-bottom {
+        padding: 16px 16px 30px 16px;
+        min-height: 135px;
+        background: #f2f4f6;
+        float: left;
+        .over-hide {
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+        p {
+          clear: both;
+          i {
+            padding-left: 5px;
+            color: #4d4d4d;
+          }
+        }
+        div {
+          width: 219px;
+          margin-bottom: 12px;
+          i {
+            color: #4d4d4d;
+            padding-left: 5px;
+          }
+          b {
+            padding: 0px 4px;
+          }
+        }
+        a {
+          padding: 6px 10px;
+          width: 28px;
+          height: 18px;
+          line-height: 18px;
+          border: 1px #e7e7e7 solid;
+          margin-left: 16px;
+        }
+      }
+    }
+    .measure {
+      padding: 0px 16px;
+      position: relative;
+      margin-bottom: 40px;
+      height: 360px;
+      overflow-y: auto;
+      ul {
+
+        li:first-child {
+
+          .dot {
+            width: 15px;
+            height: 15px;
+            float: left;
+            border: 1px #59acff solid !important;
+            border-radius: 14px;
+          }
+          .dot-content {
+            color: #59acff;
+          }
+          i {
+            color: #59acff !important;
+            font-size: 13px;
+          }
+        }
+        li:last-child {
+          .dot-content {
+            border-left: inherit;
+          }
+        }
+        li {
+          .dot {
+            width: 15px;
+            height: 15px;
+            float: left;
+            border: 1px #e7e7e7 solid;
+            border-radius: 14px;
+          }
+          .border-left {
+            border-left: 1px #e7e7e7 solid;
+          }
+          .dot-content {
+            padding: 11px 0px 14px 24px;
+
+            margin: -2px 0px 0px 7px;
+            p {
+              margin-bottom: 10px;
+            }
+          }
+          i {
+            font-size: 13px;
+          }
+        }
+      }
+    }
+    .sure {
+      bottom: 0px;
+      p{
+        height: 44px;
+        width: 704px;
+        label {
+          .top_145 {
+            width: 121px !important;
+            top: -150px !important;
+            height: 140px;
+          }
+          .lightBule {
+            background: #eaf3f8;
+            color: #666666 !important;
+          }
+          input {
+            width: 104px;
+            height: 42px;
+            padding-left: 16px;
+            border-top-right-radius: 0px;
+            border-bottom-right-radius: 0px;
+          }
+        }
+        #work-write {
+          width: 488px;
+          height: 42px;
+          padding-left: 16px;
+          border-radius: 0px;
+          border-left: none;
+          border-right: none;
+          margin-left: -4px;
+        }
+        a {
+          width: 80px;
+          border: 1px #e7e7e7 solid;
+          border-bottom-left-radius: 0px;
+          border-top-left-radius: 0px;
+          height: 42px;
+          line-height: 42px;
+        }
+      }
+      .bottom-dis {
+        width: 100%;
+        height: 50px;
+        background: white;
+        z-index: 40;
+      }
+
+    }
+  }
+}
+
+#add-new {
+  .xsd-modal-body {
+    padding: 22px 20px 20px;
+    label {
+      input {
+        width: 190px;
+        height: 40px;
+        margin: 0px 10px 20px;
+      }
+      .special-ul {
+        top: 31px;
+        left: 10px;
+        width: 207px;
+      }
+      i {
+        top: 4px;
+        right: 30px;
+      }
+    }
+    .special-label {
+      float: left;
+      margin: 0px 10px 20px;
+      span {
+        width: 212px;
+      }
+      .time {
+        width: 84px!important;
+        margin: inherit;
+      }
+      .margin-inherit {
+        margin: inherit;
+        width: 191px;
+        padding-left: 16px;
+      }
+      .top0 {
+        right: 6px;
+      }
+      i {
+        width: 18px;
+        line-height: 34px;
+        top: 4px;
+        right: 30px;
+      }
+    }
+    .live-method {
+      margin: 0px 7px 0px 27px;
+    }
+    .width-662 {
+      width: 662px;
+    }
+    textarea {
+      width: 648px;
+      min-height: 80px;
+      padding: 10px;
+    }
+  }
+  .xsd-modal-bottom {
+    margin: 0px 38px 36px 0px;
+  }
+}
+
+.padding-l16 {
+  padding-left: 16px;
+}
+
+.height-40 {
+  height: 40px !important;
+}
+
+

@@ -1,0 +1,121 @@
+<!--备忘处理-->
+<div class="box xsd-margin-b20" id="date-tips">
+{{#if (eq auth.user.vip_level 1)}}
+  {{#link-to "report.day-report" class="date-tips-left report-tips"}}
+      <h1 class="report-mark">{{daySet}}日</h1>
+      <p>经营日报</p>
+  {{/link-to}}
+  {{#link-to "report.month-reports" class="date-tips-right"}}
+      <h1> {{monthSet}}月</h1>
+      <p>经营月报</p>
+  {{/link-to}}
+{{else}}
+  <div class="date-tips-left report-tips">
+      <h1>{{daySet}}日</h1>
+      <p>经营日报</p>
+  </div>
+  <div class="date-tips-right">
+      <h1> {{monthSet}}月</h1>
+      <p>经营月报</p>
+  </div>
+{{/if}}
+</div>
+<div class="title-box" id="notice">
+    <div class="title box">
+        <i class="title-decorator"></i><b>公告</b>
+    </div>
+    <ul class="list box">
+      {{#each notices.data as |n|}}
+        <li>
+            <i class="xsd-color-yellow xsd-pull-left"></i>{{#link-to "notice" (query-params id=n.id) class="xsd-text-ellipsis" }}{{n.attributes.title}}{{/link-to}}
+        </li>
+      {{/each}}
+    </ul>
+</div>
+<div class="title-box" id="reminder-box">
+    <div class="title box">
+        <i class="title-decorator"></i><b>备忘事项</b><a class="xsd-pull-right xsd-color-primary" data-toggle="xsd-modal" data-target="#reminder"><i class="iconfont xsd-color-primary  xsd-cursor-pointer">
+	    </i></a>
+    </div>
+  <div class="box separate-box">
+      <div class="tips">{{reminders.meta.done_num}}个已完成 <b class="xsd-pull-right"><a class="xsd-color-primary" data-toggle="xsd-modal" data-target="#reminder-panel" onclick={{action "clickReminder"}}>显示</a></b></div>
+      <h5 class="separate"></h5>
+  </div>
+    <ul class="list box">
+        {{#each reminders.data as |r|}}
+          {{#if (eq false r.attributes.is_done)}}
+	          <li id={{data-plus "reminder-detail" r.id}}>
+		          <i class="xsd-color-yellow xsd-pull-left "></i><a class="xsd-text-ellipsis" data-toggle="xsd-modal" data-target="#reminder-panel" onclick={{action "clickReminder" r}}>{{r.attributes.content}} <br/><span class="date">{{r.attributes.deadline_time}}</span></a>
+	          </li>
+          {{/if}}
+        {{/each}}
+    </ul>
+</div>
+
+<div class="xsd-modal xsd-md-modal" id="reminder">
+	<div class="xsd-modal-header">
+		<span class="xsd-font-size16">写备忘</span><a class="xsd-modal-close iconfont">&#xe633;</a>
+	</div>
+	<div class="xsd-modal-body">
+		<h2>日期</h2>
+		<div class="xsd-input-group  xsd-margin-b16">
+			<i class="iconfont">&#xe63e;</i>
+          {{pikaday-input value=rDetail.deadline_time class="xsd-input"  name="deadline-time" validate="" title="提醒日期" id="deadline-time" format="YYYY-MM-DD" placeholder="输入提醒日期" readonly="readonly"}}
+		</div>
+		<h2>备忘内容</h2>
+		<textarea name="content" id="content">{{#if (eq rDetail.from 1)}}{{rDetail.content}}{{/if}}</textarea>
+	</div>
+	<div class="xsd-modal-bottom xsd-clearfix">
+      {{#if (eq rDetail.from 1)}}
+        {{#if (eq rDetail.is_done false)}}
+			<a class="xsd-btn xsd-btn-primary xsd-pull-right" onclick={{action "dealReminder" rDetail.id true}}>标为已处理</a>
+			<a class="xsd-btn xsd-btn-primary xsd-pull-right" onclick={{action "dealReminder" rDetail.id false}}>编辑并保存</a>
+        {{else}}
+			<a class="xsd-btn xsd-btn-primary xsd-pull-right" onclick={{action "dealReminder" rDetail.id false}}>标为未处理</a>
+			<a class="xsd-btn xsd-btn-primary xsd-pull-right" onclick={{action "dealReminder" rDetail.id true}}>编辑并保存</a>
+        {{/if}}
+      {{else}}
+		  <a class="xsd-btn xsd-btn-primary xsd-pull-right" onclick={{action "addReminder"}}>确定</a>
+      {{/if}}
+		<a class="xsd-btn xsd-btn-gray xsd-pull-right xsd-margin-r12 xsd-modal-close">取消</a>
+	</div>
+</div>
+<div class="xsd-modal xsd-md-modal" id="reminder-panel" >
+	<div class="xsd-modal-header">
+		<span class="xsd-font-size16">历史备忘</span><a class="xsd-modal-close iconfont">&#xe633;</a>
+	</div>
+	<div class="xsd-modal-body">
+		<div class="reminder-left xsd-pull-left">
+			<ul class="list">
+        {{#each reminders.data as |r|}}
+          <li id={{data-plus "reminder-panel-detail" r.id}} class={{data-equal false r.attributes.is_done}}>
+            <i class="xsd-color-yellow xsd-pull-left .xsd-text-ellipsis"></i>
+              <a data-toggle="xsd-modal" data-target="#reminder-panel" onclick={{action "clickReminder" r}}  >
+                {{r.attributes.content}}<span class="date">{{r.attributes.deadline_time}}
+              </span></a>
+
+          </li>
+        {{/each}}
+			</ul>
+		</div>
+		<div class="reminder-right xsd-pull-left">
+			<h2>日期</h2>
+			<div class="xsd-input-group  xsd-margin-b16xsd-pull-left">
+				<i class="iconfont">&#xe63e;</i>
+              {{pikaday-input value=detail.date class="xsd-input"  name="deadline-time-panel" validate="" title="提醒日期" id="deadline-time-panel" format="YYYY-MM-DD" placeholder="输入提醒日期" readonly="readonly"}}
+				<label class="xsd-pull-left redio">
+					<input class="c_eviction_type xsd-pull-left" name="c_eviction_type" id="is_done" type="checkbox" checked={{detail.checked}}>已处理
+				</label>
+			</div>
+
+			<h2>备忘内容</h2>
+			<textarea name="content-panel" id="content-panel">{{detail.content}}</textarea>
+			<div class="xsd-modal-bottom xsd-clearfix">
+          <a class="xsd-btn xsd-btn-primary xsd-pull-right" onclick={{action "dealReminder" detail.id}}>确定</a>
+				  <a class="xsd-btn xsd-btn-gray xsd-pull-right xsd-margin-r12 xsd-modal-close">取消</a>
+			</div>
+		</div>
+
+	</div>
+
+</div>

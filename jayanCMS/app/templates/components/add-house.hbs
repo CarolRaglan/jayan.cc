@@ -1,0 +1,157 @@
+<div class="xsd-modal" id="addHouse">
+    <div class="xsd-modal-header xsd-margin-b24">
+        <span class="xsd-font-size16">添加房源</span><a class="xsd-modal-close iconfont">&#xe633;</a>
+    </div>
+    <div class="xsd-modal-body">
+        <div id="public-form">
+
+            <div class="container">
+              <div class="xsd-margin-b12">
+                <div class="xsd-clearfix district-block">
+                  <p class="xsd-margin-b6">选择小区所在城市<b class="xsd-color-red">*</b></p>
+                  <label class="xsd-input-group xsd-select xsd-pull-left xsd-margin-r12">
+                    <i class="iconfont">&#xe63c;</i>
+                    <input id="edit_district" id="provinceName" name="provinceName" class="xsd-input" type="text" readonly value={{auth.user.province}}
+                      placeholder="所在省份" validate="required" title="所在省份">
+                    <ul class="province-list">
+                      {{#each auth.provinceArr as |pro index|}}
+                        <li onclick={{action "provinceSelected"}} value="{{index}}">{{pro}}</li>
+                      {{/each}}
+                    </ul>
+                  </label>
+                  <label class="xsd-input-group xsd-select xsd-pull-left">
+                    <i class="iconfont">&#xe63c;</i>
+                    <input id="add_block" id="cityName" name="cityName" class="xsd-input" type="text" readonly value={{auth.user.city}}
+                      title="所在城市" placeholder="所在城市" validate="required">
+                    <ul>
+                      {{#each city as |ci|}}
+
+                        <li onclick={{action "chooseCity"}}>{{ci}}</li>
+
+                      {{/each}}
+                    </ul>
+                  </label>
+                </div>
+              </div>
+              {{#if refresh}}
+                  <div class="xsd-clearfix xsd-margin-b12">
+                      <p class="xsd-margin-b6">小区名称<b class="xsd-color-red">*</b></p>
+                      <label class="xsd-pull-left xsd-input-group xsd-margin-r12">
+                          <input class="xsd-input area" id="areaName" name="areaName" type="text" title="小区名称"
+                                 placeholder="请输入小区名称" onkeyup={{action "search"}} validate="required">
+                        {{#if lists}}
+                            <ul class="area_list">
+                              {{#each lists as |list|}}
+                                  <li onclick={{action "selectResult" list.name  list.address list.district list.block}}>{{list.name}}
+                                      <span class="xsd-color-primary xsd-font-size12">-{{list.address}}</span></li>
+                              {{/each}}
+                            </ul>
+                        {{/if}}
+                      </label>
+                  </div>
+                {{#if lists}}
+                {{else}}
+                    <div class="xsd-margin-b12">
+                        <div class="xsd-clearfix district-block">
+                            <label class="xsd-input-group xsd-select xsd-pull-left xsd-margin-r12">
+                                <i class="iconfont">&#xe63c;</i>
+                                <input id="edit_district" name="add_district" class="xsd-input" type="text" readonly
+                                       placeholder="所在区域" validate="required" title="所在区域">
+                                <ul>
+                                  {{#each districts as |district|}}
+                                      <li onclick={{action "chooseDistrict"}}>{{district}}</li>
+                                  {{/each}}
+                                </ul>
+                            </label>
+                            <label class="xsd-input-group xsd-select xsd-pull-left">
+                                <i class="iconfont">&#xe63c;</i>
+                                <input id="add_block" name="add_block" class="xsd-input" type="text" readonly
+                                       title="所在板块" placeholder="所在板块" validate="required">
+                                <ul>
+                                  {{#each blocks as |block|}}
+                                      <li onclick={{action "selectBlock"}}>{{block}}</li>
+                                  {{/each}}
+                                </ul>
+                            </label>
+                        </div>
+                    </div>
+                {{/if}}
+                  <div class="xsd-clearfix xsd-margin-b12">
+                      <p class="xsd-margin-b6">小区地址</p>
+                      <label class="xsd-pull-left xsd-input-group xsd-margin-r12">
+                        {{#if lists}}
+                            <input class="xsd-input area" id="areaAddress" name="areaAddress" validate="required"
+                                   disabled type="text" placeholder="请输入小区地址" title="小区地址">
+                        {{else}}
+                            <input class="xsd-input area" id="areaAddress" name="areaAddress" type="text"
+                                   placeholder="请输入小区地址" validate="required" title="小区地址">
+                        {{/if}}
+                      </label>
+                  </div>
+                  <div class="xsd-clearfix xsd-margin-b12">
+                      <div class="xsd-pull-left xsd-margin-r12 xsd-input-group">
+                          <p class="xsd-margin-b6">房源地址</p>
+                          <div class="xsd-clearfix">
+                              <div class="xsd-input-group xsd-pull-left xsd-margin-r12">
+                                  <i class="iconfont"><span>栋/号</span>*</i>
+                                  <input class="xsd-input num" id="building_num" name="building_num" type="text"
+                                         validate="required" title="栋/号"/>
+                              </div>
+                              <div class="xsd-input-group xsd-pull-left xsd-margin-r12">
+                                  <i class="iconfont"><span>单元</span></i>
+                                  <input class="xsd-input num" id="unit_num" name="unit_num" type="text"/>
+                              </div>
+                              <div class="xsd-input-group xsd-pull-left xsd-margin-r12">
+                                  <i class="iconfont"><span>楼层</span>*</i>
+                                  <input class="xsd-input  num" id="floor_num" name="floor_num" type="text"
+                                         validate="required" title="楼层"/>
+                              </div>
+                              <div class="xsd-input-group xsd-pull-left xsd-margin-r12">
+                                  <i class="iconfont"><span>号</span>*</i>
+                                  <input class="xsd-input num" id="house_num" name="house_num" type="text"
+                                         validate="required" title="号"/>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="xsd-margin-b12">
+                      <p class="xsd-margin-b12">房屋装修中<a id="d_house" class="xsd-close" onclick={{action "switch"}}></a>
+                      </p>
+                      <div class="xsd-clearfix xsd-none" id="d_time">
+                          <div class="xsd-input-group xsd-pull-left xsd-margin-r12">
+                              <i class="iconfont">&#xe63e;</i>
+                            {{pikaday-input   class="xsd-input" id="d_startTime" name="d_startTime" format="YYYY-MM-DD" placeholder="输入装修开始时间" readonly="readonly" }}
+                          </div>
+                          <div class="xsd-input-group xsd-pull-left">
+                              <i class="iconfont">&#xe63e;</i>
+                            {{pikaday-input   class="xsd-input" id="d_endTime" name="d_endTime" format="YYYY-MM-DD" placeholder="输入装修截止时间" readonly="readonly"}}
+                          </div>
+                      </div>
+                  </div>
+                  <div class="xsd-margin-b12 rentType">
+                      <label>出租方式</label>
+                      <label><input type="radio" name="rentType" checked="checked"/>整租</label>
+                      <label id="partRent"><input name="rentType" type="radio"/>合租</label>
+                  </div>
+                {{#if type}}
+                {{else}}
+                    <div class="xsd-clearfix xsd-margin-b12">
+                        <label class="xsd-pull-left xsd-margin-r12">
+                            <p class="xsd-margin-b6">房间间数</p>
+                            <input class="xsd-input area" id="room_num" name="room_num" type="text"
+                                   placeholder="请输入房间间数" title="房间间数" validate="required|numeric">
+                        </label>
+                    </div>
+                {{/if}}
+              {{/if}}
+            </div>
+        </div>
+    </div>
+    <div class="xsd-modal-bottom xsd-clearfix">
+        <div class="xsd-clearfix">
+            <a class="xsd-btn xsd-btn-primary xsd-pull-right" onclick={{action "addHouse"}}>确定</a>
+            <a class="xsd-btn xsd-btn-gray xsd-pull-right xsd-modal-close">取消</a>
+        </div>
+    </div>
+</div>
+

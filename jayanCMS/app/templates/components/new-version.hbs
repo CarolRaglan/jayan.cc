@@ -1,0 +1,27 @@
+<a id="newVersion_btn" data-toggle="xsd-modal" data-target="#newVersion"></a>
+<div class="xsd-modal xsd-md-modal" id="newVersion">
+    <div class="xsd-bg-header">
+        <div class="xsd-modal-header xsd-margin-b24">
+        </div>
+        <div class="xsd-text-center">
+            <span class="version"><span class="xsd-font-size13">V</span>{{version.version}}</span>
+        </div>
+    </div>
+    <div class="xsd-modal-body">
+        <div id="public-form">
+            <div class="container">
+                <div class="xsd-clearfix">
+                    <p class="xsd-font-size18">新增:</p>
+                    {{#each version.new as |new|}}
+                    <p>{{new.content}}</p>
+                    {{/each}}
+                    <p class="xsd-font-size18">优化:</p>
+                  {{#each version.update as |update|}}
+                      <p>{{update.content}}</p>
+                  {{/each}}
+                    <a class=" xsd-btn-primary xsd-btn xsd-modal-close" onclick={{action "persistVersion" version.version}}>知道了</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,27 @@
+<div class="xsd-modal xsd-md-modal" id="ignoreOrder">
+    <div class="xsd-modal-header">
+        <span class="xsd-font-size16">是否需要忽略历史账单?</span><a class="xsd-modal-close iconfont">&#xe633;</a>
+    </div>
+    <div class="xsd-modal-body">
+        <div class="xsd-clearfix xsd-margin-b12">
+            <label class="xsd-pull-left">
+                <div class="xsd-input-group">
+                    <i class="iconfont">&#xe63e;</i>
+                    <div class="xsd-input-group">
+                        <i class="iconfont">&#xe63e;</i>
+                      {{pikaday-input class="xsd-input" id='select_day' name="select_day" format="YYYY-MM-DD" placeholder="请选择日期" readonly="readonly" validate='required' title='请选择日期'}}
+                    </div>
+                </div>
+            </label>
+        </div>
+      <!--没选择日期时的错误提示-->
+        <!--<div class="select xsd-color-red xsd-font-size12 xsd-margin-b12">&请选择日期</div>-->
+        <p class="xsd-font-size12"><i class="xsd-color-red">*</i>注：忽略后系统将不展示该合同中，账单周期在您所选日期前的账单。</p>
+    </div>
+    <div class="xsd-modal-bottom xsd-clearfix">
+        <div class="xsd-clearfix">
+            <a class="xsd-btn xsd-btn-primary xsd-pull-right" onclick="">不忽略</a>
+            <a class="xsd-btn xsd-btn-gray xsd-modal-close xsd-pull-right">忽略</a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,77 @@
+<script>
+$(function(){
+   $(document).on('click', '.label-select', function(){
+     var account_type = $(this).text();
+     $('.label-select').removeClass('active');
+     $(this).addClass('active');
+     $('#account_type').val(account_type);
+   });
+});
+</script>
+<div class="xsd-modal" id="addEmployer">
+    <div class="xsd-modal-header xsd-margin-b24">
+        <span class="xsd-font-size16">添加员工</span><a class="xsd-modal-close iconfont">&#xe633;</a>
+    </div>
+    <div class="xsd-modal-body">
+        <div id="public-form">
+            <div class="container">
+                <div class="xsd-clearfix xsd-margin-b12">
+                    <p class="xsd-margin-b6">注册手机号</p>
+                    <label class="xsd-pull-left xsd-margin-b12 xsd-input-group">
+                        <input class="xsd-input area" type="text" placeholder="请输入手机号" name="phone" id="phone"
+                               title="注册手机号" validate="required|phone">
+                        <i class="postfix">@{{auth.user.company_postfix}}</i>
+                    </label>
+                    <span class="tips"><i class="iconfont xsd-color-red">&#xe620;</i>(员工登录账号为注册手机号加公司后缀名，如“13988886666@h2ome”)</span>
+                </div>
+                <div class="xsd-clearfix xsd-margin-b12 ">
+                    <p class="xsd-margin-b6">登录密码</p>
+                    <label class="xsd-pull-left xsd-margin-r12 xsd-input-group">
+                        <input class="xsd-input area" type="password" name="password" id="password" title="登录密码"
+                               validate="required" placeholder="输入登录密码">
+                    </label>
+                </div>
+              <div class="xsd-clearfix xsd-margin-b12">
+                <p class="xsd-margin-b6">账号类型<i>*</i></p>
+                <input class="xsd-input area" type="hidden" name="account_type" id="account_type" value="员工">
+                <span class="label-select active">员工</span>
+                <span class="label-select">股东</span>
+                <span class="label-select">合伙人</span>
+              </div>
+                <div class="xsd-clearfix xsd-margin-b12">
+                    <p class="xsd-margin-b6">子账号昵称<i>*</i></p>
+                    <label class="xsd-pull-left xsd-margin-r12 xsd-input-group">
+                        <input class="xsd-input area" type="text" name="name" id="name" title="员工角色"
+                               placeholder="请输入员工名称" validate="required">
+                    </label>
+                </div>
+                <!--<div class="xsd-clearfix xsd-margin-b12">-->
+                    <!--<p class="xsd-margin-b6">选择角色<i>*</i></p>-->
+                    <!--<label class="xsd-pull-left xsd-margin-r12 xsd-input-group xsd-select">-->
+                        <!--<i class="iconfont">&#xe63c;</i>-->
+                        <!--<input class="xsd-input area" type="text" name="roleName" id="roleName" title="员工名称"-->
+                               <!--placeholder="请输入员工角色" validate="required">-->
+                        <!--<ul>-->
+                          <!--{#each roleList as |role|}}-->
+                              <!--<li data-value={role.id}}>{role.attributes.name}}</li>-->
+                          <!--{/each}}-->
+                        <!--</ul>-->
+                    <!--</label>-->
+                <!--</div>-->
+                <div class="xsd-clearfix xsd-margin-b12">
+                    <label class="xsd-pull-left xsd-margin-r12">
+                        <p class="xsd-margin-b6">备注</p>
+                        <textarea class="text-area area" name="remark" id="remark"></textarea>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="xsd-modal-bottom">
+        <div class="xsd-clearfix">
+            <a class="xsd-btn xsd-btn-primary xsd-pull-right" onclick={{action "add"}}>确定</a>
+            <a class="xsd-btn xsd-btn-gray xsd-modal-close xsd-pull-right">取消</a>
+        </div>
+    </div>
+</div>
+

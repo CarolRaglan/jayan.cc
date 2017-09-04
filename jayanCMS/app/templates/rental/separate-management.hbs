@@ -1,0 +1,355 @@
+{{#page-waper}}
+    <div class="xsd-clearfix">
+        <div id="screen" class="xsd-pull-left">
+          {{area-list areaCity=areaCity areaDistrict=areaDistrict updateStatus=(action "updateStatus") }}
+        </div>
+        <a id="cancelContract_btn" data-toggle="xsd-modal" data-target="#cancelContract"></a>
+        <a id="readMeter_btn" data-toggle="xsd-modal" data-target="#readMeter"></a>
+        <a id="sendOrder_btn" data-toggle="xsd-modal" data-target="#sendOrder"></a>
+        <a id="rentalRoom_btn" data-toggle="xsd-modal" data-target="#rentalRoom"></a>
+        <a id="deleteContract_btn" data-toggle="xsd-modal" data-target="#deleteContract"></a>
+        <a id="houseDetail_btn" data-toggle="xsd-drawer" data-target="#houseDetail"></a>
+        <a id="roomDetail_btn" data-toggle="xsd-drawer" data-target="#roomDetail"></a>
+	      <a id="confirmRent-trigger" data-toggle="xsd-modal" data-target="#confirmRent"></a>
+        <a class="trigger-contract-edit" data-toggle="xsd-modal" data-target="#rental-contract-customer-edit"></a>
+        <a class="trigger-contract-owner-edit" data-toggle="xsd-modal" data-target="#rental-contract-owner-edit"></a>
+        <a id="editBill_btn"  data-toggle="xsd-modal" data-target="#editBill"></a>
+      <!--&lt;!&ndash;忽略历史账单的提示&ndash;&gt;-->
+        <!--<a id="ignore_order" data-toggle="xsd-modal" data-target="#ignoreOrder"></a>-->
+      <!--&lt;!&ndash;删除合同&ndash;&gt;-->
+        <!--<a id="delete_contract" data-toggle="xsd-modal" data-target="#deleteContract"></a>-->
+      <!--退租-->
+        <a id="back_rent" data-toggle="xsd-modal" data-target="#backRent"></a>
+      <!--&lt;!&ndash;删除账单&ndash;&gt;-->
+        <!--<a id="delete_order" data-toggle="xsd-modal" data-target="#deleteOrder"></a>-->
+      <!--&lt;!&ndash;修改合同&ndash;&gt;-->
+        <!--<a id="modify_order" data-toggle="xsd-modal" data-target="#modifyOrder"></a>-->
+        <div id="addTop" class="xsd-clearfix">
+            <div class="addTop_position">
+
+                <ul class="xsd-pull-left">
+                  <li>
+                    <a onclick={{action "selectFilter" "all"}}> <span class="xsd-color-black">全部</span><i>{{model.meta.pagination.room_count}}</i></a>
+
+                  </li>
+	                <li>
+	                  <a onclick={{action "selectFilter" "filter1" "r_rented"}}> <span >已租</span><i>{{model.meta.pagination.room_rented_count}}</i></a>
+
+                  </li>
+                  <li>
+                      <a onclick={{action "selectFilter" "filter1" "r_stop"}}> <span >停用</span><i>{{model.meta.pagination.room_stop_count}}</i></a>
+
+                  </li>
+                  <!--<li>预定<i>10</i></li>-->
+                  <li>
+                    <a onclick={{action "selectFilter" "filter1" "r_empty"}}> <span >空置</span><b>|</b><i>{{model.meta.pagination.room_empty_count}}</i></a>
+
+                  </li>
+                  <li>
+                    <a onclick={{action "selectFilter" "filter2" "collect_rents"}}> <span>收租</span><b>|</b><i>{{model.meta.pagination.room_collect_rents_count}}</i></a>
+
+                  </li>
+                  <li>
+                    <a onclick={{action "selectFilter" "filter2" "end"}}> <span >到期</span><i>{{model.meta.pagination.room_end_count}}</i></a>
+
+                  </li>
+                </ul>
+                <label class="xsd-input-group xsd-pull-right">
+                    <i class="iconfont xsd-icon-search" onclick={{action "selectSearch"}}>&#xe618;</i>
+                    {{input id="search" class="xsd-input" type="text" enter=(action 'selectSearch')
+                            placeholder="搜索:小区名,房间名,租客名,房东名,手机号"}}
+                </label>
+            </div>
+        </div>
+        <div id="separate" class="xsd-pull-left">
+            <div id="rentalContainer">
+                <div class="rental-btns">
+	                <a  data-target="#housesImport" data-toggle="xsd-modal">批量导入</a>
+                  {{#if auth.e_power.landlord_house_add}}
+	                  <a  data-toggle="xsd-modal" data-target="#addHouse"
+	                     onclick={{action "refresh" "refreshAddHouse"}}>添加房源</a>
+                  {{/if}}
+                </div>
+
+                {{#each model as |area|}}
+                    <h2 class="top">{{area.area}}</h2>
+                    <ul class="roomList xsd-clearfix">
+                        {{#each area.houses as |house|}}
+                        <li class="house-card">
+                            <div class="house-container">
+                                <i></i>
+                               <div class="house" onclick={{action "tabIndex" "house" 1 house.house_id}}>
+                                   <p class="xsd-margin-b6">{{house.name}}</p>
+                                   {{#if (eq house.ought_pay_status -1)}}
+                                   {{#if (eq house.contract_status 3)}}
+                                   <p class="xsd-font-size12 xsd-color-red">{{house.contract_end}}</p>
+                                     {{else}}
+                                   <p class="xsd-font-size12 xsd-color-gray">{{house.contract_end}}</p>
+                                   {{/if}}
+                                   {{else}}
+                                     {{#if (eq house.ought_pay_status 3)}}
+                                         <p class="xsd-font-size12 xsd-color-red">{{house.ought_pay}}</p>
+                                     {{else}}
+                                         <p class="xsd-font-size12 xsd-color-gray">{{house.ought_pay}}</p>
+                                     {{/if}}
+                                   {{/if}}
+                               </div>
+                                <ul class="xsd-clearfix">
+                                    {{#each house.rooms as |room|}}
+                                    <li class="room">
+                                      <div class="room-container" onclick={{action "tabIndex"  "room" 1 room.r_id}}>
+                                        {{#if (eq room.rent_status "rented")}}
+                                            <b class="xsd-bg-primary"></b>
+                                            <p>{{room.name}}</p>
+                                            <p class="xsd-font-size12">{{room.customer_name}}</p>
+                                          {{#if (eq room.ought_pay_status -1)}}
+                                            {{#if (eq room.contract_status 3)}}
+                                                <p class="xsd-font-size12">到期:<span class="xsd-color-red">{{room.end_time}}</span></p>
+                                            {{else}}
+                                                <p class="xsd-font-size12">到期:<span class="xsd-color-yellow">{{room.end_time}}</span></p>
+                                            {{/if}}
+                                          {{else}}
+                                            {{#if (eq room.ought_pay_status 3)}}
+                                                <p class="xsd-font-size12">收租:<span class="xsd-color-red">{{room.ought_pay_time}}</span></p>
+                                            {{else}}
+                                                <p class="xsd-font-size12">收租:<span class="xsd-color-yellow">{{room.ought_pay_time}}</span></p>
+                                            {{/if}}
+                                          {{/if}}
+                                        {{else}}
+                                            <b class="xsd-bg-gray"></b>
+                                            <p>{{room.name}}</p>
+                                          {{#if auth.e_power.customer_contract_create}}
+                                              <span class="xsd-color-primary xsd-font-size12">已空置&nbsp;{{room.empty_days}}&nbsp;天</span>
+                                          {{else}}
+                                              <span class="xsd-color-primary">出租</span>
+                                          {{/if}}
+                                        {{/if}}
+                                        {{#if (eq room.rent_status "rented")}}
+                                            <img src={{out-img room.contract_status room.ought_pay_status}}>
+                                              {{#if (eq room.ought_pay_status 0)}}
+                                                  <div class="contract_card card_top_bule"
+                                                       onclick={{action "tabIndex"  "room" 1 room.r_id}}>
+                                                      <p>下期收租:{{room.ought_pay_time}}</p>
+                                                  </div>
+                                              {{else}}
+                                                {{#if (eq room.ought_pay_status -1)}}<!-- -1处理完 3逾期  1,2-->
+                                                  {{#if (eq room.contract_status 3)}}
+                                                      <div class="contract_card" onclick={{action "tabIndex"  "room" 1 room.r_id}}>
+                                                          <p class="margin-top-2">到期:</p>
+                                                          <p class="card_top_red">{{room.end_time}}</p>
+                                                      </div>
+                                                  {{else}}
+                                                      <div class="contract_card card_top_yellow"
+                                                           onclick={{action "tabIndex"  "room" 1 room.r_id}}>
+                                                          <p class="margin-top-2">到期:</p>
+                                                          <p>{{room.end_time}}</p>
+                                                      </div>
+                                                  {{/if}}
+                                                {{else}}
+                                                  {{#if (eq room.ought_pay_status 3)}}
+                                                      <div class="contract_card" onclick={{action "tabIndex"  "room" 1 room.r_id}}>
+                                                        {{#if room.ro_delay}}
+                                                            <p class="margin-top-2">收租:<span class="xsd-color-red ">({{room.ro_delay}})</span></p>
+                                                        {{/if}}
+                                                          <p class="xsd-font-size12 margin-top-2">
+                                                              {{room.ought_pay_time}}</p>
+                                                      </div>
+                                                  {{else}}
+                                                      <div class="contract_card card_top_yellow"
+                                                           onclick={{action "tabIndex"  "room" 1 room.r_id}}>
+                                                          <p class="margin-top-2">收租:</p>
+                                                          <p>{{room.ought_pay_time}}</p>
+
+                                                      </div>
+                                                  {{/if}}
+                                                {{/if}}
+                                              {{/if}}
+                                              {{#if (not-eq room.ought_pay_status 0)}}
+                                                  <!--30天内到期的情况-->
+                                                  <div class="card_bottom">
+                                                      <!--需要抄表的情况-->
+                                                    {{#if room.is_meter_need}}
+                                                        <!--抄表中抄表-->
+                                                      {{#if auth.e_power.customer_order_edit}}
+                                                          <a class="xsd-color-primary"
+                                                             onclick={{action "getRoomOrder" room.ro_id 1 "read"}}>抄表</a>
+                                                      {{else}}
+                                                          <a class="xsd-color-primary"
+                                                             onclick={{action "nopower"}}>抄表</a>
+                                                      {{/if}}
+                                                        <!--抄表中退租-->
+                                                      {{#if (not-eq room.ought_pay_status -1)}}
+                                                        {{#if auth.e_power.customer_order_send}}
+                                                            <a class="xsd-color-primary"
+                                                               onclick={{action "getRoomOrder" room.ro_id 0 "send"}}>催租</a>
+                                                        {{else}}
+                                                            <a class="xsd-color-primary"
+                                                               onclick={{action "nopower"}}>催租</a>
+                                                        {{/if}}
+                                                          <!--抄表中收款-->
+                                                        {{#if auth.e_power.customer_order_paid}}
+                                                          <a class="xsd-color-primary"
+                                                             onclick={{action "getRoomOrder2" room 0 "get"}}>收款</a>
+                                                        {{else}}
+                                                          <a class="xsd-color-primary"
+                                                             onclick={{action "nopower"}}>收款</a>
+                                                        {{/if}}
+                                                      {{/if}}
+                                                    {{else}}
+                                                        <!--不需要抄表的情况-->
+                                                      {{#if (not-eq room.ought_pay_status -1)}}
+                                                        {{#if auth.e_power.customer_order_send}}
+                                                            <a class="xsd-color-primary"
+                                                               onclick={{action "getRoomOrder" room.ro_id 0 "send"}}>催租</a>
+                                                        {{else}}
+                                                            <a class="xsd-color-primary"
+                                                               onclick={{action "nopower"}}>催租</a>
+                                                        {{/if}}
+                                                        {{#if auth.e_power.customer_order_paid}}
+                                                          <a class="xsd-color-primary"
+                                                             onclick={{action "getRoomOrder" room.ro_id 0 "get"}}>收款</a>
+                                                        {{else}}
+                                                            <a class="xsd-color-primary"
+                                                               onclick={{action "nopower"}}>收款</a>
+                                                        {{/if}}
+                                                      {{/if}}
+                                                    {{/if}}
+                                                      <!--抄表结束-->
+                                                      <!-- 账单结清即可 续租,退租开始-->
+                                                    {{#if (eq room.ought_pay_status -1) }}
+                                                      {{#if auth.e_power.customer_contract_renew}}
+                                                        {{#if room.can_renew}}
+                                                            <a class="xsd-color-primary" onclick={{action "renew" room.r_id true}}>续租</a>
+                                                        {{else}}
+                                                            <a class="xsd-color-primary" onclick={{action "renew" "" false}}>续租</a>
+                                                        {{/if}}
+                                                      {{/if}}
+                                                      {{#if auth.e_power.customer_contract_evict}}
+                                                          <a class="xsd-color-primary" data-toggle="xsd-modal" data-target="#cancelContract"
+                                                             onclick={{action "getRoomContract" room.rc_id true}}>退租</a>
+                                                      {{/if}}
+                                                    {{/if}}
+                                                      <!--续租,退租开始-->
+                                                  </div>
+                                              {{/if}}
+                                        {{else}}
+                                            <div class="contract_card card_top_gray">
+                                              <p>已空置&nbsp;{{room.empty_days}}&nbsp;天</p>
+                                            </div>
+                                          {{#if auth.e_power.customer_contract_create}}
+                                              <div class="card_bottom" >
+                                                  <a class="xsd-color-primary" onclick={{action "renew" room.r_id true}}>签约</a>
+                                              </div>
+                                          {{/if}}
+                                        {{/if}}
+                                      </div>
+                                    </li>
+                                    {{/each}}
+                                    {{#if auth.e_power.landlord_house_addroom}}
+                                        <li class="room">
+                                            <div class="room-container" onclick={{action "addRoom" house.house_id}}>
+                                                <i class="iconfont icon-gengduo rent-add"></i>
+                                            </div>
+                                        </li>
+                                    {{/if}}
+                                </ul>
+                            </div>
+                        </li>
+
+                        {{/each}}
+                    </ul>
+                {{/each}}
+                <div id="pagination">
+                  {{#if (gt model.meta.pagination.count  12)}}
+                    {{page-numbers content=model action="pageChanged"}}
+                  {{/if}}
+                </div>
+            </div>
+        </div>
+    </div>
+    {{profit-analysis profit=profit location=profit_location  id=profit_id  modelReload=(action "modelReload") getProfit=(action "getProfit")}}
+    {{#if auth.e_power.landlord_house_add}}
+      {{add-house refresh=refreshAddHouse   houseReload=(action "houseReload") flag=true}}
+    {{/if}}
+    {{#if (or auth.e_power.landlord_contract_create auth.e_power.landlord_contract_renew)}}
+      {{rental-house updateStatus=(action "updateStatus") house=house refresh=refreshHouse step=housestep}}
+    {{/if}}
+
+    {{#if (or auth.e_power.customer_contract_create  auth.e_power.customer_contract_renew)}}
+      {{! 租房合同新增租约、续租}}
+      {{rental-room
+        updateStatus=(action "updateStatus")
+        room=room
+        refresh=refreshRoom
+        step=roomstep
+        houseReload=(action "houseReload")}}
+    {{/if}}
+
+    {{#if auth.e_power.customer_contract_edit}}
+      {{! 租房合同编辑}}
+      {{rental-contract-customer-edit
+        room=room
+        refresh=refreshRoom
+        updateStatus=(action "updateStatus")}}
+    {{/if}}
+
+    {{#if auth.e_power.landlord_contract_edit}}
+      {{! 业主合同合同编辑}}
+      {{rental-contract-owner-edit
+        house=house
+        refresh=refreshHouse
+        updateStatus=(action "updateStatus")}}
+    {{/if}}
+
+    {{house-detail
+      optionData=optionData
+      updateStatus=(action "updateStatus")
+      signalData=signalData
+      refresh=refreshHouseDetail
+      refresher=(action "refresh")
+      editContract=(action 'editOwnerContract')
+      renewContract=(action 'renewOwnerContract')
+      house=house
+      index=houseIndex
+      bill=bill
+      editBill= (action 'editOwnerBill')
+      addBill=(action 'addOwnerBill')
+      getContract=(action "getHouseContract")
+      modelReload=(action "modelReload")
+      isDrawer=isDrawer
+      houseReload=(action "houseReload")}}
+
+    {{room-detail
+      optionData=optionData
+      updateStatus=(action "updateStatus")
+      signalData=signalData
+      refresh=refreshRoomDetail
+      refreshRoom=refreshRoom
+      room=room
+      index=roomIndex
+      bill=bill
+      editBill=(action 'editCustomerBill')
+      addBill=(action 'addCustomerBill')
+      getContract=(action "getRoomContract")
+      obtainOrder=(action "getRoomOrder")
+      modelReload=(action "modelReload")
+      delRoom=(action "delRoom")
+      editContract=(action 'editCustomerContract')
+      getRoom=(action 'getRoom')
+      isDrawer=isDrawer}}
+    {{#if auth.e_power.customer_order_send}}
+      {{send-order order=order }}
+    {{/if}}
+    {{read-meter order=order refresh=refreshMeter updateStatus=(action "updateStatus")}}
+    {{confirm-rent  bill=bill  updateStatus=(action "updateStatus")}}
+    {{cancel-contract updateStatus=(action "updateStatus") refresh=refreshCancel contract=contract}}
+    {{houses-import houseReload=(action "houseReload")}}
+    {{add-order room=room house=house updateStatus=(action "updateStatus")}}
+    {{edit-bill updateStatus=(action "updateStatus") refresh=refreshBill order=order}}
+    {{ignore-order}}
+    {{delete-contract optionData=optionData updateStatus=(action "updateStatus")}}
+    {{delete-order optionData=optionData updateStatus=(action "updateStatus")}}
+    {{back-rent optionData=optionData}}
+    {{modify-order}}
+
+{{/page-waper}}

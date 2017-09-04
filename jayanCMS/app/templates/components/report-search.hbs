@@ -1,0 +1,35 @@
+<div id="xsd-sea-bar">
+    <ul id="sea-total-style">
+        <p class="search-head-form"><span></span>报表{{condition}}</p>
+        <li id="reset-sty" class={{list-show types "day-report" "month-reports"}}><a onclick={{action "resetSty" "day_form" "report.day-report"}} >营业报告<span ><i class="iconfont xsd-pull-right">&#xe613;</i></span></a>
+        </li>
+        <ul id="day_form" class={{data-show types "day-report" "month-reports"}}>
+            <li><a onclick={{action "switchMenu" 'report.day-report' }} class={{data-equal types "day-report"}}>日报表</a></li>
+            <li><a onclick={{action "switchMenu" 'report.month-reports'}} class={{data-equal types "month-reports"}}>月报表</a></li>
+        </ul>
+      {{#if auth.e_power.reports_detail_view}}
+        <li id="reset-styM" class={{list-show types "run" ""}}><a onclick={{action "resetSty" "capital" "report"}} class={{data-equal types "capitals"}}>营业明细<span ><i class="iconfont xsd-pull-right">&#xe613;</i></span></a>
+        </li>
+        <ul id="capital" class={{data-show types "run" }}>
+            <li class="z-index3"><a onclick={{action "switchReportTab" 1 }} class={{data-equal type 1}}>支出明细</a>
+            </li>
+            <li class="z-index2"><a onclick={{action "switchReportTab" 0 }} class={{data-equal type 0}}>收入明细</a>
+            </li>
+            <li class="z-index1"><a onclick={{action "switchReportTab" 2 }} class={{data-equal type 2}}>押金明细</a>
+            </li>
+        </ul>
+      {{/if}}
+      {{#if auth.e_power.reports_lcf_view}}
+        <li id="reset-styR" class={{list-show types "bill" "house-report"}}><a onclick={{action "resetSty" "list_form" "report.bill"}} class={{data-equal types "lists_form"}}>业主/租客/房源清单<span ><i class="iconfont xsd-pull-right">
+            &#xe613;</i></span></a>
+        </li>
+        <ul id="list_form" class={{data-show types "bill" "house-report"}}>
+            <!--<li><a  onclick={action "switchMenu" 'report.month-report'}} class={data-equal types "month-report"}}>月度经营状况报表</a></li>-->
+            <!--<li><a onclick={action "switchMenu" 'report.bill'}} class={data-equal types "bill"}}>业主/租客清单报表</a></li>-->
+            <li><a onclick={{action "switchListTab" 1}} class={{data-equal list 1}}>业主清单报表</a></li>
+            <li><a onclick={{action "switchListTab" 0}} class={{data-equal list 0}}>租客清单报表</a></li>
+            <li><a onclick={{action "switchMenu" 'report.house-report'}} class={{data-equal types "house-report"}}>房源统计报表</a></li>
+        </ul>
+      {{/if}}
+    </ul>
+ </div>

@@ -1,0 +1,35 @@
+<div id="authority-search">
+
+  <div class="time-select">
+    <label class="xsd-input-group xsd-margin-b16">
+      <i class="iconfont xsd-color-gray">&#xe63e;</i>
+      {{pikaday-input id="created_at__gte" class="xsd-input" format="YYYY-MM-DD"
+                      placeholder="开始时间" readonly="readonly" onSelection=(action 'selectTime')}}
+    </label>
+    <span>-</span>
+    <label class="xsd-input-group">
+      <i class="iconfont xsd-color-gray">&#xe63e;</i>
+      {{pikaday-input id="created_at__lte" class="xsd-input" format="YYYY-MM-DD"
+                      placeholder="截止时间"  readonly="readonly" onSelection=(action 'selectTime')}}
+    </label>
+  </div>
+
+  <label class="xsd-input-group xsd-select">
+    <i class="iconfont">&#xe63c;</i>
+    <input class="xsd-input" type="text" readonly placeholder="员工类型" onclick={{action 'screen'}}>
+    <ul>
+      <li data-value="">不限</li>
+      <li>管家</li>
+    </ul>
+  </label>
+
+  <label class="xsd-input-group label-search">
+    <i class="iconfont xsd-icon-search" onclick={{action "screen"}}>&#xe618;</i>
+    {{input id="search" class="xsd-input" type="text" enter=(action 'screen') placeholder="员工手机号、人名"
+           value=keyword }}
+  </label>
+
+  <a class="xsd-btn btn-reset xsd-btn-primary" {{action 'reset'}}>重置</a>
+
+
+</div>

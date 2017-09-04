@@ -1,0 +1,135 @@
+{{#page-waper}}
+
+    <div id="divide">
+        <div class="divide_contain">
+
+            <!--金额展示部分-->
+            <div class="divide_top">
+                <ul>
+                    <li>
+                        <div class="divide_top_title">
+                            <p class="xsd-margin-b6">可贷款总额</p>
+                            <span class="xsd-color-primary">{{model.meta.countinfos.max_loan}}<i
+                                    class="xsd-font-size16 ">元</i></span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="divide_top_title">
+                            <p class="xsd-margin-b6">已使用额度</p>
+                            <span class="xsd-color-primary">{{model.meta.countinfos.use_loan}}<i
+                                    class="xsd-font-size16 ">元</i></span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="divide_top_title">
+                            <p class="xsd-margin-b6">剩余贷款额度</p>
+                            <span class="xsd-color-primary">{{model.meta.countinfos.free_loan}}<i
+                                    class="xsd-font-size16 ">元</i></span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!--条件搜索-->
+            <div class="pay-search">
+                <label class="xsd-input-group xsd-select xsd-margin-r12">
+                    <i class="iconfont">&#xe63c;</i>
+                    <input id="divide_case" class="xsd-input" type="text" readonly="readonly"
+                           placeholder="还款情况" data-value="" value="">
+                    <ul>
+                        <li data-value="" onclick={{action "search" "pay_status" ""}}>全部情况</li>
+                        <li data-value="0" onclick={{action "search" "pay_status" "0"}}>正常</li>
+                        <li data-value="1" onclick={{action "search" "pay_status" "1"}}>急还</li>
+                    </ul>
+                </label>
+
+                <label class="xsd-input-group xsd-select xsd-margin-r12">
+                    <i class="iconfont">&#xe63c;</i>
+                    <input id="divide_status" class="xsd-input" type="text" data-value="" readonly
+                           placeholder="分期合同状态">
+                    <ul>
+                        <li data-value="" onclick={{action "search" "contract_status" ""}}>全部状态</li>
+                        <li data-value="0" onclick={{action "search" "contract_status" "0"}}>正常</li>
+                        <li data-value="1" onclick={{action "search" "contract_status" "1"}}>退租</li>
+                        <li data-value="2" onclick={{action "search" "contract_status" "2"}}>退租中</li>
+
+                    </ul>
+                </label>
+                <label class="timeSelect">
+                    <span>
+                        <label class="xsd-input-group xsd-select">
+                            <i class="iconfont top0">&#xe63e;</i>
+                          {{pikaday-input id="divide_start_time"  class="xsd-input  padding-l16" format="YYYY-MM-DD" placeholder="确认贷款起始时间" change=(action "search" "start_date" "time" ) value="" readonly="readonly"}}
+                        </label>
+                        <i class="iconfont henGang">-</i>
+                        <label class="xsd-input-group xsd-select">
+                            <i class="iconfont top0">&#xe63e;</i>
+                          {{pikaday-input id="divide_stop_time"  class="xsd-input  padding-l16" format="YYYY-MM-DD" placeholder="确认贷款结束时间" value="" change=(action "search" "end_date" "time") readonly="readonly"}}
+                        </label>
+                    </span>
+                </label>
+
+                <label class="xsd-input-group xsd-margin-l16">
+                    <i class="iconfont xsd-icon-search xsd-color-gray fontTop">&#xe618;</i>
+                  {{input id="divide_search" class="xsd-input  width-245" type="text" enter="search" placeholder="搜索：租客姓名、联系方式" value=keyword }}
+                </label>
+            </div>
+            <!--表格部分-->
+            <div class="search-details">
+                <table border="0">
+                    <thead>
+                    <tr>
+                        <th>编号</th>
+                        <th>租客姓名</th>
+                        <th>联系方式</th>
+                        <th>申请贷款时间</th>
+                        <th>确认贷款时间</th>
+                        <th>分期期数</th>
+                        <th>月租金</th>
+                        <th>贷款金额</th>
+                        <th>剩余待还金额</th>
+                        <th>租客还款情况</th>
+                        <th>分期合同状态</th>
+                        <th>账单操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#each model as |financeloan index|}}
+                        <tr class="xsd-font-size12">
+                            <td>{{index}}</td>
+                            <td>{{financeloan.customerName}}</td>
+                            <td>{{financeloan.customerPhone}}</td>
+                            <td>{{financeloan.createdAt}}</td>
+                            <td>{{financeloan.confirmAt}}</td>
+                            <td>{{financeloan.installmentNum}}</td>
+                            <td>{{financeloan.monthRental}}</td>
+                            <td>{{financeloan.loan}}</td>
+                            <td>{{financeloan.debtAmount}}</td>
+                          {{#if (eq financeloan.payStatus "正常")}}
+                              <td class="xsd-color-green">{{financeloan.payStatus}}</td>
+                          {{else}}
+                              <td class="xsd-color-red">{{financeloan.payStatus}}</td>
+                          {{/if}}
+                          {{#if (eq financeloan.contractStatus "退租中")}}
+                              <td class="xsd-color-red">{{financeloan.contractStatus}}</td>
+                          {{else}}
+                              <td>{{financeloan.contractStatus}}</td>
+                          {{/if}}
+                            <td><a class="xsd-color-primary" data-toggle="xsd-drawer" data-target="#divide_detail"
+                                   onclick={{action "detail" financeloan.id}}>查看</a></td>
+                        </tr>
+                    {{/each}}
+                    </tbody>
+                </table>
+                <div id="pagination">
+                  {{#if (gt model.meta.pagination.count  12)}}
+                    {{page-numbers content=model}}
+                  {{/if}}
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    {{divide-detail detail=detail}}
+{{/page-waper}}

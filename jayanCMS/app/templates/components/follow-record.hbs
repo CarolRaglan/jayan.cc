@@ -1,0 +1,189 @@
+<div class="xsd-drawer" id="follow-record">
+    <div class="xsd-drawer-header">
+        <a class="xsd-modal-close iconfont">&#xe633;</a>
+    </div>
+    <div class="xsd-drawer-body">
+        <h2 class="xsd-margin-b16  xsd-font-size16">客户详情 -
+          {{#if (eq title "1")}}
+              待分配记录
+          {{/if}}
+          {{#if (eq title "2")}}
+              跟进记录
+          {{/if}}
+          {{#if (eq title "3")}}
+              已完成记录
+          {{/if}}
+          {{#if (not-eq title "1")}}
+            {{#if (not-eq model.attributes.status 1)}}
+                (跟进人：<span>{{model.attributes.operator_name}}-
+            <b class="xsd-color-green">
+              {{#if (eq model.attributes.status 2)}}待处理{{/if}}
+              {{#if (eq model.attributes.status 3)}}已去电{{/if}}
+              {{#if (eq model.attributes.status 4)}}已带看{{/if}}
+              {{#if (eq model.attributes.status 5)}}推迟{{/if}}
+              {{#if (eq model.attributes.status 6)}}无效{{/if}}
+              {{#if (eq model.attributes.status 7)}}已签约{{/if}}
+            </b>
+            </span>)
+            {{/if}}
+          {{/if}}
+        </h2>
+        <div class="people-details xsd-clearfix">
+            <div class="d-top">
+                <p class="xsd-font-size16 xsd-margin-b12">
+                    <span class="xsd-color-gray marginRight24">客户姓名:<i>{{model.attributes.name}}</i></span>
+                    <span class="xsd-color-gray marginRight24">创建时间:<i>{{model.attributes.created_at}}</i>(
+                      {{#if (eq model.attributes.urgency 2)}}
+                          <b class="xsd-color-red">紧急</b>
+                      {{/if}}
+                      {{#if (eq model.attributes.urgency 1)}}
+                          <b class="xsd-color-yellow">正常</b>
+                      {{/if}}
+                      {{#if (eq model.attributes.urgency 0)}}
+                          <b class="xsd-color-green">延后</b>
+                      {{/if}}
+                        )</span>
+                </p>
+                <p>
+                    <span class="xsd-color-gray marginRight24">客户性别:<i>
+                      {{#if (eq model.attributes.sex "other")}}未知{{/if}}
+                      {{#if (eq model.attributes.sex "male")}}男{{/if}}
+                      {{#if (eq model.attributes.sex "female")}}女{{/if}}
+                    </i></span>
+                    <span class="xsd-color-gray marginRight24">联系方式:<i>{{model.attributes.phone}}</i></span>
+                    <span class="xsd-color-gray marginRight24">客户来源:<i>
+                      {{data-tips model.attributes.source}}
+                    </i></span>
+                    <span class="xsd-color-gray ">预约时间:<i>{{model.attributes.book_time}}</i></span>
+                </p>
+            </div>
+            <div class="d-bottom">
+                <div class="xsd-pull-left over-hide">
+                    <span class="xsd-color-gray marginRight24"
+                          title="{{model.attributes.address}}">地段需求:<i>
+                      {{#if model.attributes.address}}
+                        {{model.attributes.address}}
+                      {{else}}
+                          -
+                      {{/if}}
+                    </i></span>
+                </div>
+                <div class="xsd-pull-left">
+                    <span class="xsd-color-gray marginRight24">入住时间:<i>
+                      {{#if model.attributes.wanted_day}}
+                        {{model.attributes.wanted_day}}
+                      {{else}}
+                          -
+                      {{/if}}
+                    </i></span>
+                </div>
+                <div class="xsd-pull-left">
+                    <span class="xsd-color-gray marginRight24">期望租金:<i>{{model.attributes.min_rent}}
+                        -{{model.attributes.max_rent}}</i></span>
+                </div>
+                <div class="xsd-pull-left">
+                    <span class="xsd-color-gray marginRight24">租期时长:<i>{{model.attributes.length}}个月</i></span>
+                </div>
+                <div class="xsd-pull-left">
+                    <span class="xsd-color-gray marginRight24">户型要求:<i>{{model.attributes.house_type}}</i></span>
+                </div>
+                <div class="xsd-pull-left">
+                    <span class="xsd-color-gray marginRight24">租住人数:<i>
+                      {{#if model.attributes.headcount}}
+                        {{model.attributes.headcount}}人
+                      {{else}}
+                          -
+                      {{/if}}
+                    </i></span>
+                </div>
+                <p class="xsd-margin-l36 xsd-margin-b24">
+                    <span class="xsd-color-gray marginRight24">备注:<i>
+                      {{#if model.attributes.comments}}
+                        {{model.attributes.comments}}
+                      {{else}}
+                          -
+                      {{/if}}
+                    </i></span>
+                </p>
+              {{#if (eq title "2")}}
+                  <a class="xsd-pull-right xsd-btn xsd-btn-primary" id="signed"
+                     onclick={{action "signed" model.id}}>签约</a>
+              {{/if}}
+              {{#if auth.e_power.crm_manage_del}}
+                  <a class="xsd-pull-right xsd-btn xsd-btn-white" data-toggle="xsd-modal" data-target="#deleteRecord">删除</a>
+              {{/if}}
+              {{#if (not-eq title "3")}}
+                  <a class="xsd-pull-right xsd-btn xsd-btn-white" data-toggle="xsd-modal"
+                     data-target="#allocated-people" onclick={{action "getId" model.id}}>分配</a>
+
+                {{#if auth.e_power.crm_manage_edit}}
+                  <a class="xsd-pull-right xsd-btn xsd-btn-white" data-toggle="xsd-modal" data-target="#add-new">编辑</a>
+                {{/if}}
+              {{/if}}
+            </div>
+        </div>
+
+
+        <div class="measure xsd-clearfix">
+            <ul>
+
+              {{#each model.attributes.logs as |tips|}}
+
+                  <li>
+                      <div class="dot"></div>
+                      <i class="xsd-margin-l16 ">{{tips.operated_at}}</i>
+                      <div class="dot-content border-left">
+                          <p>{{tips.log_str}}</p>
+                      </div>
+                  </li>
+
+              {{/each}}
+            </ul>
+        </div>
+      {{#if (not-eq title "3")}}
+          <div class="sure">
+              <p>
+                  <label class="xsd-input-group xsd-select xsd-pull-left">
+                      <i class="iconfont">&#xe63c;</i>
+                      <input id="work-status" class="xsd-input lightBule xsd-pull-left" type="text" data-value="" readonly
+                             value="跟进中">
+                      <ul class="top_145">
+                        {{#if (eq title "2")}}
+                          <li data-value="3">已去电</li>
+                          <li data-value="4">已带看</li>
+                          <li data-value="5">推迟</li>
+                          <li data-value="1">放弃</li>
+                        {{/if}}
+                          <li data-value="6">无效</li>
+                      </ul>
+                  </label>
+                  <input id="work-write" class="xsd-input xsd-pull-left" type="text" data-value="" value="" placeholder="备注信息"/>
+                  <a class="xsd-pull-right xsd-btn xsd-btn-white" onclick={{action "genJinStatus" model.id}}>确定</a>
+              </p>
+
+              <div class="bottom-dis xsd-pull-left"></div>
+          </div>
+      {{/if}}
+    </div>
+
+</div>
+
+
+<!--删除单个详情-->
+<div class="xsd-modal delete-modal xsd-md-modal deleteRoomModel" id="deleteRecord">
+    <div class="xsd-modal-header xsd-margin-b24">
+        <span class="xsd-font-size16">删除</span><a class="xsd-modal-close iconfont">&#xe633;</a>
+    </div>
+    <div class="xsd-modal-body xsd-margin-b24">
+        <p>
+            您确定删除该信息吗？删除后该信息将从当前系统中彻底移
+            除，且无法恢复！
+        </p>
+    </div>
+    <div class="xsd-modal-bottom">
+        <div class="xsd-clearfix">
+            <a class="xsd-btn xsd-btn-primary xsd-pull-right" onclick={{action "deleteRecord" model.id}}>确定</a>
+            <a class="xsd-btn xsd-btn-gray xsd-modal-close xsd-pull-right">取消</a>
+        </div>
+    </div>
+</div>

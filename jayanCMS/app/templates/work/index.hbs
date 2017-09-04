@@ -1,0 +1,703 @@
+{{#page-waper}}
+    <a id="allocated_a" data-toggle="xsd-modal" data-target="#allocated-people"></a>
+    <div class="xsd-clearfix">
+        <div id="works">
+            <div id="work" class=" xsd-tabs-card">
+                <!--紧急状况的三个状态-->
+                <div class="xsd-pull-right">
+                    <span class="xsd-pull-left"><i class=" xsd-color-red xsd-pull-left xsd-marginT-33">.</i>紧急</span>
+                    <span class="xsd-pull-left"><i class="xsd-color-yellow xsd-pull-left  xsd-marginT-33">.</i>正常</span>
+                    <span class="xsd-pull-left"><i class="xsd-color-green xsd-pull-left  xsd-marginT-33">.</i>延后</span>
+                    {{#if auth.e_power.crm_manage_edit}}
+                    <a class="xsd-pull-left xsd-btn xsd-btn-primary newPeople" data-toggle="xsd-modal"
+                       data-target="#add-new" onclick={{action "resetDetail"}}>添加新客</a>
+                    {{/if}}
+                </div>
+                <!--三个tab-->
+                <ul class="xsd-clearfix xsd-nav-tabs">
+                    <li class="active z-index4  xsd-pull-left" onclick={{action "tabs" 1}}><a data-toggle="tab"
+                                                                                              data-href="#unallocated">待分配</a>
+                    </li>
+                    <li class="z-index2 xsd-pull-left" onclick={{action "tabs" 2}}><a data-toggle="tab"
+                                                                                      data-href="#follow">跟进中</a>
+                    </li>
+                    <li class="z-index1 xsd-pull-left" onclick={{action "tabs" 3}}><a data-toggle="tab"
+                                                                                      data-href="#completed">已完成</a>
+                    </li>
+                </ul>
+                <div class="xsd-tab-content">
+                    <!--待分配页面-->
+                    <div id="unallocated" class="active xsd-tab-pane">
+                        <div class="pay-top">
+                            <!--当前租客等数据-->
+                            <div class="pay-details">
+                                <ul>
+                                    <li class="xsd-pull-left">
+                                        <span>当前租客</span>
+                                        <p class="xsd-margin-b6 "
+                                           style="color:#{{model.meta.count.0.color}}">{{model.meta.count.0.num}}<b
+                                                class="xsd-font-size16">&nbsp;位</b></p>
+                                    </li>
+                                    <li class="xsd-pull-left">
+                                        <span>紧急</span>
+                                        <p class="xsd-margin-b6 "
+                                           style="color:#{{model.meta.count.1.color}}">{{model.meta.count.1.num}}<b
+                                                class="xsd-font-size16">&nbsp;位</b></p>
+                                    </li>
+                                    <li class="xsd-pull-left">
+                                        <span>正常</span>
+                                        <p class="xsd-margin-b6 "
+                                           style="color:#{{model.meta.count.2.color}}">{{model.meta.count.2.num}}<b
+                                                class="xsd-font-size16">&nbsp;位</b></p>
+                                    </li>
+                                    <li class="xsd-pull-left">
+                                        <span>延后</span>
+                                        <p class="xsd-margin-b6 "
+                                           style="color:#{{model.meta.count.3.color}}">{{model.meta.count.3.num}}<b
+                                                class="xsd-font-size16">&nbsp;位</b></p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="pay-bottom">
+                            <!--搜索条件框-->
+                            <div class="pay-search">
+                                <label class="xsd-input-group xsd-select xsd-margin-r12">
+                                    <i class="iconfont">&#xe63c;</i>
+                                    <input id="fullSource" class="xsd-input" type="text" readonly="readonly"
+                                           placeholder="来源" data-value="" value="">
+                                    <ul>
+                                        <li onclick={{action "tips" "source" ""}}>不限</li>
+                                        <li onclick={{action "tips" "source" "1"}}>来电</li>
+                                        <li onclick={{action "tips" "source" "2"}}>58同城</li>
+                                        <li onclick={{action "tips" "source" "3"}}>赶集网</li>
+                                        <li onclick={{action "tips" "source" "4"}}>安居客</li>
+                                        <li onclick={{action "tips" "source" "5"}}>官网预约</li>
+                                        <li onclick={{action "tips" "source" "6"}}>微信</li>
+                                        <li onclick={{action "tips" "source" "7"}}>自来客</li>
+                                        <li onclick={{action "tips" "source" "8"}}>转介绍</li>
+                                        <li onclick={{action "tips" "source" "9"}}>中介</li>
+                                        <li onclick={{action "tips" "source" "10"}}>其他</li>
+                                        <li onclick={{action "tips" "source" "11"}}>房天下</li>
+                                        <li onclick={{action "tips" "source" "12"}}>豆瓣</li>
+                                        <li onclick={{action "tips" "source" "13"}}>百姓网</li>
+                                        <li onclick={{action "tips" "source" "14"}}>闲鱼</li>
+                                        <li onclick={{action "tips" "source" "15"}}>微博</li>
+                                        <li onclick={{action "tips" "source" "15"}}>微博</li>
+                                        <li onclick={{action "tips" "source" "16"}}>官网在线</li>
+                                        <li onclick={{action "tips" "source" "17"}}>运营管理</li>
+                                    </ul>
+                                </label>
+
+                                <label class="xsd-input-group xsd-select xsd-margin-r12">
+                                    <i class="iconfont">&#xe63c;</i>
+                                    <input id="fullStatus" class="xsd-input" type="text" data-value="" readonly
+                                           placeholder="状态">
+                                    <ul>
+                                        <li onclick={{action "tips" "urgency" ""}}>不限</li>
+                                        <li onclick={{action "tips" "urgency" "2"}}>紧急</li>
+                                        <li onclick={{action "tips" "urgency" "1"}}>正常</li>
+                                        <li onclick={{action "tips" "urgency" "0"}}>延后</li>
+                                    </ul>
+                                </label>
+                                <label class="timeSelect">
+                                    <span>
+
+                                        <label class="xsd-input-group xsd-select">
+                                         <i class="iconfont top0">&#xe63e;</i>
+                                          {{pikaday-input id="start-time"  class="xsd-input  padding-l16" format="YYYY-MM-DD" placeholder="开始时间" value="" change=(action 'tips' 'start_date' "time") readonly="readonly"}}
+                                         </label>
+                                        <i class="iconfont henGang">-</i>
+                                      <label class="xsd-input-group xsd-select">
+                                      <i class="iconfont top0">&#xe63e;</i>
+                                        {{pikaday-input id="stop-time"  class="xsd-input  padding-l16" format="YYYY-MM-DD" placeholder="结束时间" value="" change=(action 'tips' 'end_date' "time") readonly="readonly"}}
+                                     </label>
+
+                                    </span>
+                                </label>
+                            </div>
+                          {{#if auth.e_power.crm_manage_edit}}
+                            {{#if model}}
+                                <!--搜索的表格详情-->
+                                <div class="search-details">
+                                    <table border="0">
+                                        <!--表头-->
+                                        <thead>
+                                        <tr>
+                                            <th class="table-top">创建时间</th>
+                                            <th>租客来源</th>
+                                            <th>租客姓名</th>
+                                            <th>联系方式</th>
+                                            <th>预约时间</th>
+                                            <th>预约区域/小区</th>
+                                            <th>入住时间</th>
+                                            <th>价格</th>
+                                            <th>租期</th>
+                                            <th>租住人数</th>
+                                            <th>户型</th>
+                                            <th>操作</th>
+                                        </tr>
+                                        </thead>
+                                        <!--表格体-->
+                                        <tbody>
+                                        {{#each model as |work|}}
+                                            <tr class="xsd-font-size12" data-toggle="xsd-drawer"
+                                                data-target="#follow-record" onclick={{action "detail" work.id}}>
+                                                <td class="table-top">
+                                                  <span class="xsd-pull-left">
+                                                      {{#if (eq work.urgency 2)}}
+                                                          <i class=" xsd-color-red xsd-pull-left">.</i>
+                                                      {{/if}}
+                                                    {{#if (eq work.urgency 1)}}
+                                                        <i class=" xsd-color-yellow xsd-pull-left">.</i>
+                                                    {{/if}}
+                                                    {{#if (eq work.urgency 0)}}
+                                                        <i class=" xsd-color-green xsd-pull-left">.</i>
+                                                    {{/if}}
+                                                    {{work.createdAt}}
+                                                  </span>
+                                                </td>
+                                                <td>
+                                                  {{data-tips work.source}}
+                                                </td>
+                                                <td>{{work.name}}</td>
+                                                <td>{{work.phone}}</td>
+                                                <td>
+                                                  {{#if work.bookTime}}
+                                                    {{work.bookTime}}
+                                                  {{else}}
+                                                      -
+                                                  {{/if}}
+                                                </td>
+                                                <td>
+                                                  {{#if work.address}}
+                                                    {{work.address}}
+                                                  {{else}}
+                                                      -
+                                                  {{/if}}
+                                                </td>
+                                                <td>
+                                                  {{#if work.wantedDay}}
+                                                    {{work.wantedDay}}
+                                                  {{else}}
+                                                      -
+                                                  {{/if}}
+                                                </td>
+                                                <td>{{work.minRent}} - {{work.maxRent}}</td>
+                                                <td>
+                                                  {{#if work.length}}
+                                                    {{work.length}}月
+                                                  {{else}}
+                                                      -
+                                                  {{/if}}
+                                                </td>
+                                                <td>
+                                                  {{#if work.headcount}}
+                                                    {{#if (eq work.headcount " ")}}
+                                                        -
+                                                    {{else}}
+                                                      {{work.headcount}}人
+                                                    {{/if}}
+                                                  {{else}}
+                                                      -
+                                                  {{/if}}
+                                                </td>
+                                                <td>
+                                                  {{#if work.houseType}}
+                                                    {{work.houseType}}
+                                                  {{else}}
+                                                      -
+                                                  {{/if}}
+                                                </td>
+                                                <td>
+                                                    <a class="xsd-color-primary"
+                                                       onclick={{action "getId" work.id}}>分配</a>
+                                                </td>
+                                            </tr>
+                                        {{/each}}
+
+                                        </tbody>
+                                    </table>
+                                    <!--分页-->
+                                    <div id="pagination">
+                                      {{#if (gt model.meta.pagination.count  12)}}
+                                        {{page-numbers content=model action="pageChanged"}}
+                                      {{/if}}
+                                    </div>
+                                </div>
+                            {{else}}
+                                <div id="xsd-noResult">
+                                    <p><i class="iconfont"><img class="xsd-imgWidth" src="images/search.png"></i></p>
+                                    <p>没有找到相关客户信息</p>
+                                </div>
+                            {{/if}}
+                          {{else}}
+                              <div id="xsd-noResult">
+                                  <p><i class="iconfont"><img class="xsd-imgWidth" src="images/power.png"></i></p>
+                                  <p>先去添加租房新客吧</p>
+                              </div>
+                          {{/if}}
+                        </div>
+                    </div>
+
+                    <div id="follow" class="xsd-tab-pane">
+
+                        <div class="pay-top">
+                            <div class="pay-details">
+                                <ul>
+                                    <li class="xsd-pull-left width_17">
+                                        <span>当前租客</span>
+                                        <p class="xsd-margin-b6"
+                                           style="color:#{{model.meta.count.0.color}}">{{model.meta.count.0.num}}<b
+                                                class="xsd-font-size16">&nbsp;位</b></p>
+                                    </li>
+                                    <li class="xsd-pull-left width_17">
+                                        <span>待处理</span>
+                                        <p class="xsd-margin-b6"
+                                           style="color:#{{model.meta.count.1.color}}">{{model.meta.count.1.num}}<b
+                                                class="xsd-font-size16">&nbsp;位</b></p>
+                                    </li>
+                                    <li class="xsd-pull-left width_17">
+                                        <span>已去电</span>
+                                        <p class="xsd-margin-b6"
+                                           style="color:#{{model.meta.count.2.color}}">{{model.meta.count.2.num}}<b
+                                                class="xsd-font-size16">&nbsp;位</b></p>
+                                    </li>
+                                    <li class="xsd-pull-left width_17">
+                                        <span>已带看</span>
+                                        <p class="xsd-margin-b6"
+                                           style="color:#{{model.meta.count.3.color}}">{{model.meta.count.3.num}}<b
+                                                class="xsd-font-size16">&nbsp;位</b></p>
+                                    </li>
+                                    <li class="xsd-pull-left width_17">
+                                        <span>推迟</span>
+                                        <p class="xsd-margin-b6"
+                                           style="color:#{{model.meta.count.4.color}}">{{model.meta.count.4.num}}<b
+                                                class="xsd-font-size16">&nbsp;位</b></p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="pay-bottom">
+                            <div class="pay-search">
+                                <label class="xsd-input-group xsd-select xsd-margin-r12">
+                                    <i class="iconfont">&#xe63c;</i>
+                                    <input id="fol-fullSource" class="xsd-input" type="text" readonly="readonly"
+                                           placeholder="来源" data-value="" value="">
+                                    <ul>
+                                        <li onclick={{action "tips" "source" ""}}>不限</li>
+                                        <li onclick={{action "tips" "source" "1"}}>来电</li>
+                                        <li onclick={{action "tips" "source" "2"}}>58同城</li>
+                                        <li onclick={{action "tips" "source" "3"}}>赶集网</li>
+                                        <li onclick={{action "tips" "source" "4"}}>安居客</li>
+                                        <li onclick={{action "tips" "source" "5"}}>官网预约</li>
+                                        <li onclick={{action "tips" "source" "6"}}>微信</li>
+                                        <li onclick={{action "tips" "source" "7"}}>自来客</li>
+                                        <li onclick={{action "tips" "source" "8"}}>转介绍</li>
+                                        <li onclick={{action "tips" "source" "9"}}>中介</li>
+                                        <li onclick={{action "tips" "source" "10"}}>其他</li>
+                                        <li onclick={{action "tips" "source" "11"}}>房天下</li>
+                                        <li onclick={{action "tips" "source" "12"}}>豆瓣</li>
+                                        <li onclick={{action "tips" "source" "13"}}>百姓网</li>
+                                        <li onclick={{action "tips" "source" "14"}}>闲鱼</li>
+                                        <li onclick={{action "tips" "source" "15"}}>微博</li>
+                                        <li onclick={{action "tips" "source" "16"}}>官网在线</li>
+                                        <li onclick={{action "tips" "source" "17"}}>运营管理</li>
+                                    </ul>
+                                </label>
+
+                                <label class="xsd-input-group xsd-select xsd-margin-r12">
+                                    <i class="iconfont">&#xe63c;</i>
+                                    <input id="fol-fullStatus" class="xsd-input" type="text" readonly="readonly"
+                                           placeholder="状态" data-value="" value="">
+                                    <ul>
+                                        <li onclick={{action "tips" "urgency" ""}}>不限</li>
+                                        <li onclick={{action "tips" "urgency" "2"}}>紧急</li>
+                                        <li onclick={{action "tips" "urgency" "1"}}>正常</li>
+                                        <li onclick={{action "tips" "urgency" "0"}}>延后</li>
+                                    </ul>
+                                </label>
+
+                                <label class="xsd-input-group xsd-select xsd-margin-r12">
+                                    <i class="iconfont">&#xe63c;</i>
+                                    <input id="fol-jinDu" class="xsd-input" type="text" data-value="" readonly
+                                           placeholder="业务进度">
+                                    <ul>
+
+                                        <li onclick={{action "tips" "status" ""}}>不限</li>
+                                        <li onclick={{action "tips" "status" "2"}}>待处理</li>
+                                        <li onclick={{action "tips" "status" "3"}}>已去电</li>
+                                        <li onclick={{action "tips" "status" "4"}}>已带看</li>
+                                        <li onclick={{action "tips" "status" "5"}}>推迟</li>
+                                    </ul>
+                                </label>
+                                <label class="timeSelect">
+                                    <span>
+                                        <label class="xsd-input-group xsd-select">
+                                         <i class="iconfont top0">&#xe63e;</i>
+                                          {{pikaday-input id="start-time1"  class="xsd-input  padding-l16" format="YYYY-MM-DD" placeholder="开始时间" value="" change=(action 'tips' 'start_date' "time") readonly="readonly"}}
+                                         </label>
+                                        <i class="iconfont henGang">-</i>
+                                      <label class="xsd-input-group xsd-select">
+                                      <i class="iconfont top0">&#xe63e;</i>
+                                        {{pikaday-input id="stop-time1"  class="xsd-input  padding-l16" format="YYYY-MM-DD" placeholder="结束时间" value="" change=(action 'tips' 'end_date' "time") readonly="readonly"}}
+                                     </label>
+                                    </span>
+                                </label>
+                                <label class="xsd-input-group xsd-margin-l16">
+                                    <i class="iconfont xsd-icon-search xsd-color-gray fontTop"
+                                       onclick={{action "tips" "search" keyword}}>&#xe618;</i>
+                                  {{input id="fol-search" class="xsd-input" type="text" enter=(action 'tips' 'search' keyword) placeholder="搜索：租客姓名、手机号码、地址、跟进人" value=keyword }}
+                                </label>
+                            </div>
+                          {{#if model}}
+                              <div class="search-details">
+                                  <table border="0">
+                                      <thead>
+                                      <tr>
+                                          <th class="table-top">跟进时间</th>
+                                          <th>租客来源</th>
+                                          <th>租客姓名</th>
+                                          <th>联系方式</th>
+                                          <th>预约时间</th>
+                                          <th>预约区域/小区</th>
+                                          <th>入住时间</th>
+                                          <th>价格</th>
+                                          <th>租期</th>
+                                          <th>租住人数</th>
+                                          <th>户型</th>
+                                          <th>进度</th>
+                                          <th>跟进人</th>
+                                      </tr>
+                                      </thead>
+                                      <tbody>
+                                      {{#each model as |work|}}
+                                          <tr class="xsd-font-size12" data-toggle="xsd-drawer"
+                                              data-target="#follow-record" onclick={{action "detail" work.id}}>
+                                              <td class="table-top">
+                                                {{#if work.operatedAt}}
+                                                    <span class="xsd-pull-left">
+                                                {{#if (eq work.urgency 2)}}
+                                                    <i class=" xsd-color-red xsd-pull-left">.</i>
+                                                {{/if}}
+                                                      {{#if (eq work.urgency 1)}}
+                                                          <i class=" xsd-color-yellow xsd-pull-left">.</i>
+                                                      {{/if}}
+                                                      {{#if (eq work.urgency 0)}}
+                                                          <i class=" xsd-color-green xsd-pull-left">.</i>
+                                                      {{/if}}
+                                                      {{work.operatedAt}}</span>
+                                                {{else}}
+                                                    -
+                                                {{/if}}
+                                              </td>
+                                              <td>
+                                                {{data-tips work.source}}
+                                              </td>
+                                              <td>{{work.name}}</td>
+                                              <td>{{work.phone}}</td>
+                                              <td>{{work.bookTime}}</td>
+                                              <td>
+                                                {{#if work.address}}
+                                                  {{work.address}}
+                                                {{else}}
+                                                    -
+                                                {{/if}}
+                                              </td>
+                                              <td>
+                                                {{#if work.wantedDay}}
+                                                  {{work.wantedDay}}
+                                                {{else}}
+                                                    -
+                                                {{/if}}
+                                              </td>
+                                              <td>{{work.minRent}} - {{work.maxRent}}</td>
+                                              <td>{{work.length}}月</td>
+                                              <td>
+                                                {{#if work.headcount}}
+                                                  {{#if (eq work.headcount " ")}}
+                                                      -
+                                                  {{else}}
+                                                    {{work.headcount}}人
+                                                  {{/if}}
+                                                {{else}}
+                                                    -
+                                                {{/if}}
+                                              </td>
+                                              <td>{{work.houseType}}</td>
+                                              <td>
+
+                                                <span class="xsd-color-green">
+                                                  {{#if (eq work.status 2)}}
+                                                      待处理
+                                                  {{/if}}
+                                                  {{#if (eq work.status 3)}}
+                                                      已去电
+                                                  {{/if}}
+                                                  {{#if (eq work.status 4)}}
+                                                      已带看
+                                                  {{/if}}
+                                                  {{#if (eq work.status 5)}}
+                                                      推迟
+                                                  {{/if}}
+
+                                                </span>
+                                              </td>
+                                              <td>{{work.operatorName}}</td>
+                                          </tr>
+                                      {{/each}}
+
+                                      </tbody>
+                                  </table>
+                                  <!--分页-->
+                                  <div id="pagination">
+                                    {{#if (gt model.meta.pagination.count  12)}}
+                                      {{page-numbers content=model action="pageChanged"}}
+                                    {{/if}}
+                                  </div>
+                              </div>
+                          {{else}}
+                              <div id="xsd-noResult">
+                                  <p><i class="iconfont"><img class="xsd-imgWidth" src="images/search.png"></i></p>
+                                  <p>没有找到相关客户信息</p>
+                              </div>
+                          {{/if}}
+                        </div>
+                    </div>
+
+
+                    <div id="completed" class="xsd-tab-pane">
+
+                        <div class="pay-top">
+                            <div class="pay-details">
+                                <ul>
+                                    <li class="xsd-pull-left width_31">
+                                        <span>当前租客</span>
+                                        <p class="xsd-margin-b6"
+                                           style="color:#{{model.meta.count.0.color}}">{{model.meta.count.0.num}}<b
+                                                class="xsd-font-size16">
+                                            &nbsp;位</b></p>
+                                    </li>
+                                    <li class="xsd-pull-left width_31">
+                                        <span>无效</span>
+                                        <p class="xsd-margin-b6"
+                                           style="color:#{{model.meta.count.1.color}}">{{model.meta.count.1.num}}<b
+                                                class="xsd-font-size16">
+                                            &nbsp;位</b></p>
+                                    </li>
+                                    <li class="xsd-pull-left width_31">
+                                        <span>已签约</span>
+                                        <p class="xsd-margin-b6"
+                                           style="color:#{{model.meta.count.2.color}}">{{model.meta.count.2.num}}<b
+                                                class="xsd-font-size16">
+                                            &nbsp;位</b></p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="pay-bottom">
+                            <div class="pay-search">
+                                <label class="xsd-input-group xsd-select xsd-margin-r12">
+                                    <i class="iconfont">&#xe63c;</i>
+                                    <input id="com-fullSource" class="xsd-input" type="text" readonly="readonly"
+                                           placeholder="来源" data-value="" value="">
+                                    <ul>
+                                        <li onclick={{action "tips" "source" ""}}>不限</li>
+                                        <li onclick={{action "tips" "source" "1"}}>来电</li>
+                                        <li onclick={{action "tips" "source" "2"}}>58同城</li>
+                                        <li onclick={{action "tips" "source" "3"}}>赶集网</li>
+                                        <li onclick={{action "tips" "source" "4"}}>安居客</li>
+                                        <li onclick={{action "tips" "source" "5"}}>官网预约</li>
+                                        <li onclick={{action "tips" "source" "6"}}>微信</li>
+                                        <li onclick={{action "tips" "source" "7"}}>自来客</li>
+                                        <li onclick={{action "tips" "source" "8"}}>转介绍</li>
+                                        <li onclick={{action "tips" "source" "9"}}>中介</li>
+                                        <li onclick={{action "tips" "source" "10"}}>其他</li>
+                                        <li onclick={{action "tips" "source" "11"}}>房天下</li>
+                                        <li onclick={{action "tips" "source" "12"}}>豆瓣</li>
+                                        <li onclick={{action "tips" "source" "13"}}>百姓网</li>
+                                        <li onclick={{action "tips" "source" "14"}}>闲鱼</li>
+                                        <li onclick={{action "tips" "source" "15"}}>微博</li>
+                                    </ul>
+                                </label>
+
+                                <label class="xsd-input-group xsd-select xsd-margin-r12">
+                                    <i class="iconfont">&#xe63c;</i>
+                                    <input id="com-fullStatus" class="xsd-input" type="text" data-value="" readonly
+                                           placeholder="业务进度">
+                                    <ul>
+                                        <li onclick={{action "tips" "status" ""}}>不限</li>
+                                        <li onclick={{action "tips" "status" "6"}}>无效</li>
+                                        <li onclick={{action "tips" "status" "7"}}>已签约</li>
+                                    </ul>
+                                </label>
+                                <label class="timeSelect">
+                                    <span>
+                                        <label class="xsd-input-group xsd-select">
+                                         <i class="iconfont top0">&#xe63e;</i>
+                                          {{pikaday-input id="start-time2"  class="xsd-input  padding-l16" format="YYYY-MM-DD" placeholder="开始时间" value="" change=(action 'tips' 'start_date' "time") readonly="readonly"}}
+                                         </label>
+                                        <i class="iconfont henGang">-</i>
+                                      <label class="xsd-input-group xsd-select">
+                                      <i class="iconfont top0">&#xe63e;</i>
+                                        {{pikaday-input id="stop-time2"  class="xsd-input  padding-l16" format="YYYY-MM-DD" placeholder="结束时间" value="" change=(action 'tips' 'end_date' "time") readonly="readonly"}}
+                                     </label>
+                                    </span>
+                                </label>
+                                <label class="xsd-input-group xsd-margin-l16">
+                                    <i class="iconfont xsd-icon-search xsd-color-gray fontTop"
+                                       onclick={{action "tips" "search" keyword}}>&#xe618;</i>
+                                  {{input id="com-search" class="xsd-input"  enter=(action 'tips' 'search' keyword) type="text" placeholder="搜索：租客姓名、手机号码、地址、跟进人" value=keyword }}
+                                </label>
+                            </div>
+                          {{#if model}}
+                              <div class="search-details">
+                                  <table border="0">
+                                      <thead>
+                                      <tr>
+                                          <th class="table-top">跟进时间</th>
+                                          <th>租客来源</th>
+                                          <th>租客姓名</th>
+                                          <th>联系方式</th>
+                                          <th>预约时间</th>
+                                          <th>预约区域/小区</th>
+                                          <th>入住时间</th>
+                                          <th>价格</th>
+                                          <th>租期</th>
+                                          <th>租住人数</th>
+                                          <th>户型</th>
+                                          <th>进度</th>
+                                          <th>跟进人</th>
+                                      </tr>
+                                      </thead>
+                                      <tbody>
+                                      {{#each model as |work|}}
+                                          <tr class="xsd-font-size12" data-toggle="xsd-drawer"
+                                              data-target="#follow-record" onclick={{action "detail" work.id}}>
+                                              <td class="table-top">
+                                            <span class="xsd-pull-left">
+                                                {{#if (eq work.urgency 2)}}
+                                                    <i class=" xsd-color-red xsd-pull-left">.</i>
+                                                {{/if}}
+                                              {{#if (eq work.urgency 1)}}
+                                                  <i class=" xsd-color-yellow xsd-pull-left">.</i>
+                                              {{/if}}
+                                              {{#if (eq work.urgency 0)}}
+                                                  <i class=" xsd-color-green xsd-pull-left">.</i>
+                                              {{/if}}
+                                              {{work.operatedAt}}</span>
+                                              </td>
+                                              <td>
+                                                {{data-tips work.source}}
+                                              </td>
+                                              <td>{{work.name}}</td>
+                                              <td>{{work.phone}}</td>
+                                              <td>{{work.bookTime}}</td>
+                                              <td>
+                                                {{#if work.address}}
+                                                  {{work.address}}
+                                                {{else}}
+                                                    -
+                                                {{/if}}
+                                              </td>
+                                              <td>
+                                                {{#if work.wantedDay}}
+                                                  {{work.wantedDay}}
+                                                {{else}}
+                                                    -
+                                                {{/if}}
+                                              </td>
+                                              <td>{{work.minRent}} - {{work.maxRent}}</td>
+                                              <td>{{work.length}}月</td>
+                                              <td>
+                                                {{#if work.headcount}}
+                                                  {{#if (eq work.headcount " ")}}
+                                                      -
+                                                  {{else}}
+                                                    {{work.headcount}}人
+                                                  {{/if}}
+                                                {{else}}
+                                                    -
+                                                {{/if}}
+                                              </td>
+                                              <td>{{work.houseType}}</td>
+                                              <td>
+                                                  <span class="xsd-color-green">
+                                                    {{#if (eq work.status 7)}}
+                                                        已签约
+                                                    {{/if}}
+                                                    {{#if (eq work.status 6)}}
+                                                        无效
+                                                    {{/if}}
+                                                  </span>
+
+                                              </td>
+                                              <td>
+
+                                                {{work.operatorName}}
+
+                                              </td>
+                                          </tr>
+                                      {{/each}}
+
+                                      </tbody>
+                                  </table>
+                                  <!--分页-->
+                                  <div id="pagination">
+                                    {{#if (gt model.meta.pagination.count  12)}}
+                                      {{page-numbers content=model action="pageChanged"}}
+                                    {{/if}}
+                                  </div>
+                              </div>
+                          {{else}}
+                              <div id="xsd-noResult">
+                                  <p><i class="iconfont"><img class="xsd-imgWidth" src="images/search.png"></i></p>
+                                  <p>没有找到相关客户信息</p>
+                              </div>
+                          {{/if}}
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+
+
+        </div>
+    </div>
+    {{add-new employers=employers model=detail   refreshModel=(action "refreshModel") detail=(action "detail")}}
+    {{follow-record model=detail workId=workId title=title refreshModel=(action "refreshModel") detail=(action "detail")}}
+{{/page-waper}}
+
+
+<!--点击分配-->
+
+<div class="xsd-modal xsd-md-modal" id="allocated-people">
+    <div class="xsd-modal-header">
+        <span class="xsd-font-size16">分配公客</span><a class="xsd-modal-close iconfont">&#xe633;</a>
+    </div>
+    <div class="xsd-modal-body">
+        <p class="xsd-margin-b16">
+            您可以将公客分配给任何一个员工（包括自己），请在下拉框中选
+            择要分配的员工？
+        </p>
+        <label class="xsd-input-group xsd-select xsd-margin-r12">
+            <i class="iconfont">&#xe63c;</i>
+            <input id="people-name" class="xsd-input" type="text" readonly="readonly" placeholder="分配员工"
+                   data-value={{auth.user.user}}  value="自己">
+            <ul>
+              {{#each employers as |employer|}}
+                  <li data-value={{employer.id}}>{{employer.name}}</li>
+              {{/each}}
+            </ul>
+        </label>
+    </div>
+    <div class="xsd-modal-bottom xsd-clearfix">
+        <a class="xsd-btn xsd-btn-primary xsd-pull-right" onclick={{action "allocatedPeople" workId}}>确定</a>
+        <a class="xsd-btn xsd-btn-gray xsd-pull-right xsd-modal-close">取消</a>
+    </div>
+</div>
+

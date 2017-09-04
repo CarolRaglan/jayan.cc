@@ -1,0 +1,205 @@
+<style>
+  .detail-container h2 {
+    color: #333;
+    font-weight: 500;
+  }
+  .detail-container p {
+    color: #555;
+    font-weight: 400;
+  }
+  .detail-container h3 {
+    padding: 0;
+    padding-left: 10px;
+    font-size: 20px;
+  }
+  .detail-container h3 a {
+    font-size: 14px;
+    font-weight: normal;
+  }
+  .detail-container .red {
+    border-left: 4px solid #fdae52;
+  }
+  .detail-container .orange {
+    border-left: 4px solid #fd7f64;
+  }
+  .detail-container .blue {
+    border-left: 4px solid #59acff;
+  }
+  .detail-container i {
+    font-size: 14px;
+    font-weight: 500;
+
+  }
+</style>
+<div class="detail-container xsd-drawer house-room" id="prepaymentDetail">
+  <div class="xsd-drawer-header">
+    <a class="xsd-modal-close iconfont">&#xe633;</a>
+  </div>
+  <div class="xsd-drawer-body">
+    <div class="xsd-tabs">
+      <div class="xsd-tab-content">
+        <div id="tab-1" class="active xsd-tab-pane">
+          <h3 class="xsd-margin-b24 blue">预算详情
+            {{#if auth.e_power.finance_flow_del}}
+              {{#if type}}
+              {{else}}
+                <a class="xsd-color-primary xsd-pull-right" data-toggle="xsd-modal" data-target="#deleteFinance">删除</a>
+              {{/if}}
+            {{/if}}
+          </h3>
+          <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+            <span class="xsd-pull-left">{{#if (eq model.attributes.trader_type '租客')}}交易房间{{else}}交易房源{{/if}}</span>
+            <b class="xsd-pull-left">{{model.attributes.trade_info}}</b>
+          </div>
+          <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+            <span class="xsd-pull-left">交易对象</span>
+            <b class="xsd-pull-left">{{model.attributes.trader_type}}</b>
+          </div>
+          <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+            <span class="xsd-pull-left">交易对象姓名</span>
+            <b class="xsd-pull-left">{{model.attributes.trader_name}}</b>
+          </div>
+          <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+            <span class="xsd-pull-left">账单周期</span>
+            <b class="xsd-pull-left">{{model.attributes.start_time}} - {{model.attributes.end_time}}</b>
+          </div>
+          <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+            <span class="xsd-pull-left">应{{#if (eq model.attributes.trader_type '租客')}}收租{{else}}缴租{{/if}}日期</span>
+            <b class="xsd-pull-left">{{model.attributes.trade_at}}</b>
+          </div>
+          <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+            <span class="xsd-pull-left">交易金额</span>
+            <b class="xsd-pull-left"><b class="xsd-color-primary">{{model.attributes.real_amount}}</b> 元</b>
+          </div>
+          <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+            <span class="xsd-pull-left">其中：</span>
+          </div>
+          <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+            <span class="xsd-pull-left">房间租金</span>
+            <b class="xsd-pull-left"><b class="xsd-color-primary">{{model.attributes.trade_rent}}</b> 元</b>
+          </div>
+          <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+            <span class="xsd-pull-left">房屋押金</span>
+            <b class="xsd-pull-left"><b class="xsd-color-primary">{{model.attributes.trade_deposit}}</b> 元</b>
+          </div>
+
+          {{#if model.attributes.trade_utilities.water_fees}}
+          <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+            <span class="xsd-pull-left">水费</span>
+            <b class="xsd-pull-left"><b class="xsd-color-primary">{{model.attributes.trade_utilities.water_fees}}</b> 元</b>
+          </div>
+          {{/if}}
+
+          {{#if model.attributes.trade_utilities.power_fees}}
+          <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+            <span class="xsd-pull-left">电费</span>
+            <b class="xsd-pull-left"><b class="xsd-color-primary">{{model.attributes.trade_utilities.power_fees}}</b> 元</b>
+          </div>
+          {{/if}}
+
+          {{#if model.attributes.trade_utilities.gas_fees}}
+          <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+            <span class="xsd-pull-left">燃气费</span>
+            <b class="xsd-pull-left"><b class="xsd-color-primary">{{model.attributes.trade_utilities.gas_fees}}</b> 元</b>
+          </div>
+          {{/if}}
+
+          {{#if model.attributes.trade_utilities.property_fees}}
+          <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+            <span class="xsd-pull-left">物业费</span>
+            <b class="xsd-pull-left"><b class="xsd-color-primary">{{model.attributes.trade_utilities.property_fees}}</b> 元</b>
+          </div>
+          {{/if}}
+
+          {{#if model.attributes.trade_utilities.service_fees}}
+          <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+            <span class="xsd-pull-left">服务费</span>
+            <b class="xsd-pull-left"><b class="xsd-color-primary">{{model.attributes.trade_utilities.service_fees}}</b> 元</b>
+          </div>
+          {{/if}}
+
+          {{#if model.attributes.trade_utilities.cleaning_fees}}
+          <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+            <span class="xsd-pull-left">保洁费</span>
+            <b class="xsd-pull-left"><b class="xsd-color-primary">{{model.attributes.trade_utilities.cleaning_fees}}</b> 元</b>
+          </div>
+          {{/if}}
+
+          {{#if model.attributes.trade_utilities.upkeep_fees}}
+          <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+            <span class="xsd-pull-left">维修费</span>
+            <b class="xsd-pull-left"><b class="xsd-color-primary">{{model.attributes.trade_utilities.upkeep_fees}}</b> 元</b>
+          </div>
+          {{/if}}
+
+          {{#if model.attributes.trade_utilities.material_fees}}
+          <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+            <span class="xsd-pull-left">材料费</span>
+            <b class="xsd-pull-left"><b class="xsd-color-primary">{{model.attributes.trade_utilities.material_fees}}</b> 元</b>
+          </div>
+          {{/if}}
+
+          {{#if model.attributes.trade_utilities.catv_fees}}
+          <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+            <span class="xsd-pull-left">电视费</span>
+            <b class="xsd-pull-left"><b class="xsd-color-primary">{{model.attributes.trade_utilities.catv_fees}}</b> 元</b>
+          </div>
+          {{/if}}
+
+          {{#if model.attributes.trade_utilities.internet_fees}}
+          <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+            <span class="xsd-pull-left">宽带费</span>
+            <b class="xsd-pull-left"><b class="xsd-color-primary">{{model.attributes.trade_utilities.internet_fees}}</b> 元</b>
+          </div>
+          {{/if}}
+
+          {{#if model.attributes.trade_utilities.sanitation_fees}}
+          <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+            <span class="xsd-pull-left">卫生费</span>
+            <b class="xsd-pull-left"><b class="xsd-color-primary">{{model.attributes.trade_utilities.sanitation_fees}}</b> 元</b>
+          </div>
+          {{/if}}
+
+          {{#if model.attributes.trade_utilities.free_fees}}
+          <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+            <span class="xsd-pull-left">优惠费</span>
+            <b class="xsd-pull-left"><b class="xsd-color-primary">{{model.attributes.trade_utilities.free_fees}}</b> 元</b>
+          </div>
+          {{/if}}
+
+          {{#if model.attributes.trade_utilities.other_fees}}
+          <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+            <span class="xsd-pull-left">其他费</span>
+            <b class="xsd-pull-left"><b class="xsd-color-primary">{{model.attributes.trade_utilities.other_fees}}</b> 元</b>
+          </div>
+          {{/if}}
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="xsd-drawer-bottom">
+  </div>
+</div>
+{{#if auth.e_power.finance_flow_view}}
+
+
+  <div class="xsd-modal delete-modal xsd-md-modal deleteRoomModel" id="deleteFinance">
+    <div class="xsd-modal-header xsd-margin-b24">
+      <span class="xsd-font-size16">删除房间</span><a class="xsd-modal-close iconfont"></a>
+    </div>
+
+    <div class="xsd-modal-body xsd-margin-b24 notice">
+      <p class="xsd-margin-124">财务流水删除后不可恢复,确认删除当前流水信息吗?</p>
+    </div>
+    <div class="xsd-modal-bottom">
+      <div class="xsd-clearfix">
+        <a class="xsd-btn xsd-btn-primary xsd-pull-right" onclick={{action "deleteFinance" model.id}}>确定</a>
+        <a class="xsd-btn xsd-btn-gray xsd-modal-close xsd-pull-right">取消</a>
+
+      </div>
+    </div>
+
+  </div>
+{{/if}}

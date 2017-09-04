@@ -1,0 +1,13 @@
+<div>
+  {{#each extras as |fee|}}
+    <label class="checkbox-inline">
+      {{input type="checkbox" checked=fee.checked}}{{fee.name}}
+    </label>
+  {{/each}}
+</div>
+
+{{#each extras as |fee|}}
+  {{#if fee.checked}}
+    {{group-extras fee=fee dateFormat=dateFormat}}
+  {{/if}}
+{{/each}}

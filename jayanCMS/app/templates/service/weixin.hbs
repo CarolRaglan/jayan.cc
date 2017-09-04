@@ -1,0 +1,28 @@
+
+{{#page-waper}}
+    <div class="xsd-clearfix">
+          <div id="separate">
+              <h1><span>服务>></span>微信服务</h1>
+                <div id="clickServices">
+                    <div class="header">微信公众号与与系统对接所需资料</div>
+                    <div class="xsd-bs-container">
+                        <p>托管地址</p>
+                        <input id="bs_addr" class="bs-address" type="text" name="address" placeholder="http://fdwx.h2ome.cn/" />
+                        <p>公共号名称</p>
+                        <input id="pub_name" class="public-name" name="pubname" type="text" placeholder="请输入公众号名称" />
+                        <p>微信号</p>
+                        <input id="wx_num" class="wx-number" name="wxNumber" type="text" placeholder="请输入公众号的微信号" />
+                        <p>AppID</p>
+                        <input id="app_id" class="ap-id" name="appId" type="text" placeholder="请输入微信公众号平台的AppID" />
+                        <p>AppSecret</p>
+                        <input id="app_sec" class="app-secret" name="appSecret" type="text" placeholder="请输入微信公众号平台的AppSecret" />
+                        <a class="xsd-bind" onclick={{action "getMsg"}}>
+                            绑定
+                        </a>
+                    </div>
+                </div>
+           </div>
+    </div>
+    {{modify-password}}
+{{/page-waper}}
+

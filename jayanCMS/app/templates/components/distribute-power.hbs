@@ -1,0 +1,356 @@
+<div class="xsd-modal xsd-md-modal" id="distributePower">
+    <div class="xsd-modal-header xsd-margin-b24">
+        <span class="xsd-font-size16">权限分配</span><a class="xsd-modal-close iconfont">&#xe633;</a>
+    </div>
+    <div class="xsd-modal-body">
+        <div class="xsd-clearfix xsd-margin-b12 ">
+            <p class="xsd-margin-b12 ">角色名称</p>
+            <label class="xsd-pull-left xsd-margin-r12 xsd-input-group xsd-select">
+                <i class="iconfont">&#xe63c;</i>
+                <input id="power-role" class="xsd-input" type="text" name="power-role" title="角色名称"
+                       validate="required" placeholder="输入角色名称" value={{power.role}} data-value={{power.role_id}}>
+                <ul>
+                    {{#each roleList as |role|}}
+                    <li data-value={{role.id}} onclick={{action "getRole" role.id}}>{{role.attributes.name}}</li>
+                    {{/each}}
+                </ul>
+            </label>
+        </div>
+	    <div class="tree-node dashed">
+	      <label class="xsd-font-bold xsd-font-size16 xsd-margin-b12  block border-line"  data-node="node">
+            {{input type="checkbox" id="base_view" checked=power.page_codes.base_view}}
+		      房源管理(查看)
+	      </label>
+          <div class="xsd-margin-b12 xsd-margin-l16" >
+	          <label class="block xsd-margin-b12 sb-dashed">
+                {{input type="checkbox" id="landlord_house_add" checked=power.page_codes.landlord_house_add}}
+		          添加房源/公寓
+	          </label>
+	          <label class="block xsd-margin-b12  sb-dashed">
+                {{input type="checkbox" id="landlord_house_edit" checked=power.page_codes.landlord_house_edit}}
+		          编辑房源/公寓
+	          </label>
+	          <label class="block xsd-margin-b12 sb-dashed">
+                {{input type="checkbox" id="landlord_house_del" checked=power.page_codes.landlord_house_del}}
+		          删除房源
+	          </label>
+	          <label class="block xsd-margin-b12 sb-dashed">
+                {{input type="checkbox" id="landlord_house_addroom" checked=power.page_codes.landlord_house_addroom}}
+		          新增房间(楼层)
+	          </label>
+	          <label class="block xsd-margin-b12  sb-dashed">
+                {{input type="checkbox" id="landlord_house_editroom" checked=power.page_codes.landlord_house_editroom}}
+		          编辑房间(楼层)
+	          </label>
+	          <label class="block xsd-margin-b12 sb-dashed">
+                {{input type="checkbox" id="landlord_house_delroom" checked=power.page_codes.landlord_house_delroom}}
+		          删除房间(楼层)
+	          </label>
+	          <div class="xsd-margin-b12 tree-node sb-dashed">
+	            <label class="block xsd-margin-b12  " data-node="node">
+                  {{input type="checkbox"  id="landlord_contract_view" checked=power.page_codes.landlord_contract_view}}
+		            托管合同(查看)
+	            </label>
+	            <div class="xsd-margin-b12 xsd-margin-l16">
+	              <label>
+                    {{input type="checkbox" id="landlord_contract_create" checked=power.page_codes.landlord_contract_create}}
+		              录入合同
+                </label>
+	              <label>
+                    {{input type="checkbox" id="landlord_contract_edit" checked=power.page_codes.landlord_contract_edit}}
+		              编辑合同</label>
+	              <label>
+                    {{input type="checkbox" id="landlord_contract_renew" checked=power.page_codes.landlord_contract_renew}}
+		              续租管理</label>
+	              <label>
+                    {{input type="checkbox" id="landlord_contract_evict" checked=power.page_codes.landlord_contract_evict}}
+		              退租管理</label>
+	              <label>
+                    {{input type="checkbox" id="landlord_contract_del" checked=power.page_codes.landlord_contract_del}}
+		              删除合同</label>
+              </div>
+            </div>
+	          <div class="xsd-margin-b12 tree-node">
+	            <label class="block xsd-margin-b12 sb-dashed" data-node="node">
+                  {{input type="checkbox"  id="landlord_order_view" checked=power.page_codes.landlord_order_view}}
+		            业主账单(查看)
+	            </label>
+	            <div class="xsd-margin-b12 xsd-margin-l16">
+	              <label>
+                    {{input type="checkbox" id="landlord_order_edit" checked=power.page_codes.landlord_order_edit}}
+		              编辑账单</label>
+	              <label>
+                    {{input type="checkbox" id="landlord_order_paid" checked=power.page_codes.landlord_order_paid}}
+		              确认付款</label>
+	              <label>
+                    {{input type="checkbox" id="landlord_order_add" checked=power.page_codes.landlord_order_add}}
+		              新增账单
+	              </label>
+	              <label>
+                    {{input type="checkbox" id="landlord_order_del" checked=power.page_codes.landlord_order_del}}
+		              删除账单
+	              </label>
+              </div>
+            </div>
+	          <div class="xsd-margin-b12 tree-node">
+		          <label class="block xsd-margin-b12  sb-dashed" data-node="node">
+                    {{input type="checkbox"  id="customer_contract_view" checked=power.page_codes.customer_contract_view}}
+			          租客合同(查看)
+		          </label>
+		          <div class="xsd-margin-b12 xsd-margin-l16">
+			          <label>
+                        {{input type="checkbox" id="customer_contract_create" checked=power.page_codes.customer_contract_create}}
+				          录入合同
+			          </label>
+			          <label>
+                        {{input type="checkbox" id="customer_contract_edit" checked=power.page_codes.customer_contract_edit}}
+				          编辑合同</label>
+			          <label>
+                        {{input type="checkbox" id="customer_contract_renew" checked=power.page_codes.customer_contract_renew}}
+				          续租管理</label>
+			          <label>
+                        {{input type="checkbox" id="customer_contract_evict" checked=power.page_codes.customer_contract_evict}}
+				          退租管理</label>
+			          <label>
+                        {{input type="checkbox" id="customer_contract_del" checked=power.page_codes.customer_contract_del}}
+				          删除合同</label>
+		          </div>
+	          </div>
+	          <div class="xsd-margin-b12 tree-node sb-dashed">
+		          <label class="block xsd-margin-b12  " data-node="node">
+                    {{input type="checkbox"  id="customer_order_view" checked=power.page_codes.customer_order_view}}
+                  租客账单(查看)
+		          </label>
+		          <div class="xsd-margin-b12 xsd-margin-l16">
+                <label>
+                      {{input type="checkbox" id="customer_order_edit" checked=power.page_codes.customer_order_edit}}
+                  账单抄表</label>
+                <label>
+                      {{input type="checkbox" id="customer_order_send" checked=power.page_codes.customer_order_send}}
+                  发送账单</label>
+                <label>
+                      {{input type="checkbox" id="customer_order_paid" checked=power.page_codes.customer_order_paid}}
+                  确认收租</label>
+                <label>
+                      {{input type="checkbox" id="customer_order_add" checked=power.page_codes.customer_order_add}}
+                  添加账单
+                </label>
+                <br/>
+			          <label>
+                        {{input type="checkbox" id="customer_order_mod" checked=power.page_codes.customer_order_mod}}
+				          编辑账单</label>
+			          <label>
+                        {{input type="checkbox" id="customer_order_del" checked=power.page_codes.customer_order_del}}
+				          删除账单
+			          </label>
+		          </div>
+	          </div>
+          </div>
+      </div>
+
+	    <div class="tree-node dashed">
+		    <label class="xsd-font-bold xsd-font-size16 xsd-margin-b12 block"  data-node="node">
+              {{input type="checkbox" id="crm_manage_view" checked=power.page_codes.crm_manage_view}}
+			    派单(查看)
+		    </label>
+		    <div class="xsd-margin-b12 xsd-margin-l16 tree-node" >
+			    <label class="block xsd-margin-b12 "  data-node="node">
+                  {{input type="checkbox" id="crm_manage_edit" checked=power.page_codes.crm_manage_edit}}
+				    新建、编辑、分配
+			    </label>
+		      <div class="xsd-margin-b12 xsd-margin-l16">
+            <label class="block xsd-margin-b12  ">
+                    {{input type="checkbox"  id="crm_manage_del" checked=power.page_codes.crm_manage_del}}
+              删除
+            </label>
+          </div>
+        </div>
+      </div>
+	    <div class="tree-node dashed">
+		    <label class="xsd-font-bold xsd-font-size16 xsd-margin-b12  block"  data-node="node">
+              {{input type="checkbox" id="finance_manage_view" checked=power.page_codes.finance_manage_view}}
+			    财务管理(查看)
+		    </label>
+
+        <div class="xsd-margin-b12 xsd-margin-l16 tree-node" >
+          <label class="block xsd-margin-b12 "  data-node="node">
+            {{input type="checkbox" id="finance_payment_view" checked=power.page_codes.finance_payment_view}}
+            收支流水(查看)
+          </label>
+          <div class="xsd-margin-b12 xsd-margin-l16">
+            <label class="block xsd-margin-b12  ">
+              {{input type="checkbox"  id="finance_payment_exp" checked=power.page_codes.finance_payment_exp}}
+              导出报表
+            </label>
+          </div>
+        </div>
+
+
+		    <div class="xsd-margin-b12 xsd-margin-l16 tree-node sb-dashed" >
+			    <label class="block xsd-margin-b12 "  data-node="node">
+                  {{input type="checkbox" id="finance_flow_view" checked=power.page_codes.finance_flow_view}}
+		      流水明细(查看)
+			    </label>
+		      <div class="xsd-margin-b12 xsd-margin-l16">
+            <label class="xsd-margin-b12  ">
+                    {{input type="checkbox"  id="finance_flow_add" checked=power.page_codes.finance_flow_add}}
+              添加明细
+            </label>
+            <label class="xsd-margin-b12  ">
+                    {{input type="checkbox"  id="finance_flow_del" checked=power.page_codes.finance_flow_del}}
+              删除明细
+            </label>
+
+            <label class="xsd-margin-b12  ">
+              {{input type="checkbox"  id="finance_flow_exp" checked=power.page_codes.finance_flow_exp}}
+              导出报表
+            </label>
+          </div>
+        </div>
+		    <div class="xsd-margin-b12 xsd-margin-l16 tree-node" >
+			    <label class="block xsd-margin-b12 "  data-node="node">
+                  {{input type="checkbox" id="finance_flow_pre_in_view" checked=power.page_codes.finance_flow_pre_in_view}}
+		      收入预算(查看)
+			    </label>
+		      <div class="xsd-margin-b12 xsd-margin-l16">
+            <label class="block xsd-margin-b12  ">
+                    {{input type="checkbox"  id="finance_flow_pre_in_exp" checked=power.page_codes.finance_flow_pre_in_exp}}
+              导出报表
+            </label>
+          </div>
+        </div>
+        <div class="xsd-margin-b12 xsd-margin-l16 tree-node" >
+          <label class="block xsd-margin-b12 "  data-node="node">
+            {{input type="checkbox" id="finance_flow_pre_out_view" checked=power.page_codes.finance_flow_pre_out_view}}
+            支出预算(查看)
+          </label>
+          <div class="xsd-margin-b12 xsd-margin-l16">
+            <label class="block xsd-margin-b12  ">
+              {{input type="checkbox"  id="finance_flow_pre_out_exp" checked=power.page_codes.finance_flow_pre_out_exp}}
+              导出报表
+            </label>
+          </div>
+        </div>
+      </div>
+
+	    <div class="tree-node dashed">
+		    <label class="xsd-font-bold xsd-font-size16 xsd-margin-b12  block"  data-node="node">
+              {{input type="checkbox" id="reports_view" checked=power.page_codes.reports_view}}
+			    报表(查看)
+		    </label>
+	      <div class="xsd-margin-b12 xsd-margin-l16 tree-node" >
+		      <label class="block xsd-margin-b12 "  data-node="node">
+                {{input type="checkbox" id="reports_busi_view" checked=power.page_codes.reports_busi_view}}
+			      营业报告(查看)
+		      </label>
+		      <div class="xsd-margin-b12 xsd-margin-l16">
+			      <label class="block xsd-margin-b12  ">
+                    {{input type="checkbox"  id="reports_busi_exp" checked=power.page_codes.reports_busi_exp}}
+				      导出报表
+			      </label>
+          </div>
+        </div>
+	      <div class="xsd-margin-b12 xsd-margin-l16 tree-node" >
+		      <label class="block xsd-margin-b12 "  data-node="node">
+                {{input type="checkbox" id="reports_detail_view" checked=power.page_codes.reports_detail_view}}
+			      营业明细(查看)
+		      </label>
+		      <div class="xsd-margin-b12   xsd-margin-l16">
+			      <label class="block xsd-margin-b12  ">
+                    {{input type="checkbox"  id="reports_detail_exp" checked=power.page_codes.reports_detail_exp}}
+				      导出报表
+			      </label>
+          </div>
+        </div>
+	      <div class="xsd-margin-b12 xsd-margin-l16 tree-node">
+		      <label class="block xsd-margin-b12 "  data-node="node">
+                {{input type="checkbox" id="reports_lcf_view" checked=power.page_codes.reports_lcf_view}}
+			      业主/租客/房源清单(查看)
+		      </label>
+		      <div class="xsd-margin-b12 xsd-margin-l16">
+			      <label class="block xsd-margin-b12  ">
+                    {{input type="checkbox"  id="reports_lcf_exp" checked=power.page_codes.reports_lcf_exp}}
+				      导出报表
+			      </label>
+          </div>
+        </div>
+      </div>
+      <div class="tree-node dashed">
+          <label class="xsd-font-bold xsd-font-size16 xsd-margin-b12  block"  data-node="node">
+            {{input type="checkbox" id="statistics_view" checked=power.page_codes.statistics_view}}
+              统计(查看)
+          </label>
+          <div class="xsd-margin-b12 xsd-margin-l16 tree-node" >
+              <label class="block xsd-margin-b12 "  data-node="node">
+                {{input type="checkbox" id="statistics_busi_view" checked=power.page_codes.statistics_busi_view}}
+                  运营统计(查看)
+              </label>
+          </div>
+          <div class="xsd-margin-b12 xsd-margin-l16 tree-node" >
+              <label class="block xsd-margin-b12 "  data-node="node">
+                {{input type="checkbox" id="statistics_fina_view" checked=power.page_codes.statistics_fina_view}}
+                  财务统计(查看)
+              </label>
+          </div>
+      </div>
+
+	    <div class="tree-node dashed">
+		    <label class="xsd-font-bold xsd-font-size16 xsd-margin-b12  block"  data-node="node">
+              {{input type="checkbox" id="openchannel_view" checked=power.page_codes.openchannel_view}}
+			    出房管理(查看)
+		    </label>
+        <div class="xsd-margin-b12 xsd-margin-l16" >
+            <label>
+              {{input type="checkbox" id="openchannel" checked=power.page_codes.openchannel}}
+                设置出房</label>
+        </div>
+      </div>
+
+	    <div class="tree-node">
+		    <label class="xsd-font-bold xsd-font-size16 xsd-margin-b12  block"  data-node="node">
+              {{input type="checkbox" id="financeloan_flow_view" checked=power.page_codes.financeloan_flow_view}}
+			    分期(查看)
+		    </label>
+      </div>
+
+	    <div class="tree-node">
+		    <label class="xsd-font-bold xsd-font-size16 xsd-margin-b6 block"  data-node="node">
+              {{input type="checkbox" id="h2ometrades" checked=power.page_codes.h2ometrades}}
+			    余额(查看)
+		    </label>
+      </div>
+
+	    <div class="tree-node dashed">
+		    <label class="xsd-font-bold xsd-font-size16 xsd-margin-b12  block"  data-node="node">
+
+              {{input type="checkbox" id="smart_device_view" checked=power.page_codes.smart_device_view}}
+		    智能硬件(查看)
+		    </label>
+		    <div class="xsd-margin-b12 xsd-margin-l16" >
+	        <label>
+              {{input type="checkbox" id="smart_power_bind" checked=power.page_codes.smart_power_bind}}
+	          添加电表</label>
+	        <label>
+              {{input type="checkbox" id="smart_power_prepay" checked=power.page_codes.smart_power_prepay}}
+	          电费充值</label>
+	        <label>
+              {{input type="checkbox" id="smart_power_switch" checked=power.page_codes.smart_power_switch}}
+	          断电/通电</label>
+	        <label>
+              {{input type="checkbox" id="smart_power_unbind" checked=power.page_codes.smart_power_unbind}}
+	          解绑电表</label>
+	        <label>
+              {{input type="checkbox" id="smart_power_set" checked=power.page_codes.smart_power_set}}
+	          电表配置</label>
+
+        </div>
+      </div>
+    </div>
+    <div class="xsd-modal-bottom">
+        <div class="xsd-clearfix">
+            <a class="xsd-btn xsd-btn-gray xsd-modal-close">取消</a>
+
+            <a class="xsd-btn xsd-btn-primary" onclick={{action "powerSubmit" power.employer_id}}>保存</a>
+        </div>
+    </div>
+</div>

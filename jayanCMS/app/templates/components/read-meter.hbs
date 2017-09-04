@@ -1,0 +1,113 @@
+<div class="xsd-modal modal-tiny" id="readMeter">
+  <h3 class="xsd-modal-header title-primary">抄表<a class="xsd-modal-close iconfont">&#xe633;</a></h3>
+  <div class="xsd-modal-body panel-scrollable">
+    {{#if refresh}}
+
+      {{#if meter.water}}
+        <h4 class="title-chapter">水表</h4>
+        <div class="row">
+          {{ui-input title="水费总价" unit="元" name="water_fees" readonly=true value=(currency m.water_fees)}}
+          {{ui-input title="水费单价" unit="元/吨" name="water_unit_price" readonly=true value=(currency m.water_unit_price)}}
+        </div>
+        <div class="row">
+          {{ui-input title="上次水表读数" name="water_meter_pre" readonly=true value=(currency m.water_meter_pre)}}
+          {{ui-input title="上次抄表时间" name="water_meter_time_pre" readonly=true value=m.water_meter_time_pre}}
+        </div>
+        <div class="row">
+          <div class="table-cell">
+            <label>水表本次读数</label>
+            <div class="xsd-input-group">
+              <input class="xsd-input" name="water_meter" value="{{currency m.water_meter}}"
+                     type="number" min="{{m.water_meter_pre}}" onchange={{action "watcher" "water" m.water_meter_pre}}>
+            </div>
+          </div>
+          <div class="table-cell">
+            <label>本次抄表时间</label>
+            <div class="xsd-input-group">
+              {{pikaday-input class="xsd-input" value=m.water_meter_time name="water_meter_time"
+                              minDate=(date m.water_meter_time_pre)
+                              format="YYYY-MM-DD" readonly="readonly"}}
+              <i class="iconfont">&#xe63e;</i>
+            </div>
+          </div>
+        </div>
+      {{/if}}
+
+      {{#if meter.power}}
+        <h4 class="title-chapter">电表</h4>
+        <div class="row">
+          {{#if m.is_meter}}
+            {{ui-input title="电费总价" unit="元" readonly=true name="power_fees" value=(currency m.smart_value)}}
+          {{else}}
+            {{ui-input title="电费总价" unit="元" readonly=true name="power_fees" value=(currency m.power_fees)}}
+          {{/if}}
+          {{ui-input title="电费单价" unit="元/度" readonly=true name="power_unit_price" value=(currency m.power_unit_price)}}
+        </div>
+        <div class="row">
+          {{ui-input title="上次电表读数" readonly=true name="power_meter_pre" value=(currency m.power_meter_pre)}}
+          {{ui-input title="上次抄表时间" readonly=true name="power_meter_time_pre" value=m.power_meter_time_pre}}
+        </div>
+        <div class="row">
+          <div class="table-cell">
+            <label>本次电表读数</label>
+            <div class="xsd-input-group">
+              {{#if m.is_meter}}
+                <input class="xsd-input" disabled type="text" value={{currency m.smart_value.num}} name="power_meter">
+                <b class="xsd-font-size12 refreshRead" onclick={{action "refreshMeter"}}>刷新读数</b>
+              {{else}}
+                <input class="xsd-input" type="text" value={{currency m.power_meter}} name="power_meter"
+                         onchange={{action "watcher" "power" m.power_meter_pre}}
+                       placeholder="请输入电表读数">
+              {{/if}}
+            </div>
+          </div>
+          <div class="table-cell">
+            <label>本次抄表时间</label>
+            <div class="xsd-input-group">
+              <i class="iconfont">&#xe63e;</i>
+              {{pikaday-input  class="xsd-input" value=m.power_meter_time name="power_meter_time"
+                               format="YYYY-MM-DD" placeholder="请输入抄表时间"
+                               readonly="readonly" minDate=(date m.power_meter_time_pre)}}
+            </div>
+          </div>
+        </div>
+      {{/if}}
+
+      {{#if meter.gas}}
+        <h4 class="title-chapter">燃气表</h4>
+        <div class="row">
+          {{ui-input title="燃气费总价" unit="元" readonly=true name="gas_fees" value=(currency m.gas_fees)}}
+          {{ui-input title="燃气费单价" unit="元/立方米" readonly=true name="gas_unit_price" value=(currency m.gas_unit_price)}}
+        </div>
+        <div class="row">
+          {{ui-input title="上次燃气表读数" readonly=true name="gas_meter_pre" value=(currency m.gas_meter_pre)}}
+          {{ui-input title="上次抄表时间" readonly=true name="gas_meter_time_pre" value=m.gas_meter_time_pre}}
+        </div>
+        <div class="row">
+          <div class="table-cell">
+            <label>燃气表本次读数</label>
+            <div class="xsd-input-group">
+              <input class="xsd-input" name="gas_meter" value="{{currency m.gas_meter}}" type="number"
+                       onchange={{action "watcher" "gas" m.gas_meter_pre}} placeholder="请输入燃气表读数">
+            </div>
+          </div>
+          <div class="table-cell">
+            <label>本次抄表时间</label>
+            <div class="xsd-input-group">
+              <i class="iconfont">&#xe63e;</i>
+              {{pikaday-input class="xsd-input" value=m.gas_meter_time name="gas_meter_time"
+                              format="YYYY-MM-DD" placeholder="输入抄表时间" readonly="readonly"
+                              minDate=(date m.gas_meter_time_pre)}}
+            </div>
+          </div>
+        </div>
+      {{/if}}
+
+    {{/if}}
+
+    <div class="xsd-modal-bottom">
+      <a class="xsd-btn xsd-btn-primary xsd-pull-right" onclick={{action "readMeter" order.id  m.room_id}}>保存</a>
+      <a class="xsd-btn xsd-btn-gray xsd-pull-right xsd-modal-close">取消</a>
+    </div>
+  </div>
+</div>

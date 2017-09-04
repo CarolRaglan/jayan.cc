@@ -1,0 +1,15 @@
+<label>{{title}}</label>
+{{#if readonly}}
+  {{input class="xsd-input" type="text" name=name value=text disabled=true}}
+{{else}}
+  <div class="xsd-input-group xsd-select">
+    {{input class="xsd-input" type="text" readonly=true name=name  value=text data-value=value
+           focus=(action 'focus') blur=(action 'blur')}}
+    <i class="iconfont">&#xe63c;</i>
+    <ul>
+      {{#each list as |it|}}
+        <li data-value={{it.code}} onclick={{action "select" it}}>{{it.name}}</li>
+      {{/each}}
+    </ul>
+  </div>
+{{/if}}

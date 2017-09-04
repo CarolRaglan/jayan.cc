@@ -1,0 +1,70 @@
+<div class="xsd-modal xsd-md-modal" id="protocol-img" >
+  <div class="xsd-modal-header">
+    {{#if btn}}
+      <span class="xsd-font-size16"></span><a class="iconfont protocol-close" onclick={{action "protocolClose"}}>&#xe633;</a>
+    {{else}}
+      <span class="xsd-font-size16"></span><a class="iconfont xsd-modal-close">&#xe633;</a>
+    {{/if}}
+  </div>
+  <div class="xsd-modal-body">
+    <p class="title">房屋租赁协议</p>
+    <p class="items">甲方：<span class="col underline"> {{protocol.jia_fang_name}} </span>（出租方）</p>
+    <p class="items bottom">乙方：<span class="col underline"> {{protocol.yi_fang_name}} </span>（求租方）</p>
+
+    <p class="items bottom">双方就乙方租赁甲方房屋一事，经协商达成如下协议：</p>
+
+    <p class="items">第一条 出租房屋的坐落位置、面积以及其他情况</p>
+    <p>1、本合同所出租房屋坐落地址：<span class="underline"> {{protocol.address}} </span></p>
+    <p class="bottom">2、房屋的建筑面积<span class="underline"> {{protocol.space}} </span>平方米</p>
+
+    <p class="items">第二条 房屋租赁的期限</p>
+
+    <p class="bottom">从<span class="underline"> {{protocol.start_year}} </span>年<span class="underline"> {{protocol.start_month}} </span>月<span class="underline"> {{protocol.start_day}} </span>日起至<span class="underline"> {{protocol.end_year}} </span>年<span class="underline"> {{protocol.end_month}} </span>月<span class="underline"> {{protocol.end_day}} </span>日。</p>
+
+    <p class="items">第三条 租金及其交纳方式</p>
+    <p>每月租金<span class="underline"> {{protocol.rental}} </span>元，大写<span class="underline"> {{protocol.chinese_rental}} </span>。</p>
+    <p class="bottom">每月租金 <span class="underline">
+      {{#if (eq protocol.rent_pay_way 'fixed')}}
+        固定时期
+      {{else}}
+        账单开始时间提前
+      {{/if}}
+    </span> 交付，<span class="underline">
+      {{#if (eq protocol.rent_pay_way 'fixed')}}
+        固定每月 {{protocol.fixed_pay_date}} 日
+      {{else}}
+        提前 {{protocol.fixed_pay_date}} 天
+      {{/if}}
+    </span>。</p>
+
+    <p class="items">第四条 押金</p>
+    <p>押金 <span class="underline"> {{protocol.deposit}} </span> 元，大写<span class="underline"> {{protocol.chinese_deposit}} </span>。该押金用于保障房屋内的设备完好，如出现设备损坏的现象，</p>
+    <p class="bottom">甲方有权按照市场价格扣除相应的赔偿款。</p>
+
+    <p class="items bottom">如合同期满，乙方没有损害房屋内的设备，则甲方应该在合同期满日如数退还。</p>
+
+    <div class="xsd-clearfix">
+      <ul>
+        {{#if protocol.signed_picture}}
+          <li class="rented">求租方：<span class="underline"> <img class="rented_sign" src='{{protocol.signed_picture}}'> </span></li>
+          <li>日期：<span class="underline">{{protocol.contract_signed_at}}</span></li>
+
+        {{else}}
+          <li>求租方：<span class="underline preview-pro"> ------------- </span></li>
+          <li>日期：<span class="underline preview-pro"> --------------- </span></li>
+
+        {{/if}}
+      </ul>
+      <ul>
+        <li>出租方：<span class="underline">{{protocol.jia_fang_name}}</span></li>
+        <li>日期：<span class="underline">{{protocol.contract_created_at}}</span></li>
+      </ul>
+    </div>
+  </div>
+
+  {{#if btn}}
+    <a class="save" onclick={{action "protocolClose"}}>确定</a>
+  {{else}}
+    <a class="save xsd-modal-close">确定</a>
+  {{/if}}
+</div>

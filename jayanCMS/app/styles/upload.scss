@@ -1,0 +1,54 @@
+.uploadifive-button{
+  width: 112px!important;
+  height: 76px!important;
+  border:2px #e7e7e7 dashed;
+  float: left;
+  color: #999999;
+  cursor: pointer;
+  .button{
+    padding-top: 12px;
+    font-size:32px;
+    color:rgba(78, 90, 102, 0.4);
+    line-height: 1;
+  }
+  input[type='file']{
+    width: 116px;
+    height: 80px;
+  }
+}
+.uploadifive-queue{
+  display: none;
+}
+.photos{
+  float: left;
+  margin-right: 0px;
+  max-width:540px;
+  ul{
+    overflow:hidden;
+  }
+  img{
+    width:116px;
+    height:auto;
+  }
+  li{
+    position: relative;
+    display: inline-block;
+    padding-right: 2px;
+    width:142px;
+    height:100px;
+    margin-bottom:20px;
+    overflow:hidden;
+    i{
+      display: none;
+      position: absolute;
+      color: #59acff;
+      font-size: 12px;
+      left: 52px;
+      top:32px;
+      cursor: pointer;
+    }
+    &:hover i{
+      display: block;
+    }
+  }
+}

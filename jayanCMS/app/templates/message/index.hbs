@@ -1,0 +1,40 @@
+{{#page-waper}}
+    <div class="xsd-clearfix">
+        <div id="screen" class="xsd-pull-left">
+          {{#search-bar type=type}}{{/search-bar}}
+        </div>
+        <div id="separate" class="xsd-pull-left">
+            <div id="message">
+              {{#if model}}
+                <div id="tools" class="xsd-clearfix">
+                    <div class="xsd-pull-left">全部通知</div>
+                    <a class="xsd-pull-right btn" onclick={{action "doReadAll"}} >全部标记已读</a>
+                </div>
+                <ul>
+                  {{#each model as |message|}}
+                      <li class="xsd-clearfix">
+                          <span class="xsd-pull-left"><i class="active">.</i>{{message.createdAt}}</span>
+                          <p class="xsd-pull-left">{{message.content}}</p>
+                      {{#if (eq message.readn 'false')}}
+                          <a class="xsd-pull-left" onclick={{action "doRead" message.id}}>标记已读</a>
+                      {{else}}
+                          <a class="xsd-pull-left xsd-color-gray">已读</a>
+                      {{/if}}
+                      </li>
+                  {{/each}}
+                </ul>
+                <div id="pagination">
+                  {{#if (gt model.meta.pagination.count  15)}}
+                  {{page-numbers content=model}}
+                  {{/if}}
+                </div>
+              {{else}}
+                  <div id="xsd-noResult" class="xsd-margin-t16">
+                      <p><i class="iconfont"><img class="xsd-imgWidth" src="images/news.png"></i></p>
+                      <p>未找到此消息,请核对信息后再试!</p>
+                  </div>
+              {{/if}}
+            </div>
+        </div>
+    </div>
+{{/page-waper}}

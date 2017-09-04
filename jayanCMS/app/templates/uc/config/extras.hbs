@@ -1,0 +1,54 @@
+<div class="panel-base">
+  <h2 class="title-primary">
+    <span>费用项目配置</span>
+    <span class="bar">
+      {{#if deletable}}
+        <a {{action 'toggle' 'deletable'}}>完成</a>
+      {{else}}
+        {{#link-to 'uc.config.extras.add'}}添加费用{{/link-to}}
+        <a {{action 'toggle' 'deletable'}}>删除费用</a>
+      {{/if}}
+    </span>
+  </h2>
+  <h3>当前使用的杂费项</h3>
+  <div class="list-checkbox">
+    {{#each predefine as |fee|}}
+      <label class="checkbox-inline">
+        <input type="checkbox" checked disabled>
+        {{fee.name}}
+      </label>
+    {{/each}}
+    {{#each model as |fee|}}
+      {{#if fee.enable}}
+        <label class="checkbox-inline">
+          {{input type="checkbox" change=(action 'edit' fee) checked=fee.enable disabled=deletable}}
+          {{fee.name}}
+          {{#if (and fee.custom deletable)}}
+            {{#link-to 'uc.config.extras.remove' (query-params name=fee.name) class="iconfont ic-del"}}
+              &#xe69d;
+            {{/link-to}}
+          {{/if}}
+        </label>
+      {{/if}}
+    {{/each}}
+  </div>
+  {{#unless checkedAll}}
+    <h3>当前未使用的杂费项</h3>
+    <div class="list-checkbox">
+      {{#each model as |fee|}}
+        {{#unless fee.enable}}
+          <label class="checkbox-inline">
+            {{input type="checkbox" change=(action 'edit' fee) checked=fee.enable disabled=deletable}}
+            {{fee.name}}
+            {{#if (and fee.custom deletable)}}
+              {{#link-to 'uc.config.extras.remove' (query-params name=fee.name) class="iconfont ic-del"}}
+                &#xe69d;
+              {{/link-to}}
+            {{/if}}
+          </label>
+        {{/unless}}
+      {{/each}}
+    </div>
+    <p class="tips-warning"><i class="iconfont">&#xe620;</i>提示：勾选后该费用将展示在您的业务中进行使用</p>
+  {{/unless}}
+</div>

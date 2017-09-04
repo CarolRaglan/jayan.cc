@@ -1,0 +1,2360 @@
+.xsd-drawer.house-room {
+  .section{
+    font-size:16px;
+  }
+  .xsd-nav-tabs {
+    li {
+      width: 25%;
+      a {
+        display: block;
+        width: 174px;
+        padding: 0px 0px 12px 0px;
+        text-align: center;
+      }
+    }
+    .active{
+      a{
+        font-size:16px;
+        color:#4e5b66;
+      }
+    }
+  }
+  .xsd-tab-content {
+    .divide-title1, .divide-list1 {
+      li {
+        width: 14%;
+        text-align: center;
+        float: left;
+        a {
+          //display: block;
+          //float: left;
+          padding: 0px 3px;
+        }
+        a:hover {
+          color: #59acff;
+        }
+      }
+      li:first-child {
+        width: 25%;
+        text-align: left;
+        padding-left: 20px;
+      }
+      li:last-child {
+        width: 30%;
+      }
+    }
+    li a{
+      padding:0 3px;
+    }
+    .divide-title2, .divide-list2 {
+      li {
+        width: 21%;
+        text-align: center;
+        float: left;
+        a {
+          //display: block;
+        }
+        a:hover {
+          color: #59acff;
+        }
+      }
+      li:first-child {
+        width: 25%;
+        text-align: left;
+        padding-left: 20px;
+      }
+      li:last-child {
+        width: 30%;
+      }
+    }
+    .color_4d {
+      color: #4d4d4d;
+      a {
+        font-size: 14px;
+        color: #59acff !important;
+      }
+    }
+    .margin-16 {
+      margin-top: -16px;
+    }
+    padding: 36px 0px 24px 16px;
+    .editBtn {
+      width: 100px;
+      line-height: 36px;
+      margin-left: 40px;
+      margin-bottom: 24px;
+    }
+    #d_time {
+      display: none;
+      margin: -12px 0px 24px 40px;
+    }
+    .xsd-tab-pane {
+      position: relative;
+      .incidentals {
+        width: 380px;
+      }
+      .xsd-total-pay{
+        position: absolute;
+        color: #888c91;
+        top: -25px;
+        i {
+          color: #ff7f66;
+          margin-right: 5px;
+        }
+      }
+      .tools {
+        position: absolute;
+        right: 0px;
+        top: -24px;
+        a {
+          color: #59acff;
+          margin-right: 6px;
+        }
+      }
+      .panel-tiny ~ .roomInf{
+        margin-top:24px;
+        font-weight:normal;
+      }
+      /*--合同样式修改--*/
+      .roomInf{
+        font-size:20px;
+        span{
+          float: left;
+          margin-right:12px;
+          margin-top:5px;
+          padding:0;
+          width:4px;
+          height:20px;
+          background:#f5a623
+        }
+
+        .fee-total{
+          font-size:16px;
+          color:#888c91;
+        }
+        .orangeRed{
+          background:#ff7f66;
+        }
+        .orange{
+          background:#f5a623;
+        }
+        .green{
+          background:#56cc8d;
+        }
+        .blue{
+          background:#59acff;
+        }
+
+      }
+      #roomNote,#roomNoteEdit{
+        margin-left:38px;
+        width:650px;
+        color:#888c91;
+        resize:vertical;
+      }
+
+
+      span {
+        line-height: 34px;
+        width: 100px;
+        padding-right: 24px;
+        text-align: right;
+      }
+
+      .renter-item > span{
+        width:auto;
+        min-width:90px;
+      }
+
+      b {
+        line-height: 34px;
+      }
+
+      .bill-note-r{
+        width:552px;
+      }
+
+      input {
+        padding-left: 12px;
+        width: 180px;
+      }
+
+      .width_60{
+        width: 60px;
+        border-bottom-right-radius: 0px;
+        border-top-right-radius: 0px;
+      }
+
+      .width_130{
+        width: 120px;
+        border-left: none;
+        border-bottom-left-radius: 0;
+        border-top-left-radius: 0px;
+      }
+
+
+      #tab-3 input {
+        width: 100px;
+        height: 26px;
+        line-height: 26px;
+      }
+      .xsd-input-num {
+        width: 40px;
+        text-align: center;
+      }
+      .circle {
+        position: absolute;
+        width: 6px;
+        height: 6px;
+        border-radius: 6px;
+        left: 0px;
+        top: 6px;
+      }
+      h3 {
+        .xsd-pull-right {
+          position: relative;
+          padding-left: 12px;
+          font-weight: normal;
+          color: #999999;
+        }
+      }
+      .order-title {
+        font-size: 16px;
+      }
+      .order-tab-list {
+        width: 100%;
+        text-align: center;
+        font-size:12px;
+        margin-bottom: 24px;
+        border-bottom: solid 1px #e9e9e9;
+        span {
+          padding: 0;
+        }
+        thead{
+          tr{
+            height:42px;
+            color:#303e51;
+            background:#eaf3f8;
+
+            td:nth-child(1){
+              text-align: left;
+              padding-left:20px;
+              width:200px;
+            }
+
+            td:last-child{
+              width:190px;
+            }
+
+          }
+        }
+        tbody {
+          tr {
+            height: 42px;
+            &:nth-child(2n) {
+              background: #f7f9fa;
+            }
+            td:nth-child(1){
+              text-align: left;
+              padding-left:20px;
+              width:200px;
+            }
+            td:last-child{
+              width:190px;
+            }
+          }
+        }
+      }
+      .order-list {
+        //width: 608px;
+        margin: 0 auto;
+        table {
+          width: 100%;
+          tr:hover {
+            background: #fafafa;
+          }
+          th {
+            background: #f5f5f5;
+            line-height: 47px;
+            width: 103px;
+            &:first-child {
+              width: 200px;
+            }
+            &:last-child {
+              width: 60px;
+            }
+          }
+          td {
+            p {
+              width: 174px;
+              padding-left: 10px;
+              position: relative;
+            }
+            padding: 16px 0px;
+            border-bottom: 1px #e7e7e7 solid;
+          }
+
+        }
+
+        .order-item {
+          border-bottom: 1px #e7e7e7 solid;
+          margin-bottom: 12px;
+          span {
+            margin-left: 24px;
+            padding-right: 0px;
+          }
+          a {
+            color: #59acff;
+          }
+          &:last-child {
+            margin-bottom: 24px;
+            border: none;
+          }
+        }
+      }
+      .renter-item {
+        b {
+          width: 320px;
+          text-align: center;
+        }
+      }
+
+    }
+  }
+  //修改合同补丁
+  #edit_roomContract_form .error-tips, #edit_houseContract_form .error-tips {
+    left: 124px;
+    top: -15px;
+  }
+  #update_contract_fees {
+    padding-left: 125px;
+  }
+}
+
+.rental-modal {
+  #ignore_form {
+    .xsd-input-group {
+      width: 248px;
+      input {
+        width: 236px;
+        padding-left: 12px;
+      }
+    }
+  }
+  .step {
+    display: none;
+    &.active {
+      display: block;
+    }
+  }
+  .refreshRead {
+    position: absolute;
+    right: 4px;
+    top: 8px;
+    background: #59acff;
+    border-radius: 6px;
+    color: #ffffff;
+    padding: 2px;
+  }
+  #partContent {
+
+    div {
+      display: none;
+      position: absolute;
+      z-index: 99999;
+      font-size: 12px;
+      background: rgb(51, 51, 51);
+      width: 290px;
+      line-height: 20px;
+      color: #ffffff;
+      border-radius: 3px;
+      padding: 10px;
+      left: 310px;
+    }
+    i:hover div {
+      display: block;
+    }
+  }
+  #partList {
+    padding-top: 12px;
+    //display: none;
+    input {
+      padding-left: 12px;
+      width: 178px;
+    }
+  }
+  h2 {
+    width: 530px;
+    border-bottom: 4px #e7e7e7 solid;
+    margin: 0 auto;
+    position: relative;
+    font-weight: normal;
+    div {
+      position: absolute;
+      color: #999999;
+      text-align: center;
+      top: -10px;
+      font-size: 12px;
+      &.step1 {
+        left: -50px;
+      }
+      &.step2 {
+        left: 230px;
+      }
+      &.step3 {
+        right: -10px;
+      }
+      &.c_active {
+        color: #59acff;
+        span {
+          background: #59acff;
+          color: #FFFFFF;
+        }
+      }
+      &.visited {
+        color: #59acff;
+        span {
+          background: #FFFFFF;
+          border: 1px #59acff solid;
+          color: #59acff;
+        }
+      }
+      span {
+        display: block;
+        background: #f5f5f5;
+        border-bottom: 1px #e7e7e7 solid;
+        height: 24px;
+        line-height: 24px;
+        width: 24px;
+        border-radius: 100%;
+        margin: 0px auto 12px auto;
+      }
+    }
+
+  }
+  .container {
+    padding: 10px 70px 12px 70px;
+    input.payMethod {
+      padding-left: 12px;
+      width: 106px;
+    }
+    label {
+      i {
+        color: #ff5153;
+        &.iconfont {
+          color: #999999;
+        }
+      }
+      input[type="text"] {
+        padding-left: 12px;
+        width: 238px;
+        &.xsd-width-500 {
+          width: 500px;
+        }
+      }
+
+      &.date {
+        padding-top: 34px;
+        position: absolute;
+        right: 54px;
+        a {
+          padding: 0px 6px;
+          color: #59acff;
+        }
+
+      }
+    }
+    .xsd-btn {
+      width: 100px;
+      height: 36px;
+      line-height: 36px;
+    }
+    textarea {
+      width: 100%;
+      height: 90px;
+      resize: none;
+    }
+  }
+  .open {
+    height: 24px;
+    line-height: 24px;
+    .xsd-btn {
+      width: 40px;
+      height: 24px;
+      line-height: 24px;
+      margin-left: 16px;
+      padding: 0px 8px;
+      text-align: inherit;
+      background: #59acff url("../../images/user/Rectangle 2.png") no-repeat;
+      background-size: 6px 6px;
+      background-position: 81% 71%;
+    }
+  }
+  .distanceMargin {
+    margin-right: 65px;
+    a {
+      margin-bottom: 36px;
+    }
+  }
+}
+
+#addHouse{
+  height:600px;
+  max-height:none;
+}
+
+#addHouse, #confirmRent {
+  width: 500px;
+  margin-left: -250px;
+  .area_list {
+    position: absolute;
+    border: 1px #e7e7e7 solid;
+    border-radius: 4px;
+    background: #FFFFFF;
+    z-index: 10;
+    max-height: 280px;
+    overflow-x: hidden;
+    li {
+      width: 424px;
+      padding-left: 12px;
+      line-height: 26px;
+      cursor: pointer;
+      &:hover {
+        background: #f5f5f5;
+      }
+    }
+  }
+  #d_time, .district-block {
+    input {
+      width: 190px;
+    }
+    i {
+      color: #999999;
+    }
+  }
+  .xsd-modal-body, .xsd-modal-bottom {
+    padding: 0px 32px;
+  }
+  input[type="text"] {
+    padding-left: 12px;
+  }
+  .area {
+    width: 424px;
+  }
+  .num {
+    width: 72px;
+  }
+  .rentType {
+    label {
+      margin-right: 24px;
+    }
+  }
+  i {
+    color: #ff5153;
+    span {
+      color: #999999;
+    }
+  }
+
+}
+
+#addHouse .district-block input {
+  width: 198px;
+}
+
+#addEmployer, #editEmployerPassword, #modifyPassword {
+  width: 500px;
+  margin-left: -250px;
+  .xsd-modal-body, .xsd-modal-bottom {
+    padding: 0px 32px;
+  }
+  input[type="text"], input[type="password"] {
+    padding-left: 12px;
+  }
+  .area {
+    width: 424px;
+  }
+  .postfix {
+    top: 10px;
+    color: #666;
+  }
+  .num {
+    width: 80px;
+  }
+  .text-area {
+    height: 168px;
+  }
+  .tips {
+    font-family: PingFangSC;
+    font-size: 12px;
+    font-weight: normal;
+    color: #999999;
+  }
+  .rentType {
+    label {
+      margin-right: 24px;
+    }
+  }
+  i {
+    color: #ff5153;
+    span {
+      color: #999999;
+    }
+  }
+}
+
+#addEmployer {
+
+  height: 680px;
+}
+
+.finance-modal {
+  .container {
+    padding-top: 0px;
+  }
+  .xsd-modal-bottom {
+    padding-right: 70px;
+  }
+}
+
+#sendOrder {
+  height: 224px;
+  margin-top: -112px;
+  .xsd-modal-body, .xsd-modal-bottom {
+    padding: 0px 38px;
+  }
+  .xsd-modal-body {
+    padding-bottom: 36px;
+    p {
+      text-indent: 2em;
+    }
+  }
+}
+
+//合同退租
+#cancelContract {
+  .list-fee{
+    margin-bottom:20px;
+    &::after{
+      content:' ';
+      display:block;
+      clear:both;
+      height:0;
+      line-height: 0;
+    }
+    li{
+      width:49%;
+      display:block;
+      float:left;
+    }
+    li:nth-child(2n+1){
+      margin-right:12px;
+    }
+    li p{
+      margin-bottom:8px;
+      margin-top:14px;
+    }
+  }
+  .xsd-select {
+    margin-right: -4px;
+    input {
+      width: 86px;
+    }
+  }
+  .xsd-select + label {
+    input {
+      width:218px;
+      border-top-left-radius: 0px;
+      border-bottom-left-radius: 0px;
+      &.gray[disabled]{
+        border-left-color:#e3e3e3;
+      }
+    }
+  }
+  //分期合同退租时hover弹出提示的tips窗
+  .detail-pop{
+    position:relative;
+    width:40px;
+    margin-left:16px;
+    &:hover dl{
+      display:block;
+    }
+    dl{
+      display:none;
+      border:1px solid #e3e3e3;
+      border-radius:5px;
+      padding:8px 15px;
+      width:160px;
+      position:absolute;
+      top:-8px;
+      left:-80px;
+      -webkit-transform:translateY(-100%);
+      transform:translateY(-100%);
+      z-index:1;
+      background-color:white;
+      text-align:right;
+      &::before{
+        content:' ';
+        position:absolute;
+        bottom:-10px;
+        left:85px;
+        border-top:10px solid #e3e3e3;
+        border-left:8px solid transparent;
+        border-right:8px solid transparent;
+      }
+      &::after{
+        content:' ';
+        position:absolute;
+        bottom:-8px;
+        left:85px;
+        border-top:10px solid white;
+        border-left:8px solid transparent;
+        border-right:8px solid transparent;
+      }
+    }
+    dt{
+      font-size:14px;
+      overflow:hidden;
+      color:#333;
+      margin:3px 0;
+    }
+    dd{
+      font-size:12px;
+      overflow:hidden;
+      em{
+        font-weight:normal;
+      }
+    }
+    em{
+      float:left;
+    }
+  }
+  //分期合同退租时提示的方案
+  .list-fee .tips-off{
+    clear:both;
+    width:100%;
+    margin-top:5px;
+    i{
+      font-size:12px;
+    }
+    p{
+      margin-top:5px;
+      margin-bottom:5px;
+      font-size:12px;
+    }
+    p:first-child{
+      font-size:14px;
+    }
+  }
+}
+
+#addFinance {
+
+  height: 640px;
+  margin-top: -320px;
+  #addAreaList {
+    position: absolute;
+    z-index: 10;
+    background: #ffffff;
+    border: 1px #e7e7e7 solid;
+    border-radius: 4px;
+    max-height: 280px;
+    overflow-x: hidden;
+
+    li {
+      padding-left: 12px;
+      line-height: 28px;
+      width: 240px;
+      &:hover {
+        background: #f5f5f5;
+      }
+    }
+
+  }
+}
+
+#distributePower, #addRole {
+  .tree-node > label {
+    padding-bottom: 6px;
+    border-bottom: 1px solid #eee;
+  }
+  .block {
+    display: block;
+  }
+  .xsd-modal-body {
+    padding: 0px 32px;
+    label {
+      margin-right: 12px;
+
+    }
+  }
+  .xsd-modal-bottom {
+    padding: 12px 32px 24px 32px;
+  }
+  #add-role, #power-role {
+    padding-left: 12px;
+    width: 250px;
+  }
+}
+
+#distributeHouse {
+
+  input[type="text"] {
+    padding-left: 12px;
+  }
+  .toolbar {
+    border-bottom: 2px #e7e7e7 solid;
+    padding-bottom: 24px;
+  }
+  .search {
+    input {
+      width: 188px;
+    }
+  }
+
+  .xsd-select {
+    input {
+      width: 80px;
+    }
+  }
+  .line34 {
+    padding-top: 6px;
+  }
+  #houseList > li {
+
+    border-bottom: 1px #e7e7e7 solid;
+    padding: 16px 0px;
+    .area {
+      width: 240px;
+    }
+    .house {
+      width: 440px;
+      margin-bottom: 12px;
+      input {
+        margin-right: 6px;
+      }
+    }
+  }
+
+}
+
+#modifyPassword {
+  height: 360px;
+  margin-top: -180px;
+  input {
+    padding-left: 12px;
+    width: 424px;
+  }
+  .xsd-modal-bottom {
+    padding-top: 12px;
+  }
+  #sendCode {
+    position: absolute;
+    text-align: center;
+    right: 0px;
+    top: 26px;
+    height: 34px;
+    line-height: 36px;
+    background: #FFFFFF;
+    width: 102px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    color: #59acff;
+    font-size: 13px;
+  }
+
+}
+
+.delete-modal {
+  height: 272px;
+  margin-top: -136px;
+  .xsd-modal-body {
+    padding: 0px 32px;
+    p {
+
+    }
+  }
+  .xsd-modal-bottom {
+    padding: 12px 32px 24px 32px;
+  }
+}
+
+#comments {
+
+  textarea {
+
+    width: 420px;
+    height: 60px;
+    margin-top: 10px;
+    background: #FFFFFF;
+  }
+}
+
+#agreement {
+
+  width: 740px;
+  padding: 24px 94px !important;
+  border: 1px #e7e7e7 solid;
+  background: #FFFFFF;
+  color:#333;
+  font-size:13px;
+  line-height:24px;
+  h1{
+    font-size:26px;
+    color:#303e51;
+    overflow:hidden;
+    font-weight:normal;
+    padding: 36px 0px;
+    text-align: center;
+    a{
+      float:left;
+    }
+    img{
+      display:block;
+    }
+    margin:60px 0 20px;
+    .title{
+      float:left;
+      display:inline-block;
+      border-left:2px solid #303e51;
+      margin-left:20px;
+      padding-left:12px;
+      line-height: 28px;
+    }
+
+  }
+  li,p{
+    text-align: justify;
+    margin-bottom:5px;
+  }
+  h2{
+    font-weight:normal;
+    font-size:18px;
+    margin:24px 0 12px;
+    color:#000;
+  }
+  h3{
+    font-weight:normal;
+    font-size:16px;
+    margin:18px 0 12px;
+    color:#000;
+  }
+  li{
+    padding-left:12px;
+  }
+  small{
+    color:#999;
+  }
+  a {
+    width: 250px;
+    margin: 30px auto 10px;
+  }
+}
+
+#order_detail_btn {
+  width: 120px;
+  height: 36px;
+  line-height: 36px;
+  margin-left: 54px;
+  margin-top: 24px;
+}
+
+#applyLoan {
+  padding-bottom: 24px;
+  height: 708px;
+  margin-top: -354px;
+
+  .xsd-margin-l32 {
+    margin-left: 32px;
+
+  }
+  .xsd-input-group {
+    margin-top: 10px;
+    float: left;
+    margin-right: 20px;
+
+    .xsd-input {
+      width: 240px;
+
+      padding-left: 16px;
+    }
+    .xsd-input-r16 {
+
+      padding-bottom: 11px;
+    }
+  }
+
+  .line-credit {
+    height: 20px;
+    float: left;
+    margin-top: 17px;
+    b {
+      padding: 0 5px 0 5px;
+    }
+
+  }
+  .xsd-deadline {
+    margin: 14px 0 24px 32px;
+    a {
+      height: 22px;
+      padding-right: 24px;
+
+    }
+    i {
+      padding: 0 5px;
+
+    }
+  }
+  .xsd-improve-personal {
+    p {
+      font-size: 16px;
+    }
+  }
+  .xsd-write-name {
+
+    margin-top: 10px;
+
+    .xsd-input {
+      width: 418px;
+      margin-bottom: 10px;
+    }
+  }
+  .xsd-btn {
+    width: 300px;
+    margin: 31px 100px 0 100px;
+  }
+}
+
+.font-size14 {
+  font-size: 14px;
+  font-weight: 300;
+}
+
+#newVersion {
+  background: 0 0;
+  min-height: 720px;
+  margin-top: -360px;
+  .xsd-bg-header {
+    width: 500px;
+    height: 302px;
+    background: url("../images/user/uploadTips.png") no-repeat;
+    .xsd-modal-close {
+      color: #ffffff;
+    }
+    .xsd-text-center {
+      margin-top: 75px;
+    }
+    .version {
+      color: #59acff;
+      font-size: 18px;
+      span {
+        font-size: 16px;
+      }
+    }
+
+  }
+  .xsd-modal-body {
+    background: #ffffff;
+    padding: 24px 0px 0px 36px;
+    p {
+      margin-bottom: 10px;
+    }
+    .xsd-btn {
+      width: 250px;
+      margin: 21px 0px 24px 89px;
+      border-radius: 42px;
+    }
+
+  }
+
+}
+
+#loan_tips {
+  width: 500px;
+  min-height: 234px;
+  .xsd-modal-body, .xsd-modal-bottom {
+    padding: 0px 32px;
+  }
+  .xsd-modal-bottom {
+    margin-top: 36px;
+  }
+
+}
+
+/*盈利状况分析*/
+#profitAnalysis {
+  .profit_contract_list {
+    background: #f5f5f5;
+    border-radius: 3px;
+    padding: 8px;
+    .contract {
+      border-bottom: 1px #e7e7e7 solid;
+    }
+  }
+}
+
+/*设置装修款*/
+#setting-cost {
+  height: 264px;
+  .xsd-modal-body {
+    padding: 0px 32px;
+    input {
+      padding-left: 12px;
+      width: 430px;
+    }
+  }
+  .xsd-modal-bottom {
+    padding-right: 25px;
+
+  }
+
+}
+
+#housesImport {
+  height: 306px;
+  margin-top:-150px;
+
+  .xsd-modal-body, .xsd-modal-bottom {
+    padding: 0px 24px;
+
+    a + span {
+      margin-left: 38px;
+      font-size: 12px;
+    }
+
+  }
+
+ .verify{
+  padding: 0 12px;
+  height: 36px;
+  line-height: 36px;
+  margin-top: -6px;
+  }
+  #uploadifive-house_excel {
+    width: 100px !important;
+    height: 30px !important;
+    margin-top: -6px;
+    border: none;
+    color: #59acff;
+  }
+  .adjunct{
+    float: left;
+    margin-left:26px;
+    margin-right:5px;
+  }
+
+}
+
+
+#auto-backup, #bang-ding, #withdraw-cash {
+  height: 500px;
+  .xsd-modal-body {
+    padding: 0px 32px;
+    .getValidate {
+      width: 130px;
+      top: inherit;
+      height: 42px;
+      line-height: 42px;
+      text-align: center;
+      .btnSendCode {
+        border-left: 1px #e7e7e7 solid !important;
+        width: 125px;
+        border: none;
+        background: #ffffff;
+        margin: 1px -27px 0 0;
+        border-bottom-right-radius: 4px;
+        border-top-right-radius: 4px;
+        padding-left: inherit;
+        color: #59acff;
+        background: #f5f6f7;
+      }
+    }
+    input {
+      width: 420px;
+      height: 42px;
+      padding-left: 16px;
+
+    }
+    .tips {
+      color: #999999;
+      font-size: 12px;
+    }
+    #alreadyBackup {
+      p {
+        margin: 0px 0px 16px 32px;
+        font-size: 14px;
+      }
+    }
+
+  }
+  .xsd-modal-bottom {
+    margin: 12px 32px 0 0;
+  }
+}
+
+#roleManagement {
+  .xsd-drawer-body {
+    #roleList {
+      .list {
+        height: 20px;
+        padding: 16px 0px;
+        border-bottom: 1px #e7e7e7 solid;
+        ul {
+          li {
+            width: 25%;
+            text-align: center;
+            float: left;
+            a {
+              color: #59acff;
+              display: inline-block;
+            }
+            b {
+              color: #e7e7e7;
+              padding: 0px 12px;
+            }
+          }
+        }
+      }
+    }
+
+  }
+
+}
+
+#add-order {
+  .xsd-modal-body {
+    padding: 0px 65px;
+    .first_margin > div:first-child {
+      margin-right: 24px;
+    }
+    b {
+      display: block;
+      padding: 8px;
+    }
+    input {
+      width: 277px;
+      padding-left: 16px;
+    }
+    .width_190 {
+      width: 172px;
+    }
+    .width_60 {
+      width: 60px;
+      border-bottom-right-radius: 0px;
+      border-top-right-radius: 0px;
+    }
+    .width_200 {
+      width: 200px;
+      border-left: none;
+      border-bottom-left-radius: 0;
+      border-top-left-radius: 0px;
+    }
+  }
+  .xsd-modal-bottom {
+    margin-right: 85px;
+  }
+}
+
+#ignoreOrder {
+  height: 276px;
+  .xsd-modal-body {
+    padding: 20px 32px 36px;
+    input {
+      width: 416px;
+      padding-left: 16px;
+    }
+    p {
+      color: #999999;
+    }
+  }
+  .xsd-modal-bottom {
+    margin-right: 32px;
+    .xsd-btn-primary {
+      padding: 7px 29px;
+    }
+    .xsd-btn-gray {
+      padding: 7px 35px;
+    }
+  }
+}
+
+#deleteContract, #backRent, #deleteOrder, #modifyOrer {
+  height: 208px;
+  .xsd-modal-body{
+    padding:16px 32px 34px;
+    p{
+      text-indent: 30px;
+    }
+  }
+  .xsd-modal-bottom {
+    padding: 0px 32px;
+    label {
+      display: block;
+      height: 34px;
+      line-height: 34px;
+      color: #888c91;
+    }
+  }
+}
+
+#orderDetail_form {
+  .width_60 {
+    width: 60px;
+    border-bottom-right-radius: 0px;
+    border-top-right-radius: 0px;
+  }
+  .width_130 {
+    width: 130px;
+    border-left: none;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0px;
+  }
+  .floatNone {
+    li {
+      float: inherit;
+    }
+  }
+  .paddingLR {
+    width: 65px;
+    padding: 0px 24px 0px 24px;
+  }
+}
+
+#publicModal,
+#upgradeConfirm{
+  top:30%;
+  height:180px;
+  margin-top:-90px;
+  .content{
+    text-align:center;
+    font-size:18px;
+    margin:20px 0 30px;
+    font-weight:normal;
+  }
+  .xsd-btn{
+    font-size:14px;
+  }
+  .xsd-btn-primary{
+    margin-right:24px;
+  }
+}
+
+.rent-return-spec {
+  width: 282px;
+  font-size: 12px;
+  margin-top: 20px;
+  color: #999999;
+  right: 100px;
+  position: absolute;
+  .xsd-title-rent {
+    font-size: 14px;
+    display: inline-block;
+    margin-top: 8px;
+    margin-left: 20px;
+    color: #666666;
+    i {
+      left: 0;
+    }
+  }
+}
+
+/*--权限分配--*/
+#distributePower {
+  width: 760px;
+  height: 600px;
+  margin-left: -380px;
+  margin-top: -300px;
+  .tree-node > label {
+    border: none;
+  }
+  .dashed {
+    position: relative;
+    margin-bottom: 24px;
+    &:before {
+      content: "";
+      display: block;
+      height: 29px;
+      position: absolute;
+      top: 20px;
+      left: 4px;
+      border-left: 1px dashed #b6b6b6;
+    }
+    &:nth-of-type(2):before {
+      height: 418px;
+    }
+
+      &:nth-of-type(4):before{
+        height: 232px;
+      }
+      &:nth-of-type(5):before{
+        height: 165px;
+      }
+      &:nth-of-type(6):before{
+        height: 66px;
+      }
+
+    & > div {
+      margin-left: 18px;
+      .sb-dashed {
+        position: relative;
+        &:before {
+          content: "";
+          left: -13px;
+          top: 8px;
+          width: 8px;
+          border-top: 1px dashed #b6b6b6;
+          position: absolute;
+        }
+      }
+
+      position: relative;
+      &:before {
+        content: "";
+        left: -13px;
+        top: 8px;
+        width: 8px;
+        border-top: 1px dashed #b6b6b6;
+        position: absolute;
+      }
+
+    }
+
+  }
+  .xsd-modal-bottom {
+    text-align: center;
+    .xsd-btn {
+      display: inline-block;
+    }
+  }
+
+}
+
+/*--电表预付费提示--*/
+.selectPayMethodWarn {
+  width: 268px;
+  font-size: 12px;
+  margin-top: 27px;
+  i {
+    color: red;
+  }
+
+}
+
+/*--租客日志--*/
+#renter-log {
+  table {
+    width: 100%;
+    tr {
+      th {
+        color: #303e51;
+        height: 42px;
+        background: #eaf3f8;
+        &:first-child {
+          padding-left: 15px;
+        }
+        &:last-child {
+          padding-right: 15px;
+        }
+
+      }
+      td {
+        font-size: 12px;
+        color: #4e5b66;
+        padding-top: 13px;
+        vertical-align: top;
+        p {
+          margin-bottom: 12px;
+        }
+        &:nth-of-type(1) {
+          padding-left: 20px;
+        }
+        &:nth-child(2) {
+          width: 35%;
+        }
+        &:nth-child(3) {
+          width: 35%;
+        }
+
+      }
+      &:nth-child(2n) {
+        background: #f7f9fa;
+      }
+    }
+  }
+}
+
+/*--删除房间--*/
+#deleteRoom, .deleteRoomModel {
+  width: 500px;
+  height: 220px;
+  border-radius: 2px;
+  border: solid 1px #e7e7e7;
+  .notice {
+    margin-left: 20px;
+  }
+  div {
+    input {
+      margin-top: 11px;
+      margin-right: 8px;
+    }
+  }
+
+}
+
+/*--批量导入房源--*/
+#housesImport{
+
+  color:#4d4d4d;
+  width:530px;
+
+  #public-form{
+
+    margin-left:8px;
+
+  }
+
+  #housesImport_step2,#housesImport_step3,#housesImport_step4,#housesImport_step5,#btnFlag{
+    display: none;
+
+  }
+  #housesImport_step4{
+    margin-top:12px;
+  }
+
+}
+
+// 定义一种通用的徽章，active时右上角有勾状选中图标
+.badge {
+  height: 40px;
+  min-width: 40px;
+  line-height: 40px;
+  border: 1px solid #e7e7e7;
+  border-radius: 4px;
+  padding:0 16px;
+  color: #888c91;
+  text-align: center;
+  display: inline-block;
+  float: left;
+  cursor: pointer;
+  overflow: hidden;
+  position: relative;
+  &:hover {
+    background-color: #59acff;
+    border-color: #59acff;
+    color: white;
+  }
+  &::before {
+    content: ' ';
+    position: absolute;
+    right: 0;
+    top: 0;
+    border-top: 15px solid #59acff;
+    border-left: 15px solid transparent;
+    display: none;
+  }
+  &::after {
+    font-family: "iconfont";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    content: '\e6bc';
+    position: absolute;
+    right: -1px;
+    top: 1px;
+    font-size: 10px;
+    line-height: 10px;
+    color: white;
+    -webkit-transform: scale(0.6);
+    transform:scale(0.6);
+    display: none;
+  }
+  &.active {
+    border-color: #59acff;
+    background-color: white;
+    color: #59acff;
+    &::before, &::after {
+      display: block;
+    }
+  }
+  & + &{
+    margin-left: 6px;
+  }
+}
+
+//定义一组左边带色标的标题
+.title-danger, .title-warning, .title-primary, .title-success {
+  &::before {
+    content: ' ';
+    display: inline-block;
+    float: left;
+    background-clip: content-box;
+    width: 4px;
+    height: 18px;
+    padding-top: 12px;
+    margin-right: 12px;
+  }
+}
+
+.title-danger::before {
+  background-color: #ff7f66;
+}
+
+.title-warning::before {
+  background-color: #f6a623;
+}
+
+.title-success::before {
+  background-color: #56cc8d;
+}
+
+.title-primary::before {
+  background-color: #59acff;
+}
+
+#readMeter{
+  .refreshRead {
+    position: absolute;
+    right: 4px;
+    top: 8px;
+    background: #59acff;
+    border-radius: 6px;
+    color: #ffffff;
+    padding: 2px;
+    cursor:pointer;
+  }
+}
+
+// 定义一种居中的模态窗
+.modal-tiny {
+  width:760px;
+  height:auto;
+  overflow: hidden;
+  margin:0;
+  padding-bottom:3px;
+  -webkit-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
+  h3.xsd-modal-header{
+    padding-bottom:8px !important;
+    margin-bottom:0;
+  }
+
+  .title-chapter{
+    margin-top:24px;
+  }
+
+  .xsd-modal-header{
+    min-height:30px;
+    font-size:20px;
+    .xsd-modal-close{
+      width:40px;
+      height:40px;
+      line-height:40px;
+      float:right;
+      text-align:center;
+      margin-right:-10px;
+      margin-top:-5px;
+    }
+  }
+
+  .xsd-modal-bottom{
+    margin-top:50px;
+    margin-bottom:25px;
+    padding-right:10px;
+    padding-left:10px;
+    overflow: hidden;
+  }
+
+  .xsd-modal-body{
+    line-height: 20px;
+    padding: 0 64px;
+    min-height:320px;
+    max-height:calc(80vh - 60px);
+    overflow-y:auto;
+    overflow-x:hidden;
+    &.panel-scrollable{
+      margin-right:3px;
+    }
+  }
+
+  h3 {
+    font-size: 20px;
+    line-height: 40px;
+    color: #4e5b66;
+    font-weight: normal;
+    margin-bottom: 15px;
+  }
+  h3:first-child{
+    margin-top: 0;
+  }
+
+  h4 {
+    font-size: 16px;
+    color: #303e51;
+    line-height: 22px;
+    font-weight: normal;
+    margin: 15px 0;
+  }
+
+  p{
+    margin-bottom:12px;
+  }
+
+  .btn-lg {
+    width: 130px;
+    margin: 24px auto;
+    font-size: 16px;
+    line-height: 28px;
+    letter-spacing: 8px;
+    padding:7px 31px;
+  }
+
+  .btn-md{
+    width:100px;
+    font-size:16px;
+    line-height: 22px;
+    padding:7px 28px;
+    letter-spacing: 4px;
+    display:inline-block;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+
+  .btn-sm{
+    padding:0 8px;
+    margin:0 16px;
+    line-height: 24px;
+    display:inline-block;
+  }
+
+  .btn-toggle{
+    padding-right:20px;
+  }
+
+  .xsd-btn-gray{
+    color:#999;
+  }
+
+  .xsd-input {
+    border-radius: 4px;
+    font-family: inherit;
+    padding: 10px 16px;
+    box-sizing: border-box;
+    line-height: 20px;
+    color: #888c91;
+  }
+
+  input.xsd-input {
+    height: 42px;
+  }
+
+  .xsd-input[disabled] {
+    background-color: #f7f9fa;
+    border-color: #f7f9fa;
+    color: #888c91;
+  }
+
+  textarea{
+    width: 100%;
+    height: 62px;
+    line-height:20px;
+    resize: none;
+  }
+
+  ul.row-2{
+    color:#888c91;
+    &::after{
+      content:' ';
+      clear:both;
+      display:block;
+      height:0;
+      line-height: 0;
+    }
+    li{
+      display:block;
+      float:left;
+      width:50%;
+      margin-bottom:12px;
+    }
+    li.col-2{
+      width:100%;
+    }
+    li > label{
+      display:block;
+      margin-bottom:10px;
+    }
+    .xsd-input{
+      width:100%;
+    }
+  }
+
+  .footer{
+    margin:24px 0;
+    text-align:right;
+    .xsd-btn + .xsd-btn{
+      margin-left:10px;
+    }
+  }
+
+  .row {
+    margin-left: -15px;
+    margin-right: -15px;
+    margin-bottom: 12px;
+  }
+
+  .table-cell {
+    display: table-cell;
+    padding-left: 15px;
+    padding-right: 15px;
+    > label {
+      margin-bottom: 8px;
+      display: block;
+    }
+    &.ui-tips{
+      position:relative;
+      top:30px;
+      z-index:-1;
+    }
+    .xsd-input {
+      width: 292.5px;
+    }
+    .xsd-input-group{
+      max-width:292.5px;
+    }
+  }
+
+  strong{
+    font-weight:normal;
+    color:#499df2;
+    margin:0 5px;
+  }
+
+  .group-range label,
+  .table-cell > label{
+    i{
+      color:#ff5153;
+      position:relative;
+      top:3px;
+    }
+  }
+
+  .table-cell, .group-range {
+    &.error .xsd-input {
+      border-color: #ff5153;
+    }
+    &.error .xsd-input[data-value] {
+      border-color: #e3e3e3;
+    }
+  }
+  .tips-error {
+    color: #ff5153;
+    visibility: hidden;
+  }
+  .table-cell .tips-error{
+    float: right;
+  }
+  h3 .tips-error{
+    font-size:12px;
+    padding-left:25px;
+  }
+
+  .error .tips-error {
+    visibility: visible;
+  }
+  .checkbox-inline {
+    font-size: 14px;
+    min-width: 96px;
+    display: inline-block;
+    margin-bottom: 10px;
+    color: #888c91;
+    [type=checkbox] {
+      position: relative;
+      top: 2px;
+      margin-right: 8px;
+    }
+  }
+  h3 .checkbox-inline {
+    margin-left: 30px;
+  }
+
+  small {
+    font-size: 0.857em;
+    color: #c0c4c9;
+    em {
+      font-style: normal;
+      font-weight: normal;
+      color: #59acff;
+    }
+  }
+
+  .tabs {
+    border-bottom: 2px solid #e7e7e7;
+    margin-bottom: 20px;
+    li {
+      width: 132px;
+      display: table-cell;
+    }
+    a {
+      display: block;
+      color: #888c91;
+      text-align: center;
+      line-height: 20px;
+      padding: 12px 0;
+      margin-bottom: -2px;
+      border-bottom: 2px solid #e7e7e7;
+    }
+    .active {
+      color: #59acff;
+      border-bottom-color: #59acff;
+    }
+  }
+
+  .label-date {
+    width: 52.5px;
+    height: 40px;
+    line-height: 40px;
+    border: 1px solid #e7e7e7;
+    border-radius: 4px;
+    color: #888c91;
+    text-align: center;
+    display: inline-block;
+    float: left;
+    cursor: pointer;
+    overflow: hidden;
+    position: relative;
+    &:hover {
+      background-color: #59acff;
+      border-color: #59acff;
+      color: white;
+    }
+    &::before {
+      content: ' ';
+      position: absolute;
+      right: 0;
+      top: 0;
+      border-top: 15px solid #59acff;
+      border-left: 15px solid transparent;
+      display: none;
+    }
+    &::after {
+      font-family: "iconfont";
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      content: '\e6bc';
+      position: absolute;
+      right: -1px;
+      top: 1px;
+      font-size: 10px;
+      line-height: 10px;
+      color: white;
+      -webkit-transform: scale(0.6);
+      transform:scale(0.6);
+      display: none;
+    }
+    &.active {
+      border-color: #59acff;
+      background-color: white;
+      color: #59acff;
+      &::before, &::after {
+        display: block;
+      }
+    }
+  }
+
+  .label-date + .label-date {
+    margin-left: 5px;
+  }
+  .group-range {
+    margin-bottom: 12px;
+  }
+  .group-picker {
+    float: right;
+    min-width:292.5px;
+    .xsd-input-group {
+      display: table-cell;;
+      float:left;
+    }
+    .xsd-input {
+      width: 132px;
+      float:left;
+    }
+    .split {
+      width: 30px;
+      display: table-cell;
+      text-align: center;
+      float: left;
+      line-height:40px;
+    }
+  }
+
+  .xsd-input-group {
+    .unit {
+      position: absolute;
+      right: 8px;
+      line-height: 100%;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #888c91;
+    }
+  }
+
+  .single-picker {
+    float: right;
+    .xsd-input {
+      width: 292.5px;
+    }
+  }
+
+  .group-sm {
+    display: table-cell;
+    .xsd-input {
+      width: 140px;
+    }
+  }
+
+  .group-sm + .group-sm {
+    padding-left: 15px;
+  }
+
+  .link {
+    cursor: pointer;
+    &:hover {
+      color: inherit;
+    }
+  }
+
+  h4 .link {
+    margin-left: 24px;
+    font-size: 14px;
+  }
+
+  .list-addon{
+    clear:both;
+    display:block;
+    margin-bottom:20px;
+    &::after{
+      content:' ';
+      display:block;
+      clear:both;
+      height:0;
+      line-height: 0;
+    }
+    >li{
+      width:49%;
+      display:block;
+      float:left;
+    }
+    >li:nth-child(2n+1){
+      margin-right:12px;
+    }
+    >li p{
+      margin-bottom:8px;
+      margin-top:14px;
+    }
+    .xsd-select {
+      margin-right: -4px;
+      input {
+        width: 86px;
+      }
+    }
+    .xsd-select + label {
+      input {
+        width:218px;
+        border-top-left-radius: 0px;
+        border-bottom-left-radius: 0px;
+        &.gray[disabled]{
+          border-left-color:#e3e3e3;
+        }
+      }
+    }
+  }
+
+  .line-sign{
+    font-size:16px;
+    color:rgb(48,62,81);
+    .sign{
+      float:left;
+    }
+    a{
+      margin-left:32px;
+      font-size:14px;
+      color:rgb(89,172,255);
+    }
+
+
+  }
+
+  .sign-state {
+    float:left;
+    width:36px;
+    height:20px;
+    margin-left:14px;
+    border-radius: 12px;
+    background:rgb(89,172,255);
+    div{
+      float:left;
+      width:16px;
+      height:16px;
+      margin-top:2px;
+      margin-left:1px;
+      border-radius: 16px;
+      &.active{
+        background:rgb(255,255,255);
+      }
+    }
+    &.sign_bg{
+      background:#8F949A;
+    }
+
+  }
+
+}
+
+.hidden{
+  display:none !important;
+}
+
+//定义的一个展示面板，现主要用于展示合同
+.panel-tiny{
+  color:#888c91;
+  &.xsd-tab-pane{
+    margin-top:-20px;
+  }
+  small{
+    font-size:.75em;
+  }
+  h3{
+    font-size: 20px;
+    line-height: 40px;
+    color: #111;
+    font-weight: normal;
+    margin-bottom: 15px;
+  }
+  h3 + img{
+    margin-top:80px;
+  }
+  div + h3,
+  p + h3{
+    margin-top:50px;
+  }
+  .img-block{
+    display:block;
+    margin-left:auto;
+    margin-right:auto;
+  }
+  a{
+    color:#59acff;
+    &:hover{
+      color:#59acff;
+    }
+  }
+  .btn-inline{
+    background-color: #59acff;
+    color: white;
+    font-size: 12px;
+    display: inline-block;
+    border-radius: 5px;
+    padding: 1px 6px;
+    line-height: 20px;
+    margin-top: 8px;
+    &:hover{
+      color:white;
+      box-shadow:0 0 3px rgba(0,0,0,0.2);
+    }
+    +small{
+      font-size:12px;
+      margin-left:30px
+    }
+  }
+  li{
+    display:block;
+    float:none;
+    list-style-type:none;
+  }
+  .list-contract{
+    line-height:42px;
+    color:#75797e;
+    .prior{
+      color:#333;
+    }
+    li{
+      padding:0 16px;
+    }
+    li:nth-child(2n+1){
+      background-color:#f7f9fa;
+    }
+    a{
+      float:right;
+    }
+  }
+  .list-info{
+    dt{
+      font-size:16px;
+      color:#4e5b66;
+      margin-bottom:16px;
+    }
+    dd{
+      margin-top:14px;
+      margin-bottom:14px;
+      position:relative;
+      padding-left:140px;
+      min-height:24px;
+      line-height: 24px;
+      overflow:hidden;
+      >label:first-child{
+        position:absolute;
+        width:100px;
+        left:0;
+        top:0;
+        text-align:right;
+        color:#888c91;
+      }
+    }
+    dt:first-child{
+      margin-top:16px;
+    }
+    dd + dt{
+      margin-top:24px;
+    }
+    strong{
+      color:#59acff;
+      font-weight:normal;
+      margin-right:4px;
+    }
+    span{
+      line-height:inherit !important;
+      width:auto !important;
+      text-align:left !important;
+      padding-right:0 !important;
+      min-width:170px;
+      display:inline-block;
+      float:left;
+    }
+    span + span{
+      margin-left:36px;
+    }
+  }
+  .bar{
+    line-height: 42px;
+    background-color:#f7f9fa;
+    padding:0 16px;
+    text-align:right;
+    overflow:hidden;
+    label:first-child{
+      float:left;
+      em{
+        font-weight:normal;
+        color:#222;
+      }
+    }
+    a + a{
+      margin-left:8px;
+    }
+  }
+  .photos li{
+    margin-bottom:0;
+    height:76px;
+  }
+}
+
+.label-select {
+  width: 52.5px;
+  height: 40px;
+  line-height: 40px;
+  border: 1px solid #e7e7e7;
+  border-radius: 4px;
+  color: #888c91;
+  text-align: center;
+  display: inline-block;
+  float: left;
+  cursor: pointer;
+  overflow: hidden;
+  position: relative;
+  &:hover {
+    background-color: #59acff;
+    border-color: #59acff;
+    color: white;
+  }
+  &::before {
+    content: ' ';
+    position: absolute;
+    right: 0;
+    top: 0;
+    border-top: 15px solid #59acff;
+    border-left: 15px solid transparent;
+    display: none;
+  }
+  &::after {
+    font-family: "iconfont";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    content: '\e6bc';
+    position: absolute;
+    right: -1px;
+    top: 1px;
+    font-size: 10px;
+    line-height: 10px;
+    color: white;
+    -webkit-transform: scale(0.6);
+    transform:scale(0.6);
+    display: none;
+  }
+  &.active {
+    border-color: #59acff;
+    background-color: white;
+    color: #59acff;
+    &::before, &::after {
+      display: block;
+    }
+  }
+}
+
+.label-select + .label-select {
+  margin-left: 5px;
+}
+
+.xsd-drawer .split{
+  color:#ccc;
+  position:relative;
+  top:-2px;
+  padding-left:5px;
+  padding-right:5px;
+  font-size:11px;
+}
+
+.xsd-modal.modal-sm{
+  width: 500px;
+  height: auto;
+  margin-left: 0;
+  margin-top: 0;
+  transform: translate(-50%,-50%);
+  .xsd-modal-body,
+  .xsd-modal-bottom{
+    padding-left:42px;
+    padding-right:42px;
+  }
+  .xsd-modal-bottom{
+    margin-bottom:20px;
+    margin-top:30px;
+  }
+  p{
+    line-height:20px;
+    margin:8px 0;
+  }
+  .box{
+    width:300px;
+  }
+  input{
+    width:100%;
+    border-radius: 4px;
+    font-family: inherit;
+    padding: 10px 16px;
+    box-sizing: border-box;
+    line-height: 20px;
+    color: #888c91;
+    height:42px;
+    &[disabled]{
+      background-color: #f7f9fa;
+      border-color: #f7f9fa;
+      color: #888c91;
+    }
+  }
+}

@@ -1,0 +1,23 @@
+<div class="xsd-clearfix">
+  {{#if pictures.length}}
+  <div class="photos imgCover image-preview">
+    <ul>
+      {{#each pictures as |picture|}}
+        <li>
+          <img class="{{if picture.responsive 'responsive'}}"
+               data-img-preview="{{picture.url}}" data-id="{{picture.id}}"
+               src="{{picture.url}}">
+          <span></span>
+          {{#unless hide}}
+            <i class="iconfont" onclick={{action 'remove' picture}}>&#xe633;</i>
+          {{/unless}}
+        </li>
+      {{/each}}
+    </ul>
+  </div>
+  {{/if}}
+  {{#unless hide}}
+    <input type="file" id={{ids}}>
+  {{/unless}}
+  <input type="hidden" name="pictures" id="{{dataType}}" value="{{idLog}}">
+</div>

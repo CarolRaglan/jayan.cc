@@ -1,0 +1,171 @@
+{{#page-waper}}
+    <div class="xsd-clearfix">
+        <div id="screen" class="xsd-pull-left">
+          {{#account-bar type=preType  preFlag=true types=types tips=type}}
+          {{/account-bar}}
+        </div>
+        <div id="separate" class="xsd-pull-left">
+         <div id="prepayment" class="xsd-tabs xsd-tabs-card">
+             <div id="separate-head">
+                 {{#account-search type=preType  preFlag=true}}{{/account-search}}
+             </div>
+            <ul id="pre-title-nav" class="xsd-clearfix xsd-nav-tabs">
+                <li id="income-budget" class="active z-index4" onclick={{action "tabs" 2}}><a data-toggle="tab" data-href="#tab-1">收入预算</a>
+                </li>
+                <li id="pay-budget" class="z-index3" onclick={{action "tabs" 1}}><a data-toggle="tab" data-href="#tab-2">支出预算</a>
+                </li>
+            </ul>
+            <div class="xsd-tab-content">
+            <div>
+                <div id="tools" class="xsd-clearfix">
+                    <div class="xsd-pull-left">
+                        <span>预计收入金额（元）</span>
+                        <p><span>{{model.meta.countinfos.incomes}}</span></p>
+                    </div>
+                    <div class="xsd-pull-left">
+                        <span>预计支出金额（元）</span>
+                        <p><span>{{model.meta.countinfos.payout}}</span></p>
+                    </div>
+                    <div class="xsd-pull-left">
+                        <span>预计收支差（元）</span>
+                        <p><span>{{model.meta.countinfos.profit}}</span></p>
+                    </div>
+                    {{#if (eq type '1')}} {{!-- 支出 --}}
+                      {{#if auth.e_power.finance_flow_pre_out_exp}}
+                        <a class="xsd-pull-right btn" target="_blank" id="tools-prepayment" href="{{config.apiUrl1}}premoneyflows_out/download?token={{auth.authToken.access_token}}&keyword={{keyword}}&trade_at__gte={{trade_at__gte}}&trade_at__lte={{trade_at__lte}}&type={{type}}">导出报表</a>
+                      {{/if}}
+                    {{else if (eq type '2')}} {{!-- 收入 --}}
+                      {{#if auth.e_power.finance_flow_pre_in_exp}}
+                        <a class="xsd-pull-right btn" target="_blank" id="tools-prepayment" href="{{config.apiUrl1}}premoneyflows_in/download?token={{auth.authToken.access_token}}&keyword={{keyword}}&trade_at__gte={{trade_at__gte}}&trade_at__lte={{trade_at__lte}}&type={{type}}">导出报表</a>
+                      {{/if}}
+                    {{/if}}
+                    <!--<a class="xsd-input-group xsd-select xsd-pull-right sort">-->
+                    <!--<i class="iconfont">&#xe62f;</i>-->
+                    <!--<input id="sort" class="xsd-input" type="text" value={data-tips orderby "按租客账单到期时间"}} readonly>-->
+                    <!--<ul>-->
+                    <!--<li data-value="trade_at" onclick={action "bySort"}}>按租客账单到期时间</li>-->
+                    <!--<li data-value="amount" onclick={action "bySort"}}>按业主账单到期时间</li>-->
+                    <!--<li data-value="-trade_at" onclick={action "bySort"}}>按租客合同到期时间</li>-->
+                    <!--<li data-value="-amount" onclick={action "bySort"}}>按业主合同到期时间</li>-->
+                    <!--</ul>-->
+                    <!--</a>-->
+                </div>
+              {{#if model}}
+                {{#if auth.e_power.finance_manage_view}}
+                  <table id="finance">
+                      <thead>
+                      <th class="xsd-cols-xs-1">预计交易时间</th>
+                      <th class="xsd-cols-xs-2">账单周期</th>
+                      <th class="xsd-cols-xs-4">房间信息</th>
+                      <th class="xsd-cols-xs-1">交易对象</th>
+                      <th class="xsd-cols-xs-1">交易对象姓名</th>
+                      <th class="xsd-cols-xs-1">资金流向</th>
+                      <th class="xsd-cols-xs-1">账单金额</th>
+                      </thead>
+                    {{#if auth.e_power.finance_flow_view}}
+                      {{#each model as |premoneyflow|}}
+                          <tr title="点击查看详情" data-toggle="xsd-drawer" data-target="#prepaymentDetail" onclick={{action "detail" premoneyflow.id type}}>
+                              <td class="xsd-cols-xs-1">
+                                  <p>{{premoneyflow.tradeAt}}</p>
+                              </td>
+                              <td class="xsd-cols-xs-2">
+                                  <p>{{premoneyflow.startTime}} - {{premoneyflow.endTime}}</p>
+                              </td>
+                              <td class="xsd-cols-xs-4">
+                                  <p>{{premoneyflow.tradeInfo}}</p>
+                              </td>
+                              <td class="xsd-cols-xs-1">
+                                  <p>{{premoneyflow.traderType}}</p>
+                              </td>
+                              <td class="xsd-cols-xs-1">
+                                  <p>{{premoneyflow.traderName}}</p>
+                              </td>
+                              <td class="xsd-cols-xs-1">
+                                  <p>{{premoneyflow.flowType}}</p>
+                              </td>
+                              <td class="xsd-cols-xs-1">
+                                {{#if (eq premoneyflow.flowType '支出')}}
+                                    <p class="xsd-color-success">
+                                        {{premoneyflow.realAmount}}
+                                    </p>
+                                {{else}}
+                                    <p class="xsd-color-green">
+                                        {{premoneyflow.realAmount}}
+                                    </p>
+                                {{/if}}
+                              </td>
+                          </tr>
+                      {{/each}}
+                    {{else}}
+                      {{#each model as |premoneyflow|}}
+                          <tr title="点击查看详情">
+                              <td class="xsd-cols-xs-3">
+                                  <p>{{premoneyflow.tradeAt}}</p>
+                              </td>
+                              <td class="xsd-cols-xs-4">
+                                  <p>{{premoneyflow.tradeInfo}}</p>
+                              </td>
+                              <td class="xsd-cols-xs-2">
+                                  <p>{{premoneyflow.traderName}}</p>
+                              </td>
+                              <td class="xsd-cols-xs-1">
+                                  <p>{{premoneyflow.feeTypeRough}}</p>
+                              </td>
+                              <td class="xsd-cols-xs-1">
+                                  <p>{{premoneyflow.feeType}}</p>
+                              </td>
+                              <td class="xsd-cols-xs-1">
+                                  <p>{{premoneyflow.flowType}}</p>
+                              </td>
+                              <td class="xsd-cols-xs-1">
+                                {{#if (lt premoneyflow.realAmount 0)}}
+                                    <p class="xsd-color-red">
+                                        ￥{{premoneyflow.realAmount}}
+                                    </p>
+                                {{else}}
+                                    <p class="xsd-color-green">
+                                        ￥{{premoneyflow.realAmount}}
+                                    </p>
+                                {{/if}}
+                              </td>
+                          </tr>
+                      {{/each}}
+                    {{/if}}
+                  </table>
+                  <div id="pagination">
+                    {{#if (gt model.meta.pagination.count  12)}}
+                      {{page-numbers content=model action="pageChanged"}}
+                    {{/if}}
+                  </div>
+                {{else}}
+                    <div class="xsd-tab-content xsd-margin-b24">
+
+                        <div id="xsd-noResult">
+                            <p><i class="iconfont"><img class="xsd-imgWidth" src="images/report.png"></i></p>
+                            <p>抱歉，没有权限！</p>
+                        </div>
+
+                    </div>
+                {{/if}}
+              {{else}}
+                  <div id="xsd-noResult">
+                    {{#if (data-exist keyword trade_at__gte trade_at__lte)}}
+                        <p><i class="iconfont"><img class="xsd-imgWidth" src="images/account.png"></i></p>
+                        <p>未找到此账单,请核对信息后再试!</p>
+                    {{else}}
+                        <p><i class="iconfont">&#xe652;</i></p>
+                        <p>暂无财务数据，先录入房源吧</p>
+                      {{#link-to "rental.separate-management" class="xsd-btn xsd-btn-primary iconfont"}}去租务管理{{/link-to}}
+                    {{/if}}
+                  </div>
+              {{/if}}
+            </div>
+            </div>
+         </div>
+        </div>
+    </div>
+    {{#if auth.e_power.finance_flow_view}}
+      {{finance-detail model=detail type=type}}
+      {{prepayment-detail model=detail type=type}}
+    {{/if}}
+{{/page-waper}}

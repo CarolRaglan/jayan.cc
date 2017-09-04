@@ -1,0 +1,72 @@
+<div class="xsd-modal xsd-md-modal" id="auto-backup">
+    <div class="xsd-modal-header xsd-margin-b24">
+        <span class="xsd-font-size16">自动备份设置</span><a class="xsd-modal-close iconfont" onclick={{action "closeModal" false}}>
+        &#xe633;</a>
+    </div>
+    <div class="xsd-modal-body">
+          {{#if fresh}}
+          {{#if backup.status}}
+              <div id="alreadyBackup">
+                  <div class="xsd-font-size16 xsd-margin-b24">自动备份邮件计划</div>
+                  <p><span class="xsd-color-gray">自动备份周期:</span>&nbsp;&nbsp;每{{backup.interval}}备份</p>
+                  <p><span class="xsd-color-gray">自动备份邮箱:</span>&nbsp;&nbsp;{{backup.email}}</p>
+                  <p class="xsd-margin-b24"><span class="xsd-color-gray">邮件发送日期:</span>&nbsp;&nbsp;{{priod}}</p>
+              </div>
+          {{else}}
+            <div id="backup" class="container">
+                <div class="xsd-clearfix xsd-margin-b12">
+                    <p class="xsd-margin-b6">设置备份时间<b class="xsd-color-red">*</b></p>
+                    <label class="xsd-pull-left xsd-input-group xsd-select">
+                        <i class="iconfont xsd-color-gray">&#xe63c;</i>
+                        <input type="text" class="xsd-input area" id="updateTime" name="updateTime" type="text" title="备份时间" readonly=readonly placeholder="请选择备份时间" validate="required" data-value="15"  value={{updateTime}}>
+                        <ul>
+                            <li data-value="15" onclick={{action "updateStr" "每月1号、16号"}}>半个月</li>
+                            <li data-value="30" onclick={{action "updateStr" "每月1号"}}>一个月</li>
+                        </ul>
+                    </label>
+                </div>
+                <div class="xsd-clearfix xsd-margin-b16">
+                    <p class="xsd-margin-b6">设置备份邮箱<b class="xsd-color-red">*</b></p>
+                    <label class="xsd-pull-left xsd-input-group xsd-select">
+                        <i class="iconfont xsd-color-gray"></i>
+                        <input class="xsd-input area" id="updateBox" name="updateBox" type="text" title="备份邮箱"
+                               placeholder="请输入备份邮箱地址" validate="required|email" value={{backup.email}}>
+                    </label>
+                </div>
+                <div class="xsd-clearfix xsd-margin-b16">
+                    <p class="xsd-margin-b6">验证邮箱验证码<b class="xsd-color-red">*</b></p>
+                    <label class="xsd-pull-left xsd-input-group xsd-select">
+                        <i class="iconfont xsd-color-primary getValidate">
+                            <input class="btnSendCode" type="button" value="发送验证码" onclick={{action "sendMessage"}}>
+                        </i>
+                        <input class="xsd-input" id="updateValidate" name="updateValidate" type="email" title="验证码"
+                               placeholder="请输入验证码" validate="required" value=''>
+                    </label>
+                </div>
+                <div class="xsd-clearfix xsd-margin-b24">
+                    <p class="xsd-margin-b16">邮件发送日期:{{priod}}
+                    </p>
+                    <p class="tips"><b class="iconfont xsd-color-success font-size14">&#xe67d;&nbsp;</b>设置自动备份后，系统会在规定时间向您的指定邮箱发送备份数据，请注意查收，如在收件箱中找不到该备份邮件，请尝试在垃圾邮件箱中查找。
+                    </p>
+                </div>
+
+            </div>
+          {{/if}}
+          {{/if}}
+    </div>
+
+    <div class="xsd-modal-bottom xsd-clearfix">
+      {{#if backup.status}}
+          <div class="xsd-clearfix">
+              <a class="xsd-btn xsd-btn-primary xsd-pull-right " onclick={{action "update"}}>更改设置</a>
+              <a class="xsd-btn xsd-btn-gray xsd-pull-right" onclick={{action "deleteBackup"}}>退订</a>
+          </div>
+      {{else}}
+         <div class="xsd-clearfix">
+            <a class="xsd-btn xsd-btn-primary xsd-pull-right " onclick={{action "ensure"}}>确定</a>
+            <a class="xsd-btn xsd-btn-gray xsd-pull-right" onclick={{action "closeModal" true}}>取消</a>
+        </div>
+      {{/if}}
+    </div>
+
+</div>

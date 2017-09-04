@@ -1,0 +1,20 @@
+<div class="xsd-modal xsd-md-modal" id="sendOrder">
+    <div class="xsd-modal-header">
+        <span class="xsd-font-size16">发送账单</span><a class="xsd-modal-close iconfont">&#xe633;</a>
+    </div>
+    <div class="xsd-modal-body">
+        <p>
+            本期账单账单周期为 <span class="xsd-color-primary">{{order.attributes.start_time}}</span> 至 <span class="xsd-color-primary">{{order.attributes.end_time}}</span> ，房租总金额为
+            <span class="xsd-color-primary">{{order.attributes.rent_utilities}}</span>元，收租日期为 <span class="xsd-color-primary">{{order.attributes.ought_pay_time}}</span> ，是否将当前租房账单发送给租客
+            <span class="xsd-color-primary">{{order.attributes.customer_name}}</span> ({{order.attributes.customer_phone}}) ？
+        </p>
+    </div>
+    <div class="xsd-modal-bottom xsd-clearfix">
+        {{#if order.attributes.customer_phone}}
+        <a class="xsd-btn xsd-btn-primary xsd-pull-right" onclick={{action "sendOrder" order.id}}>发送</a>
+        <a class="xsd-btn xsd-btn-gray xsd-pull-right xsd-modal-close">取消</a>
+        {{else}}
+          <p class="xsd-color-red">您尚未添加租客手机号码,无法发送催租短信!</p>
+        {{/if}}
+    </div>
+</div>

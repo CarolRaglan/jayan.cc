@@ -1,0 +1,181 @@
+{{#page-waper}}
+    <div id="pay">
+        <div class="pay-top">
+            <div class="pay-title">
+                <h2 class="xsd-pull-left xsd-font-size16">支付账户</h2>
+                <span class="xsd-pull-right iconfont">&#xe69a;提现银行卡:&nbsp;&nbsp;&nbsp;
+                  {{#if model.meta.countinfos.card_info.owner_name}}
+                   <a data-toggle="xsd-drawer" data-target="#bank-card">我的银行卡</a>
+                  {{else}}
+                      <a data-toggle="xsd-modal" data-target="#bang-ding">绑定</a>
+                  {{/if}}
+                </span>
+            </div>
+            <div class="pay-details">
+                <ul>
+                    <li class="xsd-pull-left">
+                        <span>账户余额</span>
+                        <p class="xsd-margin-b6 xsd-color-primary">{{model.meta.countinfos.balance_amount}}<b class="xsd-font-size16">元</b></p>
+                    </li>
+                    <li class="xsd-pull-left">
+                        <span>可提现金额</span>
+                        <p class="xsd-margin-b6 xsd-color-primary">{{model.meta.countinfos.useful_amount}}<b class="xsd-font-size16">元</b></p>
+                    </li>
+                    <li class="xsd-pull-left">
+                        <span>已冻结金额</span>
+                        <p class="xsd-margin-b6 xsd-color-primary">{{model.meta.countinfos.freeze_amount}}<b class="xsd-font-size16">元</b></p>
+                    </li>
+                    <li class="xsd-pull-left xsd-noborder">
+                        <span>提现中金额</span>
+                        <p class="xsd-margin-b6 xsd-color-primary">{{model.meta.countinfos.extracting_amount}}<b class="xsd-font-size16">元</b></p>
+                    </li>
+                </ul>
+               {{#if model.meta.countinfos.card_info.owner_name}}
+                <a class="xsd-btn xsd-btn-gray xsd-pull-right" data-toggle="xsd-modal" data-target="#withdraw-cash">提现</a>
+                {{/if}}
+            </div>
+        </div>
+        <div class="pay-bottom">
+            <div class="pay-search">
+                <label class="xsd-input-group xsd-select xsd-margin-r12">
+                    <i class="iconfont">&#xe63c;</i>
+                    <input id="dealType" class="xsd-input" type="text"  readonly="readonly" placeholder="默认交易类型"  data-value=""  value="" >
+                    <ul>
+                        <li  onclick={{action "tips" "trade_type" ""}}>默认交易类型</li>
+                        <li  onclick={{action "tips" "trade_type" 1}}>收租</li>
+                        <li  onclick={{action "tips" "trade_type" 2}}>提现</li>
+                        <li  onclick={{action "tips" "trade_type" 3}}>冻结</li>
+                        <li  onclick={{action "tips" "trade_type" 4}}>解冻</li>
+                        <li  onclick={{action "tips" "trade_type" 5}}>充值</li>
+                        <li  onclick={{action "tips" "trade_type" 6}}>租客通道费</li>
+                        <li  onclick={{action "tips" "trade_type" 7}}>房东通道费</li>
+                        <li  onclick={{action "tips" "trade_type" 8}}>水滴通道费</li>
+                        <li  onclick={{action "tips" "trade_type" 9}}>系统修改</li>
+                        <li  onclick={{action "tips" "trade_type" 10}}>提现手续费</li>
+                        <li  onclick={{action "tips" "trade_type" 11}}>租金分期</li>
+                        <li  onclick={{action "tips" "trade_type" 18}}>预付电费</li>
+                    </ul>
+                </label>
+
+                <label class="xsd-input-group xsd-select xsd-margin-r12">
+                    <i class="iconfont">&#xe63c;</i>
+                    <input id="feesType" class="xsd-input" type="text" data-value="" readonly  placeholder="默认费用类型">
+                    <ul>
+                        <li onclick={{action "tips" "fee_type" ""}}>默认费用类型</li>
+                        <li onclick={{action "tips" "fee_type" 0}}>提现</li>
+                        <li onclick={{action "tips" "fee_type" 1}}>房租</li>
+                        <li onclick={{action "tips" "fee_type" 2}}>保证金</li>
+                        <li onclick={{action "tips" "fee_type" 3}}>提现手续费</li>
+                        <li onclick={{action "tips" "fee_type" 6}}>租客通道费</li>
+                        <li onclick={{action "tips" "fee_type" 7}}>房东通道费</li>
+	                      <li onclick={{action "tips" "fee_type" 8}}>水滴通道费</li>
+                        <li onclick={{action "tips" "fee_type" 11}}>分期租金</li>
+                        <li onclick={{action "tips" "fee_type" 13}}>分期服务费</li>
+                        <li onclick={{action "tips" "fee_type" 15}}>分期违约金</li>
+                        <li onclick={{action "tips" "fee_type" 16}}>分期保证金</li>
+                        <li onclick={{action "tips" "fee_type" 18}}>预付电费</li>
+                    </ul>
+                </label>
+
+                <label class="xsd-input-group xsd-select xsd-margin-r12">
+                    <i class="iconfont">&#xe63c;</i>
+                    <input id="payType" class="xsd-input" type="text" data-value="" readonly  placeholder="默认支付方式">
+                    <ul>
+                        <li onclick={{action "tips" "pay_way" ""}}>默认支付方式</li>
+                        <li onclick={{action "tips" "pay_way" 1}}>支付宝</li>
+                        <li onclick={{action "tips" "pay_way" 2}}>快捷支付</li>
+                        <li onclick={{action "tips" "pay_way" 2}}>系统修改</li>
+                    </ul>
+                </label>
+
+                <label class="xsd-input-group">
+                    <i class="iconfont xsd-icon-search xsd-color-gray fontTop" onclick={{action "tips" "contains" keyword}}>&#xe618;</i>
+                    {{input id="search" class="xsd-input" type="text" placeholder="搜索：房源/房间名称、交易人" value=keyword }}
+                </label>
+            </div>
+            <div class="search-details">
+                <table border="0">
+                    <thead>
+                    <tr>
+                        <th>交易时间</th>
+                        <th colspan="2">房源/房间</th>
+                        <th>交易类型</th>
+                        <th>费用类型</th>
+                        <th>交易人</th>
+                        <th colspan="2">账单周期</th>
+                        <th>支付方式</th>
+                        <th>状态</th>
+                        <th>比例</th>
+                        <th>金额</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#each model as |h2ometrade|}}
+                    <tr class="xsd-font-size12">
+                        <td>{{h2ometrade.tradeAt}}</td>
+                        <td colspan="2">{{h2ometrade.houseInfo}}</td>
+                        <td>{{h2ometrade.tradeType}}</td>
+                        <td>{{h2ometrade.feeType}}</td>
+                        <td>{{h2ometrade.customerName}}</td>
+                        <td colspan="2">{{h2ometrade.orderCycle}}</td>
+                        <td>{{h2ometrade.payWay}}</td>
+                        <td>{{h2ometrade.tradeStatus}}</td>
+                        <td>{{h2ometrade.proportion}}</td>
+                        <td>{{h2ometrade.amount}}元</td>
+                    </tr>
+                    {{/each}}
+                    </tbody>
+                </table>
+                <!--分页-->
+                <div id="pagination">
+                  {{#if (gt model.meta.pagination.count  12)}}
+                    {{page-numbers content=model}}
+                  {{/if}}
+                </div>
+            </div>
+        </div>
+    </div>
+    {{bang-ding refreshPay=(action "refreshPay")}}
+    {{withdraw-cash data=model.meta.countinfos.card_info refreshPay=(action "refreshPay")}}
+{{/page-waper}}
+
+<!--我的银行卡-->
+<style>
+#bank-card .xsd-font-size20 { border-left: 4px solid #59acff; padding-left: 15px; }
+</style>
+<div class="xsd-drawer" id="bank-card">
+    <div class="xsd-drawer-header">
+        <a class="xsd-modal-close iconfont">&#xe633;</a>
+    </div>
+    <div class="xsd-drawer-body">
+            <h2 class="xsd-clearfix xsd-margin-b24"><b class="xsd-pull-left xsd-font-size20">我的银行卡</b><a class="xsd-color-primary xsd-pull-right" data-toggle="xsd-modal" data-target="#delCard">解除绑定</a></h2>
+            <div class="cardDetails">
+                <p class="xsd-margin-b16"><i>银行卡类型</i><b class="texLeft">借记卡</b></p>
+                <p class="xsd-margin-b16"><i>开户人姓名</i><b class="texLeft">{{model.meta.countinfos.card_info.owner_name}}</b></p>
+                <p class="xsd-margin-b16"><i>开户银行</i><b class="texLeft">{{model.meta.countinfos.card_info.bank_name}}</b></p>
+                <p class="xsd-margin-b16"><i>开户行支行</i><b class="texLeft">{{model.meta.countinfos.card_info.branch_bank}}</b></p>
+                <p class="xsd-margin-b16"><i>银行卡号</i><b class="texLeft">{{model.meta.countinfos.card_info.card_no}}</b></p>
+            </div>
+    </div>
+
+</div>
+
+<style>
+#delCard { height: 182px; }
+</style>
+<div class="xsd-modal delete-modal xsd-md-modal" id="delCard">
+    <div class="xsd-modal-header xsd-margin-b24">
+        <span class="xsd-font-size16"></span><a class="xsd-modal-close iconfont">&#xe633;</a>
+    </div>
+    <div class="xsd-modal-body xsd-margin-b24">
+        <p>
+            是否确定解绑银行卡信息？解绑后将不能进行提现
+        </p>
+    </div>
+    <div class="xsd-modal-bottom">
+        <div class="xsd-clearfix">
+            <a class="xsd-btn xsd-btn-primary xsd-pull-right" onclick={{action "unbindCard"}}>确定</a>
+            <a class="xsd-btn xsd-btn-gray xsd-modal-close xsd-pull-right">取消</a>
+        </div>
+    </div>
+</div>

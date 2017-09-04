@@ -1,0 +1,62 @@
+#separate{
+  #prepayment{
+    margin-top: 20px;
+    position: relative;
+    .xsd-nav-tabs{
+      position: absolute;
+      left: 0px;
+      top:-31px;
+    }
+  }
+  .marginR24{
+    margin-right: 24px;
+  }
+
+  span.xsd-font-size20{
+      font-size: 20px;
+    }
+    .leftBorder{
+      width: 1px;
+      height: 45px;
+      margin: 10px 18px 0 -6px;
+      background: #e7e7e7;
+    }
+
+  #finance{
+    font-size: 12px!important;
+
+    th {
+      border: 0;
+      height: 42px;
+      background: #eaf3f8;
+    }
+
+    tr {
+      cursor: pointer;
+
+      &:nth-child(odd) {
+        background: #f7f9fa;
+      }
+    }
+
+    td {
+      border: 0;
+      height: 42px;
+      background: none;
+    }
+
+    .xsd-cols-xs-1{
+      width: 10.8%;
+    }
+    .xsd-cols-xs-2{
+      width: 16.53%;
+    }
+    .xsd-cols-xs-3{
+      width: 19.7%;
+    }
+    .xsd-cols-xs-4{
+      width: 31.5%;
+    }
+
+  }
+}

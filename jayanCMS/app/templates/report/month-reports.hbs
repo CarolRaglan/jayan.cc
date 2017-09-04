@@ -1,0 +1,645 @@
+{{#page-waper}}
+    <div class="xsd-clearfix">
+        <div id="screen" class="xsd-pull-left">
+          {{#report-search types=types hidden=hidden}}{{/report-search}}
+        </div>
+        <div id="report" class="xsd-pull-left">
+            <div id="no-Result-data" >
+                <div id="Result-head">
+                    <label class="xsd-input-group xsd-select xsd-margin-b16 xsd-Result-head">
+                        <i class="iconfont">&#xe63c;</i>
+                        <input class="xsd-input" id="month_select_year" type="text" data-value="" readonly placeholder="年" onchange={{action "getMonthReport"}}>
+                        <ul>
+                            <li data-value="2017">2017年</li>
+                            <li data-value="2018">2018年</li>
+                            <li data-value="2019">2019年</li>
+                            <li data-value="2020">2020年</li>
+                            <li data-value="2021">2021年</li>
+                            <li data-value="2022">2022年</li>
+                            <li data-value="2023">2023年</li>
+                            <li data-value="2024">2024年</li>
+                            <li data-value="2025">2025年</li>
+                        </ul>
+                    </label>
+                    <label class="xsd-input-group xsd-select xsd-margin-b16 xsd-Result-head">
+                        <i class="iconfont">&#xe63c;</i>
+                        <input class="xsd-input" id="month_select_month" type="text" data-value="" readonly placeholder="月" onchange={{action "getMonthReport"}}>
+                        <ul>
+                            <li data-value="1">1月</li>
+                            <li data-value="2">2月</li>
+                            <li data-value="3">3月</li>
+                            <li data-value="4">4月</li>
+                            <li data-value="5">5月</li>
+                            <li data-value="6">6月</li>
+                            <li data-value="7">7月</li>
+                            <li data-value="8">8月</li>
+                            <li data-value="9">9月</li>
+                            <li data-value="10">10月</li>
+                            <li data-value="11">11月</li>
+                            <li data-value="12">12月</li>
+                        </ul>
+                    </label>
+                    {{#if auth.e_power.reports_busi_exp}}
+                    <a class="xsd-btn xsd-btn-primary Result-head-right-btn"
+                       href="{{config.apiUrl1}}monthreports/download?token={{auth.authToken.access_token}}&date={{start_date}}">导出报表</a>
+                    {{/if}}
+                </div>
+              {{#if month_report}}
+                <div id="Result-data">
+                    <h1 class="result-data-head">{{month_report_month}}月运营报告</h1>
+                    <h1 class="result-data-sb-head">运营状况</h1>
+                    <h1 class="result-data-sb-title"><span></span>房源状况</h1>
+                    <div class="dl-container">
+                        <dl>
+                            <dt>总房间数</dt>
+                            <dd>
+                                <p>{{month_report.total}}间</p>
+                                <p>
+                              {{#if (gte month_report.total_bi 0)}}
+                                {{#if (eq month_report.total_bi 0)}}
+                                    <span>-</span>
+                                {{else}}
+                                    <span class="xsd-color-green"><i class="iconfont">
+                                        &#xe6a1;</i>{{month_report.total_bi}}
+                                    </span>
+                                {{/if}}
+                              {{else}}
+                                  <span class="xsd-color-red"><i class="iconfont">
+                                      &#xe6a2;</i>{{month_report.total_bi}}
+                                  </span>
+                              {{/if}}
+                                </p>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>新增房间数</dt>
+                            <dd>
+                                <p>{{month_report.new}}间</p>
+                              <p>{{#if (gte month_report.new_bi 0)}}
+                                {{#if (eq month_report.new_bi 0)}}
+                                    <span>-</span>
+
+                                {{else}}
+                                    <span class="xsd-color-green"><i class="iconfont">
+                                        &#xe6a1;</i>{{month_report.new_bi}}
+                                    </span>
+                                {{/if}}
+                              {{else}}
+                                  <span class="xsd-color-red"><i class="iconfont">
+                                      &#xe6a2;</i>{{month_report.new_bi}}
+                                  </span>
+                              {{/if}}
+                                </p>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>删除房间数</dt>
+                            <dd>
+                                <p>{{month_report.delete}}间</p>
+                                <p>
+                                  {{#if (gte month_report.delete_bi 0)}}
+                                    {{#if (eq month_report.delete_bi 0)}}
+                                        <span>-</span>
+
+                                    {{else}}
+                                        <span class="xsd-color-green"><i class="iconfont">
+                                        &#xe6a1;</i>{{month_report.delete_bi}}
+                                    </span>
+                                    {{/if}}
+                                  {{else}}
+                                      <span class="xsd-color-red"><i class="iconfont">
+                                      &#xe6a2;</i>{{month_report.delete_bi}}
+                                  </span>
+                                  {{/if}}
+                                </p>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>在租房间数</dt>
+                            <dd>
+                                <p>{{month_report.rent}}间</p>
+                                <p>
+                                  {{#if (gte month_report.rent_bi 0)}}
+                                    {{#if (eq month_report.rent_bi 0)}}
+                                        <span>-</span>
+
+                                    {{else}}
+                                        <span class="xsd-color-green"><i class="iconfont">
+                                        &#xe6a1;</i>{{month_report.rent_bi}}
+                                    </span>
+                                    {{/if}}
+                                  {{else}}
+                                      <span class="xsd-color-red"><i class="iconfont">
+                                      &#xe6a2;</i>{{month_report.rent_bi}}
+                                  </span>
+                                  {{/if}}
+                                </p>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>入住率</dt>
+                            <dd>
+                                <p>{{month_report.occupancy_rate}}%</p>
+                                <p>
+                                  {{#if (gte month_report.occupancy_rate_bi 0)}}
+                                    {{#if (eq month_report.occupancy_rate_bi 0)}}
+                                        <span>-</span>
+
+                                    {{else}}
+                                        <span class="xsd-color-green"><i class="iconfont">
+                                        &#xe6a1;</i>{{month_report.occupancy_rate_bi}}
+                                    </span>
+                                    {{/if}}
+                                  {{else}}
+                                      <span class="xsd-color-red"><i class="iconfont">
+                                      &#xe6a2;</i>{{month_report.occupancy_rate_bi}}
+                                  </span>
+                                  {{/if}}
+                                </p>
+
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="dl-container dl-container1">
+                        <dl>
+                            <dt>空置房间数</dt>
+                            <dd>
+                                <p>{{month_report.empty}}间</p>
+                                <p>
+                                  {{#if (gte month_report.empty_bi 0)}}
+                                    {{#if (eq month_report.empty_bi 0)}}
+                                        <span>-</span>
+
+                                    {{else}}
+                                        <span class="xsd-color-green"><i class="iconfont">
+                                        &#xe6a1;</i>{{month_report.empty_bi}}
+                                    </span>
+                                    {{/if}}
+                                  {{else}}
+                                      <span class="xsd-color-red"><i class="iconfont">
+                                      &#xe6a2;</i>{{month_report.empty_bi}}
+                                  </span>
+                                  {{/if}}
+                                </p>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>空置总天数</dt>
+                            <dd>
+                                <p>{{month_report.empty_total_days}}天</p>
+                                <p>
+                                  {{#if (gte month_report.empty_total_days_bi 0)}}
+                                    {{#if (eq month_report.empty_total_days_bi 0)}}
+                                        <span>-</span>
+
+                                    {{else}}
+                                        <span class="xsd-color-green"><i class="iconfont">
+                                        &#xe6a1;</i>{{month_report.empty_total_days_bi}}
+                                    </span>
+                                    {{/if}}
+                                  {{else}}
+                                      <span class="xsd-color-red"><i class="iconfont">
+                                      &#xe6a2;</i>{{month_report.empty_total_days_bi}}
+                                  </span>
+                                  {{/if}}
+                                </p>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>平均空置天数</dt>
+                            <dd>
+                                <p>{{month_report.average_empty_days}}天</p>
+                                <p>
+                                  {{#if (gte month_report.average_empty_days_bi 0)}}
+                                    {{#if (eq month_report.average_empty_days_bi 0)}}
+                                        <span>-</span>
+
+                                    {{else}}
+                                        <span class="xsd-color-green"><i class="iconfont">
+                                        &#xe6a1;</i>{{month_report.average_empty_days_bi}}
+                                    </span>
+                                    {{/if}}
+                                  {{else}}
+                                      <span class="xsd-color-red"><i class="iconfont">
+                                      &#xe6a2;</i>{{month_report.average_empty_days_bi}}
+                                  </span>
+                                  {{/if}}
+                                </p>
+
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>整月空置房间</dt>
+                            <dd>
+                                <p>{{month_report.empty_month}}间<a id="checkRentRoom-btn"  data-toggle="xsd-modal"
+                                                                   data-target="#checkRentRoom">查看</a></p>
+                                <p>
+                                  {{#if (gte month_report.empty_month_bi 0)}}
+                                    {{#if (eq month_report.empty_month_bi 0)}}
+                                        <span>-</span>
+
+                                    {{else}}
+                                        <span class="xsd-color-green"><i class="iconfont">
+                                        &#xe6a1;</i>{{month_report.empty_month_bi}}
+                                    </span>
+                                    {{/if}}
+                                  {{else}}
+                                      <span class="xsd-color-red"><i class="iconfont">
+                                      &#xe6a2;</i>{{month_report.empty_month_bi}}
+                                  </span>
+                                  {{/if}}
+                                </p>
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="dl-container dl-container2">
+                        <dl>
+                            <dt>新租房间</dt>
+                            <dd>
+                                <p>{{month_report.new_contract}}间</p>
+                                <p>
+                                  {{#if (gte month_report.new_contract_bi 0)}}
+                                    {{#if (eq month_report.new_contract_bi 0)}}
+                                        <span>-</span>
+
+                                    {{else}}
+                                        <span class="xsd-color-green"><i class="iconfont">
+                                        &#xe6a1;</i>{{month_report.new_contract_bi}}
+                                    </span>
+                                    {{/if}}
+                                  {{else}}
+                                      <span class="xsd-color-red"><i class="iconfont">
+                                      &#xe6a2;</i>{{month_report.new_contract_bi}}
+                                  </span>
+                                  {{/if}}
+                                </p>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>续租房间</dt>
+                            <dd>
+                                <p>{{month_report.renew_times}}间</p>
+                                <p>
+                                  {{#if (gte month_report.renew_times_bi 0)}}
+                                    {{#if (eq month_report.renew_times_bi 0)}}
+                                        <span>-</span>
+
+                                    {{else}}
+                                        <span class="xsd-color-green"><i class="iconfont">
+                                        &#xe6a1;</i>{{month_report.renew_times_bi}}
+                                    </span>
+                                    {{/if}}
+                                  {{else}}
+                                      <span class="xsd-color-red"><i class="iconfont">
+                                      &#xe6a2;</i>{{month_report.renew_times_bi}}
+                                  </span>
+                                  {{/if}}
+                                </p>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>平均出房价格</dt>
+                            <dd>
+                                <p>{{month_report.average_price}}元</p>
+                                <p>
+                                  {{#if (gte month_report.average_price_bi 0)}}
+                                    {{#if (eq month_report.average_price_bi 0)}}
+                                        <span>-</span>
+
+                                    {{else}}
+                                        <span class="xsd-color-green"><i class="iconfont">
+                                        &#xe6a1;</i>{{month_report.average_price_bi}}
+                                    </span>
+                                    {{/if}}
+                                  {{else}}
+                                      <span class="xsd-color-red"><i class="iconfont">
+                                      &#xe6a2;</i>{{month_report.average_price_bi}}
+                                  </span>
+                                  {{/if}}
+                                </p>
+
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>平均出房时间</dt>
+                            <dd>
+                                <p>{{month_report.average_new_contract}}天</p>
+                                <p>
+                                  {{#if (gte month_report.average_new_contract_bi 0)}}
+                                    {{#if (eq month_report.average_new_contract_bi 0)}}
+                                        <span>-</span>
+
+                                    {{else}}
+                                        <span class="xsd-color-green"><i class="iconfont">
+                                        &#xe6a1;</i>{{month_report.average_new_contract_bi}}
+                                    </span>
+                                    {{/if}}
+                                  {{else}}
+                                      <span class="xsd-color-red"><i class="iconfont">
+                                      &#xe6a2;</i>{{month_report.average_new_contract_bi}}
+                                  </span>
+                                  {{/if}}
+                                </p>
+
+                            </dd>
+                        </dl>
+
+                    </div>
+                    <h1 class="result-data-sb-title result-data-sty-title"><span></span>业务情况</h1>
+                    <div class="dl-container dl-container3">
+                        <dl>
+                            <dt>新增客户数</dt>
+                            <dd>
+                                <p>{{month_report.new_customer}}人</p>
+                                <p>
+                                  {{#if (gte month_report.new_customer_bi 0)}}
+                                    {{#if (eq month_report.new_customer_bi 0)}}
+                                        <span>-</span>
+
+                                    {{else}}
+                                        <span class="xsd-color-green"><i class="iconfont">
+                                        &#xe6a1;</i>{{month_report.new_customer_bi}}
+                                    </span>
+                                    {{/if}}
+                                  {{else}}
+                                      <span class="xsd-color-red"><i class="iconfont">
+                                      &#xe6a2;</i>{{month_report.new_customer_bi}}
+                                  </span>
+                                  {{/if}}
+                                </p>
+
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>跟进中</dt>
+                            <dd>
+                                <p>{{month_report.follow_customer}}人</p>
+                                <p>
+                                  {{#if (gte month_report.follow_customer_bi 0)}}
+                                    {{#if (eq month_report.follow_customer_bi 0)}}
+                                        <span>-</span>
+
+                                    {{else}}
+                                        <span class="xsd-color-green"><i class="iconfont">
+                                        &#xe6a1;</i>{{month_report.follow_customer_bi}}
+                                    </span>
+                                    {{/if}}
+                                  {{else}}
+                                      <span class="xsd-color-red"><i class="iconfont">
+                                      &#xe6a2;</i>{{month_report.follow_customer_bi}}
+                                  </span>
+                                  {{/if}}
+                                </p>
+
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>签约数</dt>
+                            <dd>
+                                <p>{{month_report.sign_customer}}人</p>
+                                <p>
+                                  {{#if (gte month_report.sign_customer_bi 0)}}
+                                    {{#if (eq month_report.sign_customer_bi 0)}}
+                                        <span>-</span>
+
+                                    {{else}}
+                                        <span class="xsd-color-green"><i class="iconfont">
+                                        &#xe6a1;</i>{{month_report.sign_customer_bi}}
+                                    </span>
+                                    {{/if}}
+                                  {{else}}
+                                      <span class="xsd-color-red"><i class="iconfont">
+                                      &#xe6a2;</i>{{month_report.sign_customer_bi}}
+                                  </span>
+                                  {{/if}}
+                                </p>
+
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>业务处理率</dt>
+                            <dd>
+                                <p>{{month_report.business_customer}}%</p>
+                                <p>
+                                  {{#if (gte month_report.business_customer_bi 0)}}
+                                    {{#if (eq month_report.business_customer_bi 0)}}
+                                        <span>-</span>
+
+                                    {{else}}
+                                        <span class="xsd-color-green"><i class="iconfont">
+                                        &#xe6a1;</i>{{month_report.business_customer_bi}}%
+                                    </span>
+                                    {{/if}}
+                                  {{else}}
+                                      <span class="xsd-color-red"><i class="iconfont">
+                                      &#xe6a2;</i>{{month_report.business_customer_bi}}%
+                                  </span>
+                                  {{/if}}
+                                </p>
+                            </dd>
+                        </dl>
+                    </div>
+                    <h1 class="result-data-sb-title result-dat-sty-title"><span></span>账单情况</h1>
+                    <div class="dl-container">
+                        <dl>
+                            <dt>总账单数</dt>
+                            <dd>
+                                <p>{{month_report.total_bill}}个</p>
+                                <p>
+                                  {{#if (gte month_report.total_bill_bi 0)}}
+                                    {{#if (eq month_report.total_bill_bi 0)}}
+                                        <span>-</span>
+
+                                    {{else}}
+                                        <span class="xsd-color-green"><i class="iconfont">
+                                        &#xe6a1;</i>{{month_report.total_bill_bi}}
+                                    </span>
+                                    {{/if}}
+                                  {{else}}
+                                      <span class="xsd-color-red"><i class="iconfont">
+                                      &#xe6a2;</i>{{month_report.total_bill_bi}}
+                                  </span>
+                                  {{/if}}
+                                </p>
+
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>应收款账单数</dt>
+                            <dd>
+                                <p>{{month_report.receivable_bill}}个</p>
+                                <p>
+                                  {{#if (gte month_report.receivable_bill_bi 0)}}
+                                    {{#if (eq month_report.receivable_bill_bi 0)}}
+                                        <span>-</span>
+
+                                    {{else}}
+                                        <span class="xsd-color-green"><i class="iconfont">
+                                        &#xe6a1;</i>{{month_report.receivable_bill_bi}}
+                                    </span>
+                                    {{/if}}
+                                  {{else}}
+                                      <span class="xsd-color-red"><i class="iconfont">
+                                      &#xe6a2;</i>{{month_report.receivable_bill_bi}}
+                                  </span>
+                                  {{/if}}
+                                </p>
+
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>应付款账单数</dt>
+                            <dd>
+                                <p>{{month_report.payable_bill}}个</p>
+                                <p>
+                                  {{#if (gte month_report.payable_bill_bi 0)}}
+                                    {{#if (eq month_report.payable_bill_bi 0)}}
+                                        <span>-</span>
+
+                                    {{else}}
+                                        <span class="xsd-color-green"><i class="iconfont">
+                                        &#xe6a1;</i>{{month_report.payable_bill_bi}}
+                                    </span>
+                                    {{/if}}
+                                  {{else}}
+                                      <span class="xsd-color-red"><i class="iconfont">
+                                      &#xe6a2;</i>{{month_report.payable_bill_bi}}
+                                  </span>
+                                  {{/if}}
+                                </p>
+
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>待收款账单数</dt>
+                            <dd>
+                                <p>{{month_report.unreceived_bill}}个</p>
+                                <p>
+                                  {{#if (gte month_report.unreceived_bill_bi 0)}}
+                                    {{#if (eq month_report.unreceived_bill_bi 0)}}
+                                        <span>-</span>
+
+                                    {{else}}
+                                        <span class="xsd-color-green"><i class="iconfont">
+                                        &#xe6a1;</i>{{month_report.unreceived_bill_bi}}
+                                    </span>
+                                    {{/if}}
+                                  {{else}}
+                                      <span class="xsd-color-red"><i class="iconfont">
+                                      &#xe6a2;</i>{{month_report.unreceived_bill_bi}}
+                                  </span>
+                                  {{/if}}
+                                </p>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>待付款账单数</dt>
+                            <dd>
+                                <p>{{month_report.unpaid_bill}}个</p>
+                                <p>
+                                  {{#if (gte month_report.unpaid_bill_bi 0)}}
+                                    {{#if (eq month_report.unpaid_bill_bi 0)}}
+                                        <span>-</span>
+
+                                    {{else}}
+                                        <span class="xsd-color-green"><i class="iconfont">
+                                        &#xe6a1;</i>{{month_report.unpaid_bill_bi}}
+                                    </span>
+                                    {{/if}}
+                                  {{else}}
+                                      <span class="xsd-color-red"><i class="iconfont">
+                                      &#xe6a2;</i>{{month_report.unpaid_bill_bi}}
+                                  </span>
+                                  {{/if}}
+                                </p>
+
+                            </dd>
+                        </dl>
+                    </div>
+                    <h1 class="result-data-sb-head result-data-sty-head">财务情况<span>（流水）</span></h1>
+                    <div class="result-dl-finance">
+                        <dl>
+                            <dt>本月现金收支</dt>
+                            <dd>
+                                <p>应收已收：<span>{{month_report.receivable_fee}}元</span></p>
+                                <p>应收未收：<span>{{month_report.unreceived_fee}}元</span></p>
+                                <p>回款率：<span>{{month_report.returned_rate}}%</span></p>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>现金收入</dt>
+                            <dd>
+                                <p>现金总收入：{{month_report.total_income}}元</p>
+                                <div><b>其中：</b>
+                                    <div>
+                                        <p>租金收入：<span>{{month_report.rental_income}}元</span></p>
+                                        <p>押金收入：<span>{{month_report.deposit_income}}元</span></p>
+                                        <p>杂费收入：<span>{{month_report.utilities_income}}元</span></p>
+                                    </div>
+                                </div>
+
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="result-dl-finance">
+                        <dl>
+                            <dt>现金支出</dt>
+                            <dd>
+                                <p>现金总支出：{{month_report.total_outlay}}元</p>
+                                <div><b>其中：</b>
+                                    <div>
+                                        <p>租金支出：<span>{{month_report.rental_outlay}}元</span></p>
+                                        <p>押金支出：<span>{{month_report.deposit_outlay}}元</span></p>
+                                        <p>杂费支出：<span>{{month_report.utilities_outlay}}元</span></p>
+                                    </div>
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>下月租金预期</dt>
+                            <dd>
+                                <p>预计租金收支差：{{month_report.forecast_exposure}}元</p>
+                                <p><span>加：预计租金收入：{{month_report.forecast_income}}元</span></p>
+                                <p><span>减：预计租金支出: {{month_report.forecast_outlay}}元</span></p>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+                {{else}}
+                  <div class="xsd-tab-content xsd-margin-b24">
+                      <div class="nav">
+                          <div class="xsd-pull-left">
+                              <img src="images/user/blueLogo.png">
+                          </div>
+                          <!--<div class="xsd-pull-right">
+                              <a class="xsd-btn xsd-btn-primary"
+                                 href="{config.apiUrl1}}monthreports/download?token={auth.authToken.access_token}}&date={date}}">导出报表</a>
+                          </div>-->
+                      </div>
+                      <div id="xsd-noResult">
+                          <p><i class="iconfont"><img class="xsd-imgWidth" src="images/report.png"></i></p>
+                          <p>抱歉，没有经营状况报表！</p>
+                      </div>
+
+                  </div>
+
+              {{/if}}
+            </div>
+
+        </div>
+    </div>
+    <div class="xsd-modal xsd-md-modal" id="checkRentRoom" >
+        <div class="xsd-modal-header xsd-margin-b24">
+            <span class="xsd-font-size16 xsd-font-tit">整月空置房间</span><a class="xsd-modal-close iconfont check-rent-btn">&#xe633;</a>
+        </div>
+        <table class="xsd-modal-body xsd-pre-pay">
+          {{#each month_report.empty_month_rooms as |month_rooms|}}
+            <tr>
+                <td>{{month_rooms.location}}</td>
+                <td>{{month_rooms.name}}</td>
+            </tr>
+          {{/each}}
+        </table>
+    </div>
+{{/page-waper}}
+

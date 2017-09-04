@@ -1,0 +1,63 @@
+<div class="statistic">
+  <div class="container-tab">
+    <div class="col-md-12">
+      <div class="btn-group">
+        {{#link-to 'statistic.operation' class="btn btn-default"}}运营统计{{/link-to}}
+        {{#link-to 'statistic.income' class="btn btn-default btn-active"}}财务统计{{/link-to}}
+      </div>
+    </div>
+  </div>
+  {{#if auth.e_power.statistics_fina_view}}
+  <div class="container-chart clearfix">
+    <div class="col-md-4">
+      <div class="chart-box clearfix">
+        <h2 class="orange-title-border">昨天收款情况</h2>
+        <div class="chart-box-content">
+          <div class="chart-5 description"></div>
+          <div id="chart-5" class="chart-block"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="chart-box clearfix">
+        <h2 class="red-title-border">未来7日现金应收/应付情况
+          <span class="gray-title">(元)</span>
+        </h2>
+        <div class="chart-box-content">
+            <div id="chart-6" class="chart-block"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="chart-box clearfix">
+        <h2 class="green-title-border">过去7日现金收入/支出情况
+          <span class="gray-title">(元)</span>
+        </h2>
+        <div class="chart-box-content">
+            <div id="chart-7" class="chart-block"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="chart-box clearfix">
+        <h2 class="green-title-border">上月收入类型情况</h2>
+        <div class="chart-box-content">
+            <div class="chart-8 description"></div>
+            <div id="chart-8" class="chart-block"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {{else}}
+    <div class="statistic-power">
+      <div class="statistic-power-box">
+        <img src="/images/power.png">
+        <p>抱歉，您没有权限!</p>
+      </div>
+    </div>
+  {{/if}}
+</div>
+

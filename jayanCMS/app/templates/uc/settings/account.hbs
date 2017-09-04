@@ -1,0 +1,121 @@
+<div id="user-profile" class="panel-scrollable">
+  <h2 class="title-primary">
+    <span>账户信息</span>
+    <span class="bar">
+      <a data-toggle="xsd-modal" data-target="#modifyPassword">修改密码</a>
+    </span>
+  </h2>
+
+  <div class="box">
+    <h3>
+      <span>账户昵称</span>
+      <i>*</i>
+      {{#if v.name.on}}
+        <em>{{v.name.tips}}</em>
+      {{/if}}
+    </h3>
+    <input name="name" type="text" value="{{auth.user.name}}" onfocus={{action 'clearTips' v.name}}>
+
+    <h3>
+      <span>注册账号</span>
+      <i>*</i>
+      {{#if v.account.on}}
+        <em>{{v.account.tips}}</em>
+      {{/if}}
+    </h3>
+    <input name="mobile" type="text" value="{{auth.user.phone}}" disabled onfocus={{action 'clearTips' v.account}}>
+
+    <h3>
+      <span>公寓品牌</span>
+      <i>*</i>
+      {{#if v.brand.on}}
+        <em>{{v.brand.tips}}</em>
+      {{/if}}
+    </h3>
+    <input name="brand" type="text" value="{{auth.user.company_brand}}" onfocus={{action 'clearTips' v.brand}}>
+
+    <h3>
+      <span>公司名称</span>
+      <i>*</i>
+      {{#if v.company.on}}
+        <em>{{v.company.tips}}</em>
+      {{/if}}
+    </h3>
+    <input name="company" type="text" value="{{auth.user.company}}" onfocus={{action 'clearTips' v.company}}>
+
+    <h3>
+      <span>公司所在省市</span>
+      <i>*</i>
+      {{#if v.city.on}}
+        <em>{{v.city.tips}}</em>
+      {{/if}}
+    </h3>
+    <div class="xsd-clearfix">
+      <div class="xsd-input-group xsd-select xsd-pull-left">
+        <i class="iconfont">&#xe63c;</i>
+        <input name="province" type="text" readonly value={{province}} placeholder="请选择省" onfocus={{action 'clearTips' v.city}}>
+        <ul class="xsd-none panel-scrollable">
+          {{#each auth.provinceArr as |provinceArr index|}}
+            <li onclick={{action 'updateCityList' provinceArr.[0] index}}>{{provinceArr.[0]}}</li>
+          {{/each}}
+        </ul>
+      </div>
+      <div class="xsd-input-group xsd-select xsd-pull-left">
+        <i class="iconfont">&#xe63c;</i>
+        <input name="city" type="text" readonly value={{city}} placeholder="请选择市" onfocus={{action 'clearTips' v.city}}>
+        {{#if cityList}}
+          <ul class="xsd-none panel-scrollable">
+            {{#each cityList as |city|}}
+              <li>{{city}}</li>
+            {{/each}}
+          </ul>
+        {{/if}}
+      </div>
+    </div>
+
+    <h3>
+      <span>经营方式</span>
+      <i>*</i>
+      {{#if v.mode.on}}
+        <em class="tips-mode">{{v.mode.tips}}</em>
+      {{/if}}
+    </h3>
+    <ul>
+      {{#each modes as |it| }}
+        <li class="badge {{if it.active 'active'}}" {{action 'setActive' it}}>{{it.name}}</li>
+      {{/each}}
+    </ul>
+
+    <h3>
+      <span>子账号登陆后缀名</span>
+      <i>*</i>
+      <span>{{auth.user.detail}}</span>
+      {{#if v.suffix.on}}
+        <em>{{v.suffix.tips}}</em>
+      {{/if}}
+    </h3>
+    {{#if (eq auth.user.role 'boss')}}
+      {{#if auth.user.can_modify_company_postfix}}
+        <input type="text" name="suffix" onfocus={{action 'clearTips' v.suffix}}
+          onkeyup={{action "filter"}} value={{auth.user.company_postfix}}>
+      {{else}}
+        <input type="text" name="suffix" onfocus={{action 'clearTips' v.suffix}}
+          disabled value={{auth.user.company_postfix}}>
+      {{/if}}
+    {{else}}
+      <input type="text" name="suffix" onfocus={{action 'clearTips' v.suffix}}
+        disabled value={{auth.user.company_postfix}}>
+    {{/if}}
+  </div>
+
+  <p class="tips">
+    <i class="iconfont">&#xe620;</i>
+    <span>(公寓后缀名只能为纯英文字母，不可使用其他字符或者汉字，例如：shuidi，建议控制在10个字母以内)</span>
+  </p>
+
+  {{#if (eq auth.user.role 'boss')}}
+    <a class="xsd-btn xsd-btn-primary" {{action "update"}}>保存</a>
+  {{/if}}
+
+</div>
+{{modify-password}}

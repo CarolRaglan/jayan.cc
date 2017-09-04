@@ -1,0 +1,93 @@
+<div id="account-search">
+  <div class="time-select">
+    <label class="xsd-input-group  xsd-margin-b16">
+      {{pikaday-input id="trade_at__gte"  class="xsd-input" format="YYYY-MM-DD" placeholder="开始时间"
+                      readonly="readonly" onSelection=(action 'selectTime')}}
+    </label>
+    <span>-</span>
+    <label class="xsd-input-group">
+      {{pikaday-input id="trade_at__lte"  class="xsd-input" format="YYYY-MM-DD" placeholder="截止时间"
+                      minDate=tradeStartsAt  readonly="readonly" onSelection=(action 'selectTime')}}
+    </label>
+  </div>
+  {{#if preFlag}}
+  {{else}}
+    <label class="xsd-input-group xsd-select xsd-margin-b16">
+      <i class="iconfont">&#xe63c;</i>
+      <input class="xsd-input" id="s_flow_type" type="text" data-value=""
+             readonly placeholder="资金流向" onchange={{action 'screen'}}>
+      <ul>
+        <li data-value="">不限</li>
+        <li data-value="0">收入</li>
+        <li data-value="1">支出</li>
+      </ul>
+    </label>
+    <label class="xsd-input-group xsd-select xsd-margin-b16">
+      <i class="iconfont">&#xe63c;</i>
+      <input class="xsd-input" id="s_fee_type" type="text" data-value=""
+             readonly placeholder="费用名称" onchange={{action 'screen'}}>
+      <ul>
+        <li data-value="">不限</li>
+        <li data-value="0">租金</li>
+        <li data-value="1">押金</li>
+        <li data-value="2">水费</li>
+        <li data-value="3">电费</li>
+        <li data-value="4">燃气费</li>
+        <li data-value="5">物业费</li>
+        <li data-value="6">服务费</li>
+        <li data-value="7">维修费</li>
+        <li data-value="8">保洁费</li>
+        <li data-value="9">材料费</li>
+        <li data-value="10">有线电视</li>
+        <li data-value="11">宽带</li>
+        <li data-value="12">卫生</li>
+        <li data-value="13">其他</li>
+      </ul>
+    </label>
+  {{/if}}
+  {{#if payment}}
+    <label class="xsd-input-group xsd-select xsd-margin-b16">
+      <i class="iconfont">&#xe63c;</i>
+      <input class="xsd-input" id="s_trade_object" type="text" data-value=""
+             readonly placeholder="交易对象姓名" onchange={{action 'screen'}}>
+      <ul>
+        <li data-value="">不限</li>
+        <li data-value="租客">租客</li>
+        <li data-value="业主">业主</li>
+      </ul>
+    </label>
+    <label class="xsd-input-group xsd-select xsd-margin-b16">
+      <i class="iconfont">&#xe63c;</i>
+      <input class="xsd-input" id="s_flow_type" type="text" data-value=""
+             readonly placeholder="资金流向" onchange={{action 'screen'}}>
+      <ul>
+        <li data-value="">不限</li>
+        <li data-value="0">收入</li>
+        <li data-value="1">支出</li>
+      </ul>
+    </label>
+    <label class="xsd-input-group xsd-select xsd-margin-b16">
+      <i class="iconfont">&#xe63c;</i>
+      <input class="xsd-input" id="s_pay_method" type="text"
+             data-value="" readonly placeholder="交易方式" onchange={{action 'screen'}}>
+      <ul>
+        <li data-value="">不限</li>
+        <li data-value="alipay">支付宝</li>
+        <li data-value="dida">滴答付</li>
+        <li data-value="weixin">微信</li>
+        <li data-value="cash">现金</li>
+        <li data-value="bank">转账</li>
+        <li data-value="system">系统标记为已支付</li>
+        <li data-value="pos">线下POS</li>
+        <li data-value="h2ome">水滴金融</li>
+        <li data-value="llian">连连支付</li>
+        <li data-value="other">其他</li>
+      </ul>
+    </label>
+  {{/if}}
+  <label id="account-search-area" class="xsd-input-group account-search-area">
+    <i class="iconfont xsd-icon-search" onclick={{action "screen" type}}>&#xe618;</i>
+    {{input id="search" class="xsd-input" type="text" enter="screen" placeholder="房间信息、交易对象姓名"}}
+  </label>
+  <a class="xsd-btn xsd-btn-primary btn-reset" onclick={{action 'reset'}}>重置</a>
+</div>

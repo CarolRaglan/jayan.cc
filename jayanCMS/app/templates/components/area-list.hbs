@@ -1,0 +1,45 @@
+<!--刷新触发器-->
+<a id="areaListRefresh" onclick={{action "refresh"}}></a>
+<div id="areaList">
+	<div class="xsd-font-size16 l_top">
+		<i class="xsd-bg-green"></i><span>小区列表</span>
+	</div>
+	<div class="xsd-clearfix l_center">
+		<div class="xsd-pull-left xsd-margin-r12">
+			<div class="xsd-input-group xsd-select">
+				<i class="iconfont">&#xe63c;</i>
+				<input class="xsd-input" type="text" id="city" placeholder="城市" name="city" data-value="{{room.contract.customer_id_type}}" readonly value="{{data-tips room.contract.customer_id_type}}">
+				<ul>
+					<li onclick={{action "selectCity" ""}}>不限</li>
+                  {{#each cityList as |city|}}
+					  <li onclick={{action "selectCity" city.city}}>{{city.city}}</li>
+                  {{/each}}
+				</ul>
+			</div>
+		</div>
+		<div class="xsd-pull-left">
+			<div class="xsd-input-group xsd-select">
+				<i class="iconfont">&#xe63c;</i>
+				<input class="xsd-input" type="text" id="block" placeholder="区域"  name="block" data-value="{{room.contract.customer_id_type}}" readonly value="{{data-tips room.contract.customer_id_type}}">
+				<ul>
+					<li onclick={{action "selectDistrict" ""}}>不限</li>
+                  {{#each districts as |d|}}
+					  <li onclick={{action "selectDistrict" d.district}}>{{d.district}}</li>
+                  {{/each}}
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="l_bottom">
+		<ul id="cityAreaList">
+			<li class={{data-equal areaName 'total'}}>
+				<a onclick={{action "selectArea" 'total'}}>全部小区({{areas.meta.pagination.count}})</a>
+			</li>
+          {{#each areas.attributes as |area|}}
+			  <li class={{data-equal areaName area.name}}>
+				  <a onclick={{action "selectArea" area.name}} title={{area.name}}><b class="areaNameList">{{area.name}}</b>({{area.area_room_count}})</a>
+			  </li>
+          {{/each}}
+		</ul>
+	</div>
+</div>

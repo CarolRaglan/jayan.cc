@@ -1,0 +1,223 @@
+{{#page-waper}}
+    <div class="xsd-clearfix">
+        <div id="screen" class="xsd-pull-left">
+          {{#report-search types=types list=condition}}{{/report-search}}
+        </div>
+        <div id="report" class="xsd-pull-left">
+            <!--业主/租客清单报表(2个)-->
+            <div id="bill" class="xsd-tabs xsd-tabs-card">
+                <div class="height-container">
+                    {{#condition-search types=types}}{{/condition-search}}
+                </div>
+                <ul id="list_nav" class="xsd-clearfix xsd-nav-tabs">
+                    <li class="active z-index2" id="owner-list" onclick={{action "tabs" 1}}><a data-toggle="tab" data-href="#owner-bill">业主清单</a></li>
+                    <li class="z-index1" id="renter-list" onclick={{action "tabs" 0}}><a data-toggle="tab" data-href="#renter-bill">租客清单</a></li>
+                </ul>
+                <div class="xsd-tab-content">
+                    {{#if (eq "1" condition)}}
+                    <div id="owner-bill" class="active xsd-tab-pane">
+                        <div class="nav">
+                            <div class="xsd-pull-left">
+                                <span>{{auth.user.company_brand}}业主列表</span>
+                                <i>所有业主:<b class="xsd-color-primary">{{model.meta.countinfos.totalnum}}</b>人</i>
+                                <i>托管中:<b class="xsd-color-primary">{{model.meta.countinfos.activenum}}</b>人</i>
+                            </div>
+                            <div class="xsd-pull-right">
+                                {{#if auth.e_power.reports_lcf_exp}}
+                                <a class="xsd-btn xsd-btn-primary"
+                                   href="{{config.apiUrl1}}bills/download?token={{auth.authToken.access_token}}&condition={{condition}}&start_date={{start_date}}&end_date={{end_date}}&contract_start_date={{contract_start_date}}&contract_end_date={{contract_end_date}}&status={{status}}">导出报表</a>
+                                {{/if}}
+                            </div>
+                        </div>
+                      {{#if model}}
+                          <div class="table-scroll">
+                              <table border="1">
+                                  <thead>
+                                  <tr>
+                                      <th>序号</th>
+                                      <th>合同状态</th>
+                                      <th class="mergeColumns">房源信息</th>
+                                      <th>业主姓名</th>
+                                      <th>联系方式</th>
+                                      <th>托管时长</th>
+                                      <th>创建时间</th>
+                                      <th>开始时间</th>
+                                      <th>到期时间</th>
+                                      <th>支付方式</th>
+                                      <th>月租金</th>
+                                      <th>押金</th>
+                                      <th>续租次数</th>
+                                      <th>退租时间</th>
+                                      <th>退租类型</th>
+                                      <th>实际入住周期</th>
+                                  </tr>
+                                  </thead>
+                                  <tbody class="xsd-color-gray">
+                                  {{#each model as |owner index|}}
+                                      <tr>
+                                          <td>{{index}}</td>
+                                          <td>{{owner.status}}</td>
+                                          <td class="mergeColumns">{{owner.location}}</td>
+                                          <td>{{owner.ownerName}}</td>
+                                          <td>
+                                            {{#if owner.ownerPhone}}
+                                              {{owner.ownerPhone}}
+                                            {{else}}
+                                                暂无
+                                            {{/if}}
+                                          </td>
+                                          <td>{{owner.durationTime}}</td>
+                                          <td>{{owner.createdTime}}</td>
+                                          <td>{{owner.startTime}}</td>
+                                          <td>{{owner.endTime}}</td>
+                                          <td>{{owner.payMethod}}</td>
+                                          <td>{{owner.rentAmount}}</td>
+                                          <td>{{owner.depositAmount}}</td>
+                                          <td>{{owner.renewTimes}}</td>
+                                          <td>
+                                            {{#if owner.unrentTime}}
+                                              {{owner.unrentTime}}
+                                            {{else}}
+                                                -
+                                            {{/if}}
+                                          </td>
+                                          <td>
+                                            {{#if owner.unrentStatus}}
+                                              {{owner.unrentStatus}}
+                                            {{else}}
+                                                -
+                                            {{/if}}
+                                          </td>
+                                          <td>
+                                            {{#if owner.inDays}}
+                                              {{owner.inDays}}
+                                            {{else}}
+                                                -
+                                            {{/if}}
+                                          </td>
+                                      </tr>
+                                  {{/each}}
+                                  </tbody>
+                              </table>
+                          </div>
+                      {{else}}
+                          <div id="xsd-noResult">
+                            {{#if (data-exist condition start_date end_date contract_start_date contract_end_date status)}}
+                                <p><i class="iconfont"><img class="xsd-imgWidth" src="images/report.png"></i></p>
+                                <p>没有找到相关报表</p>
+                            {{/if}}
+                          </div>
+                      {{/if}}
+                        <div id="pagination">
+                          {{#if (gt model.meta.pagination.count  12)}}
+                            {{page-numbers content=model}}
+                          {{/if}}
+                        </div>
+                    </div>
+                    {{else}}
+                    <div id="renter-bill" class="active xsd-tab-pane">
+                        <div class="nav">
+                            <div class="xsd-pull-left">
+                                <span>{{auth.user.company_brand}}租客列表</span>
+                                <i>所有租客:<b class="xsd-color-primary">{{model.meta.countinfos.totalnum}}</b>人</i>
+                                <i>托管中:<b class="xsd-color-primary">{{model.meta.countinfos.activenum}}</b>人</i>
+                            </div>
+                            <div class="xsd-pull-right">
+                                {{#if auth.e_power.reports_lcf_exp}}
+                                <a class="xsd-btn xsd-btn-primary"
+                                   href="{{config.apiUrl1}}bills/download?token={{auth.authToken.access_token}}&condition={{condition}}&start_date={{start_date}}&end_date={{end_date}}&contract_start_date={{contract_start_date}}&contract_end_date={{contract_end_date}}&status={{status}}">导出报表</a>
+                                {{/if}}
+                            </div>
+                        </div>
+                      {{#if model}}
+                          <div class="table-scroll">
+                              <table border="1">
+                                  <thead>
+                                  <tr>
+                                      <th>序号</th>
+                                      <th>合同状态</th>
+                                      <th class="mergeColumns">房间信息</th>
+                                      <th>租客姓名</th>
+                                      <th>联系方式</th>
+                                      <th>租约时长</th>
+                                      <th>创建时间</th>
+                                      <th>开始时间</th>
+                                      <th>到期时间</th>
+                                      <th>支付方式</th>
+                                      <th>月租金</th>
+                                      <th>押金</th>
+                                      <th>续租次数</th>
+                                      <th>退租时间</th>
+                                      <th>退租类型</th>
+                                      <th>实际入住周期</th>
+                                  </tr>
+                                  </thead>
+                                  <tbody class="xsd-color-gray">
+                                  {{#each model as |customer index|}}
+                                      <tr>
+                                          <td>{{index}}</td>
+                                          <td>{{customer.status}}</td>
+                                          <td class="mergeColumns">{{customer.locationRoom}}</td>
+                                          <td>{{customer.customerName}}</td>
+                                          <td>
+                                            {{#if customer.customerPhone}}
+                                              {{customer.customerPhone}}
+                                            {{else}}
+                                                暂无
+                                            {{/if}}
+                                          </td>
+                                          <td>{{customer.durationTime}}</td>
+                                          <td>{{customer.createdTime}}</td>
+                                          <td>{{customer.startTime}}</td>
+                                          <td>{{customer.endTime}}</td>
+                                          <td>{{customer.payMethod}}</td>
+                                          <td>{{customer.rentAmount}}</td>
+                                          <td>{{customer.depositAmount}}</td>
+                                          <td>{{customer.renewTimes}}</td>
+                                          <td>
+                                            {{#if customer.unrentTime}}
+                                              {{customer.unrentTime}}
+                                            {{else}}
+                                                -
+                                            {{/if}}
+                                          </td>
+                                          <td>
+                                            {{#if customer.unrentStatus}}
+                                              {{customer.unrentStatus}}
+                                            {{else}}
+                                                -
+                                            {{/if}}
+                                          </td>
+                                          <td>
+                                            {{#if customer.inDays}}
+                                              {{customer.inDays}}
+                                            {{else}}
+                                                -
+                                            {{/if}}
+                                          </td>
+                                      </tr>
+                                  {{/each}}
+                                  </tbody>
+                              </table>
+                          </div>
+                      {{else}}
+                          <div id="xsd-noResult">
+                            {{#if (data-exist condition start_date end_date contract_start_date contract_end_date status)}}
+                                <p><i class="iconfont"><img class="xsd-imgWidth" src="images/report.png"></i></p>
+                                <p>没有找到相关报表</p>
+                            {{/if}}
+                          </div>
+                      {{/if}}
+                        <div id="pagination">
+                          {{#if (gt model.meta.pagination.count  12)}}
+                            {{page-numbers content=model}}
+                          {{/if}}
+                        </div>
+
+                    </div>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+    </div>
+{{/page-waper}}

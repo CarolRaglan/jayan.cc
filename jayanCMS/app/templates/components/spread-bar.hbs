@@ -1,0 +1,112 @@
+<div id="spread-bar">
+  {{#if  (eq type 'rent')}}
+          <h2>小区筛选</h2>
+          <label class="xsd-input-group xsd-select xsd-margin-b16">
+              <i class="iconfont">&#xe63c;</i>
+              <input id="citySearch" class="xsd-input" type="text" data-value="" readonly placeholder="所在城市" onchange={{action "screen"}}>
+              <ul>
+                  <li data-value="">不限</li>
+                {{#each cityList as |city|}}
+                    <li data-value={{city.city}} onclick={{action "selectCity" "city" city.city "areas"}}>{{city.city}}</li>
+                {{/each}}
+              </ul>
+          </label>
+          <label class="xsd-input-group xsd-select">
+              <i class="iconfont">&#xe63c;</i>
+              <input id="district" class="xsd-input" type="text" value={{district}} readonly placeholder="所在区域" onchange={{action "screen"}}>
+              <ul>
+                <li data-value="">不限</li>
+                {{#each areas as |area|}}
+                    <li data-value={{area.district}} onclick={{action "selectArea" "district" area.district "districts"}}
+                          >{{area.district}}</li>
+                {{/each}}
+              </ul>
+          </label>
+          <label class="xsd-input-group xsd-select">
+              <i class="iconfont">&#xe63c;</i>
+              <input id="block" class="xsd-input" type="text" value={{block}} readonly placeholder="所在板块" onchange={{action "screen"}}>
+              <ul>
+                <li data-value="">不限</li>
+                {{#each districts as |district|}}
+                    <li data-value={{district.block}} onclick={{action "selectArea" "block" district.block "blocks"}}
+                          >{{district.block}}</li>
+                {{/each}}
+              </ul>
+          </label>
+          <label class="xsd-input-group xsd-select xsd-margin-b16">
+              <i class="iconfont">&#xe63c;</i>
+              <input id="area" class="xsd-input" type="text" value={{area}} readonly placeholder="小区名称" onchange={{action "screen"}}>
+              <ul>
+                <li data-value="">不限</li>
+                {{#each blocks as |block|}}
+                    <li data-value={{block.area}} onclick={{action "selectArea" "area" block.area "houses"}} >{{block.area}}</li>
+                {{/each}}
+              </ul>
+          </label>
+          <label class="xsd-input-group xsd-select xsd-margin-b16">
+              <i class="iconfont">&#xe63c;</i>
+              <input id="house_id" class="xsd-input" type="text" data-value={{house_id}} value={{houseText}} readonly
+                     placeholder="楼栋门牌" onchange={{action "screen"}}>
+              <ul>
+                <li data-value="">不限</li>
+                {{#each houses as |house|}}
+                    <li data-value={{house.house_id}}>{{house.house_name}}</li>
+                {{/each}}
+              </ul>
+          </label>
+  {{/if}}
+  {{#if (eq type "rent")}}
+    {{#if (eq tips 'spread')}}
+            <label class="xsd-input-group xsd-select">
+                <i class="iconfont">&#xe63c;</i>
+                <input id="filter1" class="xsd-input" type="text" readonly placeholder="出租方式" onchange={{action "screen"}}>
+                <ul>
+                    <li data-value="">不限</li>
+                    <li data-value="true">整租</li>
+                    <li data-value="false">合租</li>
+                </ul>
+            </label>
+    {{else}}
+            <label class="xsd-input-group xsd-select">
+                <i class="iconfont">&#xe63c;</i>
+                <input id="filter1" class="xsd-input" type="text" data-value={{filter1}} value={{data-tips filter1}}
+                       readonly placeholder="状态" onchange={{action "screen"}}>
+                <ul>
+                    <li data-value="">不限</li>
+                    <li data-value="r_rented">已出租</li>
+                    <li data-value="r_empty">待出租</li>
+                    <li data-value="r_decorating">装修中</li>
+                </ul>
+            </label>
+            <label class="xsd-input-group xsd-select">
+                <i class="iconfont">&#xe63c;</i>
+                <input id="filter2" class="xsd-input" type="text" data-value={{filter2}} value={{data-tips filter2}}
+                       readonly placeholder="账单" onchange={{action "screen"}}>
+                <ul>
+                    <li data-value="">不限</li>
+                    <li data-value="ho_exceed">业主逾期账单</li>
+                    <li data-value="ro_exceed">租客逾期账单</li>
+                </ul>
+            </label>
+    {{/if}}
+  {{/if}}
+  {{#if navFlag}}
+    <label class="xsd-input-group xsd-select xsd-margin-b16">
+        <i class="iconfont">&#xe63c;</i>
+        <input class="xsd-input" id="s_house_type" type="text" data-value="" readonly placeholder="发房渠道" onchange={{action "screen"}}>
+        <ul>
+            <li data-value="">不限</li>
+            <li data-value="0">58渠道</li>
+            <li data-value="2">水滴</li>
+            <li data-value="3">平安</li>
+        </ul>
+    </label>
+  {{/if}}
+    <label class="xsd-input-group search">
+            {{input id="search" class="xsd-input" type="text" placeholder="搜索：小区名称"
+                   value=keyword enter=(action "screen") }}
+      <i class="iconfont xsd-icon-search" onclick={{action "screen"}}>&#xe618;</i>
+        </label>
+    <a class="xsd-btn reset btn-reset" type={{type}} tips={{tips}} onclick={{action "resetScreen"}}>重置</a>
+
+</div>

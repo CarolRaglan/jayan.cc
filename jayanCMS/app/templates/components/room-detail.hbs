@@ -1,0 +1,849 @@
+<div class="xsd-drawer house-room" id="roomDetail">
+    <div class="xsd-drawer-header">
+        <a class="xsd-modal-close iconfont">&#xe633;</a>
+        <a id="confirmRent-trigger" data-toggle="xsd-modal" data-target="#confirmRent"></a>
+    </div>
+    <div class="xsd-drawer-body">
+        <h2 class="xsd-margin-b16  xsd-font-size16">{{room.location}}</h2>
+        <p class="xsd-margin-b6 xsd-color-gray">{{room.house_address}}</p>
+        <p class="xsd-margin-b24 xsd-color-gray">
+            房间状态:{{room.room.status}}
+        </p>
+        <div class="xsd-tabs">
+            <ul class="xsd-clearfix xsd-nav-tabs">
+                <li class={{data-equal 1 index}}><a data-toggle="tab" data-href="#tab-1">房间详情</a></li>
+                {{#if auth.e_power.customer_contract_view}}
+                <li class={{data-equal 2 index}}><a data-toggle="tab" data-href="#tab-2">租房合同</a></li>
+                {{/if}}
+                {{#if auth.e_power.customer_order_view}}
+                <li class={{data-equal 3 index}}><a data-toggle="tab" data-href="#tab-3">租客账单</a></li>
+                {{/if}}
+              {{#if room.installment_order}}
+                  <li class={{data-equal 4 index}}><a data-toggle="tab" data-href="#tab-4">分期账单</a></li>
+              {{/if}}
+            </ul>
+            <div class="xsd-tab-content">
+                <div id="tab-1" class="{{data-equal 1 index}} xsd-tab-pane">
+                    <div class="tools">
+
+                      {{#if auth.e_power.landlord_house_editroom}}
+                        {{#if (eq editRoom false)}}
+                    <!--{#if auth.e_power.customer_room_edit}}-->
+                      <!--{#if (eq editRoom false)}}-->
+                            <a onclick={{action "edit" "room"}}>编辑</a>
+                          {{else}}
+                            <a onclick={{action "saveRoom" room.room.id}}>保存</a>
+                        {{/if}}
+                      {{/if}}
+                    </div>
+
+                    {{#if auth.e_power.landlord_house_delroom}}
+                        <div class="tools" id="house_detail_del">
+                            <a data-toggle="xsd-modal" data-target="#deleteRoom">删除</a>
+                        </div>
+                    {{/if}}
+
+                    <h3 class="xsd-margin-b24 roomInf"><span></span>房间信息</h3>
+                  {{#if refresh}}
+                    {{#if editRoom}}
+                        <div id="edit_room_form">
+                            <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+                                <span class="xsd-pull-left">房间名称</span>
+                                <input class="xsd-input xsd-pull-left" id="d_room_name" name="d_room_name" title="房间名称"
+                                       validate="required" type="text" value={{room.room.name}}>
+                            </div>
+                            <!--<a class="xsd-btn xsd-btn-primary editBtn" onclick={action "saveRoom" room.room.id}}>确定</a>-->
+                        </div>
+                    {{else}}
+                        <div class="xsd-input-group xsd-clearfix xsd-margin-b12">
+                            <span class="xsd-pull-left">房间名称</span>
+                            <input class="xsd-input xsd-pull-left xsd-noborder" disabled type="text"
+                                   value={{room.room.name}}>
+                        </div>
+                    {{/if}}
+                  {{/if}}
+                  {{#if room.contract.customer_name}}
+                      <h3 class="xsd-margin-b24 roomInf"><span class="green"></span>出租情况</h3>
+                      <p class="xsd-margin-b12 xsd-clearfix renter-item">
+                          <span class="xsd-pull-left">租客:{{room.contract.customer_name}}</span>
+                          <b class="xsd-pull-left">实际入住周期：{{room.contract.start_time}}至{{room.contract.end_time}}</b>
+                          <span class="xsd-pull-left">在租</span>
+                      </p>
+                  {{/if}}
+                  {{#if room.smart_device}}
+                      <h3 class="xsd-margin-b24 roomInf"><span class="blue"></span>智能设备</h3>
+                    {{#each room.smart_device as |device|}}
+                        <div class="xsd-margin-b12 xsd-clearfix">
+                            <span class="xsd-pull-left">设备编号</span>
+                            <b class="xsd-pull-left">{{device.name}}</b>
+                        </div>
+                        <div class="xsd-margin-b12 xsd-clearfix">
+                            <span class="xsd-pull-left">设备类型</span>
+                            <b class="xsd-pull-left">
+                              {{#if (eq device.style 1)}}
+                                  集中器
+                              {{else}}
+                                  智能电表
+                              {{/if}}
+                            </b>
+                        </div>
+                        <div class="xsd-margin-b12 xsd-clearfix">
+                            <span class="xsd-pull-left">设备状态</span>
+                            <b class="xsd-pull-left">
+                              {{#if (eq device.status 0)}}
+                                  已断电
+                              {{else}}
+                                  通电中
+                              {{/if}}
+                            </b>
+                        </div>
+                        <div class="xsd-margin-b12 xsd-clearfix">
+                            <span class="xsd-pull-left">实时读数</span>
+                            <b class="xsd-pull-left">{{device.num}}度</b>
+                        </div>
+                        <div class="xsd-margin-b12 xsd-clearfix">
+                            <span class="xsd-pull-left">当前预付费余额</span>
+                            <b class="xsd-pull-left">{{device.prepayment_money}}元</b>
+                        </div>
+                    {{/each}}
+                  {{/if}}
+                    <h3 class="xsd-margin-b24 roomInf"><span class="blue"></span>房间备注</h3>
+                  {{#if editRoom}}
+                      <textarea name="" cols="20" rows="3" id="roomNoteEdit" onfocus={{action "roomNotes"}} onkeyup={{action "wordLimit"}}>{{#if (or (eq room.room.remark null) (eq room.room.remark ""))}}房间备注（100字以内）{{else}}{{room.room.remark}}{{/if}}</textarea>
+                  {{else}}
+                      <div id="roomNote">
+                          {{room.room.remark}}
+                      </div>
+                  {{/if}}
+                </div>
+                <div id="tab-2" class="{{data-equal 2 index}} xsd-tab-pane panel-tiny">
+                  {{#if contractDetail}}
+                    <div class="xsd-clearfix xsd-margin-b12">
+                      <a id="backContract" class="xsd-color-primary xsd-pull-left" onclick={{action "lookBack" "historyContract"}}>返回上一级</a>
+                      <a class="xsd-color-primary  xsd-pull-right xsd-margin-l12" data-toggle="xsd-modal"
+                         data-target="#printContract" onclick={{action "cloneContract"}}>打印</a>
+                      {{#if auth.e_power.customer_contract_del}}
+                          <a data-toggle="xsd-modal" data-target="#deleteContract" class="xsd-color-primary xsd-pull-right"
+                             onclick={{action "deleteContract" historyContract.id historyContract.room}}>删除</a>
+                      {{/if}}
+                    </div>
+                    {{panel-contract contract=historyContract}}
+                  {{else}}
+                    <h3 class="title-primary">生效合同</h3>
+                    {{#if (eq room.room.room_rent "rented")}}
+                      <div class="bar">
+                        <label>
+                          <em>{{room.contract.customer_name}}</em>
+                          <span>（合同周期：{{room.contract.start_time}}到{{room.contract.end_time}}）</span>
+                        </label>
+                        {{#if auth.e_power.customer_contract_renew}}
+                          {{#unless room.contract.is_loan}}
+                            {{#if room.contract.can_renew}}
+                              <a data-toggle="xsd-modal" data-target="#rentalRoom"
+                                 onclick={{action "editContract" room.room.id}}>续租</a>
+                            {{else}}
+                              <a onclick={{action "renew"}}>续租</a>
+                            {{/if}}
+                          {{/unless}}
+                        {{/if}}
+
+                        {{#if auth.e_power.customer_contract_evict}}
+                          {{#if (eq room.contract.un_confirm_order_num 0)}}
+                            <a onclick={{action "cancel" room.contract.id false}}>退租</a>
+                          {{else}}
+                            <a onclick={{action "cancel" room.contract.id true}}>退租</a>
+                          {{/if}}
+                        {{/if}}
+
+                        {{#if auth.e_power.customer_contract_del}}
+                          {{#unless room.contract.is_loan}}
+                            <a data-toggle="xsd-modal" data-target="#deleteContract"
+                               onclick={{action "deleteContract" room.contract.id room.room.id}}>删除</a>
+                          {{/unless}}
+                        {{/if}}
+
+                        {{#if auth.e_power.customer_contract_edit}}
+                          {{#unless room.contract.is_loan}}
+                            <a data-toggle="xsd-modal" data-target="#rental-contract-customer-edit"
+                               onclick={{action "editContract" room.room.id}}>编辑</a>
+                          {{/unless}}
+                        {{/if}}
+
+                        <a class="" data-toggle="xsd-modal" data-target="#printContract"
+                           onclick={{action "cloneContract"}}>打印</a>
+                        {{#if (or (eq room.contract.signed 1) (eq room.contract.signed 2))}}
+                          <a data-toggle="xsd-modal" data-target="#protocol-img" onclick={{action "getProtocolData" room.contract.id}}>预览</a>
+                        {{/if}}
+                      </div>
+                      {{panel-contract contract=room.contract switchType=(action 'switchChargeType') smartDevices=room.smart_device}}
+
+                    {{else}}
+                      <img src="../images/contract.png" class="img-block">
+                      <p class="xsd-margin-b24 xsd-text-center xsd-color-gray">暂无生效合同
+                        {{#if room.isStop}}
+                          <i class="xsd-color-red">停用中不能录入合同</i>
+                        {{else if auth.e_power.customer_contract_create}}
+                          ,<a data-toggle="xsd-modal" data-target="#rentalRoom"
+                              onclick={{action "refresh" "refreshRoom"}}>去录入租客合同</a>
+                        {{/if}}
+                      </p>
+                    {{/if}}
+                    <h3 class="title-success">历史合同</h3>
+                    <ul class="list-contract">
+                      {{#each room.contract.history as |it|}}
+                        <li>
+                          <span class="prior">{{it.customer_name}}</span>
+                          <span>（退租时间：{{it.end_time}}）</span>
+                          {{#if auth.e_power.customer_contract_view}}
+                            <a {{action "getRoomContract" it.contract_id}}>查看详情</a>
+                          {{/if}}
+                        </li>
+                      {{/each}}
+                    </ul>
+                  {{/if}}
+
+                </div>
+
+                <div id="tab-3" class="{{data-equal 3 index}} xsd-tab-pane">
+                  {{#if (eq room.room.room_rent "rented")}}
+                      <div id="house_order_list">
+                        {{#if order_detail}}
+                          {{view "order/edit" orderDetail=orderDetail order_edit=order_edit payType=payType}}
+                        {{else}}
+                          {{#if auth.e_power.customer_order_add}}
+                            {{#if room.orders.warning}}
+                            <div class="xsd-total-pay">
+                                <i class="icon iconfont icon-xsdjinggao"></i>{{room.orders.warning}}
+                            </div>
+                            {{/if}}
+                            <div class="tools">
+                                <a {{action 'addBill' room.id}}>添加账单</a>
+                            </div>
+                          {{/if}}
+                            <h3 class="xsd-margin-b12 xsd-font-size16 color_4d">待处理账单</h3>
+                            <div class="divide-table xsd-clearfix xsd-margin-b24">
+                                <ul class="divide-title divide-title1">
+                                    <li>账单周期</li>
+                                    <li>账单状态</li>
+                                    <li>账单金额</li>
+                                    <li>应收租日期</li>
+                                    <li>操作</li>
+                                </ul>
+                                <ul class="divide-tbody xsd-clearfix">
+                                  {{#each room.orders.unpaid as |unpaid|}}
+                                      <li class="divide-list xsd-color-gray">
+                                          <ul class="xsd-font-size12 divide-list1">
+                                              <li>{{unpaid.start_time}} - {{unpaid.end_time}}</li>
+                                            {{#if (eq unpaid.ought_pay_status 3)}}
+                                                <li class="xsd-color-red">已逾期</li>
+                                            {{else}}
+                                                <li>待支付</li>
+                                            {{/if}}
+                                              <li><b class="xsd-color-primary">{{unpaid.rent_utilities}}</b>&nbsp;元</li>
+                                              <li>{{unpaid.ought_pay_time}}</li>
+                                              <li>
+                                                {{#if auth.e_power.customer_order_view}}
+                                                    <a class="xsd-color-primary "
+                                                       onclick={{action "lookOrder" unpaid.id}}>查看</a>
+                                                {{/if}}
+                                                {{#if auth.e_power.customer_order_del}}
+                                                    <a class="xsd-color-primary" data-toggle="xsd-modal"
+                                                       data-target="#deleteOrder"
+                                                       onclick={{action "lookOrder" unpaid.id "roomorders" room.room.id}}>删除</a>
+                                                {{/if}}
+                                                {{#if auth.e_power.customer_order_edit}}
+                                                  {{#if unpaid.is_meter_need}}
+                                                      <a class="xsd-color-primary"
+                                                         onclick={{action "getRoomOrder" unpaid.id 1}}>抄表</a>
+                                                  {{/if}}
+                                                {{/if}}
+                                                {{#if auth.e_power.customer_order_send}}
+                                                    <a class="xsd-color-primary" data-toggle="xsd-modal"
+                                                       data-target="#sendOrder"
+                                                       onclick={{action "getRoomOrder" unpaid.id 0}}>催租</a>
+                                                {{/if}}
+                                                {{#if auth.e_power.customer_order_paid}}
+                                                    <a class="xsd-color-primary"
+                                                       onclick={{action "confirmRent" unpaid}}>确认收租</a>
+                                                {{/if}}
+                                              </li>
+                                          </ul>
+                                      </li>
+                                  {{/each}}
+                                </ul>
+                            </div>
+                            <h3 class="xsd-margin-b12 xsd-font-size16 color_4d">未来账单</h3>
+                            <div class="divide-table xsd-clearfix xsd-margin-b24">
+                                <ul class="divide-title divide-title2">
+                                    <li>账单周期</li>
+                                    <li>账单金额</li>
+                                    <li>应收租日期</li>
+                                    <li>操作</li>
+                                </ul>
+                                <ul class="divide-tbody xsd-clearfix">
+                                  {{#each room.orders.later as |later|}}
+                                      <li class="divide-list xsd-color-gray">
+                                          <ul class="xsd-font-size12 divide-list2">
+                                              <li>{{later.start_time}} - {{later.end_time}}</li>
+                                              <li><b class="xsd-color-primary">{{later.rent_utilities}}</b>&nbsp;元</li>
+                                              <li>{{later.ought_pay_time}}</li>
+                                              <li>
+                                                {{#if auth.e_power.customer_order_view}}
+	                                                <a class="xsd-color-primary "
+	                                                   onclick={{action "lookOrder" later.id}}>查看</a>
+                                                {{/if}}
+                                                {{#if auth.e_power.customer_order_del}}
+	                                                <a class="xsd-color-primary" data-toggle="xsd-modal"
+	                                                   data-target="#deleteOrder"
+	                                                   onclick={{action "lookOrder" later.id "roomorders" room.room.id}}>删除</a>
+                                                {{/if}}
+                                                {{#if auth.e_power.customer_order_edit}}
+                                                  {{#if later.is_meter_need}}
+		                                              <a class="xsd-color-primary" data-toggle="xsd-modal"
+		                                                 data-target="#readMeter"
+		                                                 onclick={{action "getRoomOrder" later.id 1}}>抄表</a>
+                                                  {{/if}}
+                                                {{/if}}
+                                                {{#if auth.e_power.customer_order_send}}
+	                                                <a class="xsd-color-primary" data-toggle="xsd-modal"
+	                                                   data-target="#sendOrder"
+	                                                   onclick={{action "getRoomOrder" later.id 0}}>催租</a>
+                                                {{/if}}
+                                                {{#if auth.e_power.customer_order_paid}}
+	                                                <a class="xsd-color-primary"
+	                                                   onclick={{action "confirmRent" later}}>确认收租</a>
+                                                {{/if}}
+                                              </li>
+                                          </ul>
+                                      </li>
+                                  {{/each}}
+                                </ul>
+                            </div>
+                            <h3 class="xsd-margin-b12 xsd-font-size16 color_4d">已处理账单</h3>
+                            <div class="divide-table xsd-clearfix xsd-margin-b24">
+                                <ul class="divide-title divide-title2">
+                                    <li>账单周期</li>
+                                    <li>账单金额</li>
+                                    <li>实收租日期</li>
+                                    <li>操作</li>
+                                </ul>
+                                <ul class="divide-tbody xsd-clearfix">
+                                  {{#each room.orders.paid as |paid|}}
+                                      <li class="divide-list xsd-color-gray">
+                                          <ul class="xsd-font-size12 divide-list2">
+                                              <li>{{paid.start_time}} - {{paid.end_time}}</li>
+                                              <li><b class="xsd-color-primary">{{paid.rent_utilities}}</b>&nbsp;元</li>
+                                              <li>{{paid.actual_pay_time_str}}</li>
+                                              <li>
+                                                {{#if auth.e_power.customer_order_view}}
+	                                                <a class="xsd-color-primary"
+	                                                   onclick={{action "lookOrder" paid.id}}>查看</a>
+                                                {{/if}}
+                                                {{#if auth.e_power.customer_order_del}}
+                                                  <a class="xsd-color-primary" data-toggle="xsd-modal"
+                                                     data-target="#deleteOrder"
+                                                     onclick={{action "lookOrder" paid.id "roomorders" room.room.id}}>删除</a>
+                                                {{/if}}
+                                              </li>
+                                          </ul>
+                                      </li>
+                                  {{/each}}
+                                </ul>
+                            </div>
+                        {{/if}}
+                      </div>
+                  {{else}}
+                      <h3 class="xsd-margin-b24">当前账单</h3>
+                      <p class="xsd-margin-b24 xsd-text-center xsd-color-gray">房源无在租合同,无需要处理的账单</p>
+                  {{/if}}
+                </div>
+              {{#if room.installment_order}}
+                  <div id="tab-4" class="{{data-equal 4 index}} xsd-tab-pane">
+                      <div class="divide-table margin-16">
+                          <ul class="divide-title">
+                              <li>账单周期</li>
+                              <li>账单状态</li>
+                              <li>账单金额</li>
+                              <li>应付款时间</li>
+                              <li>实际付款时间</li>
+                          </ul>
+                          <ul class="divide-tbody">
+                            {{#each room.installment_order as |order|}}
+
+                              {{#if (or (eq order.payment_flag 3) (eq order.payment_flag 1))}}
+                                  <li class="divide-list xsd-color-gray">
+                                      <ul>
+                                          <li>{{order.start_time}}至{{order.end_time}}</li>
+                                          <li>已支付</li>
+                                          <li>{{order.repayment}}元</li>
+                                          <li>{{order.due_date}}</li>
+                                          <li>{{order.real_date}}</li>
+                                      </ul>
+                                  </li>
+                              {{/if}}
+                              {{#if (or (eq order.payment_flag 2) (eq order.payment_flag 0))}}
+                                  <li class="divide-list">
+                                      <ul>
+                                          <li>{{order.start_time}}至{{order.end_time}}</li>
+                                        {{#if (eq order.payment_flag 2)}}
+                                            <li class="xsd-color-red">已逾期</li>
+                                        {{/if}}
+                                        {{#if (eq order.payment_flag 0)}}
+                                            <li>待支付</li>
+                                        {{/if}}
+                                          <li><span class="xsd-color-primary">{{order.repayment}}</span>元</li>
+                                          <li>{{order.due_date}}</li>
+                                          <li>-</li>
+                                      </ul>
+                                  </li>
+                              {{/if}}
+
+                            {{/each}}
+                          </ul>
+                      </div>
+                  </div>
+              {{/if}}
+            </div>
+        </div>
+    </div>
+    <div class="xsd-drawer-bottom">
+    </div>
+</div>
+
+
+<div class="xsd-modal" id="powerModifyToggler" >
+        <div class="xsd-modal-header xsd-margin-b24">
+            <span class="xsd-font-size16 xsd-font-tit">更改计费方式</span><a class="xsd-modal-close iconfont">&#xe633;</a>
+        </div>
+        <div class="xsd-modal-body xsd-pre-pay">
+            <h1>计费方式</h1>
+            <input id="prepayment" value="按预付费计算" disabled name=""/>
+            <h1>电费单价</h1>
+            <input id="eletr" placeholder="请输入电费单价" />
+            <a id="xsd-server-ag" onclick={{action "prePayMent" room.room.id}}>保 存</a>
+        </div>
+</div>
+
+
+<div class="xsd-modal delete-modal xsd-md-modal" id="deleteRoom">
+    <div class="xsd-modal-header xsd-margin-b24">
+        <span class="xsd-font-size16">删除房间</span><a class="xsd-modal-close iconfont">&#xe633;</a>
+    </div>
+
+        {{#if (eq room.room.room_rent "rented")}}
+            <div class="xsd-modal-body xsd-margin-b24 notice">
+                <p class="xsd-margin-124">该房间正在出租中，请先完成退租后再删除！</p>
+            </div>
+            <div class="xsd-modal-bottom">
+                <div class="xsd-clearfix">
+                    <a class="xsd-btn xsd-btn-primary xsd-modal-close xsd-pull-right">好的</a>
+                </div>
+            </div>
+          {{else}}
+          {{#if (eq room.room.room_rent "empty")}}
+            {{#if room.smart_device}}
+              <div class="xsd-modal-body xsd-margin-b24 notice">
+                  <p class="xsd-margin-124">该房间有已绑定智能电表，请先解绑后再删除！</p>
+              </div>
+              <div class="xsd-modal-bottom">
+                  <div class="xsd-clearfix">
+                      <a class="xsd-btn xsd-btn-primary xsd-modal-close xsd-pull-right">好的</a>
+                  </div>
+              </div>
+
+            {{else}}
+              <div class="xsd-modal-body xsd-margin-b24 notice">
+                  <p class="xsd-margin-124">你是否确认要删除该房间？</p>
+              </div>
+              <div class="xsd-modal-bottom">
+                  <div class="xsd-clearfix">
+                      <a class="xsd-btn xsd-btn-primary xsd-pull-right" onclick={{action "delRoom" room.room.id}}>确定</a>
+                      <a class="xsd-btn xsd-btn-gray xsd-modal-close xsd-pull-right">取消</a>
+                      <label><input type="checkbox" id="deleteMoneyFlow">同时删除该房间的支出流水</label>
+                  </div>
+              </div>
+          {{/if}}
+        {{/if}}
+    {{/if}}
+
+</div>
+
+<!--打印合同-->
+<div class="xsd-modal xsd-md-modal" id="printContract">
+    <div class="xsd-modal-header xsd-margin-b24">
+        <a class="xsd-modal-close iconfont" onclick={{action "resetCon"}}>&#xe633;</a>
+    </div>
+    <div class="contractBox panel-tiny">
+        <div class="head">合同</div>
+        <div id="printContract-con"></div>
+    </div>
+    <a class="print-btn" onclick={{action "printContract"}}>打印</a>
+</div>
+
+
+<!--打印账单合同-->
+{{#if order_detail}}
+    <div class="xsd-modal xsd-md-modal" id="printBill">
+        <div class="xsd-modal-header">
+            <a class="xsd-modal-close iconfont">&#xe633;</a>
+        </div>
+        <div id="billBox">
+            <div class="head">账单</div>
+            <div class="bill-list">房间信息:{{orderDetail.address}}</div>
+            <div class="bill-list">账单周期:{{orderDetail.start_time}}-{{orderDetail.end_time}}</div>
+            <div class="bill-list xsd-clearfix">
+            <span class="xsd-pull-left">
+              {{#if orderDetail.customer_name}}
+                  租客姓名:{{orderDetail.customer_name}}
+              {{else}}
+                  业主姓名:{{orderDetail.owner_name}}
+              {{/if}}
+            </span>
+                <span class="xsd-pull-right">应付款时间：{{orderDetail.ought_pay_time}}</span>
+            </div>
+            <h3 class="xsd-clearfix"><span class="xsd-pull-left">费用名称</span><span class="xsd-pull-right">费用金额</span></h3>
+            <div class="bill-list-details">
+              {{#if orderDetail.amount}}
+                  <div class="bill-list xsd-clearfix"><span class="xsd-pull-left">房屋租金</span><span class="xsd-pull-right"><b
+                          class="xsd-color-primary">{{orderDetail.amount}}</b>元</span></div>
+              {{/if}}
+              {{#if orderDetail.deposit}}
+                  <div class="bill-list xsd-clearfix"><span class="xsd-pull-left">房屋押金</span><span class="xsd-pull-right"><b
+                          class="xsd-color-primary">{{orderDetail.deposit}}</b>元</span></div>
+              {{/if}}
+              {{#if orderDetail.old_deposit}}
+                  <div class="bill-list xsd-clearfix"><span class="xsd-pull-left">原房屋押金</span><span class="xsd-pull-right"><b
+                          class="xsd-color-primary">-{{orderDetail.old_deposit}}</b>元</span></div>
+              {{/if}}
+              {{#if orderDetail.water_fees}}
+                  <div class="bill-list xsd-clearfix"><span class="xsd-pull-left">水费</span><span class="xsd-pull-right"><b
+                          class="xsd-color-primary">{{orderDetail.water_fees}}</b>元</span></div>
+              {{/if}}
+              {{#if orderDetail.power_fees}}
+                  <div class="bill-list xsd-clearfix"><span class="xsd-pull-left">电费</span><span class="xsd-pull-right"><b
+                          class="xsd-color-primary">{{orderDetail.power_fees}}</b>元</span></div>
+
+              {{/if}}
+              {{#if orderDetail.gas_fees}}
+                  <div class="bill-list xsd-clearfix"><span class="xsd-pull-left">燃气费</span><span class="xsd-pull-right"><b
+                          class="xsd-color-primary">{{orderDetail.gas_fees}}</b>元</span></div>
+              {{/if}}
+              {{#if orderDetail.property_fees}}
+                  <div class="bill-list xsd-clearfix"><span class="xsd-pull-left">物业费</span><span class="xsd-pull-right"><b
+                          class="xsd-color-primary">{{orderDetail.property_fees}}</b>元</span></div>
+              {{/if}}
+              {{#if orderDetail.service_fees}}
+                  <div class="bill-list xsd-clearfix"><span class="xsd-pull-left">服务费</span><span class="xsd-pull-right"><b
+                          class="xsd-color-primary">{{orderDetail.service_fees}}</b>元</span></div>
+              {{/if}}
+              {{#if orderDetail.cleaning_fees}}
+                  <div class="bill-list xsd-clearfix"><span class="xsd-pull-left">保洁费</span><span class="xsd-pull-right"><b
+                          class="xsd-color-primary">{{orderDetail.cleaning_fees}}</b>元</span></div>
+              {{/if}}
+              {{#if orderDetail.upkeep_fees}}
+                  <div class="bill-list xsd-clearfix"><span class="xsd-pull-left">维修费</span><span class="xsd-pull-right"><b
+                          class="xsd-color-primary">{{orderDetail.upkeep_fees}}</b>元</span></div>
+              {{/if}}
+              {{#if orderDetail.material_fees}}
+                  <div class="bill-list xsd-clearfix"><span class="xsd-pull-left">材料费</span><span class="xsd-pull-right"><b
+                          class="xsd-color-primary">{{orderDetail.material_fees}}</b>元</span></div>
+              {{/if}}
+              {{#if orderDetail.catv_fees}}
+                  <div class="bill-list xsd-clearfix"><span class="xsd-pull-left">电视费</span><span class="xsd-pull-right"><b
+                          class="xsd-color-primary">{{orderDetail.catv_fees}}</b>元</span></div>
+              {{/if}}
+              {{#if orderDetail.internet_fees}}
+                  <div class="bill-list xsd-clearfix"><span class="xsd-pull-left">宽带费</span><span class="xsd-pull-right"><b
+                          class="xsd-color-primary">{{orderDetail.internet_fees}}</b>元</span></div>
+              {{/if}}
+              {{#if orderDetail.sanitation_fees}}
+                  <div class="bill-list xsd-clearfix"><span class="xsd-pull-left">卫生费</span><span class="xsd-pull-right"><b
+                          class="xsd-color-primary">{{orderDetail.sanitation_fees}}</b>元</span></div>
+              {{/if}}
+              {{#if orderDetail.free_fees}}
+                  <div class="bill-list xsd-clearfix"><span class="xsd-pull-left">优惠费</span><span class="xsd-pull-right"><b
+                          class="xsd-color-primary">{{orderDetail.free_fees}}</b>元</span></div>
+              {{/if}}
+              {{#if orderDetail.free_fees}}
+                  <div class="bill-list xsd-clearfix"><span class="xsd-pull-left">其他费</span><span class="xsd-pull-right"><b
+                          class="xsd-color-primary">{{orderDetail.other_fees}}</b>元</span></div>
+              {{/if}}
+
+
+            </div>
+            <h3 class="xsd-clearfix"><span class="xsd-pull-left">费用总计</span><span class="xsd-pull-right">{{orderDetail.rent_utilities}}元</span></h3>
+            <div class="bill-list xsd-clearfix">
+            <span class="xsd-pull-left">账单状态:
+              {{#if (eq orderDetail.pay_status 0)}}
+                  待支付
+              {{/if}}
+              {{#if (eq orderDetail.pay_status 1)}}
+                  已支付
+              {{/if}}
+              {{#if (eq orderDetail.pay_status 2)}}
+                  延期
+              {{/if}}
+              {{#if (eq orderDetail.pay_status 3)}}
+                  已取消
+              {{/if}}
+              {{#if (eq orderDetail.pay_status 4)}}
+                  已退回
+              {{/if}}
+            </span>
+                <span class="xsd-pull-right">
+                  {{#if orderDetail.actual_pay_time}}
+                      付款日期：{{orderDetail.actual_pay_time}}
+
+                  {{else}}
+                      付款日期：------
+
+                  {{/if}}
+                </span>
+            </div>
+            <div class="bill-list xsd-clearfix">
+              {{#if (eq orderDetail.pay_status 0)}}
+                      <span class="xsd-pull-left">付款方式:------</span>
+              {{else}}
+                    <span class="xsd-pull-left">付款方式:
+
+                      {{#if (eq orderDetail.pay_method "alipay")}}
+                          支付宝
+                      {{/if}}
+                      {{#if (eq orderDetail.pay_method "dida")}}
+                          滴答付
+                      {{/if}}
+                      {{#if (eq orderDetail.pay_method "weixin")}}
+                          微信
+                      {{/if}}
+                      {{#if (eq orderDetail.pay_method "cash")}}
+                          现金
+                      {{/if}}
+                      {{#if (eq orderDetail.pay_method "bank")}}
+                          转账
+                      {{/if}}
+                      {{#if (eq orderDetail.pay_method "system")}}
+                          系统标记为已支付
+                      {{/if}}
+                      {{#if (eq orderDetail.pay_method "pos")}}
+                          线下POS
+                      {{/if}}
+                      {{#if (eq orderDetail.pay_method "h2ome")}}
+                          水滴金融
+                      {{/if}}
+                      {{#if (eq orderDetail.pay_method "llian")}}
+                          连连支付
+                      {{/if}}
+                      {{#if (eq orderDetail.pay_method "other")}}
+                          其他
+                      {{/if}}
+                    </span>
+             {{/if}}
+            </div>
+        </div>
+        <a class="print-btn" onclick={{action "printBill"}}>打印</a>
+    </div>
+{{/if}}
+
+<!--查看账单日志-->
+<style>
+  .billing-history {
+    padding: 0 25px;
+  }
+  .billing-history h3 {
+    padding-left: 10px;
+    font-size: 20px;
+    color: #4e5b66;
+  }
+  .billing-history .blue-title-border {
+    border-left: 4px solid #59acff;
+  }
+</style>
+
+<div class="xsd-modal" id="view-billing-history">
+  <div class="xsd-modal-header">
+    <span class="xsd-font-size16"></span><a class="xsd-modal-close iconfont">&#xe633;</a>
+  </div>
+  <div class="xsd-modal-body xsd-clearfix">
+    <div class="billing-history">
+      <h3 class="xsd-margin-b24 blue-title-border">账单日志</h3>
+      <div id="renter-log">
+        <table>
+          <thead>
+          <tr>
+            <th>时间</th>
+            <th>原值</th>
+            <th>新值</th>
+            <th>操作人</th>
+          </tr>
+          </thead>
+          <tbody>
+          {{#each orderDetail.order_log as |orderLog|}}
+            <tr>
+              <td>{{orderLog.operate_at}}</td>
+              <td>
+                {{#if orderLog.old.pay_status }}
+                  <p>支付状态：{{orderLog.old.pay_status}}</p>
+                {{/if}}
+                {{#if orderLog.old.order_date }}
+                  <p>账单周期：{{orderLog.old.order_date}}</p>
+                {{/if}}
+                {{#if orderLog.old.ought_pay_time }}
+                  <p>应收款日期：{{orderLog.old.ought_pay_time}}</p>
+                {{/if}}
+                {{#if orderLog.old.amount }}
+                  <p>租金：{{orderLog.old.amount}}</p>
+                {{/if}}
+                {{#if orderLog.old.deposit }}
+                  <p>押金：{{orderLog.old.deposit}}</p>
+                {{/if}}
+                {{#if orderLog.old.water_fees }}
+                  <p>水费：{{orderLog.old.water_fees}}</p>
+                {{/if}}
+                {{#if orderLog.old.power_fees }}
+                  <p>电费：{{orderLog.old.power_fees}}</p>
+                {{/if}}
+                {{#if orderLog.old.gas_fees }}
+                  <p>燃气费：{{orderLog.old.gas_fees}}</p>
+                {{/if}}
+                {{#if orderLog.old.property_fees }}
+                  <p>物业费：{{orderLog.old.property_fees}}</p>
+                {{/if}}
+                {{#if orderLog.old.service_fees }}
+                  <p>服务费：{{orderLog.old.service_fees}}</p>
+                {{/if}}
+                {{#if orderLog.old.upkeep_fees }}
+                  <p>维修费：{{orderLog.old.upkeep_fees}}</p>
+                {{/if}}
+                {{#if orderLog.old.cleaning_fees }}
+                  <p>保洁费：{{orderLog.old.cleaning_fees}}</p>
+                {{/if}}
+                {{#if orderLog.old.material_fees }}
+                  <p>材料费：{{orderLog.old.material_fees}}</p>
+                {{/if}}
+                {{#if orderLog.old.catv_fees }}
+                  <p>有线电视：{{orderLog.old.catv_fees}}</p>
+                {{/if}}
+                {{#if orderLog.old.internet_fees }}
+                  <p>宽带：{{orderLog.old.internet_fees}}</p>
+                {{/if}}
+                {{#if orderLog.old.sanitation_fees }}
+                  <p>卫生：{{orderLog.old.sanitation_fees}}</p>
+                {{/if}}
+                {{#if orderLog.old.other_fees }}
+                  <p>其他：{{orderLog.old.other_fees}}</p>
+                {{/if}}
+                {{#if orderLog.old.installment_rent }}
+                  <p>租金：{{orderLog.old.installment_rent}}</p>
+                {{/if}}
+                {{#if orderLog.old.installment_margin }}
+                  <p>保证租金：{{orderLog.old.installment_margin}}</p>
+                {{/if}}
+                {{#if orderLog.old.free_fees }}
+                  <p>服务费：{{orderLog.old.free_fees}}</p>
+                {{/if}}
+                {{#if orderLog.old.channel_fees }}
+                  <p>违约金：{{orderLog.old.channel_fees}}</p>
+                {{/if}}
+                {{#if orderLog.old.prepay_power_fees }}
+                  <p>优惠费：{{orderLog.old.prepay_power_fees}}</p>
+                {{/if}}
+                {{#if orderLog.old.installment_interest }}
+                  <p>通道费：{{orderLog.old.installment_interest}}</p>
+                {{/if}}
+                {{#if orderLog.old.installment_default }}
+                  <p>预付电费：{{orderLog.old.installment_default}}</p>
+                {{/if}}
+              </td>
+
+              <td>
+                {{#if orderLog.new.pay_status }}
+                  <p>支付状态：{{orderLog.new.pay_status}}</p>
+                {{/if}}
+                {{#if orderLog.new.order_date }}
+                  <p>账单周期：{{orderLog.new.order_date}}</p>
+                {{/if}}
+
+                {{#if orderLog.new.ought_pay_time }}
+                  <p>应收款日期：{{orderLog.new.ought_pay_time}}</p>
+                {{/if}}
+                {{#if orderLog.new.amount }}
+                  <p>租金：{{orderLog.new.amount}}</p>
+                {{/if}}
+                {{#if orderLog.new.deposit }}
+                  <p>押金：{{orderLog.new.deposit}}</p>
+                {{/if}}
+                {{#if orderLog.new.water_fees }}
+                  <p>水费：{{orderLog.new.water_fees}}</p>
+                {{/if}}
+                {{#if orderLog.new.power_fees }}
+                  <p>电费：{{orderLog.new.power_fees}}</p>
+                {{/if}}
+                {{#if orderLog.new.gas_fees }}
+                  <p>燃气费：{{orderLog.new.gas_fees}}</p>
+                {{/if}}
+                {{#if orderLog.new.property_fees }}
+                  <p>物业费：{{orderLog.new.property_fees}}</p>
+                {{/if}}
+                {{#if orderLog.new.service_fees }}
+                  <p>服务费：{{orderLog.new.service_fees}}</p>
+                {{/if}}
+                {{#if orderLog.new.upkeep_fees }}
+                  <p>维修费：{{orderLog.new.upkeep_fees}}</p>
+                {{/if}}
+                {{#if orderLog.new.cleaning_fees }}
+                  <p>保洁费：{{orderLog.new.cleaning_fees}}</p>
+                {{/if}}
+                {{#if orderLog.new.material_fees }}
+                  <p>材料费：{{orderLog.new.material_fees}}</p>
+                {{/if}}
+                {{#if orderLog.new.catv_fees }}
+                  <p>有线电视：{{orderLog.new.catv_fees}}</p>
+                {{/if}}
+                {{#if orderLog.new.internet_fees }}
+                  <p>宽带：{{orderLog.new.internet_fees}}</p>
+                {{/if}}
+                {{#if orderLog.new.sanitation_fees }}
+                  <p>卫生：{{orderLog.new.sanitation_fees}}</p>
+                {{/if}}
+                {{#if orderLog.new.other_fees }}
+                  <p>其他：{{orderLog.new.other_fees}}</p>
+                {{/if}}
+                {{#if orderLog.new.installment_rent }}
+                  <p>租金：{{orderLog.new.installment_rent}}</p>
+                {{/if}}
+                {{#if orderLog.new.installment_margin }}
+                  <p>保证租金：{{orderLog.new.installment_margin}}</p>
+                {{/if}}
+                {{#if orderLog.new.free_fees }}
+                  <p>服务费：{{orderLog.new.free_fees}}</p>
+                {{/if}}
+                {{#if orderLog.new.channel_fees }}
+                  <p>违约金：{{orderLog.new.channel_fees}}</p>
+                {{/if}}
+                {{#if orderLog.new.prepay_power_fees }}
+                  <p>优惠费：{{orderLog.new.prepay_power_fees}}</p>
+                {{/if}}
+                {{#if orderLog.new.installment_interest }}
+                  <p>通道费：{{orderLog.new.installment_interest}}</p>
+                {{/if}}
+                {{#if orderLog.new.installment_default }}
+                  <p>预付电费：{{orderLog.new.installment_default}}</p>
+                {{/if}}
+              </td>
+              <td>{{orderLog.operate_name}}</td>
+            </tr>
+          {{/each}}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{{#if (eq room.room.room_rent "rented")}}
+  {{protocol-img btn=false protocol=protocol}}
+{{/if}}
+
+<div class="hidden">
+  <a id="trigger-editCharge" data-toggle="xsd-modal" data-target="#dialog-editCharge"></a>
+</div>
+{{edit-charge info=powerChargeEditItem afterUpdate=(action 'afterPowerChargeUpdate')}}

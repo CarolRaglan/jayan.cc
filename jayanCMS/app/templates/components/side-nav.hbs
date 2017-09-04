@@ -1,0 +1,109 @@
+<div id="nav">
+    <div id="top" class="iconfont">
+        <img src="../images/logo_blue.png" alt="">
+    </div>
+    <ul id="center">
+        <li class={{data-menus "index"}}>
+          {{#link-to "index"}}
+              <p class="iconfont font-size22 xsd-clearfix"><i class="icon icon-xsdgeneralsituation xsd-font-size22"></i><span>概况</span></p>
+          {{/link-to}}
+        </li>
+        {{#if auth.e_power.crm_manage_view}}
+        <li class={{data-menus "work"}}>
+          {{#link-to "work"}}
+            <p class="iconfont font-size22 xsd-clearfix">&#xe6aa;<span>派单</span></p>
+          {{/link-to}}
+        </li>
+        {{/if}}
+      {{#if auth.e_power.base_view}}
+          <li id="separate-management_a" class={{data-menus "separate-management"}}>
+            {{#link-to "rental.separate-management"}}
+                <p class="iconfont xsd-clearfix">&#xe694;<span>租务</span></p>
+            {{/link-to}}
+          </li>
+      {{/if}}
+      {{#if auth.e_power.finance_manage_view}}
+          <li id="finance-index" class={{data-menus "finance"}}>
+            {{#link-to "finance.payment" (query-params orderby='-trade_at')}}
+                <p class="iconfont xsd-clearfix">&#xe68d;<span>账务</span></p>
+            {{/link-to}}
+          </li>
+      {{/if}}
+      {{#if auth.e_power.reports_view}}
+
+          <li id="nav-side-report" class={{data-menus "report"}}>
+
+            {{#if (eq auth.user.vip_level 1)}}
+              {{#link-to "report.day-report"}}
+                  <p class="iconfont xsd-clearfix">&#xe696;<span>报表</span></p>
+              {{/link-to}}
+            {{else}}
+              {{#link-to "report.report-ad"}}
+                  <p class="iconfont xsd-clearfix">&#xe696;<span>报表</span></p>
+              {{/link-to}}
+            {{/if}}
+          </li>
+      {{/if}}
+
+      {{#if (eq auth.user.role "boss")}}
+        {{#if (eq auth.user.vip_level 1)}}
+          <li id="nav-side-statistic" class={{data-menus "statistic"}}>
+            {{#link-to "statistic.operation"}}
+              <p class="iconfont xsd-clearfix">&#xe6ba;<span>统计</span></p>
+            {{/link-to}}
+          </li>
+        {{else}}
+          <li id="nav-side-statistic" class={{data-menus "statistic"}}>
+            {{#link-to "statistic.ad"}}
+              <p class="iconfont xsd-clearfix">&#xe6ba;<span>统计</span></p>
+            {{/link-to}}
+          </li>
+        {{/if}}
+      {{else if auth.e_power.statistics_view}}
+        {{#if (eq auth.user.vip_level 1)}}
+          <li id="nav-side-statistic" class={{data-menus "statistic"}}>
+            {{#link-to "statistic.operation"}}
+              <p class="iconfont xsd-clearfix">&#xe6ba;<span>统计</span></p>
+            {{/link-to}}
+          </li>
+        {{else}}
+          <li cid="nav-side-statistic" lass={{data-menus "statistic"}}>
+            {{#link-to "statistic.ad"}}
+              <p class="iconfont xsd-clearfix">&#xe6ba;<span>统计</span></p>
+            {{/link-to}}
+          </li>
+        {{/if}}
+      {{/if}}
+
+      {{#if (eq auth.user.role "boss")}}
+          <li class={{data-menus "authority"}}>
+            {{#link-to "authority.index"}}
+                <p class="iconfont xsd-clearfix">&#xe692;<span>权限</span></p>
+            {{/link-to}}
+          </li>
+      {{/if}}
+        <li class={{data-menus "service"}}>
+          {{#link-to "service" class="serverNav"}}
+              <p class="iconfont font-size22 xsd-clearfix">&#xe695;<span>服务</span></p>
+          {{/link-to}}
+        </li>
+    </ul>
+    <ul id="bottom">
+        <!--<li>-->
+        <!--{#link-to "index"}}-->
+        <!--<p class="iconfont">&#xe60f;</p>-->
+        <!--<p>添加</p>-->
+        <!--{/link-to}}-->
+        <!--</li>-->
+        <li class="{{data-menus "helper"}}">
+          {{#link-to "helper"}}
+              <p class="iconfont xsd-clearfix">&#xe690;<span>帮助</span></p>
+          {{/link-to}}
+        </li>
+        <li class="changeable">
+            <a onclick={{action "storeOrigin" config.apiUrl3 config.domain}}>
+                <p class="xsd-font-size12 xsd-clearfix"><i class="iconfont">&#xe673;</i><span>集中式</span></p>
+            </a>
+        </li>
+    </ul>
+</div>

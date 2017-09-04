@@ -1,0 +1,120 @@
+{{#if contract}}
+  <dt>基本信息：</dt>
+  <dd>
+    <label>{{#if (eq type 'customer')}}租客{{else}}业主{{/if}}姓名</label>
+    {{#if (eq type 'customer')}}
+      {{contract.customer_name}}
+    {{else}}
+      {{contract.owner_name}}
+    {{/if}}
+  </dd>
+  <dd>
+    <label>手机号码</label>
+    {{#if (eq type 'customer')}}
+      {{contract.customer_phone}}
+    {{else}}
+      {{contract.owner_phone}}
+    {{/if}}
+  </dd>
+  <dd>
+    {{#if (eq type 'customer')}}
+      <label>{{#if (eq contract.customer_id_type "id")}}身份证号{{else}}护照{{/if}}</label>
+      {{contract.customer_id_number}}
+    {{else}}
+      <label>{{#if (eq contract.owner_id_type "id")}}身份证号{{else}}护照{{/if}}</label>
+      {{contract.owner_id_number}}
+    {{/if}}
+  </dd>
+  <dd>
+    <label>证件附件</label>
+    {{#if (eq type 'owner')}}
+      {{upload-images pic=contract.owner_id_pictures hide=true}}
+    {{else}}
+      {{upload-images pic=contract.customer_id_pictures hide=true}}
+    {{/if}}
+
+  </dd>
+  <dd>
+    <label>合同附件</label>
+    {{upload-images pic=contract.pictures hide=true}}
+  </dd>
+  <dd>
+    <label>合同备注</label>
+    {{contract.comments}}
+  </dd>
+
+  <dt>租赁信息：</dt>
+  {{#if contract.segments}}
+    {{#each contract.segments as |s|}}
+      <dd>
+        <label>{{s.seg_index}}</label>
+        <span>租赁时间：{{s.start_time}}-{{s.end_time}}</span>
+        <span>租金：<strong>{{s.month_rental}}</strong>元/月</span>
+      </dd>
+    {{/each}}
+  {{else}}
+    <dd>
+      <label>租赁时间</label>
+      {{contract.start_time}} 到 {{contract.end_time}}
+    </dd>
+    <dd>
+      <label>月租金额</label>
+      <strong>{{contract.month_rental}}</strong>元
+    </dd>
+  {{/if}}
+  <dd>
+    <label>押金</label>
+    <strong>{{contract.deposit}}</strong>元
+  </dd>
+  <dd>
+    <label>支付方式</label>
+    {{pay-method contract.pay_method_f}}
+  </dd>
+  <dd>
+    <label>{{collect.title}}</label>
+    {{collect.time}}
+  </dd>
+
+  <dt>杂费信息：</dt>
+  {{#each extra as |fee|}}
+    <dd>
+      <label>{{fee.name}}</label>
+      <span>{{fee.payType}}</span>
+      {{#if (eq fee.calcType 'by_meter')}}
+        <span>费用单价：{{fee.count}} 元/{{fee.unit}}</span>
+        <br/>
+        <span>抄表时间：{{fee.logTime}}</span>
+        <span>抄表读数：{{fee.logTick}}</span>
+      {{else if (eq fee.calcType 'fixed')}}
+        <span>费用金额：{{fee.count}} 元/月</span>
+      {{/if}}
+      {{#if (eq fee.type 'power')}}
+        {{#if hasSmartPowerMeter}}
+          {{#if (neq fee.calcType 'prepayment')}}
+            <br/>
+            <span>
+              <a class="btn-inline" {{action 'switchType' contract}}>更改为“预付费”</a>
+              <small class="xsd-color-red">注：变更后，电表将重新计费，且无法切换回原付费方式</small>
+            </span>
+          {{/if}}
+        {{/if}}
+      {{/if}}
+    </dd>
+  {{/each}}
+
+  {{#if (neq contract.status 'active' ) }}
+    <dt>退租信息：</dt>
+    <dd>
+      <label>退租类型：</label>
+      <span>{{offType}}</span>
+    </dd>
+    <dd>
+      <label>退租时间：</label>
+      <span>{{merge contract.actual_end_time contract.end_time}}</span>
+    </dd>
+    <dd>
+      <label>退租原因：</label>
+      <span>{{contract.eviction_reason}}</span>
+    </dd>
+  {{/if}}
+{{/if}}

@@ -1,0 +1,176 @@
+#spread_ad {
+  background: none;
+  width: 500px;
+  height: 702px;
+  margin-top: -351px;
+  .xsd-modal-header{
+    position: absolute;
+    right: 0px;
+    top:40px;
+    .xsd-modal-close{
+      color: #59acff!important;
+      font-size: 16px;
+    }
+  }
+  .xsd-modal-body{
+    height: 232px;
+    //background: url("../images/58.png") no-repeat;
+    background: url("../images/spread/fangjia.png") no-repeat;
+    padding-top: 470px;
+    a{
+      display: block;
+      width: 186px;
+      height: 48px;
+      margin: 20px auto  0px auto;
+      font-size: 18px;
+    }
+  }
+}
+/*--广告--*/
+#member-ad{
+  width:760px;
+  height:622px;
+  position: fixed;
+  margin-left: -300px;
+  //margin-top: -311px;
+  background: url("../images/spread/huodong.png") no-repeat;
+  background-size:80%;
+  .xsd-modal-header{
+    .iconfont{
+      font-size:22px;
+      margin-right: 64px;
+      margin-top: 0px;
+      color:#ffffff;
+    }
+  }
+  .xsd-modal-body{
+    position: absolute;
+    bottom: 49px;
+    a{
+      display: inline-block;
+      width:100px;
+      height:38px;
+      line-height: 63px;
+      font-size:16px;
+      font-weight:500;
+      text-align: center;
+      color:#ffffff;
+      position: relative;
+      top:-20px;
+    }
+    .xsd-btn-primary{
+      margin-left: 188px;
+      margin-right:27px;
+
+    }
+    .xsd-btn-primary{
+      background: url("../images/spread/huodong_btn.png") no-repeat;
+      background-size: 100% 100%;
+
+    }
+    .xsd-btn-buy{
+      background: url("../images/spread/huodong_btn2.png") no-repeat;
+      background-size: 100% 100%;
+    }
+    .ad_end_day{
+      font-size: 55px;
+      color: #ffd300;
+      position: absolute;
+      top: -218px;
+      right: -65px;
+      letter-spacing: 35px;
+    }
+  }
+}
+/*--水滴会员--*/
+#separate{
+  #clickWaterVip{
+    padding:0;
+  }
+}
+#clickWaterVip{
+  width:792px;
+  min-height:880px;
+  padding:0;
+  margin-left:-396px;
+  margin-top:-440px;
+  background-color:#f7f9fa;
+      .xsd-vp-container {
+        width: 100%;
+        height: 100%;
+        tr {
+          td {
+            width: 196px;
+            height: 46px;
+            color: #4e5b66;
+            .icon-xsd-nothave{
+              color:#ff7f66;
+            }
+            .icon-xsd-have{
+              color:#56cc8d;
+            }
+            &:nth-child(1) {
+              width: 374px;
+              padding-left: 24px;
+              text-align: left;
+            }
+            span {
+              margin: 14px;
+              position: relative;
+              color: #ff5153;
+              &:after {
+                content: "]";
+                position: absolute;
+                right: -8px;
+              }
+              &:before {
+                content: "[";
+                position: absolute;
+                left: -8px;
+              }
+            }
+
+          }
+
+          &:nth-child(1) {
+            td {
+              height: 81px;
+              img{
+                width:20px;
+                height:20px;
+                vertical-align: middle;
+                margin-right:8px;
+              }
+              &:nth-child(1) {
+                font-size: 20px;
+              }
+              &:nth-child(3){
+                a{
+                  display: inline-block;
+                  width:40px;
+                  height:28px;
+                  line-height:28px;
+                  text-align: center;
+                  border-radius: 4px;
+                  color:#ffffff;
+                  background-color:#59acff;
+                  margin-left:16px;
+                }
+              }
+            }
+          }
+          &:last-child {
+            td:nth-child(2) {
+              color: #ff7f66;
+
+            }
+            td:nth-child(3) {
+              color: #56cc8d;
+            }
+          }
+        }
+
+
+      }
+}
+

@@ -1,0 +1,23 @@
+<div class="xsd-modal modal-sm" id="dialog-editCharge">
+  <div class="xsd-modal-header">
+    <span class="xsd-font-size16">切换预付费</span><a class="xsd-modal-close iconfont">&#xe633;</a>
+  </div>
+  <div class="xsd-modal-body">
+    <div class="box">
+      {{input type="hidden" value=info.roomId}}
+      <p>付费方式</p>
+      <div class="xsd-input-group xsd-select">
+        <input value="预付费" disabled="disabled" class="xsd-input">
+        <i class="iconfont">&#xe63c;</i>
+      </div>
+      <p>单价</p>
+      {{input type="number" placeholder="请输入单价" class="xsd-input" value=info.unitPrice}}
+    </div>
+  </div>
+  <div class="xsd-modal-bottom xsd-clearfix">
+    <div class="xsd-clearfix">
+      <a class="xsd-btn xsd-btn-primary xsd-pull-right" {{action "update" info}}>确定</a>
+      <a class="xsd-btn xsd-btn-gray xsd-modal-close xsd-pull-right">取消</a>
+    </div>
+  </div>
+</div>

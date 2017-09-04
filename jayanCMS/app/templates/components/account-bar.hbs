@@ -1,0 +1,39 @@
+<div id="account-bar">
+    <h1><span></span>账务管理</h1>
+    <ul>
+      {{#if (or auth.e_power.finance_payment_view auth.e_power.finance_flow_view)}}
+        <li onclick={{action "switchSideNav" "finance"}}><a class={{data-equal preFlag false}}>财务收支流水<i class="iconfont xsd-pull-right">&#xe613;</i></a></li>
+      {{/if}}
+      <ul class={{class-select types "finance"}}>
+        {{#if auth.e_power.finance_payment_view}}
+          <li onclick={{action "switchSideNav" "finance.payment"}} class={{data-equal types "payment"}}>收支流水</li>
+        {{/if}}
+        {{#if auth.e_power.finance_flow_view}}
+          <li onclick={{action "switchSideNav" "finance"}} class={{data-equal types "finance"}}>流水明细</li>
+        {{/if}}
+      </ul>
+      {{#if auth.e_power.finance_flow_pre_in_view}}
+        {{#link-to 'finance.prepayment' (query-params type=2) tagName='li'}}
+          <a class={{data-equal preFlag true}}>
+            财务收支预算
+            <i class="iconfont xsd-pull-right">&#xe613;</i>
+          </a>
+        {{/link-to}}
+      {{else if auth.e_power.finance_flow_pre_out_view}}
+        {{#link-to 'finance.prepayment' (query-params type=1) tagName='li'}}
+          <a class={{data-equal preFlag true}}>
+            财务收支预算
+            <i class="iconfont xsd-pull-right">&#xe613;</i>
+          </a>
+        {{/link-to}}
+      {{/if}}
+       <ul class={{data-equal types "prepayment"}}>
+         {{#if auth.e_power.finance_flow_pre_in_view}}
+           {{#link-to 'finance.prepayment' (query-params type=2) tagName='li'}}收入预算{{/link-to}}
+         {{/if}}
+         {{#if auth.e_power.finance_flow_pre_out_view}}
+           {{#link-to 'finance.prepayment' (query-params type=1) tagName='li'}}支出预算{{/link-to}}
+         {{/if}}
+       </ul>
+    </ul>
+</div>

@@ -1,0 +1,135 @@
+<div class="xsd-clearfix xsd-margin-b12">
+    <a id="roomBack" class="xsd-pull-left xsd-color-primary" onclick={{action "lookBack"}}>返回上一级</a>
+
+  {{#if orderDetail.customer_name}}
+    <a class="xsd-pull-right xsd-color-primary xsd-margin-l12" data-toggle="xsd-modal"
+       data-target="#printBill" >打印</a>
+  {{else}}
+    <a class="xsd-pull-right xsd-color-primary xsd-margin-l12" data-toggle="xsd-modal"
+       data-target="#printHouseBill" >打印</a>
+  {{/if}}
+
+  {{#if orderDetail.customer_name}}
+    <a class="xsd-pull-right xsd-color-primary xsd-margin-l12" data-toggle="xsd-modal"
+       data-target="#view-billing-history" >查看日志</a>
+  {{else}}
+    <a class="xsd-pull-right xsd-color-primary xsd-margin-l12" data-toggle="xsd-modal"
+       data-target="#view-house-billing-history" >查看日志</a>
+  {{/if}}
+
+  {{#if (eq orderDetail.pay_status 1)}} {{!-- 已支付的账单 --}}
+    {{#if orderDetail.customer_name}}
+
+      {{#if auth.e_power.customer_order_del}}
+        <a class="xsd-pull-right xsd-color-primary  xsd-margin-l12" data-toggle="xsd-modal"
+           data-target="#deleteOrder"
+           onclick={{action "lookOrder" orderDetail.id "roomorders" room.room.id true}}>删除</a>
+      {{/if}}
+
+    {{else}}
+
+      {{#if auth.e_power.landlord_order_del}}
+        <a class="xsd-pull-right xsd-color-primary  xsd-margin-l12" data-toggle="xsd-modal"
+           data-target="#deleteOrder"
+           onclick={{action "lookOrder" orderDetail.id "houseorders" house.house.id true}}>删除</a>
+      {{/if}}
+
+    {{/if}}
+  {{/if}}
+
+
+  {{#if orderDetail.customer_name}}
+    {{#if (eq orderDetail.pay_status 0)}}
+      {{#if laterDetail}}
+        {{#if auth.e_power.customer_order_mod}}
+          <a class="xsd-pull-right xsd-color-primary  xsd-margin-l12"
+             onclick={{action 'editBill' orderDetail.id}}>编辑</a>
+        {{/if}}
+        {{#if auth.e_power.customer_order_del}}
+          <a class="xsd-pull-right xsd-color-primary  xsd-margin-l12" data-toggle="xsd-modal"
+             data-target="#deleteOrder"
+             onclick={{action "lookOrder" orderDetail.id "roomorders" room.room.id true}}>删除</a>
+        {{/if}}
+
+        {{#if orderDetail.is_meter_need}}
+          {{#if auth.e_power.customer_order_edit}}
+            <a class="xsd-pull-right  xsd-color-primary xsd-margin-l12"
+               onclick={{action "getRoomOrder" orderDetail.id 1}}>抄表</a>
+          {{/if}}
+        {{/if}}
+        {{#if auth.e_power.customer_order_send}}
+          <a class="xsd-pull-right xsd-color-primary xsd-margin-l12"
+             data-toggle="xsd-modal"
+             data-target="#sendOrder" onclick={{action "sendBill" orderDetail 0}}>发送账单</a>
+        {{/if}}
+        {{#if auth.e_power.customer_order_paid}}
+          <a class="xsd-pull-right xsd-color-primary"
+             onclick={{action "confirmRent" orderDetail}}>确认收租</a>
+        {{/if}}
+      {{/if}}
+    {{/if}}
+  {{else}}
+    {{#if (eq orderDetail.pay_status 0)}}
+      {{#if (if-cond auth.e_power.landlord_order_edit '||' auth.e_power.landlord_order_mod)}}
+        <a class="xsd-pull-right xsd-color-primary  xsd-margin-l12"
+           onclick={{action "editBill" orderDetail.id}}>编辑</a>
+      {{/if}}
+      {{#if auth.e_power.landlord_order_del}}
+        <a class="xsd-pull-right xsd-color-primary  xsd-margin-l12" data-toggle="xsd-modal"
+           data-target="#deleteOrder"
+           onclick={{action "lookOrder" orderDetail.id "houseorders" house.house.id true}}>删除</a>
+      {{/if}}
+      {{#if auth.e_power.landlord_order_paid}}
+        <a class="xsd-pull-right xsd-color-primary" data-toggle="xsd-modal"
+           data-target="#confirmRent"
+           onclick={{action "confirmRent" orderDetail.id}}>确认交租</a>
+      {{/if}}
+    {{/if}}
+  {{/if}}
+</div>
+
+{{panel-bill bill=orderDetail}}
+
+{{#if orderDetail.order_moneyflow}}
+  <style>
+    .xsd-drawer.house-room .xsd-tab-content .divide-title2 li:first-child,
+    .xsd-drawer.house-room .xsd-tab-content .divide-title2 li:last-child,
+    .xsd-drawer.house-room .xsd-tab-content .divide-title2 li {
+      padding: 0 5px;
+      text-align: center;
+      width: 15%;
+    }
+    .xsd-drawer.house-room .xsd-tab-content .divide-list2 li:first-child,
+    .xsd-drawer.house-room .xsd-tab-content .divide-list2 li:last-child,
+    .xsd-drawer.house-room .xsd-tab-content .divide-list2 li {
+      text-align: center;
+      width: 15%;
+      padding: 0 5px;
+    }
+  </style>
+  <h3 class="roomInf xsd-margin-b24"><span class="blue"></span>交易明细</h3>
+  <div class="divide-table xsd-clearfix xsd-margin-b24">
+    <ul class="divide-title divide-title2">
+      <li>交易时间</li>
+      <li>支付编号</li>
+      <li>交易金额(元)</li>
+      <li>交易方式</li>
+      <li>交易流水号</li>
+      <li>交易账号</li>
+    </ul>
+    <ul class="divide-tbody xsd-clearfix">
+      {{#each orderDetail.order_moneyflow as | value |}}
+        <li class="divide-list xsd-color-gray">
+          <ul class="xsd-font-size12 divide-list2">
+            <li>{{value.trade_at}}</li>
+            <li>{{value.transaction_id}}</li>
+            <li>{{value.amount}}</li>
+            <li>{{value.pay_method}}</li>
+            <li>&nbsp;{{value.trade_serial_no}}</li>
+            <li>{{value.username}}</li>
+          </ul>
+        </li>
+      {{/each}}
+    </ul>
+  </div>
+{{/if}}

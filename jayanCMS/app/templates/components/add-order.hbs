@@ -1,0 +1,383 @@
+<style>
+  .add-order {
+    width: 760px!important;
+    margin-left: -380px!important;
+  }
+  .add-order h3 {
+    color: #4e5b66;
+    font-size: 20px;
+    padding-left: 15px;
+    margin-bottom: 25px;
+  }
+  .add-order .red {
+    border-left: 4px solid #fdae52;
+  }
+  .add-order .orange {
+    border-left: 4px solid #fd7f64;
+  }
+  .add-order .green {
+    border-left: 4px solid #56cc8d;
+  }
+  .add-order textarea {
+    width: 610px;
+  }
+  .add-order .short-input {
+    width: 120px!important;
+  }
+
+  .add-order .fees_list {
+
+  }
+
+  .add-order .fees_list label {
+    float: left;
+    display: block;
+    width: 90px;
+    height: 40px;
+  }
+
+  .add-order .fees_list label span {
+    padding: 0 5px;
+  }
+
+  .add-order .fees_list input {
+    width: 10px!important;
+  }
+
+  .add-order .xsd-add-order .xsd-display-none {
+    display: none;
+    margin-right: 10px!important;
+  }
+</style>
+<script>
+$(function(){
+  $(document).on('click', '.fees_list input', function() {
+    let bool = $(this).prop('checked'),
+        name = $(this).attr('name'),
+        $dom = $('.order_' + name);
+
+    bool ? $dom.show() : $dom.hide();
+  });
+
+  $(document).on('keyup', '.xsd-add-order .xsd-input', function() {
+    let _this = $(this);
+    if (0 > $(this).val()) {
+      $.toastr.error("收入支出金额不得为负!");
+      $(this).val(0);
+    }
+  });
+
+});
+</script>
+<div class="xsd-modal add-order" id="add-order">
+    <div class="xsd-modal-header">
+        <span class="xsd-font-size16"></span><a class="xsd-modal-close iconfont">&#xe633;</a>
+    </div>
+    <div class="xsd-modal-body xsd-clearfix">
+      <h3 class="red">基本信息</h3>
+      <div class="first_margin xsd-clearfix xsd-margin-b12">
+        <div class="xsd-pull-left">
+          {{#if house}}
+            <p class="xsd-margin-b6">业主姓名</p>
+            <div class="xsd-input-group  xsd-select">
+              <input class="xsd-input gray" type="text" id="add_order_name" name="add_order_name" disabled readonly placeholder="输入租客姓名" value="{{house.contract.owner_name}}">
+            </div>
+          {{else}}
+            <p class="xsd-margin-b6">租客姓名</p>
+            <div class="xsd-input-group  xsd-select">
+              <input class="xsd-input gray" type="text" id="add_order_name" name="add_order_name" disabled readonly placeholder="输入租客姓名" value="{{room.contract.customer_name}}">
+            </div>
+          {{/if}}
+        </div>
+        <div class="xsd-pull-left">
+          <p class="xsd-margin-b6">账单周期<i class="xsd-color-red">*</i></p>
+          <div class="xsd-input-group">
+            <i class="iconfont">&#xe63e;</i>
+            <div class="xsd-input-group">
+              <i class="iconfont">&#xe63e;</i>
+              {{pikaday-input  class="xsd-input short-input" name="order_startTime" format="YYYY-MM-DD" placeholder="请输入账单开始时间" readonly="readonly" validate='required' title='开始时间'}}
+              -
+              {{pikaday-input  class="xsd-input short-input" name="order_stopTime" format="YYYY-MM-DD" placeholder="请输入账单结束时间" readonly="readonly" validate='required' title='结束时间'}}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="xsd-clearfix xsd-margin-b12">
+        <p class="xsd-margin-b6">应收款日期<i class="xsd-color-red">*</i></p>
+        <label class="xsd-pull-left">
+          <div class="xsd-input-group">
+            <i class="iconfont">&#xe63e;</i>
+            <div class="xsd-input-group">
+              <i class="iconfont">&#xe63e;</i>
+              {{pikaday-input class="xsd-input" name="should_pay" format="YYYY-MM-DD" placeholder="请选择应收款时间" readonly="readonly" validate='required' title='应收款时间'}}
+            </div>
+          </div>
+        </label>
+      </div>
+      <h3 class="orange">费用信息</h3>
+
+      <div class="xsd-margin-b12 xsd-clearfix fees_list">
+        <label class="xsd-margin-r6"><input type="checkbox" name="room_rent"> 租金</label>
+        <label class="xsd-margin-r6"><input type="checkbox" name="room_pay"> 押金</label>
+        <label class="xsd-margin-r6"><input type="checkbox" name="fees_water"> 水费</label>
+        <label class="xsd-margin-r6"><input type="checkbox" name="fees_power"> 电费</label>
+        <label class="xsd-margin-r6"><input type="checkbox" name="fees_gas"> 燃气费</label>
+        <label class="xsd-margin-r6"><input type="checkbox" name="fees_property"> 物业费</label>
+        <label class="xsd-margin-r6"><input type="checkbox" name="fees_service"> 服务费</label>
+        <label class="xsd-margin-r6"><input type="checkbox" name="fees_clean"> 保洁费</label>
+        <label class="xsd-margin-r6"><input type="checkbox" name="fees_repair"> 维修费</label>
+        <label class="xsd-margin-r6"><input type="checkbox" name="fees_material"> 材料费</label><br><br>
+        <label class="xsd-margin-r6"><input type="checkbox" name="fees_tv"> 有线电视</label>
+        <label class="xsd-margin-r6"><input type="checkbox" name="fees_broadband"> 宽带</label>
+        <label class="xsd-margin-r6"><input type="checkbox" name="fees_health"> 卫生</label>
+        <label class="xsd-margin-r6"><input type="checkbox" name="fees_discount"> 优惠</label>
+        <label class="xsd-margin-r6"><input type="checkbox" name="fees_other"> 其他</label>
+      </div>
+        <div class="xsd-clearfix xsd-margin-b12 first_margin xsd-add-order">
+          <div class="xsd-pull-left xsd-display-none order_room_rent">
+          <p class="xsd-margin-b6">房屋租金</p>
+          <label class="xsd-input-group xsd-select xsd-pull-left">
+            <i class="iconfont">&#xe63c;</i>
+            <input class="xsd-input width_60" type="text" readonly value={{payType}} data-value="0">
+            <ul>
+              <li data-value="收" onclick={{action "feesType"}}>{{payType}}</li>
+              <li data-value="支" onclick={{action "feesType"}}>支出</li>
+            </ul>
+          </label>
+          <label class="xsd-input-group xsd-pull-left" >
+            <i class="iconfont">元</i>
+            {{input id="order_room_rent" data-value="" name="order_room_rent"  class="xsd-input width_200" type="text"  value="" validate="required" title="金额"}}
+          </label>
+        </div>
+          <div class="xsd-pull-left xsd-display-none order_room_pay">
+            <p class="xsd-margin-b6">房屋押金</p>
+            <label class="xsd-input-group xsd-select xsd-pull-left">
+              <i class="iconfont">&#xe63c;</i>
+              <input class="xsd-input width_60" type="text" readonly value={{payType}} data-value="0">
+              <ul>
+                <li data-value="收" onclick={{action "feesType"}}>{{payType}}</li>
+                <li data-value="支" onclick={{action "feesType"}}>支出</li>
+              </ul>
+            </label>
+            <label class="xsd-input-group xsd-pull-left">
+              <i class="iconfont">元</i>
+              {{input id="order_room_pay" data-value="" name="order_room_pay"  class="xsd-input width_200" type="text"  value="" validate="" title="金额"}}
+            </label>
+          </div>
+
+          <div class="xsd-pull-left xsd-display-none order_fees_power">
+            <p class="xsd-margin-b6">电费</p>
+            <label class="xsd-input-group xsd-select xsd-pull-left">
+              <i class="iconfont">&#xe63c;</i>
+              <input class="xsd-input width_60" type="text" readonly value={{payType}} data-value="0">
+              <ul>
+                <li data-value="收" onclick={{action "feesType"}}>{{payType}}</li>
+                <li data-value="支" onclick={{action "feesType"}}>支出</li>
+              </ul>
+            </label>
+            <label class="xsd-input-group xsd-pull-left">
+              <i class="iconfont">元</i>
+              {{input id="order_fees_power" data-value="" name="order_fees_power"  class="xsd-input width_200" type="text"  value="" validate="" title="金额"}}
+            </label>
+          </div>
+
+          <div class="xsd-pull-left xsd-display-none order_fees_water">
+            <p class="xsd-margin-b6">水费</p>
+            <label class="xsd-input-group xsd-select xsd-pull-left">
+              <i class="iconfont">&#xe63c;</i>
+              <input class="xsd-input width_60" type="text" readonly value={{payType}} data-value="0">
+              <ul>
+                <li data-value="收" onclick={{action "feesType"}}>{{payType}}</li>
+                <li data-value="支" onclick={{action "feesType"}}>支出</li>
+              </ul>
+            </label>
+            <label class="xsd-input-group xsd-pull-left">
+              <i class="iconfont">元</i>
+              {{input id="order_fees_water" data-value="" name="order_fees_water"  class="xsd-input width_200" type="text"  value="" validate="" title="金额"}}
+            </label>
+          </div>
+
+          <div class="xsd-pull-left xsd-display-none order_fees_gas">
+            <p class="xsd-margin-b6">燃气费</p>
+            <label class="xsd-input-group xsd-select xsd-pull-left">
+              <i class="iconfont">&#xe63c;</i>
+              <input class="xsd-input width_60" type="text" readonly value={{payType}} data-value="0">
+              <ul>
+                <li data-value="收" onclick={{action "feesType"}}>{{payType}}</li>
+                <li data-value="支" onclick={{action "feesType"}}>支出</li>
+              </ul>
+            </label>
+            <label class="xsd-input-group xsd-pull-left">
+              <i class="iconfont">元</i>
+              {{input id="order_fees_gas" data-value="" name="order_fees_gas"  class="xsd-input width_200" type="text"  value="" validate="" title="金额"}}
+            </label>
+          </div>
+
+          <div class="xsd-pull-left xsd-display-none order_fees_property">
+            <p class="xsd-margin-b6">物业费</p>
+            <label class="xsd-input-group xsd-select xsd-pull-left">
+              <i class="iconfont">&#xe63c;</i>
+              <input class="xsd-input width_60" type="text" readonly value={{payType}} data-value="0">
+              <ul>
+                <li data-value="收" onclick={{action "feesType"}}>{{payType}}</li>
+                <li data-value="支" onclick={{action "feesType"}}>支出</li>
+              </ul>
+            </label>
+            <label class="xsd-input-group xsd-pull-left">
+              <i class="iconfont">元</i>
+              {{input id="order_fees_property" data-value="" name="order_fees_property"  class="xsd-input width_200" type="text"  value="" validate="" title="金额"}}
+            </label>
+          </div>
+
+          <div class="xsd-pull-left xsd-display-none order_fees_service">
+            <p class="xsd-margin-b6">服务费</p>
+            <label class="xsd-input-group xsd-select xsd-pull-left">
+              <i class="iconfont">&#xe63c;</i>
+              <input class="xsd-input width_60" type="text" readonly value={{payType}} data-value="0">
+              <ul>
+                <li data-value="收" onclick={{action "feesType"}}>{{payType}}</li>
+                <li data-value="支" onclick={{action "feesType"}}>支出</li>
+              </ul>
+            </label>
+            <label class="xsd-input-group xsd-pull-left">
+              <i class="iconfont">元</i>
+              {{input id="order_fees_service" data-value="" name="order_fees_service"  class="xsd-input width_200" type="text"  value="" validate="" title="金额"}}
+            </label>
+          </div>
+          <div class="xsd-pull-left xsd-display-none order_fees_clean">
+            <p class="xsd-margin-b6">保洁费</p>
+            <label class="xsd-input-group xsd-select xsd-pull-left">
+              <i class="iconfont">&#xe63c;</i>
+              <input class="xsd-input width_60" type="text" readonly value={{payType}} data-value="0">
+              <ul>
+                <li data-value="收" onclick={{action "feesType"}}>{{payType}}</li>
+                <li data-value="支" onclick={{action "feesType"}}>支出</li>
+              </ul>
+            </label>
+            <label class="xsd-input-group xsd-pull-left">
+              <i class="iconfont">元</i>
+              {{input id="order_fees_clean" data-value="" name="order_fees_clean"  class="xsd-input width_200" type="text"  value="" validate="" title="金额"}}
+            </label>
+          </div>
+          <div class="xsd-pull-left xsd-display-none order_fees_repair">
+            <p class="xsd-margin-b6">维修费</p>
+            <label class="xsd-input-group xsd-select xsd-pull-left">
+              <i class="iconfont">&#xe63c;</i>
+              <input class="xsd-input width_60" type="text" readonly value={{payType}} data-value="0">
+              <ul>
+                <li data-value="收" onclick={{action "feesType"}}>{{payType}}</li>
+                <li data-value="支" onclick={{action "feesType"}}>支出</li>
+              </ul>
+            </label>
+            <label class="xsd-input-group xsd-pull-left">
+              <i class="iconfont">元</i>
+              {{input id="order_fees_repair" data-value="" name="order_fees_repair"  class="xsd-input width_200" type="text"  value="" validate="" title="金额"}}
+            </label>
+          </div>
+          <div class="xsd-pull-left xsd-display-none order_fees_material">
+            <p class="xsd-margin-b6">材料费</p>
+            <label class="xsd-input-group xsd-select xsd-pull-left">
+              <i class="iconfont">&#xe63c;</i>
+              <input class="xsd-input width_60" type="text" readonly value={{payType}} data-value="0">
+              <ul>
+                <li data-value="收" onclick={{action "feesType"}}>{{payType}}</li>
+                <li data-value="支" onclick={{action "feesType"}}>支出</li>
+              </ul>
+            </label>
+            <label class="xsd-input-group xsd-pull-left">
+              <i class="iconfont">元</i>
+              {{input id="order_fees_material" data-value="" name="order_fees_material"  class="xsd-input width_200" type="text"  value="" validate="" title="金额"}}
+            </label>
+          </div>
+          <div class="xsd-pull-left xsd-display-none order_fees_tv">
+            <p class="xsd-margin-b6">电视费</p>
+            <label class="xsd-input-group xsd-select xsd-pull-left">
+              <i class="iconfont">&#xe63c;</i>
+              <input class="xsd-input width_60" type="text" readonly value={{payType}} data-value="0">
+              <ul>
+                <li data-value="收" onclick={{action "feesType"}}>{{payType}}</li>
+                <li data-value="支" onclick={{action "feesType"}}>支出</li>
+              </ul>
+            </label>
+            <label class="xsd-input-group xsd-pull-left">
+              <i class="iconfont">元</i>
+              {{input id="order_fees_tv" data-value="" name="order_fees_tv"  class="xsd-input width_200" type="text"  value="" validate="" title="金额"}}
+            </label>
+          </div>
+          <div class="xsd-pull-left xsd-display-none order_fees_broadband">
+            <p class="xsd-margin-b6">宽带费</p>
+            <label class="xsd-input-group xsd-select xsd-pull-left">
+              <i class="iconfont">&#xe63c;</i>
+              <input class="xsd-input width_60" type="text" readonly value={{payType}} data-value="0">
+              <ul>
+                <li data-value="收" onclick={{action "feesType"}}>{{payType}}</li>
+                <li data-value="支" onclick={{action "feesType"}}>支出</li>
+              </ul>
+            </label>
+            <label class="xsd-input-group xsd-pull-left">
+              <i class="iconfont">元</i>
+              {{input id="order_fees_broadband" data-value="" name="order_fees_broadband"  class="xsd-input width_200" type="text"  value="" validate="" title="金额"}}
+            </label>
+          </div>
+          <div class="xsd-pull-left xsd-display-none order_fees_health">
+            <p class="xsd-margin-b6">卫生费</p>
+            <label class="xsd-input-group xsd-select xsd-pull-left">
+              <i class="iconfont">&#xe63c;</i>
+              <input class="xsd-input width_60" type="text" readonly value={{payType}} data-value="0">
+              <ul>
+                <li data-value="收" onclick={{action "feesType"}}>{{payType}}</li>
+                <li data-value="支" onclick={{action "feesType"}}>支出</li>
+              </ul>
+            </label>
+            <label class="xsd-input-group xsd-pull-left">
+              <i class="iconfont">元</i>
+              {{input id="order_fees_health" data-value="" name="order_fees_health"  class="xsd-input width_200" type="text"  value="" validate="" title="金额"}}
+            </label>
+          </div>
+          <div class="xsd-pull-left xsd-display-none order_fees_discount">
+            <p class="xsd-margin-b6">优惠费</p>
+            <label class="xsd-input-group xsd-select xsd-pull-left">
+              <i class="iconfont">&#xe63c;</i>
+              <input class="xsd-input width_60" type="text" readonly value={{payType}} data-value="0">
+              <ul>
+                <li data-value="收" onclick={{action "feesType"}}>{{payType}}</li>
+                <li data-value="支" onclick={{action "feesType"}}>支出</li>
+              </ul>
+            </label>
+            <label class="xsd-input-group xsd-pull-left">
+              <i class="iconfont">元</i>
+              {{input id="order_fees_discount" data-value="" name="order_fees_discount"  class="xsd-input width_200" type="text"  value="" validate="" title="金额"}}
+            </label>
+          </div>
+          <div class="xsd-pull-left xsd-display-none order_fees_other">
+            <p class="xsd-margin-b6">其他费</p>
+            <label class="xsd-input-group xsd-select xsd-pull-left">
+              <i class="iconfont">&#xe63c;</i>
+              <input class="xsd-input width_60" type="text" readonly value={{payType}} data-value="0">
+              <ul>
+                <li data-value="收" onclick={{action "feesType"}}>{{payType}}</li>
+                <li data-value="支" onclick={{action "feesType"}}>支出</li>
+              </ul>
+            </label>
+            <label class="xsd-input-group xsd-pull-left">
+              <i class="iconfont">元</i>
+              {{input id="order_fees_other" data-value="" name="order_fees_other"  class="xsd-input width_200" type="text"  value="" validate="" title="金额"}}
+            </label>
+          </div>
+
+      </div>
+
+      <h3 class="green">账单备注</h3>
+      <textarea name="" cols="90" rows="3" id="roomNoteEdit" class="xsd-margin-b24" placeholder="账单备注（50字以内）" onkeyup={{action "wordLimits"}}>{{room.contract.comments}}</textarea>
+        <!--<div class="xsd-clearfix xsd-margin-b12">-->
+            <!--<p class="xsd-margin-b6">总金额:<span class="xsd-color-primary xsd-margin-l12 xsd-margin-r6">1000000</span>元</p>-->
+        <!--</div>-->
+
+    </div>
+    <div class="xsd-modal-bottom xsd-margin-b24">
+        <div class="xsd-clearfix">
+            <a class="xsd-btn xsd-btn-primary xsd-pull-right" onclick={{action "addOrderSure"}}>确定</a>
+            <a class="xsd-btn xsd-btn-gray xsd-modal-close xsd-pull-right">取消</a>
+        </div>
+    </div>
+</div>

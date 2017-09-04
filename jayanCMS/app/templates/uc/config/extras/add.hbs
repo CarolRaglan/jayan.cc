@@ -1,0 +1,13 @@
+<form class="modal modal-sm" onsubmit={{action 'submit'}}>
+  <header>
+    <h2 class="title-primary">添加自定义费用</h2>
+    {{#link-to 'uc.config.extras' class="iconfont"}}&#xe633;{{/link-to}}
+  </header>
+  <article>
+    {{input class="input-block" type="text" maxlength="6" placeholder="请输入自定义费用名称（6个字以内）" value=fee required=true}}
+    <footer class="text-right">
+      {{#link-to 'uc.config.extras' class="btn btn-default"}}取消{{/link-to}}
+      <button class="btn btn-primary">添加</button>
+    </footer>
+  </article>
+</form>

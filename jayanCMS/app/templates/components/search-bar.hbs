@@ -1,0 +1,240 @@
+<div id="search-bar">
+  {{#if (not-eq type "message" )}}
+    {{#if (eq type "authority")}}
+        <div class="search">
+            <label class="xsd-input-group">
+                <i class="iconfont xsd-icon-search" onclick={{action "searchEmployer"}}>&#xe618;</i>
+                <input id="search" class="xsd-input" type="text" enter="searchEmployer" placeholder="请输入员工手机号或人名..."
+                       value={{keyword}}>
+            </label>
+        </div>
+    {{else}}
+        {{#if (eq type "finance")}}
+          <ul>
+              <li onclick={{action "switchSideNav" "finance"}}><a class={{data-equal preFlag false}}>已确认财务流水<i class="iconfont xsd-pull-right">&#xe613;</i></a></li>
+              {{#if (or auth.e_power.finance_flow_pre_in_view auth.e_power.finance_flow_pre_out_view)}}
+              <li onclick={{action "switchSideNav" "finance.prepayment"}}><a class={{data-equal preFlag true}}>财务收支预算<i class="iconfont xsd-pull-right">&#xe613;</i></a></li>
+              {{/if}}
+          </ul>
+        {{/if}}
+        <div class="search">
+            <label class="xsd-input-group">
+                <i class="iconfont xsd-icon-search" onclick={{action "search" type}}>&#xe618;</i>
+                <input id="search" class="xsd-input" type="text" enter="search" placeholder="请输入小区名或人名..."
+                       value={{keyword}}>
+            </label>
+        </div>
+    {{/if}}
+  {{/if}}
+  {{#if  (eq type 'rent')}}
+      <div class="card xsd-margin-b24 margin-top20">
+          <h2>小区筛选</h2>
+          <label class="xsd-input-group xsd-select xsd-margin-b16">
+              <i class="iconfont">&#xe63c;</i>
+              <input id="citySearch" class="xsd-input" type="text" data-value="" readonly placeholder="所在城市">
+              <ul>
+                  <li data-value="">所有城市</li>
+                {{#each cityList as |city|}}
+                    <li data-value={{city.city}} onclick={{action "selectCity" "city" city.city "areas"}}>{{city.city}}</li>
+                {{/each}}
+              </ul>
+          </label>
+          <div class="address xsd-clearfix xsd-margin-b16">
+              <label class="xsd-input-group xsd-select xsd-pull-left">
+                  <i class="iconfont">&#xe63c;</i>
+                  <input id="district" class="xsd-input" type="text" value={{district}} readonly placeholder="所在区域">
+                  <ul>
+                      <li>所有区域</li>
+                    {{#each areas as |area|}}
+                        <li onclick={{action "selectArea" "district" area.district "districts"}}>{{area.district}}</li>
+                    {{/each}}
+                  </ul>
+              </label>
+              <label class="xsd-input-group xsd-select xsd-pull-right">
+                  <i class="iconfont">&#xe63c;</i>
+                  <input id="block" class="xsd-input" type="text" value={{block}} readonly placeholder="板块">
+                  <ul>
+                      <li>所有板块</li>
+                    {{#each districts as |district|}}
+                        <li onclick={{action "selectArea" "block" district.block "blocks"}}>{{district.block}}</li>
+                    {{/each}}
+                  </ul>
+              </label>
+
+          </div>
+          <label class="xsd-input-group xsd-select xsd-margin-b16">
+              <i class="iconfont">&#xe63c;</i>
+              <input id="area" class="xsd-input" type="text" value={{area}} readonly placeholder="小区名称">
+              <ul>
+                  <li>所有小区</li>
+                {{#each blocks as |block|}}
+                    <li onclick={{action "selectArea" "area" block.area "houses"}}>{{block.area}}</li>
+                {{/each}}
+              </ul>
+          </label>
+          <label class="xsd-input-group xsd-select xsd-margin-b16">
+              <i class="iconfont">&#xe63c;</i>
+              <input id="house_id" class="xsd-input" type="text" data-value={{house_id}} value={{houseText}} readonly
+                     placeholder="楼栋号/门牌号">
+              <ul>
+                  <li data-value="">所有门牌号</li>
+                {{#each houses as |house|}}
+                    <li data-value={{house.house_id}}>{{house.house_name}}</li>
+                {{/each}}
+              </ul>
+          </label>
+      </div>
+  {{/if}}
+  {{#if (eq type "rent")}}
+    {{#if (eq tips 'spread')}}
+        <div class="card xsd-margin-b24">
+            <h2>出租方式</h2>
+            <label class="xsd-input-group xsd-select">
+                <i class="iconfont">&#xe63c;</i>
+                <input id="filter1" class="xsd-input" type="text" readonly placeholder="全部方式">
+                <ul>
+                    <li data-value="">全部方式</li>
+                    <li data-value="true">整租</li>
+                    <li data-value="false">合租</li>
+                </ul>
+            </label>
+        </div>
+    {{else}}
+        <div class="card xsd-margin-b24">
+            <h2>房间状态</h2>
+            <label class="xsd-input-group xsd-select">
+                <i class="iconfont">&#xe63c;</i>
+                <input id="filter1" class="xsd-input" type="text" data-value={{filter1}} value={{data-tips filter1}}
+                       readonly placeholder="全部状态">
+                <ul>
+                    <li data-value="">全部房间</li>
+                    <li data-value="r_rented">已出租</li>
+                    <li data-value="r_empty">待出租</li>
+                    <li data-value="r_decorating">装修中</li>
+                </ul>
+            </label>
+        </div>
+        <div class="card xsd-margin-b24">
+            <h2>逾期账单</h2>
+            <label class="xsd-input-group xsd-select">
+                <i class="iconfont">&#xe63c;</i>
+                <input id="filter2" class="xsd-input" type="text" data-value={{filter2}} value={{data-tips filter2}}
+                       readonly placeholder="全部账单">
+                <ul>
+                    <li data-value="">全部账单</li>
+                    <li data-value="ho_exceed">业主逾期账单</li>
+                    <li data-value="ro_exceed">租客逾期账单</li>
+                </ul>
+            </label>
+        </div>
+    {{/if}}
+  {{/if}}
+  {{#if (eq type "finance")}}
+      <div class="card xsd-margin-b24 margin-top20">
+          <h2>交易时间</h2>
+          <label class="xsd-input-group  xsd-margin-b16">
+              <i class="iconfont xsd-color-gray">&#xe63e;</i>
+            {{pikaday-input id="trade_at__gte"  class="xsd-input" format="YYYY-MM-DD" placeholder="开始时间" readonly="readonly"}}
+          </label>
+          <label class="xsd-input-group">
+              <i class="iconfont xsd-color-gray">&#xe63e;</i>
+            {{pikaday-input id="trade_at__lte"  class="xsd-input" format="YYYY-MM-DD" placeholder="截止时间" minDate=tradeStartsAt  readonly="readonly"}}
+          </label>
+      </div>
+      {{#if preFlag}}
+        {{else}}
+      <div class="card xsd-margin-b24">
+          <h2>费用类型</h2>
+          <label class="xsd-input-group xsd-select xsd-margin-b16">
+              <i class="iconfont">&#xe63c;</i>
+              <input class="xsd-input" id="s_flow_type" type="text" data-value="" readonly placeholder="资金流向">
+              <ul>
+                  <li data-value="">全部流向</li>
+                  <li data-value="0">收入</li>
+                  <li data-value="1">支出</li>
+              </ul>
+          </label>
+          <label class="xsd-input-group xsd-select xsd-margin-b16">
+              <i class="iconfont">&#xe63c;</i>
+              <input class="xsd-input" id="fee_type_rough" type="text" data-value="" readonly placeholder="费用类型">
+              <ul>
+                  <li data-value="0" onclick={{action "selectType" true}}>房租</li>
+                  <li data-value="1" onclick={{action "selectType" false}}>杂费</li>
+
+              </ul>
+          </label>
+          <label class="xsd-input-group xsd-select xsd-margin-b16">
+              <i class="iconfont">&#xe63c;</i>
+              <input class="xsd-input" id="s_fee_type" type="text" data-value="" readonly placeholder="费用名称">
+              <ul>
+                  <li data-value="">全部名称</li>
+                {{#if feeType}}
+                    <li data-value="0">租金</li>
+                    <li data-value="1">押金</li>
+                {{else}}
+                    <li data-value="2">水费</li>
+                    <li data-value="3">电费</li>
+                    <li data-value="4">燃气费</li>
+                    <li data-value="5">物业费</li>
+                    <li data-value="6">服务费</li>
+                    <li data-value="7">维修费</li>
+                    <li data-value="8">保洁费</li>
+                    <li data-value="9">材料费</li>
+                    <li data-value="10">有线电视</li>
+                    <li data-value="11">宽带</li>
+                    <li data-value="12">卫生</li>
+                    <li data-value="13">其他</li>
+                {{/if}}
+              </ul>
+          </label>
+      </div>
+      {{/if}}
+  {{/if}}
+  {{#if (eq type "authority")}}
+      <div class="card xsd-margin-b24 margin-top20">
+          <h2>添加时间</h2>
+          <label class="xsd-input-group xsd-margin-b16">
+              <i class="iconfont xsd-color-gray">&#xe63e;</i>
+            {{pikaday-input id="created_at__gte" class="xsd-input" format="YYYY-MM-DD" placeholder="开始时间" readonly="readonly"}}
+          </label>
+          <label class="xsd-input-group">
+              <i class="iconfont xsd-color-gray">&#xe63e;</i>
+            {{pikaday-input id="created_at__lte" class="xsd-input" format="YYYY-MM-DD" placeholder="截止时间"  readonly="readonly"}}
+          </label>
+      </div>
+      <div class="card xsd-margin-b24">
+          <h2>员工类型</h2>
+          <label class="xsd-input-group xsd-select">
+              <i class="iconfont">&#xe63c;</i>
+              <input class="xsd-input" type="text" readonly placeholder="员工类型">
+              <ul>
+                  <li>管家</li>
+              </ul>
+          </label>
+      </div>
+  {{/if}}
+  {{#if (eq type "message")}}
+      <div class="card xsd-margin-b24 padding-top20">
+          <h2>通知时间</h2>
+          <label class="xsd-input-group xsd-margin-b16">
+              <i class="iconfont">&#xe63e;</i>
+            {{pikaday-input id="x_created_at__gte" class="xsd-input" format="YYYY-MM-DD" placeholder="开始时间" readonly="readonly"}}
+          </label>
+          <label class="xsd-input-group">
+              <i class="iconfont">&#xe63e;</i>
+            {{pikaday-input id="x_created_at__lte" class="xsd-input" format="YYYY-MM-DD" placeholder="截止时间"  readonly="readonly"}}
+          </label>
+      </div>
+      <div class="card xsd-margin-b24">
+          <h2>消息类型</h2>
+          <label class="xsd-input-group xsd-select">
+              <i class="iconfont">&#xe63c;</i>
+              <input class="xsd-input" type="text" readonly placeholder="消息种类">
+              <ul>
+                  <li>全部</li>
+              </ul>
+          </label>
+      </div>
+  {{/if}}
+    <a class="xsd-btn xsd-btn-primary" type={{type}} tips={{tips}} onclick={{action "screen"}}>确认</a>
+</div>

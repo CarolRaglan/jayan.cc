@@ -1,0 +1,176 @@
+<div class="xsd-modal modal-tiny" id="cancelContract">
+  <div class="xsd-modal-header">
+    <span>退租信息</span><a class="xsd-modal-close iconfont" {{action "onCloseModal"}}>&#xe633;</a>
+  </div>
+  <div class="xsd-modal-body">
+    {{#if refresh}}
+
+      <ul class="row-2">
+        {{#if contract.owner_name}}
+          <li class="text-ellipsis" title="{{contract.location}}">
+            房源信息：{{contract.location}}
+          </li>
+        {{else}}
+          <li class="text-ellipsis" title="{{contract.location}} {{contract.room_name}}">
+            房间信息：{{contract.location}} {{contract.room_name}}
+          </li>
+        {{/if}}
+        <li>合同周期：{{contract.start_time}}至{{contract.end_time}}</li>
+        <li>
+          {{#if contract.owner_name}}
+            业主姓名：{{contract.owner_name}}
+          {{else}}
+            租客姓名：{{contract.customer_name}}
+          {{/if}}
+        </li>
+        <li>
+          {{#if contract.owner_name}}
+            联系电话：{{merge contract.owner_phone '暂无'}}
+          {{else}}
+            联系电话：{{merge contract.customer_phone '暂无'}}
+          {{/if}}
+        </li>
+        <li>合同租金：{{contract.month_rental}}元</li>
+        <li>合同押金：{{contract.deposit}}元</li>
+        <li>
+          <label>退租类型</label>
+          <div>
+            {{#each offType as |it|}}
+              <span class="badge {{if it.active 'active'}}" onclick={{action 'toggleOffType' it}}>{{it.name}}</span>
+            {{/each}}
+          </div>
+        </li>
+        <li>
+          {{#if advanced}}
+            <label>退租时间{{#if period}}<strong>({{period}})</strong>{{/if}}</label>
+            <div class="xsd-input-group">
+              {{pikaday-input  class="xsd-input" name="end_time"
+                               value=contract.end_time format=dateFormat
+                               placeholder="请选择退租时间"  readonly="readonly" change=(action 'calcTime')}}
+              <i class="iconfont">&#xe63e;</i>
+            </div>
+          {{else}}
+            <label>退租时间</label>
+            <div class="xsd-input-group">
+              <input type="text" class="xsd-input" name="end_time" disabled value="{{contract.end_time}}">
+              <i class="iconfont">&#xe63e;</i>
+            </div>
+          {{/if}}
+        </li>
+        <li class="col-2">
+          <label>退租原因</label>
+          <textarea class="xsd-input" maxlength="20" name="reason" placeholder="退租原因（20字以内）"></textarea>
+        </li>
+      </ul>
+
+      <h4>费用处理</h4>
+      <p>费用总计：{{amount}}元</p>
+      <div>
+        {{#each extra as |fee|}}
+          <label class="checkbox-inline">
+            <input type="checkbox" name="fee" value={{fee.code}}
+              checked={{fee.checked}} onchange={{action "toggleFee" fee}}>{{fee.name}}
+          </label>
+        {{/each}}
+      </div>
+
+      <ul class="list-fee" {{action 'count' on='change'}}>
+
+        <li>
+          <p>房租处理</p>
+          <label class="xsd-input-group xsd-select xsd-pull-left">
+            <i class="iconfont">&#xe63c;</i>
+            <input class="xsd-input" type="text" readonly value="应退">
+            <ul>
+              <li data-value="收">应收</li>
+              <li data-value="退">应退</li>
+            </ul>
+          </label>
+          <label class="xsd-input-group xsd-pull-left">
+            <i class="iconfont">元</i>
+            {{input class="xsd-input" name="rental" type="number" value=0 }}
+          </label>
+        </li>
+
+        <li>
+          <p>押金处理</p>
+          <label class="xsd-input-group xsd-select xsd-pull-left">
+            <i class="iconfont">&#xe63c;</i>
+            <input class="xsd-input" type="text" readonly data-value="1" value="全退">
+            <ul>
+              <li data-value="1">全退</li>
+              <li data-value="0">不退</li>
+              <li data-value="2">退部分</li>
+            </ul>
+          </label>
+          <label class="xsd-input-group xsd-pull-left">
+            <i class="iconfont">元</i>
+            {{input class="xsd-input" name="deposit" type="number" value=(merge contract.deposit 0)}}
+          </label>
+        </li>
+
+      {{#if contract.installment_info}}
+        <li>
+          <p>
+            <span>分期租金退还</span>
+            <span class="detail-pop">
+              <a class="xsd-color-primary">详情</a>
+              <dl>
+                <dt><em>分期房租应退:</em><strong>{{merge contract.installment_info.need_refund_amount 0}}</strong>元</dt>
+                <dt><em>应退明细:</em></dt>
+                <dd><em>待还本金:</em><strong>{{merge contract.installment_info.need_refund_loan 0}}</strong>元</dd>
+                <dd><em>中途退租违约金:</em><strong>{{merge contract.installment_info.default_amount 0}}</strong>元</dd>
+                <dd><em>服务费退还:</em><strong>{{merge contract.installment_info.instrest_amount 0}}</strong>元</dd>
+                <dd><em>保证金退还:</em><strong>{{merge contract.installment_info.margin_amount 0}}</strong>元</dd>
+              </dl>
+            </span>
+          </p>
+          <label class="xsd-input-group xsd-select xsd-pull-left">
+            {{#if (gt contract.installment_info.need_refund_amount 0)}}
+              <input  class="xsd-input gray" disabled type="text" readonly value="应退">
+            {{else}}
+              <input  class="xsd-input gray" disabled type="text" readonly value="应收">
+            {{/if}}
+          </label>
+          <label class="xsd-input-group xsd-pull-left">
+            <i class="iconfont">元</i>
+            <input  class="xsd-input gray"  disabled  title="金额" name="c_rentamount" id="c_rentamount" type="number"
+                    value={{abs contract.installment_info.need_refund_amount}} />
+          </label>
+        </li>
+        <li class="tips-off">
+          <p><i class="iconfont xsd-color-red">&#xe620;</i> 分期租金退还流程说明</p>
+          <p class="xsd-color-gray">分期租金将从您“余额”中扣除，请确保您的余额充足。如果余额不足，请转账到支付宝（账户：data@h2ome.cn）。转账请备注“账户名，租客姓名，转账原因”，例：账户名13333333333，张三，租金分期提前退租款。</p>
+        </li>
+      {{/if}}
+
+        {{#each extra as |fee|}}
+          {{#if fee.checked}}
+            <li>
+              <p>{{fee.name}}</p>
+              <label class="xsd-input-group xsd-select xsd-pull-left">
+                <i class="iconfont">&#xe63c;</i>
+                <input class="xsd-input" type="text" readonly value="应退">
+                <ul>
+                  <li data-value="收">应收</li>
+                  <li data-value="退">应退</li>
+                </ul>
+              </label>
+              <label class="xsd-input-group xsd-pull-left">
+                <i class="iconfont">元</i>
+                {{input name=fee.code  class="xsd-input" type="number" value=0}}
+              </label>
+            </li>
+          {{/if}}
+        {{/each}}
+
+      </ul>
+
+
+    {{/if}}
+    <div class="footer">
+      <a class="xsd-btn xsd-btn-gray btn-md xsd-modal-close" {{action "onCloseModal"}}>取消</a>
+      <a class="xsd-btn xsd-btn-primary btn-md" onclick={{action "update" contract.id}}>确定</a>
+    </div>
+  </div>
+</div>

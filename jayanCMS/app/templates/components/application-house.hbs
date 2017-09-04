@@ -1,0 +1,147 @@
+<div class="xsd-modal" id="application-house">
+    <div class="xsd-modal-header xsd-margin-b24">
+        <span class="xsd-font-size16">申请房源推广权限</span><a class="xsd-modal-close iconfont">&#xe633;</a>
+    </div>
+    <div class="xsd-modal-body">
+        <div class="container">
+            <div class="xsd-pull-left xsd-margin-b16">
+                <p class="xsd-margin-b12">姓名<i class="xsd-color-red">*</i></p>
+                <label class="xsd-input-group">
+                    <input class="xsd-input area xsd-margin-b6" type="text" name="apply_name" id="apply_name"
+                           validate="required" placeholder="请输入您的姓名" title="您的姓名"><br>
+                </label>
+                <span class="xsd-color-gray  xsd-font-size12"><i
+                        class="iconfont xsd-color-red xsd-font-size12">&#xe620;</i>(请填写真实姓名,以便我们可以核实您的身份)</span>
+            </div>
+            <div class=" xsd-pull-right xsd-margin-b56 xsd-side-margin">
+                <p class="xsd-margin-b12">所在城市<i class="xsd-color-red">*</i></p>
+                <label class="xsd-input-group xsd-pull-left xsd-select  marginRight16">
+                    <i class="iconfont">&#xe63c;</i>
+                    <input class="xsd-input area midInput" type="text" readonly name="apply_province"
+                           id="apply_province"
+                           title="省" validate="required" data-value=""
+                           value={{auth.user.province}} placeholder="请选择所在省">
+                    <ul class="xsd-none">
+                      {{#each auth.provinceArr as |pro index|}}
+                          <li onclick={{action "provinceSelected"}} value="{{index}}">{{pro}}</li>
+                      {{/each}}
+                    </ul>
+                </label>
+                <label class="xsd-input-group xsd-pull-left xsd-select">
+                    <i class="iconfont">&#xe63c;</i>
+                    <input class="xsd-input area midInput" type="text" readonly name="apply_city" id="apply_city"
+                           title="市"
+                           validate="required" data-value="" value={{auth.user.city}} placeholder="请选择所在市">
+                    <ul class="xsd-none">
+                      {{#each city as |ci|}}
+                          <li>{{ci}}</li>
+                      {{/each}}
+                    </ul>
+                </label>
+            </div>
+            <label class=" xsd-pull-left marginRight24 xsd-margin-b16">
+                <p class="xsd-margin-b12">手机号码<i class="xsd-color-red">*</i></p>
+                <div class="xsd-input-group">
+                    <input class="xsd-input area" type="text" name="apply_phone" id="apply_phone" title="手机号码"
+                           placeholder="请输入您的手机号码" validate="required|phone">
+                </div>
+            </label>
+            <label class=" xsd-pull-left xsd-margin-b56">
+                <p class="xsd-margin-b12">58用户名<i class="xsd-color-red">*</i></p>
+                <div class="xsd-input-group">
+                    <input class="xsd-input area xsd-margin-b6" type="text" name="apply_company_phone"
+                           id="apply_company_phone" title="58用户名"
+                           placeholder="请输入所填的手机号绑定的58用户名" validate="required">
+                </div>
+            </label>
+
+            <label class=" xsd-pull-left marginRight24 xsd-margin-b16">
+                <p class="xsd-margin-b12">企业法人<i class="xsd-color-red">*</i></p>
+                <div class="xsd-input-group">
+                    <input class="xsd-input area xsd-margin-b6" type="text" name="apply_legalPerson"
+                           id="apply_legalPerson" title="企业法人"
+                           placeholder="请输入企业法人" validate="required"><br>
+                </div>
+                <span class="xsd-color-gray xsd-font-size12 "><i
+                        class="iconfont xsd-color-red xsd-font-size12">&#xe620;</i>(请确保填写的企业法人与营业执照上一致,以便我<br>们确认您的营业资质。)</span>
+            </label>
+            <label class=" xsd-pull-left xsd-margin-b56">
+                <p class="xsd-margin-b12">公司名称<i class="xsd-color-red">*</i></p>
+                <div class="xsd-input-group">
+                    <input class="xsd-input area xsd-margin-b6" type="text" name="apply_companyName"
+                           id="apply_companyName" title="公司名称"
+                           placeholder="请输入您的公司名称" validate="required">
+                </div>
+                <span class="xsd-color-gray xsd-font-size12 "><i
+                        class="iconfont xsd-color-red xsd-font-size12">&#xe620;</i>(请确保填写的公司名称与营业执照上一致)</span>
+
+            </label>
+
+            <div class="xsd-clearfix xsd-margin-b16">
+                <label class="xsd-pull-left marginRight24">
+                    <p class="xsd-margin-b12">营业执照号<i class="xsd-color-red">*</i></p>
+                    <div class="xsd-input-group">
+                        <input class="xsd-input area xsd-margin-b6" type="text" name="apply_businessNumber"
+                               id="apply_businessNumber" title="营业执照号"
+                               placeholder="请输入营业执照号" validate="required">
+                    </div>
+                </label>
+                <label class=" xsd-pull-left">
+                    <p class="xsd-margin-b12">公寓品牌(简称)<i class="xsd-color-red">*</i></p>
+                    <div class="xsd-input-group">
+                        <input class="xsd-input area xsd-margin-b6" type="text" name="apply_apartmentBrand"
+                               id="apply_apartmentBrand" validate="required" title="公司公寓" placeholder="请输入您的公司公寓">
+                    </div>
+                </label>
+            </div>
+            <label class="xsd-pull-left marginRight24">
+                <p class="xsd-margin-b12">公寓体量<i class="xsd-color-red">*</i></p>
+                <div class="xsd-input-group">
+                    <input class="xsd-input area xsd-margin-b6" type="text"
+                           id="apartment_mess" name="apartment_mess"
+                           placeholder="请输入公寓总房间数" validate="required|numeric" title="公寓体量">
+                </div>
+            </label>
+          <div id="select_module">
+              <p class="xsd-margin-b12">公寓运营模式<i class="xsd-color-red">*</i></p>
+              <div id="select_module_cla">
+                  <label><input class="" type="radio" name="apply_apartmentBrand"
+                         id="apply_apartmentDis" value="1"  title="分散模式">
+                      分散模式
+                  </label>
+                  <label><input class="" type="radio" name="apply_apartmentBrand"
+                                id="apply_apartmentFocus" value="2"  title="集中模式">
+                      集中模式
+                  </label>
+                  <label><input class="" type="radio" name="apply_apartmentBrand"
+                                id="apply_apartmentMixTure" value="3" title="混合经营">
+                      混合经营
+                  </label>
+              </div>
+          </div>
+
+            <div class="xsd-clearfix xsd-margin-b16">
+                <div class="xsd-pull-left xsd-margin-r12">
+                    <p class="xsd-margin-b12">营业执照附件和房源照片样张<i class="xsd-color-red">*</i></p>
+                    {{upload-images ids="upload_peper" dataType="yy_pictures" pic=room.contract.pictures maxSize=10}}
+                </div>
+            </div>
+            <div class=" xsd-margin-b16">
+                <div class="standard">
+                    <h4 class="xsd-color-gray  xsd-font-size12 xsd-margin-b6">
+                        <i class="iconfont xsd-color-red xsd-font-size12">&#xe620;</i>上传营业执照附件和房源照片的标准</h4>
+                    <p>1、包含营业执照附件(<i class="xsd-apartment-color-blue">1张</i>)、卧室（<i class="xsd-apartment-color-blue">3张、需不同房间</i>）、公共区域（<i class="xsd-apartment-color-blue">1张</i>）、厨房（<i class="xsd-apartment-color-blue">1张</i>）、卫生间（<i class="xsd-apartment-color-blue">1张</i>）；若申请集中式公寓，还需提供公寓楼的整体外观照片</p>
+                    <p>2、房源必须是统一的优质装修</p>
+                    <p>3、房源照片请按分类依次上传</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="xsd-modal-bottom">
+        <div class="xsd-clearfix">
+            <a class="xsd-btn xsd-btn-primary xsd-pull-right " onclick={{action "applicationHouse"}}>确定</a>
+            <a class="xsd-btn xsd-btn-gray xsd-modal-close xsd-pull-right">取消</a>
+        </div>
+    </div>
+
+</div>

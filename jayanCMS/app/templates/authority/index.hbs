@@ -1,0 +1,257 @@
+{{#page-waper}}
+<style>
+#authority {
+  padding: 0!important;
+}
+
+#separate #authority .card {
+  width: 18.6%!important;
+}
+
+#separate #authority .card .top i {
+  padding: 2px 5px;
+  position: absolute;
+  font-size: 12px;
+  left: 12px;
+  top: 12px;
+  border-radius: 2px;
+  background-color: #f6f7fa;
+}
+
+#account-search .account-search-area input {
+  border-radius: 3px;
+}
+
+.time-select {
+  border-radius: 3px;
+  border: 1px #e3e3e3 solid;
+}
+
+.auth-box {
+  margin-right: 35px;
+  margin-left: 20px;
+}
+
+.auth-tools {
+  margin-top: 10px;
+  margin-left: 16px;
+  padding: 10px 15px;
+  background-color: #ffffff;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+}
+.auth-tools .text {
+  line-height: 32px;
+}
+.auth-tools .btn {
+  margin-left: 15px;
+  border-radius: 4px;
+  background-color: #ffffff;
+  border: solid 1px #59acff;
+  font-size: 14px;
+  padding: 5px 8px;
+  text-align: center;
+  color: #59acff;
+}
+.auth-tools .reset {
+  border-radius: 4px;
+  background-color: #ffffff;
+  border: 1px #e3e3e3 solid;
+  font-size: 14px;
+  padding: 5px 18px;
+  text-align: center;
+  color: #999;
+}
+#separate > div {
+  margin-top: 0;
+  background: transparent;
+}
+#separate a {
+  color: #4e5b66;
+}
+#separate #auth-container {
+   margin-right: 20px;
+   margin-left: 20px;
+}
+#separate #authority .card {
+  width: 236px;
+  height: 178px;
+  border-radius: 4px;
+  background-color: #ffffff;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+}
+#separate #authority .card .bottom {
+  padding: 0;
+}
+#separate #authority .card .bottom div {
+  border-top: 2px solid #f6f7fa;
+}
+#separate #authority .card .bottom div table td + td {
+  border-left: 2px solid #f6f7fa;
+}
+#separate #authority .card .bottom div {
+  padding: 0;
+}
+#separate #authority .card .bottom table td {
+  padding: 8px 0;
+}
+</style>
+<script>
+$(function(){
+    $(document).on('change', '#account-search .time-select', function(){
+      var start = $('#trade_at__gte').val(),
+          end   = $('#trade_at__lte').val();
+      if (start && end) {
+          $('#screen').click();
+      }
+    });
+})
+</script>
+    <div class="xsd-clearfix">
+      <div class="auth-box">
+        <div id="tools" class="xsd-clearfix auth-tools">
+        <div id="account-search" class="auth-search xsd-pull-left">
+
+          <div class="time-select">
+            <label class="xsd-input-group  xsd-margin-b16">
+              {{pikaday-input id="trade_at__gte"  class="xsd-input" format="YYYY-MM-DD" placeholder="开始时间" readonly="readonly"}}
+            </label>
+            <span>-</span>
+            <label class="xsd-input-group">
+              {{pikaday-input id="trade_at__lte"  class="xsd-input" format="YYYY-MM-DD" placeholder="截止时间" minDate=tradeStartsAt  readonly="readonly"}}
+            </label>
+          </div>
+
+          <label class="xsd-input-group xsd-select xsd-margin-b16">
+            <i class="iconfont">&#xe63c;</i>
+            <input class="xsd-input" id="s_role_name" type="text" data-value="" readonly placeholder="账号角色">
+            <ul onclick={{action "submit"}}>
+              <li data-value="">不限</li>
+              {{#each roleList as |role|}}
+              <li data-value="{{role.attributes.name}}">{{role.attributes.name}}</li>
+              {{/each}}
+            </ul>
+          </label>
+
+          <label class="xsd-input-group xsd-select xsd-margin-b16">
+            <i class="iconfont">&#xe63c;</i>
+            <input class="xsd-input" id="s_account_type" type="text" data-value="" readonly placeholder="账号类型">
+            <ul onclick={{action "submit"}}>
+              <li data-value="">不限</li>
+              <li data-value="员工">员工</li>
+              <li data-value="股东">股东</li>
+              <li data-value="合伙人">合伙人</li>
+            </ul>
+          </label>
+
+          <label id="account-search-area" class="xsd-input-group account-search-area">
+            <i class="iconfont xsd-icon-search" onclick={{action "search"}}>&#xe618;</i>
+            {{input id="search" class="xsd-input" type="text" enter=(action "search") placeholder="搜索：姓名、手机号..."
+                    value=""}}
+          </label>
+
+          <a style="display: none;" onclick={{action "screen"}} id="screen">筛选</a>
+          <a class="reset" onclick={{action "reset"}}>重置</a>
+
+        </div>
+
+        <div class="xsd-pull-right">
+          <div class="xsd-pull-left text">{{auth.user.company_brand}}@{{auth.user.company_postfix}}，共&nbsp;<b
+            class="xsd-color-primary xsd-font-size16">{{model.meta.pagination.count}}</b>&nbsp;名员工
+          </div>
+
+          {{#if auth.user.company_postfix}}
+            <a class="xsd-pull-left btn" data-toggle="xsd-modal" data-target="#addEmployer" onclick={{action "getRoles"}}>添加子账号</a>
+            <a class="xsd-pull-left btn" data-toggle="xsd-drawer" data-target="#roleManagement" onclick={{action "getRoles"}}>角色管理</a>
+          {{/if}}
+        </div>
+      </div>
+      </div>
+
+
+        <a id="distributeHouse_btn" data-toggle="xsd-drawer" data-target="#distributeHouse"></a>
+        <a id="distributePower_btn" data-toggle="xsd-modal" data-target="#distributePower"></a>
+        <div id="separate" class="xsd-pull-right">
+            <div id="auth-container">
+              {{#if model}}
+                  <div id="authority" class="xsd-clearfix">
+                    {{#each model as |employer|}}
+                        <a class="card" data-toggle="xsd-drawer" data-target="#employerDetail"
+                           onclick={{action "detail" employer}} title="点击查看详情">
+                            <div class="top">
+                              <i>{{employer.account_type}}</i>
+                                <p><span class="iconfont xsd-color-gray">&#xe638;&nbsp;</span>{{employer.name}}</p>
+                                <p><span class="iconfont xsd-color-gray">&#xe637;&nbsp;</span>{{employer.phone}}</p>
+                            </div>
+                            <div class="bottom">
+                                <div>
+                                    <table>
+                                        <tr>
+                                            <td onclick={{action "getPower" employer.id}}>
+                                                <p class="xsd-color-primary xsd-font-size14">{{employer.role}}</p>
+                                                <p class="xsd-color-gray xsd-font-size12">角色</p>
+                                            </td>
+                                            <td onclick={{action "getHouses" employer}}>
+                                                <p class="xsd-color-primary xsd-font-size14">{{employer.houses}}</p>
+                                                <p class="xsd-color-gray xsd-font-size12">房源</p>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </a>
+                    {{/each}}
+                  </div>
+              {{else}}
+                {{#if auth.user.company_postfix}}
+                    <div id="xsd-noResult">
+                      {{#if (data-exist keyword created_at__gte created_at__lte)}}
+                          <p><i class="iconfont"><img class="xsd-imgWidth" src="images/power.png"></i></p>
+                          <p>未找到此员工,请核对信息后再试!</p>
+                      {{else}}
+                          <p><i class="iconfont"><img class="xsd-imgWidth" src="images/power.png"></i></p>
+                          <p>一人忙不过来，赶紧分配权限吧</p>
+                          <a class="xsd-btn xsd-btn-primary iconfont" data-toggle="xsd-modal"
+                             data-target="#addEmployer">&#xe639;&nbsp;添加员工</a>
+                      {{/if}}
+                    </div>
+                {{else}}
+                    <div id="xsd-noResult">
+
+                      <p><i class="iconfont"><img class="xsd-imgWidth" src="images/report.png"></i></p>
+                        <p>先添加公司后缀名，开始管理吧！</p>
+                      {{#link-to "user.user-profile" class="xsd-btn xsd-btn-primary iconfont"}}
+                          &#xe650;&nbsp;去添加后缀名{{/link-to}}
+                    </div>
+                {{/if}}
+              {{/if}}
+            </div>
+        </div>
+    </div>
+    {{add-role role=role getRoles=(action "getRoles")}}
+    {{role-management role=role roleList=roleList getRoles=(action "getRoles")}}
+    {{employer-detail model=detail staffReload=(action "staffReload") detail=(action "detail")}}
+    {{add-employer model=model roleList=roleList staffReload=(action "staffReload")}}
+    {{edit-employer-password model=detail detail=(action "detail")}}
+    {{distribute-power roleList=roleList power=power staffReload=(action "staffReload")}}
+    {{distribute-houses store=store employer=employer  refresh=refreshEmployer list=list getList=(action "getList") pages=arrayList staffReload=(action "staffReload")}}
+<style>
+  .delete-modal { height: 180px; }
+  .delete-modal p { text-align: center; }
+</style>
+    <div class="xsd-modal delete-modal xsd-md-modal" id="delEmployer">
+        <div class="xsd-modal-header xsd-margin-b24">
+            <span class="xsd-font-size16"></span><a class="xsd-modal-close iconfont">&#xe633;</a>
+        </div>
+        <div class="xsd-modal-body xsd-margin-b24">
+            <p>
+              是否确认删除该子账号？
+            </p>
+        </div>
+        <div class="xsd-modal-bottom">
+            <div class="xsd-clearfix">
+                <a class="xsd-btn xsd-btn-primary xsd-pull-right" onclick={{action "deleteEmployer"}}>确定</a>
+                <a class="xsd-btn xsd-btn-gray xsd-modal-close xsd-pull-right">取消</a>
+            </div>
+        </div>
+    </div>
+{{/page-waper}}

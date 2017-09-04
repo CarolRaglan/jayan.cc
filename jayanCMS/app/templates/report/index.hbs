@@ -1,0 +1,267 @@
+   {{#page-waper}}
+    <div class="xsd-clearfix">
+        <div id="screen" class="xsd-pull-left">
+          {{#report-search types=types type=type}}{{/report-search}}
+        </div>
+        <div id="report" class="xsd-pull-left">
+            <!--经营状况(共4个)-->
+            <div id="businessStatus" class="xsd-tabs xsd-tabs-card">
+                <ul class="xsd-clearfix xsd-nav-tabs" >
+                    <!--<li class="active z-index4"><a data-toggle="tab" data-href="#tab-business"-->
+                                                   <!--营业报表-->
+                    <li class="z-index3"><a data-toggle="tab" data-href="#tab-pay" id="tab-pay-trigger"
+                                            onclick={{action "tabs" 1}}>支出明细</a>
+                    </li>
+                    <li class="z-index2"><a  id="tab-business-trigger" data-toggle="tab" data-href="#tab-income" id="tab-income-trigger"
+                                            onclick={{action "tabs" 0}}>收入明细</a>
+                    </li>
+                    <li class="z-index1"><a data-toggle="tab" data-href="#tab-include" id="tab-include-trigger"
+                                            onclick={{action "tabs" 2}}>押金明细</a>
+                    </li>
+                </ul>
+                <!--内容区-->
+                <div class="xsd-tab-content">
+                    <!--营业报表-->
+                    <!--支出明细-->
+                    <div class="height-container">
+                      {{condition-search types=types tips=type}}
+                    </div>
+                    <div id="tab-pay" class="active xsd-tab-pane">
+                        <div class="nav">
+                            <div class="xsd-pull-left">
+                                <span>{{auth.user.company_brand}}支出明细报表</span>
+                                <!--<i>时间：-->
+                                  <!--{#if (data-exist start_date end_date)}}-->
+                                    <!--{start_date}} 到 {end_date}}-->
+                                  <!--{else}}-->
+                                      <!--所有时间-->
+                                  <!--{/if}}-->
+                                <!--</i>-->
+                            </div>
+                            <div class="xsd-pull-right">
+                                {{#if auth.e_power.reports_detail_exp}}
+                                <a class="xsd-btn xsd-btn-primary"
+                                   href="{{config.apiUrl1}}rundetails/download?token={{auth.authToken.access_token}}&type={{type}}&start_date={{start_date}}&end_date={{end_date}}&pay_method={{pay_method}}&pay_type={{pay_type}}&rent_extras={{rent_extras}}&fee_type={{fee_type}}">导出报表</a>
+                                {{/if}}
+                            </div>
+                        </div>
+                      {{#if model}}
+                          <div class="table-scroll">
+                              <table border="1">
+                                  <thead>
+                                  <tr>
+                                      <th>日期</th>
+                                      <th>收款人</th>
+                                      <th>人员类型</th>
+                                      <th class="mergeColumns">交易信息</th>
+                                      <th>支付方式</th>
+                                      <th>支出类型</th>
+                                      <th>费用类型</th>
+                                      <th>费用名称</th>
+                                      <th class="mergeColumns">账单周期</th>
+                                      <th>费用金额</th>
+                                      <th>备注</th>
+                                  </tr>
+                                  </thead>
+                                  <tbody class="xsd-color-gray">
+                                  {{#each model as |pay|}}
+                                      <tr>
+                                          <td>{{pay.tradeAt}}</td>
+                                          <td>{{pay.traderName}}</td>
+                                          <td>{{pay.traderType}}</td>
+                                          <td class="mergeColumns">{{pay.tradeInfo}}</td>
+                                          <td>{{pay.payMethod}}</td>
+                                          <td>{{pay.sourceFrom}}</td>
+                                          <td>{{pay.feeType}}</td>
+                                          <td>{{pay.feeName}}</td>
+                                          <td class="mergeColumns">{{pay.durationTime}}</td>
+                                          <td>{{pay.realAmount}}</td>
+                                          <td>
+                                            {{#if pay.remark}}
+                                              {{pay.remark}}
+                                            {{else}}
+                                                暂无
+                                            {{/if}}
+                                          </td>
+                                      </tr>
+                                  {{/each}}
+                                  </tbody>
+                              </table>
+                          </div>
+                      {{else}}
+                          <div id="xsd-noResult">
+                            {{#if (data-exist type start_date end_date pay_method pay_type rent_extras fee_type)}}
+                                <p><i class="iconfont"><img class="xsd-imgWidth" src="images/report.png"></i></p>
+                                <p>没有找到相关报表</p>
+                            {{/if}}
+                          </div>
+                      {{/if}}
+                        <div id="pagination">
+                          {{#if (gt model.meta.pagination.count  12)}}
+                            {{page-numbers content=model}}
+                          {{/if}}
+                        </div>
+                    </div>
+                    <!--收入明细-->
+                    <div id="tab-income" class="xsd-tab-pane">
+                        <div class="nav">
+                            <div class="xsd-pull-left">
+                                <span>{{auth.user.company_brand}}收入明细报表</span>
+                                <!--<i>时间：-->
+                                  <!--{#if (data-exist start_date end_date)}}-->
+                                    <!--{start_date}} 到 {end_date}}-->
+                                  <!--{else}}-->
+                                      <!--所有时间-->
+                                  <!--{/if}}-->
+                                <!--</i>-->
+                            </div>
+                            <div class="xsd-pull-right">
+                                {{#if auth.e_power.reports_detail_exp}}
+                                <a class="xsd-btn xsd-btn-primary"
+                                   href="{{config.apiUrl1}}rundetails/download?token={{auth.authToken.access_token}}&type={{type}}&start_date={{start_date}}&end_date={{end_date}}&pay_method={{pay_method}}&income_type={{income_type}}&rent_extras={{rent_extras}}&fee_type={{fee_type}}">导出报表</a>
+                                {{/if}}
+                            </div>
+                        </div>
+                      {{#if model}}
+                          <div class="table-scroll">
+                              <table border="1">
+                                  <thead>
+                                  <tr>
+                                      <th>日期</th>
+                                      <th>付款人</th>
+                                      <th>人员类型</th>
+                                      <th class="mergeColumns">交易信息</th>
+                                      <th>支付方式</th>
+                                      <th>收入类型</th>
+                                      <th>费用类型</th>
+                                      <th>费用名称</th>
+                                      <th class="mergeColumns">账单周期</th>
+                                      <th>费用金额</th>
+                                      <th>备注</th>
+                                  </tr>
+                                  </thead>
+                                  <tbody class="xsd-color-gray">
+                                  {{#each model as |income|}}
+                                      <tr>
+                                          <td>{{income.tradeAt}}</td>
+                                          <td>{{income.traderName}}</td>
+                                          <td>{{income.traderType}}</td>
+                                          <td class="mergeColumns">{{income.tradeInfo}}</td>
+                                          <td>{{income.payMethod}}</td>
+                                          <td>{{income.sourceFrom}}</td>
+                                          <td>{{income.feeType}}</td>
+                                          <td>{{income.feeName}}</td>
+                                          <td class="mergeColumns">{{income.durationTime}}</td>
+                                          <td>{{income.realAmount}}</td>
+                                          <td>
+                                            {{#if income.remark}}
+                                              {{income.remark}}
+                                            {{else}}
+                                                暂无
+                                            {{/if}}
+                                          </td>
+                                      </tr>
+                                  {{/each}}
+                                  </tbody>
+                              </table>
+                          </div>
+                      {{else}}
+                          <div id="xsd-noResult">
+                            {{#if (data-exist type start_date end_date pay_method income_type rent_extras fee_type)}}
+                                <p><i class="iconfont"><img class="xsd-imgWidth" src="images/report.png"></i></p>
+                                <p>没有找到相关报表</p>
+                            {{/if}}
+                          </div>
+                      {{/if}}
+                        <div id="pagination">
+                          {{#if (gt model.meta.pagination.count  12)}}
+                            {{page-numbers content=model}}
+                          {{/if}}
+                        </div>
+                    </div>
+                    <!--押金明细-->
+                    <div id="tab-include" class="xsd-tab-pane">
+                        <div class="nav">
+                            <div class="xsd-pull-left">
+                                <span>{{auth.user.company_brand}}押金明细报表</span>
+                                <!--<i>时间：-->
+                                  <!--{#if (data-exist start_date end_date)}}-->
+                                    <!--{start_date}} 到 {end_date}}-->
+                                  <!--{else}}-->
+                                      <!--所有时间-->
+                                  <!--{/if}}-->
+                                <!--</i>-->
+                            </div>
+                            <div class="xsd-pull-right">
+                                {{#if auth.e_power.reports_detail_exp}}
+                                <a class="xsd-btn xsd-btn-primary"
+                                   href="{{config.apiUrl1}}rundetails/download?token={{auth.authToken.access_token}}&type={{type}}&start_date={{start_date}}&end_date={{end_date}}&pay_method={{pay_method}}&flow_type={{flow_type}}&trader_type={{trader_type}}&deposit_type={{deposit_type}}">导出报表</a>
+                                {{/if}}
+                            </div>
+                        </div>
+                      {{#if model}}
+                          <div class="table-scroll">
+                              <table border="1">
+                                  <thead>
+                                  <tr>
+                                      <th>日期</th>
+                                      <th>交易人</th>
+                                      <th>人员类型</th>
+                                      <th class="mergeColumns">交易信息</th>
+                                      <th>资金流向</th>
+                                      <th>支付方式</th>
+                                      <th>合同类型</th>
+                                      <th class="mergeColumns">合同周期</th>
+                                      <th>费用金额</th>
+                                      <th>备注</th>
+                                  </tr>
+                                  </thead>
+                                  <tbody class="xsd-color-gray">
+                                  {{#each model as |include|}}
+                                      <tr>
+                                          <td>{{include.tradeAt}}</td>
+                                          <td>{{include.traderName}}</td>
+                                          <td>{{include.traderType}}</td>
+                                          <td class="mergeColumns">{{include.tradeInfo}}</td>
+                                          <td>{{include.moneyFlow}}</td>
+                                          <td>{{include.payMethod}}</td>
+                                          <td>{{include.sourceFrom}}</td>
+                                          <td class="mergeColumns"><p>{{include.durationTime}}</p></td>
+                                          <td>
+                                            {{#if (lt include.realAmount 0)}}
+                                                <p class="xsd-color-red">{{include.realAmount}}</p>
+                                            {{else}}
+                                                <p class="xsd-color-green">{{include.realAmount}}</p>
+                                            {{/if}}
+                                          </td>
+                                          <td>
+                                            {{#if include.remark}}
+                                              {{include.remark}}
+                                            {{else}}
+                                                暂无
+                                            {{/if}}
+                                          </td>
+                                      </tr>
+                                  {{/each}}
+                                  </tbody>
+                              </table>
+                          </div>
+                      {{else}}
+                          <div id="xsd-noResult">
+                            {{#if (data-exist type start_date end_date trader_type pay_method flow_type deposit_type)}}
+                                <p><i class="iconfont"><img class="xsd-imgWidth" src="images/report.png"></i></p>
+                                <p>没有找到相关报表</p>
+                            {{/if}}
+                          </div>
+                      {{/if}}
+                        <div id="pagination">
+                          {{#if (gt model.meta.pagination.count  12)}}
+                            {{page-numbers content=model}}
+                          {{/if}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{{/page-waper}}

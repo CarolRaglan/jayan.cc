@@ -1,0 +1,467 @@
+<div class="xsd-modal" id="release-room">
+    <div class="xsd-modal-header xsd-margin-b24">
+        <span class="xsd-font-size16">
+        {{#if (eq openType 'check')}}查看房间{{/if}}
+        {{#if (eq openType 'submit')}}发布房间{{/if}}
+        {{#if (eq openType 'resetSubmit')}}重新发布房间{{/if}}
+        {{#if (eq openType 'edit')}}编辑房间{{/if}}
+        </span><a class="xsd-modal-close iconfont">&#xe633;</a>
+    </div>
+    <div class="xsd-modal-body">
+      {{#if (eq openType 'resetSubmit')}}
+        {{#if (or (or room.err_msg (eq app_status 0)) (eq app_status 3))}}
+        <div class="xsd-color-gray xsd-margin-b24 failureCause">
+            <h3 class="xsd-margin-b16"><i class="icon iconfont icon-xsdjinggao xsd-color-red"></i> 审核未通过原因：</h3>
+            <ol class="xsd-color-red xsd-padding-b6">
+              {{#if (or (eq app_status 0) (eq app_status 3))}}
+                  <li class="xsd-padding-b12">认证失败原因 <a class="xsd-btn-primary" onclick={{action "goAuth"}}>前往认证</a></li>
+              {{/if}}
+                {{#each room.err_msg as | err_msg |}}
+                  <li class="xsd-padding-b12">{{err_msg}}</li>
+                {{/each}}
+            </ol>
+        </div>
+          {{/if}}
+      {{/if}}
+        <div id="public-form">
+            <div class="container">
+              {{#if refresh}}
+                <label class="xsd-pull-left marginRight24 xsd-margin-b16">
+                    <p class="xsd-margin-b12">出租房间</p>
+                    <div class="xsd-input-group">
+                        <input class="xsd-input area xsd-margin-b6 backgroundGray" disabled type="text" name="publish_rentalRoom" id="publish_rentalRoom" value={{room.name}}>
+                    </div>
+                </label>
+                <label class=" xsd-pull-left xsd-margin-b16">
+                    <p class="xsd-margin-b12">所在城市</p>
+                    <div class="xsd-input-group">
+                        <input class="xsd-input area xsd-margin-b6 backgroundGray" disabled type="text" name="publish_hostCity" id="publish_hostCity" value={{room.city}}>
+                    </div>
+                </label>
+                <div class="xsd-pull-left marginRight24 xsd-margin-b16">
+                    <p class="xsd-margin-b12">区域板块</p>
+                    <div class="xsd-input-group">
+                        <input class="xsd-input area midInput marginRight16 backgroundGray" disabled type="text" name="publish_regional" id="publish_regional" value={{room.district}}>
+                        <input class="xsd-input area midInput backgroundGray" disabled type="text" name="publish_plate" id="publish_plate" value={{room.block}}>
+                    </div>
+                </div>
+                <label class=" xsd-pull-left xsd-margin-b16">
+                    <p class="xsd-margin-b12">所在小区</p>
+                    <div class="xsd-input-group">
+                        <input class="xsd-input area xsd-margin-b6"  type="text" name="publish_areaWhere" id="publish_areaWhere" value={{room.area}}>
+
+                    </div>
+                </label>
+                <label class="xsd-pull-left marginRight24 xsd-margin-b16">
+                    <p class="xsd-margin-b12">小区地址</p>
+                    <div class="xsd-input-group">
+                        <input class="xsd-input area xsd-margin-b6 backgroundGray" disabled type="text" name="publish_cellAddress" id="publish_cellAddress" value={{room.address}}>
+
+                    </div>
+                </label>
+                <label class=" xsd-pull-left xsd-margin-b16">
+                    <p class="xsd-margin-b12">出租方式</p>
+                    <div class="xsd-input-group">
+                        {{#if room.is_whole}}
+                        <input class="xsd-input area xsd-margin-b6 backgroundGray" disabled type="text" name="publish_rentalMode" id="publish_rentalMode" data-value="1" value="整租">
+                        {{else}}
+                        <input class="xsd-input area xsd-margin-b6 backgroundGray" disabled type="text" name="publish_rentalMode" id="publish_rentalMode" data-value="2" value="合租">
+                        {{/if}}
+                    </div>
+                </label>
+                <div class=" xsd-pull-left marginRight24 xsd-margin-b16">
+                    <p class="xsd-margin-b12">户型&nbsp;(室/厅/卫)<i class="xsd-color-red">*</i></p>
+                    {{#if editUnAble}}
+                        <div class="xsd-input-group xsd-pull-left marginRight16">
+                            <i class="iconfont">&#xe63c;</i>
+                            <input class="xsd-input area smallInput" type="text" name="publish_room" id="publish_room" title="几室"  placeholder="室" disabled={{editUnAble}} validate="required" value={{room.bedrooms}}>
+                        </div>
+                        <div class="xsd-input-group xsd-pull-left marginRight16">
+                            <i class="iconfont">&#xe63c;</i>
+                            <input class="xsd-input area smallInput " type="text" name="publish_office" id="publish_office" title="几厅" placeholder="厅" disabled={{editUnAble}} validate="required" value={{room.livingrooms}}>
+                        </div>
+                        <div class="xsd-input-group xsd-pull-left">
+                            <i class="iconfont">&#xe63c;</i>
+                            <input class="xsd-input area smallInput" type="text" name="publish_toilet" id="publish_toilet" title="几卫" placeholder="卫" disabled={{editUnAble}} validate="required" value={{room.washrooms}}>
+                        </div>
+                    {{else}}
+                    <div class="xsd-input-group xsd-select xsd-pull-left marginRight16">
+                        <i class="iconfont">&#xe63c;</i>
+                        <input class="xsd-input area smallInput" type="text" name="publish_room" id="publish_room" title="几室" placeholder="室" readonly validate="required" value={{room.bedrooms}}>
+                        <ul>
+                            <li>1</li>
+                            <li>2</li>
+                            <li>3</li>
+                            <li>4</li>
+                            <li>5</li>
+                            <li>6</li>
+                            <li>7</li>
+                            <li>8</li>
+                            <li>9</li>
+                        </ul>
+                    </div>
+                    <div class="xsd-input-group xsd-select xsd-pull-left marginRight16">
+                        <i class="iconfont">&#xe63c;</i>
+                        <input class="xsd-input area smallInput " type="text" name="publish_office" id="publish_office" title="几厅" placeholder="厅" readonly validate="required" value={{room.livingrooms}}>
+                        <ul>
+                            <li>0</li>
+                            <li>1</li>
+                            <li>2</li>
+                            <li>3</li>
+                            <li>4</li>
+                            <li>5</li>
+                        </ul>
+                    </div>
+                    <div class="xsd-input-group xsd-select xsd-pull-left">
+                        <i class="iconfont">&#xe63c;</i>
+                        <input class="xsd-input area smallInput" type="text" name="publish_toilet" id="publish_toilet" title="几卫" placeholder="卫" readonly validate="required" value={{room.washrooms}}>
+
+                        <ul>
+                            <li>0</li>
+                            <li>1</li>
+                            <li>2</li>
+                            <li>3</li>
+                            <li>4</li>
+                            <li>5</li>
+                        </ul>
+                    </div>
+                    {{/if}}
+                </div>
+                <label class=" xsd-pull-left xsd-margin-b16">
+                    <p class="xsd-margin-b12">出租面积<i class="xsd-color-red">*</i></p>
+                    <div class="xsd-input-group xsd-pull-left">
+                        <i>平米</i>
+                        <input class="xsd-input area" type="text" name="publish_rentalArea" id="publish_rentalArea" placeholder="请输入房间面积" disabled={{editUnAble}} title="出租面积" validate="required|numeric" value={{room.space}}>
+                    </div>
+                </label>
+                {{#if room.is_whole}}
+                  {{else}}
+                <div class="xsd-clearfix xsd-margin-b16">
+                    <label class=" xsd-pull-left marginRight24">
+                        <p class="xsd-margin-b12">房间类型<i class="xsd-color-red">*</i></p>
+                        {{#if editUnAble}}
+                        <div class="xsd-input-group xsd-select">
+                                <i class="iconfont">&#xe63c;</i>
+                                <input class="xsd-input area xsd-margin-b6" type="text" name="publish_roomType" id="publish_roomType" title="房间类型" placeholder="请您选择房间类型" disabled={{editUnAble}} validate="required" data-value={{room.room_type}} value={{room.room_type_name}}>
+                            </div>
+                          {{else}}
+                        <div class="xsd-input-group xsd-select">
+                            <i class="iconfont">&#xe63c;</i>
+                            <input class="xsd-input area " type="text" name="publish_roomType"
+                                   id="publish_roomType"
+                                   title="房间类型"
+                                   placeholder="请您选择房间类型" readonly validate="required" data-value={{room.room_type}} value={{room.room_type_name}}>
+                            <ul>
+                                <li data-value="0">主卧</li>
+                                <li data-value="1">次卧</li>
+                            </ul>
+                        </div>
+                        {{/if}}
+                    </label>
+                    <label class=" xsd-pull-left">
+                        <p class="xsd-margin-b12">房屋朝向<i class="xsd-color-red">*</i></p>
+                        {{#if editUnAble}}
+                            <div class="xsd-input-group xsd-select">
+                                <i class="iconfont">&#xe63c;</i>
+                                <input class="xsd-input area xsd-margin-b6" type="text" name="publish_toward"
+                                       id="publish_toward" title="房屋朝向"
+                                       placeholder="请您选择房屋朝向" disabled={{editUnAble}} validate="required" data-value={{room.toward}} value={{room.toward_name}}>
+                            </div>
+                          {{else}}
+                        <div class="xsd-input-group xsd-select">
+                            <i class="iconfont">&#xe63c;</i>
+                            <input class="xsd-input area xsd-margin-b6" type="text" name="publish_toward"
+                                   id="publish_toward" title="房屋朝向"
+                                   placeholder="请您选择房屋朝向" readonly validate="required" data-value={{room.toward}} value={{room.toward_name}}>
+                            <ul>
+                                <li data-value="south">朝南</li>
+                                <li data-value="north">朝北</li>
+                                <li data-value="east">朝东</li>
+                                <li data-value="west">朝西</li>
+                                <li data-value="eastsouth">东南</li>
+                                <li data-value="westsouth">西南</li>
+                                <li data-value="southnorth">东北</li>
+                                <li data-value="westnorth">西北</li>
+                                <li data-value="eastwest">东西</li>
+                                <li data-value="southnorth">南北</li>
+                            </ul>
+                        </div>
+                        {{/if}}
+                    </label>
+                </div>
+                {{/if}}
+                  <label class="xsd-pull-left marginRight24 xsd-margin-b16">
+                      <p class="xsd-margin-b12">装修状态<i class="xsd-color-red">*</i></p>
+                    {{#if editUnAble}}
+                        <div class="xsd-input-group xsd-select">
+                            <i class="iconfont">&#xe63c;</i>
+                            <input class="xsd-input area xsd-margin-b6" type="text" name="publish_decoration" id="publish_decoration" title="房间类型" placeholder="请您选择房间类型" disabled={{editUnAble}} validate="required" data-value={{room.decoration_name}} value={{room.decoration_name}}>
+                        </div>
+                    {{else}}
+                        <div class="xsd-input-group xsd-select">
+                            <i class="iconfont">&#xe63c;</i>
+                            <input class="xsd-input area " type="text" name="publish_decoration"
+                                   id="publish_decoration"
+                                   title="装修情况"
+                                   placeholder="请您选择装修情况" readonly validate="required" data-value={{room.decoration_name}} value={{room.decoration_name}}>
+                            <ul>
+                                <li data-value="精装修">精装修</li>
+                                <li data-value="毛坯">毛坯</li>
+                                <li data-value="普通装修">普通装修</li>
+                                <li data-value="豪华装修">豪华装修</li>
+                            </ul>
+                        </div>
+                    {{/if}}
+                  </label>
+
+                  <div class="xsd-clearfix xsd-margin-b16">
+                    <div class=" xsd-pull-left marginRight10 xsd-margin-b16">
+                        <p class="xsd-margin-b12">总楼层<i class="xsd-color-red">*</i></p>
+                        <div class="xsd-input-group xsd-pull-left  marginRight16">
+                            <input class="xsd-input area midInput xsd-margin-b6" type="text" name="publish_totalFloor"
+                                   id="publish_totalFloor"
+                                   title="总楼层" disabled={{editUnAble}} validate="required" placeholder="请输入总楼层" value={{room.total_floor_num}}>
+                        </div>
+                    </div>
+                    <div class=" xsd-pull-left xsd-margin-b16">
+                        <p class="xsd-margin-b12">所在楼层<i class="xsd-color-red">*</i></p>
+                        <div class="xsd-input-group xsd-pull-left">
+                            <input class="xsd-input area midInput xsd-margin-b6" type="text" name="publish_whereFloor"
+                                   id="publish_whereFloor"
+                                   title="所在楼层" disabled={{editUnAble}} validate="required" placeholder="请输入所在楼层" value={{room.floor_num}}>
+                        </div>
+                    </div>
+                    <label class=" xsd-pull-left marginRight24 xsd-margin-b16">
+                        <p class="xsd-margin-b12">月租金额<i class="xsd-color-red">*</i></p>
+                        <div class="xsd-input-group xsd-pull-left">
+                            <i>元/月</i>
+                            <input class="xsd-input area xsd-margin-b6" type="text" name="publish_rentAmount"
+                                   id="publish_rentAmount"
+                                   title="月租金额" disabled={{editUnAble}} validate="required|numeric"  placeholder="月租金" value={{room.price}}>
+                        </div>
+                    </label>
+                    <!--{#if (or (eq channel "1") (eq channel "2"))}}-->
+                    <label class="xsd-pull-left xsd-margin-b16">
+                            <p class="xsd-margin-b12">付款方式<i class="xsd-color-red">*</i></p>
+                          {{#if editUnAble}}
+                              <div class="xsd-input-group xsd-select">
+                                  <i class="iconfont">&#xe63c;</i>
+                                  <input class="xsd-input area xsd-margin-b6" type="text" name="publish_pay_method" id="publish_pay_method" title="付款方式" placeholder="请您选择付款方式" disabled={{editUnAble}} validate="required" data-value={{room.pay_method}} value={{room.pay_method}}>
+                              </div>
+                          {{else}}
+                              <div class="xsd-input-group xsd-select xsd-margin-b6">
+                                  <i class="iconfont">&#xe63c;</i>
+                                  <input class="xsd-input area " type="text" name="pay_method"
+                                         id="pay_method"
+                                         title="付款方式"
+                                         placeholder="请您选择付款方式" readonly validate="required" data-value={{room.pay_method}} value={{room.pay_method}}>
+                                  <ul>
+                                      <li data-value="整年付">整年付</li>
+                                      <li data-value="付一押二">付一押二</li>
+                                      <li data-value="半年付">半年付</li>
+                                      <li data-value="付一押一">付一押一</li>
+                                      <li data-value="付二押一">付二押一</li>
+                                      <li data-value="付三押二">付三押二</li>
+                                      <li data-value="付二押二">付二押二</li>
+                                      <li data-value="付三押一">付三押一</li>
+                                  </ul>
+                              </div>
+                          {{/if}}
+                        </label>
+                      <label class=" xsd-pull-left marginRight24  xsd-margin-b16">
+                          <p class="xsd-margin-b12">可租日期<i class="xsd-color-red">*</i></p>
+                          <div class="xsd-input-group xsd-pull-left marginRight24">
+                              <i class="iconfont xsd-color-gray">&#xe63e;</i>
+                            {{#if editUnAble}}
+                                <input class="xsd-input area xsd-margin-b6" type="text" disabled={{editUnAble}} validate="required" value={{room.can_rent_date}}>
+                            {{else}}
+                              {{pikaday-input class="xsd-input area xsd-margin-b6" value=room.can_rent_date id="publish_dateHire" name="publish_dateHire" placeholder="交易时间" format="YYYY-MM-DD"  title="交易时间" readonly="readonly" validate='required'}}
+                            {{/if}}
+                          </div>
+                      </label>
+
+                      <label class=" xsd-pull-left marginRight24">
+                            <p class="xsd-margin-b12">房管员手机号码<i class="xsd-color-red">*</i></p>
+                            <div class="xsd-input-group xsd-pull-left">
+                                <input class="xsd-input area xsd-margin-b6" type="text" name="publish_phone"
+                                       id="publish_phone"
+                                       title="房管员手机号" placeholder="房管员手机号" disabled={{editUnAble}} validate="required|phone" value={{room.publish_phone}}>
+                            </div>
+                    </label>
+                    <!--{/if}}-->
+                    <!--{#if (eq channel "0")}}-->
+                    <!--<label class=" xsd-pull-left xsd-margin-b16">-->
+                        <!--<p class="xsd-margin-b12">房管员手机号码<i class="xsd-color-red">*</i></p>-->
+                        <!--<div class="xsd-input-group xsd-pull-left">-->
+                            <!--<input class="xsd-input area xsd-margin-b6" type="text" name="publish_phone"-->
+                                   <!--id="publish_phone"-->
+                                   <!--title="房管员手机号" placeholder="房管员手机号" disabled={editUnAble}} validate="required|phone" value={room.publish_phone}}>-->
+                        <!--</div>-->
+                    <!--</label>-->
+                    <label class=" xsd-pull-left">
+                        <p class="xsd-margin-b12">房管员姓名<i class="xsd-color-red">*</i></p>
+                        <div class="xsd-input-group xsd-pull-left">
+                            <input class="xsd-input area xsd-margin-b6" type="text" name="publish_name"
+                                   id="publish_name"
+                                   title="房管员姓名" placeholder="房管员姓名" disabled={{editUnAble}} validate="required" value={{room.publish_name}}>
+                        </div>
+                    </label>
+                    <!--{/if}}-->
+                </div>
+
+                <div id="room_deploy">
+                    <!--{#if (eq channel "0")}}-->
+                    <div class="xsd-clearfix xsd-margin-b6" id="tags">
+                        <h3>房间标签</h3>
+                        <div>
+                            <a event-type="all">全选</a>
+                            <div class="list">
+                                <a data-value="tag_metro" class={{data-select room.tags 'tag_metro'}}>离地铁近</a>
+                                <a data-value="tag_balcony" class={{data-select room.tags 'tag_balcony'}}>独立阳台</a>
+                                <a data-value="tag_toilet" class={{data-select room.tags 'tag_toilet'}}>独立卫生间</a>
+                                <a data-value="tag_kitchen" class={{data-select room.tags 'tag_kitchen'}}>厨房</a>
+                                <a data-value="tag_pub_balcony" class={{data-select room.tags 'tag_pub_balcony'}}>公共阳台</a>
+                                <a data-value="tag_pub_toilet" class={{data-select room.tags 'tag_pub_toilet'}}>公共卫生间</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="xsd-clearfix xsd-margin-b6" id="room_assets">
+                        <h3>房间配置</h3>
+                        <div>
+                            <a event-type="all">全选</a>
+                            <div class="list">
+                                <a data-value="bed" class={{data-select room.room_assets 'bed'}}>床</a>
+                                <a data-value="wardrobes" class={{data-select room.room_assets 'wardrobes'}}>衣柜</a>
+                                <a data-value="desks" class={{data-select room.room_assets 'desks'}}>书桌</a>
+                                <a data-value="air_conditionings" class={{data-select room.room_assets 'air_conditionings'}}>空调</a>
+                                <a data-value="heat" class={{data-select room.room_assets 'heat'}}>暖气</a>
+                                <a data-value="televisions" class={{data-select room.room_assets 'televisions'}}>电视机</a>
+                                <a data-value="gas" class={{data-select room.room_assets 'gas'}}>燃气</a>
+                                <a data-value="fridge" class={{data-select room.room_assets 'fridge'}}>冰箱</a>
+                                <a data-value="microwave" class={{data-select room.room_assets 'microwave'}}>微波炉</a>
+                                <a data-value="induction_cooker" class={{data-select room.room_assets 'induction_cooker'}}>电磁炉</a>
+                                <a data-value="water_heaters" class={{data-select room.room_assets 'water_heaters'}}>热水器</a>
+                                <a data-value="washing_machines" class={{data-select room.room_assets 'washing_machines'}}>洗衣机</a>
+                                <a data-value="internet" class={{data-select room.room_assets 'internet'}}>宽带</a>
+                                <a data-value="sofa" class={{data-select room.room_assets 'sofa'}}>沙发</a>
+                                <a data-value="fridge" class={{data-select room.room_assets 'fridge'}}>烤箱</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="xsd-clearfix xsd-margin-b16" id="public_assets">
+                        <h3>公寓配套服务</h3>
+                        <div>
+                            <a event-type="all">全选</a>
+                            <div class="list">
+                                <a data-value="ser_gymnasium" class={{data-select room.support_services 'ser_gymnasium'}}>健身房</a>
+                                <a data-value="ser_market" class={{data-select room.support_services 'ser_market'}}>公寓超市</a>
+                                <a data-value="ser_smart_lock" class={{data-select room.support_services 'ser_smart_lock'}}>智能门锁</a>
+                                <a data-value="ser_atm" class={{data-select room.support_services 'ser_atm'}}>ATM机</a>
+                                <a data-value="ser_express" class={{data-select room.support_services 'ser_express'}}>代收快递</a>
+                                <a data-value="ser_services" class={{data-select room.support_services 'ser_services'}}>专项服务</a>
+                                <a data-value="ser_room_cleaning" class={{data-select room.support_services 'ser_room_cleaning'}}>房间清洁</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!--{/if}}-->
+
+                    <!--待筛选-->
+                    <!--{#if (or (eq channel "2") (eq channel "1"))}}-->
+                        <!--<div class="xsd-clearfix xsd-margin-b6" id="public_equipment">-->
+                            <!--<h3>公用设施</h3>-->
+                            <!--<div>-->
+                                <!--<a event-type="all">全选</a>-->
+                                <!--<div class="list">-->
+                                    <!--<a data-value="冰箱" class={data-select room.public_equipment '冰箱'}}>冰箱</a>-->
+                                    <!--<a data-value="厨房" class={data-select room.public_equipment '厨房'}}>厨房</a>-->
+                                    <!--<a data-value="洗衣机" class={data-select room.public_equipment '洗衣机'}}>洗衣机</a>-->
+                                    <!--<a data-value="微波炉" class={data-select room.public_equipment '微波炉'}}>微波炉</a>-->
+                                    <!--<a data-value="卫生间" class={data-select room.public_equipment '卫生间'}}>卫生间</a>-->
+                                    <!--<a data-value="热水器" class={data-select room.public_equipment '热水器'}}>热水器</a>-->
+                                    <!--<a data-value="宽带" class={data-select room.public_equipment '宽带'}}>宽带</a>-->
+                                    <!--<a data-value="暖气" class={data-select room.public_equipment '暖气'}}>暖气</a>-->
+                                    <!--<a data-value="沙发" class={data-select room.public_equipment '沙发'}}>沙发</a>-->
+                                    <!--<a data-value="电视机" class={data-select room.public_equipment '电视机'}}>电视机</a>-->
+                                    <!--<a data-value="烤箱" class={data-select room.public_equipment '烤箱'}}>烤箱</a>-->
+                                    <!--<a data-value="暂无设施" class={data-select room.public_equipment '暂无设施'}}>暂无设施</a>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="xsd-clearfix xsd-margin-b6" id="room_equipment">-->
+                            <!--<h3>独用设施</h3>-->
+                            <!--<div>-->
+                                <!--<a event-type="all">全选</a>-->
+                                <!--<div class="list">-->
+                                    <!--<a data-value="冰箱" class={data-select room.room_equipment '冰箱'}}>冰箱</a>-->
+                                    <!--<a data-value="厨房" class={data-select room.room_equipment '厨房'}}>厨房</a>-->
+                                    <!--<a data-value="单人床" class={data-select room.room_equipment '单人床'}}>单人床</a>-->
+                                    <!--<a data-value="双人床" class={data-select room.room_equipment '双人床'}}>双人床</a>-->
+                                    <!--<a data-value="衣柜" class={data-select room.room_equipment '衣柜'}}>衣柜</a>-->
+                                    <!--<a data-value="阳台" class={data-select room.room_equipment '阳台'}}>阳台</a>-->
+                                    <!--<a data-value="空调" class={data-select room.room_equipment '空调'}}>空调</a>-->
+                                    <!--<a data-value="写字台" class={data-select room.room_equipment '写字台'}}>写字台</a>-->
+                                    <!--<a data-value="洗衣机" class={data-select room.room_equipment '洗衣机'}}>洗衣机</a>-->
+                                    <!--<a data-value="梳妆台" class={data-select room.room_equipment '梳妆台'}}>梳妆台</a>-->
+                                    <!--<a data-value="卫生间" class={data-select room.room_equipment '卫生间'}}>卫生间</a>-->
+                                    <!--<a data-value="热水器" class={data-select room.room_equipment '热水器'}}>热水器</a>-->
+                                    <!--<a data-value="宽带" class={data-select room.room_equipment '宽带'}}>宽带</a>-->
+                                    <!--<a data-value="沙发" class={data-select room.room_equipment '沙发'}}>沙发</a>-->
+                                    <!--<a data-value="电视机" class={data-select room.room_equipment '电视机'}}>电视机</a>-->
+                                    <!--<a data-value="暂无设施" class={data-select room.room_equipment '暂无设施'}}>暂无设施</a>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="xsd-clearfix xsd-margin-b6" id="people_love">-->
+                            <!--<h3>对租客的要求</h3>-->
+                            <!--<div>-->
+                                <!--<div class="list">-->
+                                    <!--<a data-value="爱干净" class={data-select room.people_love '爱干净'}}>爱干净</a>-->
+                                    <!--<a data-value="不吸烟" class={data-select room.people_love '不吸烟'}}>不吸烟</a>-->
+                                    <!--<a data-value="单人住" class={data-select room.people_love '单人住'}}>单人住</a>-->
+                                    <!--<a data-value="女生" class={data-select room.people_love '女生'}}>女生</a>-->
+                                    <!--<a data-value="双人住" class={data-select room.people_love '双人住'}}>双人住</a>-->
+                                    <!--<a data-value="已婚" class={data-select room.people_love '已婚'}}>已婚</a>-->
+                                    <!--<a data-value="作息规律" class={data-select room.people_love '作息规律'}}>作息规律</a>-->
+                                    <!--<a data-value="单身" class={data-select room.people_love '单身'}}>单身</a>-->
+                                    <!--<a data-value="男生" class={data-select room.people_love '男生'}}>男生</a>-->
+                                    <!--<a data-value="不喝酒" class={data-select room.people_love '不喝酒'}}>不喝酒</a>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--{/if}}-->
+                </div>
+                <label class="xsd-pull-left">
+                    <p class="xsd-margin-b12">房源描述<i class="xsd-color-red">*</i></p>
+                    <div class="xsd-input-group xsd-pull-left">
+                        <textarea id="room_desc" disabled={{editUnAble}} name="room_desc" title="当前房源的描述" class="xsd-margin-b16" placeholder="请在这里输入当前房源的描述，要求字数在50 - 500字之间。" validate="required">{{room.room_desc}}</textarea>
+                    </div>
+                </label>
+                <div class="xsd-clearfix xsd-margin-b16">
+                    <div class="xsd-pull-left xsd-margin-r12">
+                        <p class="xsd-margin-b12">房间照片<i class="xsd-color-red">*</i><span class="xsd-color-gray">(点击图片切换封面)</span></p>
+                      {{upload-images ids="roomPhoto"  dataType="roomPictures"  pic=room.pictures  maxSize=24 minSize=5 hide=editUnAble}}
+                    </div>
+                </div>
+              {{/if}}
+                <div class=" xsd-margin-b16">
+                    <div class="standard">
+                        <h4 class="xsd-color-gray  xsd-font-size12 xsd-margin-b6">
+                        <i class="iconfont xsd-color-red xsd-font-size12">&#xe620;</i>(请填写真实姓名,以便我们可以核实您的身份)</h4>
+                        <p>1、包含卧室(<i class="xsd-color-red">2张以上</i>),公共区域(<i class="xsd-color-red">1张</i>),厨房(<i class="xsd-color-red">1张</i>),卫生间(<i class="xsd-color-red">1张</i>)</p>
+                        <p>2、房源必须是统一的优质装修</p>
+                        <p>3、必须是横版照片，比例为4:3</p>
+                        <p>4、照片数量：最少5张、最多24张</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{#if (not-eq openType 'check')}}
+    <div class="xsd-modal-bottom">
+        <div class="xsd-clearfix">
+            <a class="xsd-btn xsd-btn-primary xsd-pull-right" onclick={{action "publicHouse" room.room_id openType}}>确定</a>
+            <a class="xsd-btn xsd-btn-gray xsd-modal-close xsd-pull-right">取消</a>
+        </div>
+    </div>
+    {{/if}}
+</div>

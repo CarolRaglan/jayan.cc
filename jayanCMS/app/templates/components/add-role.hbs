@@ -1,0 +1,358 @@
+<div class="xsd-modal" id="addRole">
+    <div class="xsd-modal-header xsd-margin-b24">
+        <span class="xsd-font-size16">
+            {{#if role.name}}
+              查看/编辑角色
+              {{else}}
+            添加角色
+            {{/if}}
+        </span><a class="xsd-modal-close iconfont">&#xe633;</a>
+    </div>
+    <div class="xsd-modal-body">
+        <div class="xsd-clearfix xsd-margin-b12 ">
+            <p class="xsd-margin-b6">角色名称</p>
+            <label class="xsd-pull-left xsd-margin-r12 xsd-input-group">
+                <input class="xsd-input" type="text" name="add-role" id="add-role" title="角色名称"
+                       validate="required" placeholder="输入角色名称" value={{role.name}}>
+            </label>
+        </div>
+	    <div class="tree-node">
+		    <label class="xsd-font-bold xsd-font-size16 xsd-margin-b6 block border-line"  data-node="node">
+              {{input type="checkbox" id="a-base_view" checked=role.base_view}}
+			    房源管理(查看)
+		    </label>
+		    <div class="xsd-margin-b12 xsd-margin-l16" >
+			    <label class="block xsd-margin-b6">
+                  {{input type="checkbox" id="a-landlord_house_add" checked=role.landlord_house_add}}
+				    添加房源/公寓
+			    </label>
+			    <label class="block xsd-margin-b6 ">
+                  {{input type="checkbox" id="a-landlord_house_edit" checked=role.landlord_house_edit}}
+				    编辑房源/公寓
+			    </label>
+			    <label class="block xsd-margin-b6 ">
+                  {{input type="checkbox" id="a-landlord_house_del" checked=role.landlord_house_del}}
+				    删除房源
+			    </label>
+			    <label class="block xsd-margin-b6 ">
+                  {{input type="checkbox" id="a-landlord_house_addroom" checked=role.landlord_house_addroom}}
+				    新增房间(楼层)
+			    </label>
+			    <label class="block xsd-margin-b6 ">
+                  {{input type="checkbox" id="a-landlord_house_editroom" checked=role.landlord_house_editroom}}
+				    编辑房间(楼层)
+			    </label>
+			    <label class="block xsd-margin-b6 ">
+                  {{input type="checkbox" id="a-landlord_house_delroom" checked=role.landlord_house_delroom}}
+				    删除房间(楼层)
+			    </label>
+			    <div class="xsd-margin-b12 tree-node">
+				    <label class="block xsd-margin-b6 " data-node="node">
+                      {{input type="checkbox"  id="a-landlord_contract_view" checked=role.landlord_contract_view}}
+					    托管合同(查看)
+				    </label>
+				    <div class="xsd-margin-b12 xsd-margin-l16">
+					    <label>
+                          {{input type="checkbox" id="a-landlord_contract_create" checked=role.landlord_contract_create}}
+						    录入合同
+					    </label>
+					    <label>
+                          {{input type="checkbox" id="a-landlord_contract_edit" checked=role.landlord_contract_edit}}
+						    编辑合同</label>
+					    <label>
+                          {{input type="checkbox" id="a-landlord_contract_renew" checked=role.landlord_contract_renew}}
+						    续租管理</label>
+					    <label>
+                          {{input type="checkbox" id="a-landlord_contract_evict" checked=role.landlord_contract_evict}}
+						    退租管理</label>
+					    <label>
+                          {{input type="checkbox" id="a-landlord_contract_del" checked=role.landlord_contract_del}}
+						    删除合同</label>
+				    </div>
+			    </div>
+			    <div class="xsd-margin-b12 tree-node">
+				    <label class="block xsd-margin-b6 " data-node="node">
+                      {{input type="checkbox"  id="a-landlord_order_view" checked=role.landlord_order_view}}
+					    业主账单(查看)
+				    </label>
+				    <div class="xsd-margin-b12 xsd-margin-l16">
+					    <label>
+                          {{input type="checkbox" id="a-landlord_order_edit" checked=role.landlord_order_edit}}
+						    编辑账单</label>
+					    <label>
+                          {{input type="checkbox" id="a-landlord_order_paid" checked=role.landlord_order_paid}}
+						    确认付款</label>
+					    <label>
+                          {{input type="checkbox" id="a-landlord_order_add" checked=role.landlord_order_add}}
+						    新增账单
+					    </label>
+					    <label>
+                          {{input type="checkbox" id="a-landlord_order_del" checked=role.landlord_order_del}}
+						    删除账单
+					    </label>
+				    </div>
+			    </div>
+			    <div class="xsd-margin-b12 tree-node">
+				    <label class="block xsd-margin-b6 " data-node="node">
+                      {{input type="checkbox"  id="a-customer_contract_view" checked=role.customer_contract_view}}
+					    租客合同(查看)
+				    </label>
+				    <div class="xsd-margin-b12 xsd-margin-l16">
+					    <label>
+                          {{input type="checkbox" id="a-customer_contract_create" checked=role.customer_contract_create}}
+						    录入合同
+					    </label>
+					    <label>
+                          {{input type="checkbox" id="a-customer_contract_edit" checked=role.customer_contract_edit}}
+						    编辑合同</label>
+					    <label>
+                          {{input type="checkbox" id="a-customer_contract_renew" checked=role.customer_contract_renew}}
+						    续租管理</label>
+					    <label>
+                          {{input type="checkbox" id="a-customer_contract_evict" checked=role.customer_contract_evict}}
+						    退租管理</label>
+					    <label>
+                          {{input type="checkbox" id="a-customer_contract_del" checked=role.customer_contract_del}}
+						    删除合同</label>
+				    </div>
+			    </div>
+			    <div class="xsd-margin-b12 tree-node">
+				    <label class="block xsd-margin-b6 " data-node="node">
+                      {{input type="checkbox"  id="a-customer_order_view" checked=role.customer_order_view}}
+					    租客账单(查看)
+				    </label>
+				    <div class="xsd-margin-b12 xsd-margin-l16">
+					    <label>
+                          {{input type="checkbox" id="a-customer_order_edit" checked=role.customer_order_edit}}
+						    账单抄表</label>
+					    <label>
+                          {{input type="checkbox" id="a-customer_order_send" checked=role.customer_order_send}}
+						    发送账单</label>
+					    <label>
+                          {{input type="checkbox" id="a-customer_order_paid" checked=role.customer_order_paid}}
+						    确认收租</label>
+					    <label>
+                          {{input type="checkbox" id="a-customer_order_add" checked=role.customer_order_add}}
+						    添加账单
+					    </label>
+					    <br/>
+					    <label>
+                          {{input type="checkbox" id="a-customer_order_mod" checked=role.customer_order_mod}}
+						    编辑账单</label>
+					    <label>
+                          {{input type="checkbox" id="a-customer_order_del" checked=role.customer_order_del}}
+						    删除账单
+					    </label>
+				    </div>
+			    </div>
+		    </div>
+	    </div>
+
+	    <div class="tree-node">
+		    <label class="xsd-font-bold xsd-font-size16 xsd-margin-b6 block"  data-node="node">
+              {{input type="checkbox" id="a-crm_manage_view" checked=role.crm_manage_view}}
+			    派单(查看)
+		    </label>
+		    <div class="xsd-margin-b12 xsd-margin-l16 tree-node" >
+			    <label class="block xsd-margin-b6"  data-node="node">
+                  {{input type="checkbox" id="a-crm_manage_edit" checked=role.crm_manage_edit}}
+				    新建、编辑、分配
+			    </label>
+			    <div class="xsd-margin-b12 xsd-margin-l16">
+				    <label class="block xsd-margin-b6 ">
+                      {{input type="checkbox"  id="a-crm_manage_del" checked=role.crm_manage_del}}
+					    删除
+				    </label>
+			    </div>
+		    </div>
+	    </div>
+	    <div class="tree-node">
+		    <label class="xsd-font-bold xsd-font-size16 xsd-margin-b6 block"  data-node="node">
+              {{input type="checkbox" id="a-finance_manage_view" checked=role.finance_manage_view}}
+			    财务管理(查看)
+		    </label>
+
+        <div class="xsd-margin-b12 xsd-margin-l16 tree-node" >
+          <label class="block xsd-margin-b6"  data-node="node">
+            {{input type="checkbox" id="a-finance_payment_view"  checked=role.finance_payment_view}}
+            收支流水(查看)
+          </label>
+          <div class="xsd-margin-b12 xsd-margin-l16">
+            <label class="block xsd-margin-b6 ">
+              {{input type="checkbox" id="a-finance_payment_exp"  checked=role.finance_payment_exp}}
+              导出报表
+            </label>
+          </div>
+        </div>
+
+		    <div class="xsd-margin-b12 xsd-margin-l16 tree-node" >
+			    <label class="block xsd-margin-b6"  data-node="node">
+                  {{input type="checkbox" id="a-finance_flow_view" checked=role.finance_flow_view}}
+				    流水明细(查看)
+			    </label>
+			    <div class="xsd-margin-b12 xsd-margin-l16">
+				    <label class="xsd-margin-b6 ">
+                      {{input type="checkbox"  id="a-finance_flow_add" checked=role.finance_flow_add}}
+					    添加明细
+				    </label>
+				    <label class="xsd-margin-b6 ">
+                      {{input type="checkbox"  id="a-finance_flow_del" checked=role.finance_flow_del}}
+					    删除明细
+				    </label>
+				    <label class="xsd-margin-b6 ">
+                      {{input type="checkbox"  id="a-finance_flow_exp" checked=role.finance_flow_exp}}
+					    导出报表
+				    </label>
+			    </div>
+		    </div>
+		    <div class="xsd-margin-b12 xsd-margin-l16 tree-node" >
+			    <label class="block xsd-margin-b6"  data-node="node">
+                  {{input type="checkbox" id="a-finance_flow_pre_in_view" checked=role.finance_flow_pre_in_view}}
+				    收入预算(查看)
+			    </label>
+			    <div class="xsd-margin-b12 xsd-margin-l16">
+				    <label class="block xsd-margin-b6 ">
+                      {{input type="checkbox" id="a-finance_flow_pre_in_exp"  checked=role.finance_flow_pre_in_exp}}
+					    导出报表
+				    </label>
+			    </div>
+		    </div>
+        <div class="xsd-margin-b12 xsd-margin-l16 tree-node" >
+          <label class="block xsd-margin-b6"  data-node="node">
+            {{input type="checkbox" id="a-finance_flow_pre_out_view" checked=role.finance_flow_pre_out_view}}
+            支出预算(查看)
+          </label>
+          <div class="xsd-margin-b12 xsd-margin-l16">
+            <label class="block xsd-margin-b6 ">
+              {{input type="checkbox"  id="a-finance_flow_pre_out_exp" checked=role.finance_flow_pre_out_exp}}
+              导出报表
+            </label>
+          </div>
+        </div>
+	    </div>
+
+	    <div class="tree-node">
+		    <label class="xsd-font-bold xsd-font-size16 xsd-margin-b6 block"  data-node="node">
+              {{input type="checkbox" id="a-reports_view" checked=role.reports_view}}
+			    报表(查看)
+		    </label>
+		    <div class="xsd-margin-b12 xsd-margin-l16 tree-node" >
+			    <label class="block xsd-margin-b6"  data-node="node">
+                  {{input type="checkbox" id="a-reports_busi_view" checked=role.reports_busi_view}}
+				    营业报告(查看)
+			    </label>
+			    <div class="xsd-margin-b12 xsd-margin-l16">
+				    <label class="block xsd-margin-b6 ">
+                      {{input type="checkbox"  id="a-reports_busi_exp" checked=role.reports_busi_exp}}
+					    导出报表
+				    </label>
+			    </div>
+		    </div>
+		    <div class="xsd-margin-b12 xsd-margin-l16 tree-node" >
+			    <label class="block xsd-margin-b6"  data-node="node">
+                  {{input type="checkbox" id="a-reports_detail_view" checked=role.reports_detail_view}}
+				    营业明细(查看)
+			    </label>
+			    <div class="xsd-margin-b12   xsd-margin-l16">
+				    <label class="block xsd-margin-b6 ">
+                      {{input type="checkbox"  id="a-reports_detail_exp" checked=role.reports_detail_exp}}
+					    导出报表
+				    </label>
+			    </div>
+		    </div>
+		    <div class="xsd-margin-b12 xsd-margin-l16 tree-node">
+			    <label class="block xsd-margin-b6"  data-node="node">
+                  {{input type="checkbox" id="a-reports_lcf_view" checked=role.reports_lcf_view}}
+				    业主/租客/房源清单(查看)
+			    </label>
+			    <div class="xsd-margin-b12 xsd-margin-l16">
+				    <label class="block xsd-margin-b6 ">
+                      {{input type="checkbox"  id="a-reports_lcf_exp" checked=role.reports_lcf_exp}}
+					    导出报表
+				    </label>
+			    </div>
+		    </div>
+	    </div>
+
+      <div class="tree-node">
+          <label class="xsd-font-bold xsd-font-size16 xsd-margin-b6 block"  data-node="node">
+            {{input type="checkbox" id="a-statistics_view" checked=role.statistics_view}}
+              统计(查看)
+          </label>
+          <div class="xsd-margin-b12 xsd-margin-l16 tree-node" >
+              <label class="block xsd-margin-b6"  data-node="node">
+                {{input type="checkbox" id="a-statistics_busi_view" checked=role.statistics_busi_view}}
+                  运营统计(查看)
+              </label>
+          </div>
+          <div class="xsd-margin-b12 xsd-margin-l16 tree-node" >
+              <label class="block xsd-margin-b6"  data-node="node">
+                {{input type="checkbox" id="a-statistics_fina_view" checked=role.statistics_fina_view}}
+                  财务统计(查看)
+              </label>
+          </div>
+      </div>
+	    <div class="tree-node">
+		    <label class="xsd-font-bold xsd-font-size16 xsd-margin-b6 block"  data-node="node">
+              {{input type="checkbox" id="a-openchannel_view" checked=role.openchannel_view}}
+			    出房管理(查看)
+		    </label>
+		    <div class="xsd-margin-b12 xsd-margin-l16" >
+			    <label>
+                  {{input type="checkbox" id="a-openchannel" checked=role.openchannel}}
+				    设置出房</label>
+		    </div>
+	    </div>
+
+	    <div class="tree-node">
+		    <label class="xsd-font-bold xsd-font-size16 xsd-margin-b6 block"  data-node="node">
+              {{input type="checkbox" id="a-financeloan_flow_view" checked=role.financeloan_flow_view}}
+			    分期(查看)
+		    </label>
+	    </div>
+
+	    <div class="tree-node">
+		    <label class="xsd-font-bold xsd-font-size16 xsd-margin-b6 block"  data-node="node">
+              {{input type="checkbox" id="a-h2ometrades" checked=role.h2ometrades}}
+		    余额(查看)
+		    </label>
+	    </div>
+
+	    <div class="tree-node">
+		    <label class="xsd-font-bold xsd-font-size16 xsd-margin-b6 block"  data-node="node">
+              {{input type="checkbox" id="a-smart_device_view" checked=role.smart_device_view}}
+			    智能硬件(查看)
+		    </label>
+		    <div class="xsd-margin-b12 xsd-margin-l16" >
+			    <label>
+                  {{input type="checkbox" id="a-smart_power_bind" checked=role.smart_power_bind}}
+				    添加电表</label>
+			    <label>
+                  {{input type="checkbox" id="a-smart_power_prepay" checked=role.smart_power_prepay}}
+				    电费充值</label>
+			    <label>
+                  {{input type="checkbox" id="a-smart_power_switch" checked=role.smart_power_switch}}
+				    断电/通电</label>
+			    <label>
+                  {{input type="checkbox" id="a-smart_power_unbind" checked=role.smart_power_unbind}}
+				    解绑电表</label>
+			    <label>
+                  {{input type="checkbox" id="a-smart_power_set" checked=role.smart_power_set}}
+				    电表配置</label>
+
+		    </div>
+	    </div>
+    </div>
+    <div class="xsd-modal-bottom">
+        <div class="xsd-clearfix">
+            {{#if  role.name}}
+                  <a class="xsd-btn xsd-btn-primary xsd-pull-right" onclick={{action "addRole" role.role_id "PATCH"}}>保存</a>
+                  <a class="xsd-btn xsd-btn-gray xsd-pull-right xsd-modal-close" onclick={{action "close"}}>取消</a>
+            {{else}}
+            <a class="xsd-btn xsd-btn-primary xsd-pull-right" onclick={{action "addRole" role.role_id "POST"}}>保存</a>
+            <a class="xsd-btn xsd-btn-gray xsd-pull-right xsd-modal-close" onclick={{action "close"}}>取消</a>
+            {{/if}}
+        </div>
+    </div>
+</div>
+

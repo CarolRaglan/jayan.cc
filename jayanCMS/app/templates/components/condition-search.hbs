@@ -1,0 +1,226 @@
+<div id="conditionSearch">
+  <div id="tab-pay-style" class="tab-pay-styles">
+    {{#if (eq types "run")}}
+      <div class="card xsd-margin-b24 margin-top20">
+        <label class="xsd-input-group  xsd-margin-b16">
+          {{pikaday-input id="start_date"  class="xsd-input" format="YYYY-MM-DD" placeholder="开始时间"
+                          readonly="readonly" onSelection=(action 'selectTime')}}
+        </label>
+        <span>-</span>
+        <label class="xsd-input-group">
+          {{pikaday-input id="end_date"  class="xsd-input" format="YYYY-MM-DD" placeholder="截止时间"
+                          minDate=tradeStartsAt  readonly="readonly" onSelection=(action 'selectTime')}}
+        </label>
+      </div>
+      {{#if (eq tips "2")}}
+        <label class="xsd-input-group xsd-select xsd-margin-b16">
+          <i class="iconfont">&#xe63c;</i>
+          <input class="xsd-input" id="s_people_type" type="text" data-value=""
+                 readonly placeholder="人员类型" onchange={{action 'screen'}}>
+          <ul>
+            <li data-value="">不限</li>
+            <li data-value="0">业主</li>
+            <li data-value="1">租客</li>
+            <li data-value="2">其他</li>
+          </ul>
+        </label>
+      {{/if}}
+      {{#if (not-eq tips "3")}}
+        <label class="xsd-input-group xsd-select xsd-margin-b16">
+          <i class="iconfont">&#xe63c;</i>
+          <input class="xsd-input" id="s_flow_type" type="text" data-value=""
+                 readonly placeholder="支付方式" onchange={{action 'screen'}}>
+          <ul>
+            <li data-value="">不限</li>
+            <li data-value="0">支付宝</li>
+            <li data-value="1">滴答付</li>
+            <li data-value="2">微信</li>
+            <li data-value="3">现金</li>
+            <li data-value="4">银行转账</li>
+            <li data-value="5">系统标记为已支付</li>
+          </ul>
+        </label>
+        {{#if (eq tips "2")}}
+          <label class="xsd-input-group xsd-select xsd-margin-b16">
+            <i class="iconfont">&#xe63c;</i>
+            <input class="xsd-input" id="s_money_type" type="text" data-value=""
+                   readonly placeholder="资金流向" onchange={{action 'screen'}}>
+            <ul>
+              <li data-value="">不限</li>
+              <li data-value="0">收入</li>
+              <li data-value="1">支出</li>
+            </ul>
+          </label>
+          <label class="xsd-input-group xsd-select xsd-margin-b16">
+            <i class="iconfont">&#xe63c;</i>
+            <input class="xsd-input" id="s_deposit_type" type="text" data-value=""
+                   readonly placeholder="合同类型" onchange={{action 'screen'}}>
+            <ul>
+              <li data-value="">不限</li>
+              <li data-value="0">托管合同</li>
+              <li data-value="1">租客合同</li>
+            </ul>
+          </label>
+        {{/if}}
+        {{#if (eq tips "1")}}
+          <label class="xsd-input-group xsd-select xsd-margin-b16">
+            <i class="iconfont">&#xe63c;</i>
+            <input class="xsd-input" id="s_pay_type" type="text" data-value=""
+                   readonly placeholder="支出类型" onchange={{action 'screen'}}>
+            <ul>
+              <li data-value="">不限</li>
+              <li data-value="0">托管合同支出</li>
+              <li data-value="1">退租结算</li>
+            </ul>
+          </label>
+        {{/if}}
+
+        {{#if (eq tips "0")}}
+          <label class="xsd-input-group xsd-select xsd-margin-b16">
+            <i class="iconfont">&#xe63c;</i>
+            <input class="xsd-input" id="s_income_type" type="text" data-value=""
+                   readonly placeholder="收入类型" onchange={{action 'screen'}}>
+            <ul>
+              <li data-value="">不限</li>
+              <li data-value="0">租客合同收入</li>
+              <li data-value="1">退租结算</li>
+            </ul>
+          </label>
+        {{/if}}
+        {{#if (lt tips 2)}}
+          <label class="xsd-input-group xsd-select xsd-margin-b16">
+            <i class="iconfont">&#xe63c;</i>
+            <input class="xsd-input" id="s_fees_type" type="text" data-value=""
+                   readonly placeholder="费用类型" onchange={{action 'screen'}}>
+            <ul>
+              <li data-value="" onclick={{action "selectType" true}}>不限</li>
+              <li data-value="0" onclick={{action "selectType" true}}>房租</li>
+              <li data-value="1" onclick={{action "selectType" false}}>杂费</li>
+            </ul>
+          </label>
+          <label class="xsd-input-group xsd-select xsd-margin-b16">
+            <i class="iconfont">&#xe63c;</i>
+            <input class="xsd-input" id="s_fees_name" type="text" data-value=""
+                   readonly placeholder="费用名称" onchange={{action 'screen'}}>
+            <ul>
+              <li data-value="">不限</li>
+              {{#if feeType}}
+                <li data-value="0">租金</li>
+                <li data-value="1">押金</li>
+              {{else}}
+                <li data-value="2">水费</li>
+                <li data-value="3">电费</li>
+                <li data-value="4">燃气费</li>
+                <li data-value="5">物业费</li>
+                <li data-value="6">服务费</li>
+                <li data-value="7">维修费</li>
+                <li data-value="8">保洁费</li>
+                <li data-value="9">材料费</li>
+                <li data-value="10">有线电视</li>
+                <li data-value="11">宽带</li>
+                <li data-value="12">卫生</li>
+                <li data-value="13">其他</li>
+              {{/if}}
+            </ul>
+          </label>
+        {{/if}}
+      {{/if}}
+
+    {{/if}}
+    {{#if (eq types 'month-report')}}
+      <div class="xsd-no-con"></div>
+      <label class="xsd-input-group xsd-select xsd-margin-b16">
+        <i class="iconfont">&#xe63c;</i>
+        <input class="xsd-input" id="select_year" type="text"
+               data-value="" readonly placeholder="年份" onchange={{action 'screen'}}>
+        <ul>
+          <li data-value="2016">2016年</li>
+          <li data-value="2017">2017年</li>
+          <li data-value="2018">2018年</li>
+          <li data-value="2019">2019年</li>
+          <li data-value="2020">2020年</li>
+        </ul>
+      </label>
+      <label class="xsd-input-group xsd-select xsd-margin-b16">
+        <i class="iconfont">&#xe63c;</i>
+        <input class="xsd-input" id="select_month" type="text" data-value=""
+               readonly placeholder="月份" onchange={{action 'screen'}}>
+        <ul>
+          <li data-value="1">1月</li>
+          <li data-value="2">2月</li>
+          <li data-value="3">3月</li>
+          <li data-value="4">4月</li>
+          <li data-value="5">5月</li>
+          <li data-value="6">6月</li>
+          <li data-value="7">7月</li>
+          <li data-value="8">8月</li>
+          <li data-value="9">9月</li>
+          <li data-value="10">10月</li>
+          <li data-value="11">11月</li>
+          <li data-value="12">12月</li>
+        </ul>
+      </label>
+
+    {{/if}}
+    {{#if (eq types 'bill')}}
+      <div class="card xsd-margin-b24 margin-top20">
+        <label class="xsd-input-group  xsd-margin-b16">
+          {{pikaday-input id="start_date"  class="xsd-input" format="YYYY-MM-DD"
+                          placeholder="开始时间" readonly="readonly" onSelection=(action 'screen')}}
+        </label>
+        <span>-</span>
+        <label class="xsd-input-group">
+          {{pikaday-input id="end_date"  class="xsd-input" format="YYYY-MM-DD"  onSelection=(action 'screen')
+                          placeholder="截止时间" minDate=tradeStartsAt  readonly="readonly"}}
+        </label>
+      </div>
+      <div class="card xsd-margin-b24 margin-top20">
+        <label class="xsd-input-group  xsd-margin-b16">
+          {{pikaday-input id="end_start_date"  class="xsd-input" format="YYYY-MM-DD"
+                          placeholder="开始时间" readonly="readonly"  onSelection=(action 'screen')}}
+        </label>
+        <span>-</span>
+        <label class="xsd-input-group">
+          {{pikaday-input id="end_end_date"  class="xsd-input" format="YYYY-MM-DD"  onSelection=(action 'screen')
+                          placeholder="截止时间" minDate=tradeStartsAt  readonly="readonly"}}
+        </label>
+      </div>
+      <label class="xsd-input-group xsd-select xsd-margin-b16">
+        <i class="iconfont">&#xe63c;</i>
+        <input class="xsd-input" id="s_flow_type" type="text"
+               data-value="" readonly placeholder="合同状态" onchange={{action 'screen'}}>
+        <ul>
+          <li data-value="">不限</li>
+          <li data-value="active">生效</li>
+          <li data-value="disabled_normal">正常退租</li>
+          <li data-value="disabled_unnormal">提前退租</li>
+          <li data-value="expired">已超期</li>
+        </ul>
+      </label>
+    {{/if}}
+    {{#if (eq types 'house-report')}}
+      <div class="card xsd-margin-b24 margin-top20">
+        <label class="xsd-input-group  xsd-margin-b16">
+          {{pikaday-input id="trade_at__gte"  class="xsd-input" format="YYYY-MM-DD"  onSelection=(action 'screen')
+                          placeholder="录入时间" readonly="readonly"}}
+        </label>
+        <span>-</span>
+        <label class="xsd-input-group">
+          {{pikaday-input id="e_end_date"  class="xsd-input" format="YYYY-MM-DD" placeholder="截止时间"
+                          minDate=tradeStartsAt  readonly="readonly"  onSelection=(action 'screen')}}
+        </label>
+      </div>
+      <label class="xsd-input-group xsd-select xsd-margin-b16">
+        <i class="iconfont">&#xe63c;</i>
+        <input class="xsd-input" id="q_flow_type" type="text" data-value=""
+               readonly placeholder="业主合同" onchange={{action 'screen'}}>
+        <ul>
+          <li data-value="">不限</li>
+          <li data-value="empty">未录入</li>
+          <li data-value="rented">已录入</li>
+        </ul>
+      </label>
+    {{/if}}
+    <a class="xsd-btn xsd-btn-primary condition-reset-btn" onclick={{action "reset"}}>重置</a>
+  </div>
+</div>

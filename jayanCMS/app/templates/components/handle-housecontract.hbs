@@ -1,0 +1,37 @@
+<div class="xsd-drawer house-room" id="handleHouseContract">
+  <div class="xsd-drawer-header">
+    <a class="xsd-modal-close iconfont">&#xe633;</a>
+  </div>
+  <div class="xsd-drawer-body">
+    <h2 class="xsd-margin-b16">{{contract.location}}</h2>
+    <p class="xsd-margin-b24">{{contract.address}}</p>
+    <div class="xsd-tabs">
+      <ul class="xsd-clearfix xsd-nav-tabs">
+        <li class="active"><a class="xsd-color-black" data-toggle="tab" data-href="#tab-1">托管合同</a></li>
+      </ul>
+      <div class="xsd-tab-content">
+        <div id="tab-1" class="active xsd-tab-pane panel-tiny">
+          <h3 class="title-primary">生效合同</h3>
+          <div class="bar">
+            <label>
+              <em>{{contract.owner_name}}</em>
+              <span>（合同周期：{{contract.start_time}}到{{contract.end_time}}）</span>
+            </label>
+            {{#if auth.e_power.landlord_contract_renew}}
+              {{#if (eq contract.contract_status 3)}}
+                <a onclick={{action "renew" contract.house}}>续租</a>
+              {{/if}}
+            {{/if}}
+            {{#if auth.e_power.landlord_contract_evict}}
+              <a onclick={{action "cancelContract" contract.id}}>退租</a>
+            {{/if}}
+            {{#if auth.e_power.landlord_contract_edit}}
+              <a onclick={{action "edit" contract.house}}>编辑</a>
+            {{/if}}
+          </div>
+          {{panel-contract contract=contract type="owner"}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

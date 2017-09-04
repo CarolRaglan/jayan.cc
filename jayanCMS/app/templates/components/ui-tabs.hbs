@@ -1,0 +1,5 @@
+{{! tabs组件 }}
+{{#each list as |it|}}
+  <li><a {{action 'toggleTab' it}} class={{if it.active 'active'}}>{{it.name}}</a></li>
+{{/each}}
+
